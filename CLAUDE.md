@@ -1,26 +1,45 @@
 # CLAUDE.md
 
-Guidance for Claude Code when working in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What this repo is
 
 `handy-ds` — a shared, multi-tenant component library. One component library, re-themed per client via a small set of driver inputs. Used internally to build client web apps and headless-WordPress front ends fast; clients never touch it directly.
 
-Nothing is built yet. This is a fresh start — no components, no token implementation, no build tooling. Only `@base-ui/react` is installed as a dependency.
+Early build. Minimal tooling and the token name validator exist; no components or token generation yet. Work follows `.claude/phased-plan.md`.
+
+## Working rules
+
+When you spot a problem outside the task at hand, tell the user and ask whether to fix it — don't fix it unasked.
 
 ## Specs
 
 `.claude/specs/` holds the source material Claude uses to produce everything else in this repo. Not shipped code — read before building.
 
-- `.claude/specs/token-system-spec.md` — the token system design: four-layer pipeline (Drivers → Primitives → Semantic Tokens → Components), naming scheme, context/override mechanism. Authoritative for any token or naming decision.
-- `.claude/specs/design-system-vision-spec.md` — currently empty (0 bytes).
+- `.claude/specs/design-system-vision-spec.md` — product-level vision: scope (headless WordPress + PWA), tech stack (React + Base UI + plain CSS custom properties, no Tailwind), the three-layer theming model (drivers → primitives → semantic tokens), the two levels of theme control (driver-level vs. mapping-level), and success criteria for v1.
+- `.claude/specs/token-system-spec.md` — the token system design in detail: the same four-layer pipeline (Drivers → Primitives → Semantic Tokens → Components), the `hds` namespace and naming grammar for primitive and semantic token names, the context-override mechanism (`data-context="on-primary"`), the category/type/axis/state model, a full demo token tree, and Base UI → category mapping tables for composite components.
 
-Read `token-system-spec.md` in full before creating any token, category, or resolver logic. Where implementation and spec disagree, the spec wins unless the user says otherwise.
+Read both specs in full before creating any token, category, resolver, or component-file convention. Where implementation and spec disagree, the spec wins unless the user says otherwise. Section 10 of `token-system-spec.md` ("Not Done Yet") lists open gaps — expect to make judgment calls there and flag them.
 
-## No build tooling yet
+## Tooling
 
-No `package.json` beyond the bare dependency, no `tsconfig.json`, no bundler, no test runner, no lint config, and this is not a git repository. Do not claim to have run, built, or tested anything until that tooling exists. If a task needs execution, scaffold the tooling first and say so.
+- TypeScript, ESM (`"type": "module"`). Node runs `.ts` directly (type stripping), so imports use `.ts` extensions and only erasable TS syntax (`erasableSyntaxOnly`).
+- `npm test` — `tsc` typecheck, then `node --test 'src/**/*.test.ts'`. No test framework; add one only when a real need appears.
+- `npm run dev` — Vite demo page at `demo/`. No `@vitejs/plugin-react`; Vite compiles JSX from `tsconfig.json` (`"jsx": "react-jsx"`).
+- No lint config, no library build yet (library-mode build lands in Phase 3).
+- `src/tokens/names.ts` — `checkTokenName()` validates slash-form token names against spec sections 2, 6, 7. Validate slash form, never emitted CSS names.
+
+## Core architectural rule
+
+Token pipeline: **Drivers → Primitives → Semantic Tokens → Components**.
+
+- Drivers are hand-set inputs (brand color, density, type scale, border radius, etc.) — see spec section 6 for the starting driver list.
+- Primitives are generated from drivers, never hand-set. Namespace: `hds/prim/{type}/{property}` (e.g. `hds/prim/color/primary/600`).
+- Semantic tokens point at primitives and are named by purpose, not value. Namespace: `hds/sem/{category}/{type}/[axis]/[state]/{property}` (e.g. `hds/sem/action/color/primary/hover/bg`).
+- Components read **semantic tokens only**, via CSS custom properties. A component must never reference a driver or primitive value directly — this is the invariant that makes a full theme swap require zero component changes.
+
+Categories are fixed: Action, Input/Field, Surface, Type, Icon, Divider, Feedback, Overlay, Focus (token-system-spec.md section 4). Composite components (Select, Menu, Tabs, Data Table, etc.) are not their own category — they compose tokens from these categories per the mapping tables in spec section 9.
 
 ## Base UI
 
-Installed package is `@base-ui/react` (current name — not the older `@base-ui-components/react`). Confirm subpath imports (e.g. `@base-ui/react/button`, `@base-ui/react/field`) against current docs before use; don't assume from memory or older examples.
+Installed package is `@base-ui/react` (current name — not the older `@base-ui-components/react`), version 1.8.0. It ships per-component subpaths under `node_modules/@base-ui/react/` (e.g. `button`, `field`, `dialog`, `combobox`). Confirm exact subpath import syntax against current docs before use — don't assume from memory or older examples referencing the renamed package.

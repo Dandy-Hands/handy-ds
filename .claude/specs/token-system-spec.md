@@ -16,6 +16,8 @@ Changing a driver regenerates the primitive values under it. Semantic tokens and
 ### Theme Map
 The rule set that maps semantic tokens to primitive tokens.
 
+Per-category style drivers (e.g. action radius) don't create primitives. They select a step on a shared primitive scale (`action.radius: lg` → `hds/prim/radius/lg`), and the Theme Map reads that choice.
+
 ---
 
 ## 2. Namespace and Primitive Structure
@@ -64,6 +66,7 @@ hds/sem/surface/color/0/striped/bg
 - Children inherit the redefined values via CSS inheritance.
 - Contexts nest; each `data-context` boundary resets independently.
 - Only tokens that change under a context are redefined in that context block.
+- `data-context="default"` inside another context restores the `:root` values for its subtree.
 
 Contexts at launch: `default`, `on-primary`.
 
@@ -73,8 +76,8 @@ Contexts at launch: `default`, `on-primary`.
 
 | Category | Covers | Axis | States |
 |---|---|---|---|
-| Action | Buttons, clickable triggers, switches | priority (primary/secondary/tertiary) | default/hover/active/focus/disabled |
-| Input/Field | Text inputs, selects, textareas | size (sm/md/lg) | default/hover/focus/error/disabled |
+| Action | Buttons, clickable triggers, switches | priority (primary/secondary/tertiary) | default/hover/active/focus/disabled/selected |
+| Input/Field | Text inputs, selects, textareas, checkboxes, radios | size (sm/md/lg) | default/hover/focus/error/disabled/checked |
 | Surface | Cards, panels, containers | elevation (0–3) | default/striped |
 | Type | All text styles | role (display/heading/body/label/caption) | none |
 | Icon | Standalone and paired icons | role (default/secondary/accent) | none |
@@ -91,7 +94,7 @@ Composite components are not categories. See section 9.
 
 | Type | Examples | Source |
 |---|---|---|
-| Color | bg, fg, border, shadow-color | Color ramps |
+| Color | bg, fg, border, shadow | Color ramps; `shadow` holds a full box-shadow from `hds/prim/shadow/*` |
 | Measure | padding, gap, radius, height, thickness | Spacing scale × density |
 | Other | font-family, font-weight | Font pairing list |
 
@@ -122,7 +125,7 @@ Axis applies to a type only where it produces a distinct value for that type:
 - Other: none
 
 **Input/Field**
-- Color: `hds/sem/input/color/{state}/{property}` — bg, fg, border, placeholder-fg
+- Color: `hds/sem/input/color/{state}/{property}` — bg, fg, border, placeholder-fg. `checked` is a state on the same `color` token (Checkbox/Radio checked appearance); compose with `disabled` as the Theme Map requires.
 - Measure: `hds/sem/input/measure/{size}/{property}` — padding-x, padding-y, height, radius
 
 **Surface**
@@ -169,6 +172,8 @@ Axis applies to a type only where it produces a distinct value for that type:
   --hds-sem-action-color-secondary-hover-bg: oklch(90% 0.03 250);
   --hds-sem-action-color-secondary-default-fg: oklch(52% 0.18 250);
   --hds-sem-action-color-secondary-default-border: oklch(80% 0.05 250);
+  --hds-sem-action-color-tertiary-default-bg: transparent;
+  --hds-sem-action-color-tertiary-hover-bg: oklch(94% 0.03 250);
   --hds-sem-action-color-tertiary-default-fg: oklch(52% 0.18 250);
   --hds-sem-action-color-tertiary-hover-fg: oklch(40% 0.18 250);
   --hds-sem-action-measure-padding-x: 16px;
@@ -183,6 +188,9 @@ Axis applies to a type only where it produces a distinct value for that type:
   --hds-sem-input-color-default-placeholder-fg: oklch(60% 0.02 250);
   --hds-sem-input-color-focus-border: oklch(52% 0.18 250);
   --hds-sem-input-color-error-border: oklch(55% 0.20 25);
+  --hds-sem-input-color-checked-bg: oklch(52% 0.18 250);
+  --hds-sem-input-color-checked-fg: oklch(98% 0.01 250);
+  --hds-sem-input-color-checked-border: transparent;
   --hds-sem-input-measure-md-padding-x: 12px;
   --hds-sem-input-measure-md-padding-y: 8px;
   --hds-sem-input-measure-md-height: 40px;
@@ -270,8 +278,8 @@ Axis applies to a type only where it produces a distinct value for that type:
 
 | Category | Base UI components |
 |---|---|
-| Action | Button, Toggle, Toggle Group, Toolbar, Tabs (tab triggers), Menu/Menubar/Context Menu items |
-| Input/Field | Input, Checkbox, Checkbox Group, Radio, Select, Combobox, Autocomplete, Number Field, OTP Field, Slider, Switch, Field, Fieldset, Form |
+| Action | Button, Toggle, Toggle Group, Toolbar, Switch (`selected` when on), Tabs (tab triggers), Menu/Menubar/Context Menu items |
+| Input/Field | Input, Checkbox, Checkbox Group, Radio, Select, Combobox, Autocomplete, Number Field, OTP Field, Slider, Field, Fieldset, Form |
 | Surface | Dialog, Alert Dialog, Drawer, Popover, Preview Card, Accordion panel, Collapsible panel |
 | Divider | Separator |
 | Feedback | Toast |
@@ -283,7 +291,9 @@ Axis applies to a type only where it produces a distinct value for that type:
 |---|---|
 | Select, Combobox, Autocomplete | Trigger: Input. Popup: Surface. Options: Action. |
 | Menu, Context Menu, Navigation Menu, Menubar | Items: Action. Popup/panel: Surface. |
-| Tabs | Tab triggers: Action (selected/unselected state). Tab panel: no category. |
+| Tabs | Tab triggers: Action (`selected` state). Tab panel: no category. |
+| Meter | Track: `hds/sem/surface/color/0/striped/bg`. Fill: `hds/sem/feedback/color/{sentiment}/icon-fg`. |
+| Progress | Track: `hds/sem/surface/color/0/striped/bg`. Fill: `hds/sem/action/color/primary/default/bg`. |
 
 ---
 
@@ -294,9 +304,10 @@ Axis applies to a type only where it produces a distinct value for that type:
 3. Spine constants: base spacing scale, base radius, shadow levels, breakpoints.
 4. Full property list per category, checked against a real Button, Input, and Card build.
 5. Mapping tables for Select, Combobox, Menu, Navigation Menu, Tabs.
-6. Token source for Meter and Progress.
+6. ~~Token source for Meter and Progress.~~ Resolved in section 9.
 7. Naming validation (manual or automated) against the format in section 2 and the rule in section 6.
 8. Contrast requirements per token pair, and whether they hold across contexts.
 9. Agent-facing doc: category selection, context mechanism, when to add vs. reuse a token.
 10. Driver authoring method: config file vs. tool with sliders/pickers.
 11. Token change/deprecation plan for tokens already in use on client sites.
+12. ~~Checked state for Checkbox and Radio — Input/Field has no `checked` state.~~ Resolved: `checked` is an Input/Field state on the `color` token (`hds/sem/input/color/checked/{fg,bg,border}`).
