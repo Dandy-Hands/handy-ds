@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "This system is a shared component library. It is used to build client web applications. It lets a small team, or an AI coding agent working on the team's behalf, build a new client application or a front-end for a headless WordPress site quickly and consistently. The system is for internal use to build client work. Clients do not use it directly.",
   "license": "ISC",
-  "author": "",
+  "author": "Dandy Hands",
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
@@ -11,5 +11,6 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0"
-  }
+  },
+  "devDependencies": {}
 }
