@@ -2,6 +2,8 @@
 
 Source: `.claude/specs/design-system-vision-spec.md`, `.claude/specs/token-system-spec.md`. Each phase closes specific gaps from token-system-spec.md section 10 ("Not Done Yet") or a vision-spec success criterion. Don't start a phase's speculative parts before the phase that needs them — build tooling/scaffolding only as each phase requires it, not upfront.
 
+Status: waves 1–6 done; judgment calls and open questions in `.claude/decisions.md`. "Later" not started.
+
 Phases are grouped into waves. Items separated by `‖` in a wave can run in parallel (see "Delegation" at the end).
 
 ## Wave 1 — Tooling, validator, spec decisions (parallel)
@@ -38,7 +40,7 @@ Status: answered and written into the spec, except gap 5's part-level tables (dr
 
 ## Wave 2 — Primitive contract (sequential, small)
 
-### Phase 1a — Driver config + primitive name list
+### Phase 1a — Driver config + primitive name list (done)
 Closes gaps 2–3 and gap 10.
 - Define driver config shape (brand color, accent color, typography set + type scale, density, per-category style settings, shadow — vision spec section 6). This config file **is** the driver authoring method (gap 10); a slider/picker tool is out of scope for v1.
 - Write the full primitive name list (`hds/prim/*`) and spine constants (base spacing scale, base radius, shadow levels).
@@ -47,28 +49,28 @@ Closes gaps 2–3 and gap 10.
 
 ## Wave 3 — Values and mapping (parallel)
 
-### Phase 1b — Resolver
+### Phase 1b — Resolver (done)
 Closes gap 1.
 - Driver values → primitive scales (color ramps, spacing × density, type scale, shadow levels, radius). Decide the color-ramp algorithm (e.g. OKLCH lightness steps) here.
 - Use `culori` for OKLCH math and sRGB gamut clamping rather than hand-rolling.
 - Emit primitives as `--hds-prim-*` CSS custom properties.
 - Exit: one driver config produces the full primitive file; changing a driver value regenerates it correctly.
 
-### Phase 2 — Semantic tokens + Theme Map (‖ Phase 1b)
+### Phase 2 — Semantic tokens + Theme Map (‖ Phase 1b) (done)
 Needs only the frozen primitive **names** from Phase 1a, not resolved values.
 - Build the Theme Map: default primitive-to-semantic assignment for every token in token-system-spec.md section 7 (all 9 categories). One file per category — keeps Wave 5 agents from colliding.
 - Emit `--hds-sem-*` as `var(--hds-prim-*)` references, not resolved values. Makes mapping-level adjustment a one-line CSS override per client.
 - Implement `data-context="on-primary"` override + nesting (including the `default` reset block), and the section color rules driver.
 - Exit: full semantic token tree renders at `:root`, context override works, every Theme Map name passes the validator.
 
-### Contrast checker (‖ Phase 1b, Phase 2)
+### Contrast checker (‖ Phase 1b, Phase 2) (done)
 Closes gap 8. Pulled forward from the old Phase 6 — a bad ramp algorithm should surface before components are built on it.
 - Contrast check per token pair (action fg/bg, feedback fg/bg, input fg/bg, type fg on surface bg) in both `default` and `on-primary` contexts.
 - Exit (joint with Phases 1b + 2): `npm test` fails on a contrast violation for the default driver config.
 
 ## Wave 4 — First vertical slice (sequential, do not delegate)
 
-### Phase 3 — Button
+### Phase 3 — Button (done)
 Closes gap 4 for one component (Action category, checked against a real build). Sets every pattern Wave 5 copies.
 - Wrap Base UI `Button` under `hds`, consuming only `hds/sem/action/*` tokens.
 - Write the component convention doc: file structure, prop naming, CSS file layout, export pattern (vision spec section 7). Wave 5 agents follow it verbatim.
@@ -80,7 +82,7 @@ Closes gap 4 for one component (Action category, checked against a real build). 
 
 ## Wave 5 — Components + platform examples (fan-out)
 
-### Phase 4/5 — Core and composite components
+### Phase 4/5 — Core and composite components (done)
 Closes the rest of gap 4 and gap 5. Old Phases 4 and 5 merged: composites consume category **tokens**, not the Input/Card components, so both only depend on Phase 2 tokens + Phase 3 conventions.
 Suggested agent groups:
 - Input/Field: Input, Checkbox, Radio, Number Field, Field/Fieldset/Form.
@@ -94,7 +96,7 @@ Suggested agent groups:
 - Type, Icon, Divider, Focus: token-only — confirm each needs no component-level change; Separator for Divider.
 - Exit: every category from spec section 4 and every composite mapping table in section 9 has a working component that passes the same driver/mapping test as Button, the prim-grep check, and the contrast check.
 
-### Phase 8 — Platform examples (‖ Phase 4/5)
+### Phase 8 — Platform examples (‖ Phase 4/5) (done)
 Closes vision-spec section 8 and its success criterion. Lives in `examples/` (or a separate starter repo) — the WordPress data layer and service worker are not part of the component package.
 - Headless WordPress example: pick REST vs. WPGraphQL, build the data-fetching layer, install the package.
 - PWA example: service worker, manifest, basic offline support, install the package.
@@ -103,7 +105,7 @@ Closes vision-spec section 8 and its success criterion. Lives in `examples/` (or
 
 ## Wave 6 — Agent-facing rules
 
-### Phase 7 — Rules doc
+### Phase 7 — Rules doc (done)
 Closes gap 9 and vision-spec section 9. Needs the components to exist.
 - Which component for which interface need.
 - How to set driver values per client (documents the Phase 1a config file).

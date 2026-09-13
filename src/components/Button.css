@@ -1,0 +1,11 @@
+@layer hds.components {
+  .hds-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--hds-sem-action-measure-gap);
+    padding: var(--hds-sem-action-measure-padding-y) var(--hds-sem-action-measure-padding-x);
+    border-radius: var(--hds-sem-action-measure-radius);
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,67 @@
+/* Structure follows Base UI's NavigationMenu sizing variables. */
+@layer hds.components {
+  .hds-nav {
+    min-width: max-content;
+  }
+
+  .hds-nav__list {
+    display: flex;
+    gap: var(--hds-sem-action-measure-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hds-nav__icon {
+    display: flex;
+    transition: transform 150ms;
+  }
+
+  .hds-nav__icon[data-popup-open] {
+    transform: rotate(180deg);
+  }
+
+  .hds-nav__link {
+    justify-content: flex-start;
+  }
+
+  .hds-nav__positioner {
+    width: var(--positioner-width);
+    height: var(--positioner-height);
+    max-width: var(--available-width);
+    transition: top 200ms, left 200ms;
+  }
+
+  .hds-nav__positioner[data-instant] {
+    transition: none;
+  }
+
+  .hds-nav__popup {
+    position: relative;
+    width: var(--popup-width);
+    height: var(--popup-height);
+    transition: opacity 150ms, transform 150ms, width 200ms, height 200ms;
+  }
+
+  .hds-nav__viewport {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .hds-nav__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hds-sem-action-measure-gap);
+    width: max-content;
+    max-width: min(400px, calc(100vw - 40px));
+    padding: var(--hds-sem-action-measure-gap);
+    transition: opacity 150ms;
+  }
+
+  .hds-nav__content[data-starting-style],
+  .hds-nav__content[data-ending-style] {
+    opacity: 0;
+  }
+}

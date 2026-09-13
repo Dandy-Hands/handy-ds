@@ -1,0 +1,51 @@
+/* Type category. `data-variant` = display | heading | body | label | caption. */
+@layer hds.components {
+  .hds-text {
+    margin: 0;
+  }
+
+  .hds-text[data-variant='display'] {
+    color: var(--hds-sem-type-color-display-fg);
+    font-family: var(--hds-sem-type-other-display-font-family);
+    font-size: var(--hds-sem-type-measure-display-size);
+    font-weight: var(--hds-sem-type-other-display-weight);
+    line-height: var(--hds-sem-type-measure-display-line-height);
+    letter-spacing: var(--hds-sem-type-measure-display-letter-spacing);
+  }
+
+  .hds-text[data-variant='heading'] {
+    color: var(--hds-sem-type-color-heading-fg);
+    font-family: var(--hds-sem-type-other-heading-font-family);
+    font-size: var(--hds-sem-type-measure-heading-size);
+    font-weight: var(--hds-sem-type-other-heading-weight);
+    line-height: var(--hds-sem-type-measure-heading-line-height);
+    letter-spacing: var(--hds-sem-type-measure-heading-letter-spacing);
+  }
+
+  .hds-text[data-variant='body'] {
+    color: var(--hds-sem-type-color-body-fg);
+    font-family: var(--hds-sem-type-other-body-font-family);
+    font-size: var(--hds-sem-type-measure-body-size);
+    font-weight: var(--hds-sem-type-other-body-weight);
+    line-height: var(--hds-sem-type-measure-body-line-height);
+    letter-spacing: var(--hds-sem-type-measure-body-letter-spacing);
+  }
+
+  .hds-text[data-variant='label'] {
+    color: var(--hds-sem-type-color-label-fg);
+    font-family: var(--hds-sem-type-other-label-font-family);
+    font-size: var(--hds-sem-type-measure-label-size);
+    font-weight: var(--hds-sem-type-other-label-weight);
+    line-height: var(--hds-sem-type-measure-label-line-height);
+    letter-spacing: var(--hds-sem-type-measure-label-letter-spacing);
+  }
+
+  .hds-text[data-variant='caption'] {
+    color: var(--hds-sem-type-color-caption-fg);
+    font-family: var(--hds-sem-type-other-caption-font-family);
+    font-size: var(--hds-sem-type-measure-caption-size);
+    font-weight: var(--hds-sem-type-other-caption-weight);
+    line-height: var(--hds-sem-type-measure-caption-line-height);
+    letter-spacing: var(--hds-sem-type-measure-caption-letter-spacing);
+  }
+}

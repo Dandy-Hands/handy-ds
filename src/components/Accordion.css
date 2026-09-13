@@ -1,0 +1,48 @@
+@layer hds.components {
+  .hds-accordion {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hds-accordion__item {
+    border-bottom: var(--hds-sem-divider-measure-thin-thickness) solid var(--hds-sem-divider-color-border);
+  }
+
+  .hds-accordion__header {
+    margin: 0;
+    font: inherit;
+  }
+
+  .hds-accordion__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--hds-sem-action-measure-gap);
+    width: 100%;
+    padding: var(--hds-sem-action-measure-padding-y) var(--hds-sem-action-measure-padding-x);
+    border-width: 0;
+    border-radius: 0;
+    text-align: start;
+    outline-offset: calc(-1 * var(--hds-sem-focus-measure-stroke-width));
+  }
+
+  .hds-accordion__trigger::after {
+    content: '';
+    flex-shrink: 0;
+    inline-size: 0.45em;
+    block-size: 0.45em;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-25%) rotate(45deg);
+    transition: transform 150ms;
+  }
+
+  .hds-accordion__trigger[data-panel-open]::after {
+    transform: translateY(25%) rotate(-135deg);
+  }
+
+  .hds-accordion__panel {
+    padding: var(--hds-sem-surface-measure-padding);
+    background: var(--hds-sem-surface-color-0-default-bg);
+  }
+}

@@ -1,0 +1,70 @@
+/* Cell padding borrows Input/Field measure tokens (no layout-spacing tokens yet). */
+@layer hds.components {
+  .hds-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--hds-sem-type-measure-body-size);
+  }
+
+  .hds-table th,
+  .hds-table td {
+    padding: var(--hds-sem-input-measure-md-padding-y) var(--hds-sem-input-measure-md-padding-x);
+    border-bottom: var(--hds-sem-divider-measure-thin-thickness) solid var(--hds-sem-divider-color-border);
+    text-align: start;
+  }
+
+  .hds-table th {
+    color: var(--hds-sem-type-color-label-fg);
+    font-family: var(--hds-sem-type-other-label-font-family);
+    font-weight: var(--hds-sem-type-other-label-weight);
+  }
+
+  .hds-table thead th {
+    border-bottom-width: var(--hds-sem-divider-measure-medium-thickness);
+  }
+
+  .hds-table td {
+    color: var(--hds-sem-type-color-body-fg);
+  }
+
+  .hds-table tbody tr {
+    background: var(--hds-sem-surface-color-0-default-bg);
+  }
+
+  .hds-table[data-striped] tbody tr:nth-child(even) {
+    background: var(--hds-sem-surface-color-0-striped-bg);
+  }
+
+  .hds-table tbody tr:hover {
+    background: var(--hds-sem-action-color-tertiary-hover-bg);
+  }
+
+  .hds-table th button {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--hds-sem-action-measure-gap);
+    margin: calc(-1 * var(--hds-sem-input-measure-md-padding-y)) calc(-1 * var(--hds-sem-input-measure-md-padding-x));
+    padding: var(--hds-sem-input-measure-md-padding-y) var(--hds-sem-input-measure-md-padding-x);
+    border: 0;
+    background: var(--hds-sem-action-color-tertiary-default-bg);
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .hds-table th button:hover {
+    background: var(--hds-sem-action-color-tertiary-hover-bg);
+  }
+
+  .hds-table th button:active {
+    background: var(--hds-sem-action-color-tertiary-active-bg);
+  }
+
+  .hds-table th[aria-sort='ascending'] button::after {
+    content: '\2191';
+  }
+
+  .hds-table th[aria-sort='descending'] button::after {
+    content: '\2193';
+  }
+}

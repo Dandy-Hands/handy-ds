@@ -1,0 +1,10 @@
+@layer hds.components {
+  .hds-select__trigger {
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  .hds-select__icon {
+    display: flex;
+  }
+}

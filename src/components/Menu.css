@@ -1,0 +1,24 @@
+@layer hds.components {
+  .hds-menubar {
+    display: flex;
+    gap: var(--hds-sem-action-measure-gap);
+  }
+
+  .hds-menu__submenu::after {
+    content: '';
+    margin-inline-start: auto;
+    inline-size: 0.4em;
+    block-size: 0.4em;
+    border-top: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    transform: rotate(45deg);
+  }
+
+  .hds-menu__dot::before {
+    content: '';
+    inline-size: 0.45em;
+    block-size: 0.45em;
+    border-radius: 50%;
+    background: currentColor;
+  }
+}

@@ -1,0 +1,6 @@
+@layer hds.components {
+  .hds-card {
+    display: block;
+    padding: var(--hds-sem-surface-measure-padding);
+  }
+}

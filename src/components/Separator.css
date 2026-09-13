@@ -1,0 +1,27 @@
+/* Divider category. `data-weight` = thin | medium | thick (default thin). */
+@layer hds.theme, hds.base, hds.components;
+
+@layer hds.components {
+  .hds-separator {
+    --_thickness: var(--hds-sem-divider-measure-thin-thickness);
+    flex-shrink: 0;
+    margin: 0;
+    border: 0;
+    background: var(--hds-sem-divider-color-border);
+    block-size: var(--_thickness);
+  }
+
+  .hds-separator[data-weight='medium'] {
+    --_thickness: var(--hds-sem-divider-measure-medium-thickness);
+  }
+
+  .hds-separator[data-weight='thick'] {
+    --_thickness: var(--hds-sem-divider-measure-thick-thickness);
+  }
+
+  .hds-separator[data-orientation='vertical'] {
+    align-self: stretch;
+    block-size: auto;
+    inline-size: var(--_thickness);
+  }
+}

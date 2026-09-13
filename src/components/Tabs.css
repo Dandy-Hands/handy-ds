@@ -1,0 +1,49 @@
+@layer hds.components {
+  .hds-tabs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hds-tabs[data-orientation='vertical'] {
+    flex-direction: row;
+  }
+
+  .hds-tabs__list {
+    position: relative;
+    display: flex;
+    gap: var(--hds-sem-action-measure-gap);
+    border-bottom: var(--hds-sem-divider-measure-thin-thickness) solid var(--hds-sem-divider-color-border);
+  }
+
+  .hds-tabs__list[data-orientation='vertical'] {
+    flex-direction: column;
+    border-bottom: 0;
+    border-inline-end: var(--hds-sem-divider-measure-thin-thickness) solid var(--hds-sem-divider-color-border);
+  }
+
+  .hds-tabs__tab {
+    padding: var(--hds-sem-action-measure-padding-y) var(--hds-sem-action-measure-padding-x);
+    border-width: 0;
+    border-radius: var(--hds-sem-action-measure-radius) var(--hds-sem-action-measure-radius) 0 0;
+    outline-offset: calc(-1 * var(--hds-sem-focus-measure-stroke-width));
+  }
+
+  .hds-tabs__indicator {
+    position: absolute;
+    left: var(--active-tab-left);
+    bottom: calc(-1 * var(--hds-sem-divider-measure-thin-thickness));
+    width: var(--active-tab-width);
+    height: var(--hds-sem-divider-measure-medium-thickness);
+    background: var(--hds-sem-action-color-primary-selected-bg);
+    transition: left 200ms, width 200ms, top 200ms, height 200ms;
+  }
+
+  .hds-tabs__indicator[data-orientation='vertical'] {
+    top: var(--active-tab-top);
+    left: auto;
+    right: calc(-1 * var(--hds-sem-divider-measure-thin-thickness));
+    bottom: auto;
+    width: var(--hds-sem-divider-measure-medium-thickness);
+    height: var(--active-tab-height);
+  }
+}

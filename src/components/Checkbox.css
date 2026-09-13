@@ -1,0 +1,86 @@
+/* Checkbox and Radio share the Input/Field `checked` look. */
+@layer hds.components {
+  .hds-checkbox,
+  .hds-radio {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    inline-size: 1.25em;
+    block-size: 1.25em;
+    padding: 0;
+    /* 1px floor: a borderless unchecked box would be invisible. */
+    border: max(1px, var(--hds-sem-input-measure-md-border-width)) solid var(--hds-sem-input-color-default-border);
+    background: var(--hds-sem-input-color-default-bg);
+    color: var(--hds-sem-input-color-checked-fg);
+    cursor: pointer;
+  }
+
+  .hds-checkbox {
+    border-radius: calc(var(--hds-sem-input-measure-md-radius) / 2);
+  }
+
+  .hds-radio {
+    border-radius: 50%;
+  }
+
+  .hds-checkbox:hover,
+  .hds-radio:hover {
+    border-color: var(--hds-sem-input-color-hover-border);
+  }
+
+  .hds-checkbox[data-checked],
+  .hds-checkbox[data-indeterminate],
+  .hds-radio[data-checked] {
+    background: var(--hds-sem-input-color-checked-bg);
+    border-color: var(--hds-sem-input-color-checked-border);
+  }
+
+  .hds-checkbox[data-invalid],
+  .hds-radio[data-invalid] {
+    border-color: var(--hds-sem-input-color-error-border);
+  }
+
+  .hds-checkbox[data-disabled],
+  .hds-radio[data-disabled] {
+    background: var(--hds-sem-input-color-disabled-bg);
+    border-color: var(--hds-sem-input-color-disabled-border);
+    cursor: not-allowed;
+  }
+
+  /* disabled + checked: disabled colors, inverted so the mark still reads. */
+  .hds-checkbox[data-disabled][data-checked],
+  .hds-checkbox[data-disabled][data-indeterminate],
+  .hds-radio[data-disabled][data-checked] {
+    background: var(--hds-sem-input-color-disabled-fg);
+    border-color: var(--hds-sem-input-color-disabled-fg);
+    color: var(--hds-sem-input-color-disabled-bg);
+  }
+
+  .hds-checkbox__indicator {
+    display: flex;
+  }
+
+  .hds-checkbox__indicator[data-indeterminate] .hds-checkbox__check,
+  .hds-checkbox__indicator:not([data-indeterminate]) .hds-checkbox__dash {
+    display: none;
+  }
+
+  .hds-radio__indicator {
+    display: flex;
+  }
+
+  .hds-radio__indicator::before {
+    content: '';
+    inline-size: 0.45em;
+    block-size: 0.45em;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .hds-choice-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hds-sem-input-measure-sm-padding-x);
+  }
+}

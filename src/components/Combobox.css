@@ -1,0 +1,24 @@
+@layer hds.components {
+  .hds-combobox__chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--hds-sem-input-measure-sm-padding-y);
+    flex: 1;
+  }
+
+  .hds-combobox__chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--hds-sem-input-measure-sm-padding-y);
+    padding: 0 var(--hds-sem-input-measure-sm-padding-x);
+    border-radius: var(--hds-sem-action-measure-radius);
+    font-size: var(--hds-sem-type-measure-caption-size);
+  }
+
+  .hds-combobox__status:not(:empty) {
+    padding: var(--hds-sem-action-measure-padding-y) var(--hds-sem-action-measure-padding-x);
+    color: var(--hds-sem-type-color-caption-fg);
+    font-size: var(--hds-sem-type-measure-caption-size);
+  }
+}

@@ -1,0 +1,127 @@
+/*
+ * Input/Field category: the text-control look shared by Input, Field.Control, Select trigger,
+ * Combobox/Autocomplete input group and NumberField group.
+ *   size      data-size = sm | md | lg (default md)
+ *   hover     :hover
+ *   focus     :focus-within, [data-popup-open]
+ *   error     [data-invalid], [aria-invalid='true']
+ *   disabled  [data-disabled], :disabled
+ * Inner inputs/buttons of a group use .hds-control__input / .hds-control__button.
+ */
+@layer hds.theme, hds.base, hds.components;
+
+@layer hds.components {
+  .hds-control {
+    --_height: var(--hds-sem-input-measure-md-height);
+    --_padding-x: var(--hds-sem-input-measure-md-padding-x);
+    --_padding-y: var(--hds-sem-input-measure-md-padding-y);
+    --_radius: var(--hds-sem-input-measure-md-radius);
+    --_border-width: var(--hds-sem-input-measure-md-border-width);
+
+    display: inline-flex;
+    align-items: center;
+    gap: var(--_padding-y);
+    min-height: var(--_height);
+    padding: var(--_padding-y) var(--_padding-x);
+    border: var(--_border-width) solid var(--hds-sem-input-color-default-border);
+    border-radius: var(--_radius);
+    background: var(--hds-sem-input-color-default-bg);
+    color: var(--hds-sem-input-color-default-fg);
+    font-family: var(--hds-sem-type-other-body-font-family);
+    font-size: var(--hds-sem-type-measure-body-size);
+    font-weight: var(--hds-sem-type-other-body-weight);
+    line-height: var(--hds-sem-type-measure-label-line-height);
+    letter-spacing: var(--hds-sem-type-measure-body-letter-spacing);
+    text-align: start;
+  }
+
+  .hds-control[data-size='sm'] {
+    --_height: var(--hds-sem-input-measure-sm-height);
+    --_padding-x: var(--hds-sem-input-measure-sm-padding-x);
+    --_padding-y: var(--hds-sem-input-measure-sm-padding-y);
+    --_radius: var(--hds-sem-input-measure-sm-radius);
+    --_border-width: var(--hds-sem-input-measure-sm-border-width);
+  }
+
+  .hds-control[data-size='lg'] {
+    --_height: var(--hds-sem-input-measure-lg-height);
+    --_padding-x: var(--hds-sem-input-measure-lg-padding-x);
+    --_padding-y: var(--hds-sem-input-measure-lg-padding-y);
+    --_radius: var(--hds-sem-input-measure-lg-radius);
+    --_border-width: var(--hds-sem-input-measure-lg-border-width);
+  }
+
+  .hds-control::placeholder,
+  .hds-control .hds-control__input::placeholder,
+  .hds-control[data-placeholder] {
+    color: var(--hds-sem-input-color-default-placeholder-fg);
+  }
+
+  .hds-control:hover {
+    background: var(--hds-sem-input-color-hover-bg);
+    color: var(--hds-sem-input-color-hover-fg);
+    border-color: var(--hds-sem-input-color-hover-border);
+  }
+
+  .hds-control:focus-within,
+  .hds-control[data-popup-open] {
+    background: var(--hds-sem-input-color-focus-bg);
+    color: var(--hds-sem-input-color-focus-fg);
+    border-color: var(--hds-sem-input-color-focus-border);
+  }
+
+  /* Groups show the ring on the frame, not on the inner input. */
+  .hds-control:has(:focus-visible) {
+    outline: var(--hds-sem-focus-measure-stroke-width) solid var(--hds-sem-focus-color-stroke);
+    outline-offset: 2px;
+  }
+
+  .hds-control[data-invalid],
+  .hds-control[aria-invalid='true'] {
+    background: var(--hds-sem-input-color-error-bg);
+    color: var(--hds-sem-input-color-error-fg);
+    border-color: var(--hds-sem-input-color-error-border);
+  }
+
+  .hds-control[data-disabled],
+  .hds-control:disabled {
+    background: var(--hds-sem-input-color-disabled-bg);
+    color: var(--hds-sem-input-color-disabled-fg);
+    border-color: var(--hds-sem-input-color-disabled-border);
+    cursor: not-allowed;
+  }
+
+  .hds-control:disabled::placeholder,
+  .hds-control[data-disabled] .hds-control__input::placeholder {
+    color: var(--hds-sem-input-color-disabled-placeholder-fg);
+  }
+
+  .hds-control__input {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    outline: none;
+  }
+
+  .hds-control__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: var(--_radius);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .hds-control__button:hover {
+    background: var(--hds-sem-action-color-tertiary-hover-bg);
+    color: var(--hds-sem-action-color-tertiary-hover-fg);
+  }
+}

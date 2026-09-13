@@ -1,0 +1,10 @@
+@layer hds.components {
+  .hds-toggle-group {
+    display: inline-flex;
+    gap: var(--hds-sem-action-measure-gap);
+  }
+
+  .hds-toggle-group[data-orientation='vertical'] {
+    flex-direction: column;
+  }
+}

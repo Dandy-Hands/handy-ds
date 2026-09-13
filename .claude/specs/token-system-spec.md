@@ -18,6 +18,8 @@ The rule set that maps semantic tokens to primitive tokens.
 
 Per-category style drivers (e.g. action radius) don't create primitives. They select a step on a shared primitive scale (`action.radius: lg` → `hds/prim/radius/lg`), and the Theme Map reads that choice.
 
+Implementation: `src/tokens/drivers.ts` (driver config: the authoring method), `primitives.ts` (drivers → primitives), `themeMap.ts` (Theme Map), `contrast.ts` (contrast rules), `theme.ts` (config → CSS). Reasoning for each call: `.claude/decisions.md`.
+
 ---
 
 ## 2. Namespace and Primitive Structure
@@ -38,6 +40,19 @@ hds/prim/radius/base
 hds/prim/type/scale/3
 hds/prim/shadow/level-2
 ```
+
+Full primitive list (frozen: names never depend on driver values):
+
+| Type | Names | Source |
+|---|---|---|
+| color | `color/{primary,accent,neutral,danger,warning,success,info}/{50,100,200,300,400,500,600,700,800,900,950}`, `color/white`, `color/black` | Color drivers → 11-step OKLCH ramp (fixed lightness per step; the driver color lands on its nearest step) |
+| space | `space/{0,1,2,3,4,5,6,8,10,12,16,20,24}` | n × 4px × density |
+| radius | `radius/{none,sm,base,lg,xl,full}` | Radius driver (base); sm ×0.5, lg ×1.5, xl ×2 |
+| border | `border/{none,thin,medium,thick}` | Spine constant: 0/1/2/4px |
+| type | `type/scale/{1..8}` (3 = body), `type/leading/{tight,snug,normal,relaxed}`, `type/tracking/{tight,normal,wide}`, `type/weight/{regular,medium,semibold,bold}`, `type/family/{heading,body}` | Typography drivers |
+| shadow | `shadow/level-{0,1,2,3}` | Shadow strength driver |
+
+Breakpoints are build-time values (`breakpoints` export of `handy-ds/tokens`), not tokens: custom properties don't work inside `@media`.
 
 **Semantic tokens:**
 ```
@@ -70,6 +85,8 @@ hds/sem/surface/color/0/striped/bg
 
 Contexts at launch: `default`, `on-primary`.
 
+Section color rules driver: `sections: { hero: 'on-primary' }` adds `[data-section="hero"]` to that context's selector, so page code marks sections by name and each client decides their context.
+
 ---
 
 ## 4. Categories
@@ -95,7 +112,7 @@ Composite components are not categories. See section 9.
 | Type | Examples | Source |
 |---|---|---|
 | Color | bg, fg, border, shadow | Color ramps; `shadow` holds a full box-shadow from `hds/prim/shadow/*` |
-| Measure | padding, gap, radius, height, thickness | Spacing scale × density |
+| Measure | padding, gap, radius, height, thickness, border-width | Spacing scale × density; radius and border steps |
 | Other | font-family, font-weight | Font pairing list |
 
 ---
@@ -121,16 +138,16 @@ Axis applies to a type only where it produces a distinct value for that type:
 
 **Action**
 - Color: `hds/sem/action/color/{priority}/{state}/{property}` — bg, fg, border
-- Measure: `hds/sem/action/measure/{property}` — padding-x, padding-y, radius, gap
+- Measure: `hds/sem/action/measure/{property}` — padding-x, padding-y, radius, gap, border-width
 - Other: none
 
 **Input/Field**
 - Color: `hds/sem/input/color/{state}/{property}` — bg, fg, border, placeholder-fg. `checked` is a state on the same `color` token (Checkbox/Radio checked appearance); compose with `disabled` as the Theme Map requires.
-- Measure: `hds/sem/input/measure/{size}/{property}` — padding-x, padding-y, height, radius
+- Measure: `hds/sem/input/measure/{size}/{property}` — padding-x, padding-y, height, radius, border-width
 
 **Surface**
 - Color: `hds/sem/surface/color/{elevation}/{state}/{property}` — bg, border, shadow
-- Measure: `hds/sem/surface/measure/{property}` — padding, radius
+- Measure: `hds/sem/surface/measure/{property}` — padding, radius, border-width
 
 **Type**
 - Color: `hds/sem/type/color/{role}/{property}` — fg
@@ -147,7 +164,7 @@ Axis applies to a type only where it produces a distinct value for that type:
 
 **Feedback**
 - Color: `hds/sem/feedback/color/{sentiment}/{property}` — bg, fg, border, icon-fg
-- Measure: `hds/sem/feedback/measure/{property}` — padding, radius, gap
+- Measure: `hds/sem/feedback/measure/{property}` — padding, radius, gap, border-width
 
 **Overlay**
 - Color: `hds/sem/overlay/color/bg`
@@ -291,7 +308,10 @@ Axis applies to a type only where it produces a distinct value for that type:
 |---|---|
 | Select, Combobox, Autocomplete | Trigger: Input. Popup: Surface. Options: Action. |
 | Menu, Context Menu, Navigation Menu, Menubar | Items: Action. Popup/panel: Surface. |
-| Tabs | Tab triggers: Action (`selected` state). Tab panel: no category. |
+| Tabs | Tab triggers: Action tertiary (`selected` state). Indicator: `hds/sem/action/color/primary/selected/bg`. Tab panel: no category — no tokens; transparent, inherits type and ground from its context. |
+| Navigation Menu | Trigger, Link: Action tertiary (current page link = `selected`). Popup: Surface elevation 2. Content: no color tokens. |
+| Combobox, Autocomplete | Input group: Input/Field. Options: Action tertiary (`hover` = highlighted, `selected` = chosen). Chips: Action secondary. Empty/status text: Type caption. |
+| Switch | Track: Action secondary (off), Action primary `selected` (on). Thumb: matching `fg`. |
 | Meter | Track: `hds/sem/surface/color/0/striped/bg`. Fill: `hds/sem/feedback/color/{sentiment}/icon-fg`. |
 | Progress | Track: `hds/sem/surface/color/0/striped/bg`. Fill: `hds/sem/action/color/primary/default/bg`. |
 
@@ -299,15 +319,17 @@ Axis applies to a type only where it produces a distinct value for that type:
 
 ## 10. Not Done Yet
 
-1. Rules for how each driver becomes a primitive value.
-2. Full primitive token list (`hds/prim/*`) — only examples exist.
-3. Spine constants: base spacing scale, base radius, shadow levels, breakpoints.
-4. Full property list per category, checked against a real Button, Input, and Card build.
-5. Mapping tables for Select, Combobox, Menu, Navigation Menu, Tabs.
+1. ~~Rules for how each driver becomes a primitive value.~~ Resolved: section 2 table, `src/tokens/primitives.ts`.
+2. ~~Full primitive token list (`hds/prim/*`).~~ Resolved: section 2.
+3. ~~Spine constants: base spacing scale, base radius, shadow levels, breakpoints.~~ Resolved: section 2.
+4. ~~Full property list per category, checked against a real Button, Input, and Card build.~~ Resolved: added `border-width` (section 7); every component in `src/components/` reads only these names.
+5. ~~Mapping tables for Select, Combobox, Menu, Navigation Menu, Tabs.~~ Resolved in section 9.
 6. ~~Token source for Meter and Progress.~~ Resolved in section 9.
-7. Naming validation (manual or automated) against the format in section 2 and the rule in section 6.
-8. Contrast requirements per token pair, and whether they hold across contexts.
-9. Agent-facing doc: category selection, context mechanism, when to add vs. reuse a token.
-10. Driver authoring method: config file vs. tool with sliders/pickers.
+7. ~~Naming validation.~~ Resolved: `checkTokenName()` in `src/tokens/names.ts`.
+8. ~~Contrast requirements per token pair, and whether they hold across contexts.~~ Resolved: `src/tokens/contrast.ts` (text 4.5:1; icons, focus, input border, checkmark 3:1; disabled exempt; both contexts, every surface ground).
+9. ~~Agent-facing doc.~~ Resolved: `docs/rules.md`.
+10. ~~Driver authoring method.~~ Resolved: config file (`ThemeConfig`, `hds-theme` CLI). No slider tool in v1.
 11. Token change/deprecation plan for tokens already in use on client sites.
 12. ~~Checked state for Checkbox and Radio — Input/Field has no `checked` state.~~ Resolved: `checked` is an Input/Field state on the `color` token (`hds/sem/input/color/checked/{fg,bg,border}`).
+13. Layout spacing: no tokens for gaps between fields/form rows or table cell padding. Components borrow Input/Field measure tokens for now.
+14. Field error text (`hds/sem/feedback/color/danger/fg` on the page ground) is not contrast-checked and fails on on-primary grounds. Forms in colored sections go in a `data-context="default"` card.

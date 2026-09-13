@@ -1,0 +1,67 @@
+/*
+ * Field, Fieldset, Form. Spacing borrows Input/Field measure tokens: the spec has no
+ * layout-spacing tokens yet (see .claude/decisions.md, "Layout spacing").
+ */
+@layer hds.components {
+  .hds-form,
+  .hds-fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hds-sem-input-measure-lg-padding-x);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+
+  .hds-fieldset__legend {
+    padding: 0;
+    margin-bottom: var(--hds-sem-input-measure-sm-padding-x);
+    color: var(--hds-sem-type-color-label-fg);
+    font-family: var(--hds-sem-type-other-label-font-family);
+    font-size: var(--hds-sem-type-measure-label-size);
+    font-weight: var(--hds-sem-type-other-label-weight);
+    line-height: var(--hds-sem-type-measure-label-line-height);
+  }
+
+  .hds-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hds-sem-input-measure-sm-padding-y);
+    min-width: 0; /* lets a field shrink below its input's intrinsic width in flex rows */
+  }
+
+  .hds-field__label,
+  .hds-field__item {
+    display: flex;
+    align-items: center;
+    gap: var(--hds-sem-input-measure-sm-padding-x);
+  }
+
+  .hds-field__label {
+    color: var(--hds-sem-type-color-label-fg);
+    font-family: var(--hds-sem-type-other-label-font-family);
+    font-size: var(--hds-sem-type-measure-label-size);
+    font-weight: var(--hds-sem-type-other-label-weight);
+    line-height: var(--hds-sem-type-measure-label-line-height);
+    letter-spacing: var(--hds-sem-type-measure-label-letter-spacing);
+  }
+
+  .hds-field__description,
+  .hds-field__error {
+    margin: 0;
+    font-family: var(--hds-sem-type-other-caption-font-family);
+    font-size: var(--hds-sem-type-measure-caption-size);
+    font-weight: var(--hds-sem-type-other-caption-weight);
+    line-height: var(--hds-sem-type-measure-caption-line-height);
+    letter-spacing: var(--hds-sem-type-measure-caption-letter-spacing);
+  }
+
+  .hds-field__description {
+    color: var(--hds-sem-type-color-caption-fg);
+  }
+
+  .hds-field__error {
+    color: var(--hds-sem-feedback-color-danger-fg);
+  }
+}

@@ -1,0 +1,62 @@
+/* Meter and Progress (token spec section 9). */
+@layer hds.components {
+  .hds-meter {
+    --_fill: var(--hds-sem-feedback-color-info-icon-fg);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--hds-sem-input-measure-sm-padding-y) var(--hds-sem-input-measure-sm-padding-x);
+  }
+
+  .hds-meter[data-sentiment='success'] { --_fill: var(--hds-sem-feedback-color-success-icon-fg); }
+  .hds-meter[data-sentiment='warning'] { --_fill: var(--hds-sem-feedback-color-warning-icon-fg); }
+  .hds-meter[data-sentiment='danger'] { --_fill: var(--hds-sem-feedback-color-danger-icon-fg); }
+  .hds-progress { --_fill: var(--hds-sem-action-color-primary-default-bg); }
+
+  .hds-meter__label {
+    color: var(--hds-sem-type-color-label-fg);
+    font-family: var(--hds-sem-type-other-label-font-family);
+    font-size: var(--hds-sem-type-measure-label-size);
+    font-weight: var(--hds-sem-type-other-label-weight);
+  }
+
+  .hds-meter__value {
+    grid-column: 2;
+    color: var(--hds-sem-type-color-caption-fg);
+    font-size: var(--hds-sem-type-measure-caption-size);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hds-meter__track {
+    grid-column: 1 / -1;
+    position: relative;
+    block-size: 0.5rem;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--hds-sem-surface-color-0-striped-bg);
+  }
+
+  .hds-meter__indicator {
+    block-size: 100%;
+    background: var(--_fill);
+    transition: width 300ms;
+  }
+
+  .hds-progress[data-indeterminate] .hds-meter__indicator {
+    inline-size: 40%;
+    animation: hds-progress-slide 1.2s ease-in-out infinite;
+  }
+
+  @keyframes hds-progress-slide {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(250%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hds-progress[data-indeterminate] .hds-meter__indicator {
+      animation: none;
+      inline-size: 100%;
+      opacity: 0.5;
+    }
+  }
+}

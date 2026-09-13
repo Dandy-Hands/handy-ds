@@ -1,0 +1,48 @@
+/* App layout only. Colors and type come from handy-ds tokens. */
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 36rem;
+  margin: 0 auto;
+  padding-bottom: 2rem;
+}
+
+.top {
+  padding: 2rem 1.5rem;
+}
+
+.app > :not(.top) {
+  margin-inline: 1rem;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.add {
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.add .hds-field {
+  flex: 1;
+}
+
+.tasks {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tasks li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-bottom: var(--hds-sem-divider-measure-thin-thickness) solid var(--hds-sem-divider-color-border);
+}

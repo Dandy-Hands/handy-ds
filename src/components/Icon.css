@@ -1,0 +1,21 @@
+/* Icon category. No measure token: size inherits from text (token spec section 7). */
+@layer hds.theme, hds.base, hds.components;
+
+@layer hds.components {
+  .hds-icon {
+    display: inline-flex;
+    flex-shrink: 0;
+    inline-size: var(--_size, 1em);
+    block-size: var(--_size, 1em);
+    vertical-align: -0.125em;
+  }
+
+  .hds-icon > svg {
+    inline-size: 100%;
+    block-size: 100%;
+  }
+
+  .hds-icon[data-variant='default'] { color: var(--hds-sem-icon-color-default-fg); }
+  .hds-icon[data-variant='secondary'] { color: var(--hds-sem-icon-color-secondary-fg); }
+  .hds-icon[data-variant='accent'] { color: var(--hds-sem-icon-color-accent-fg); }
+}

@@ -1,13 +1,38 @@
 {
   "name": "handy-ds",
   "version": "1.0.0",
+  "private": true,
   "description": "This system is a shared component library. It is used to build client web applications. It lets a small team, or an AI coding agent working on the team's behalf, build a new client application or a front-end for a headless WordPress site quickly and consistently. The system is for internal use to build client work. Clients do not use it directly.",
   "license": "ISC",
   "author": "Dandy Hands",
   "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./tokens": {
+      "types": "./dist/types/tokens/index.d.ts",
+      "default": "./dist/tokens.js"
+    },
+    "./styles.css": "./dist/styles.css",
+    "./theme.css": "./dist/theme.css"
+  },
+  "bin": {
+    "hds-theme": "./bin/hds-theme.js"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "docs"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
-    "dev": "vite demo",
-    "test": "tsc && node --test 'src/**/*.test.ts'"
+    "dev": "vite",
+    "test": "tsc && node --test 'src/**/*.test.ts'",
+    "build": "npm test && vite build && tsc -p tsconfig.build.json && node scripts/strip-css-imports.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0"
@@ -17,9 +42,11 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@types/culori": "^4.0.1",
     "@types/node": "^24.13.4",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "culori": "^4.0.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "typescript": "^7.0.2",

@@ -1,0 +1,116 @@
+/*
+ * Surface category: cards, panels, popups. `data-elevation` = 0..3 (default 1).
+ * Popups (.hds-popup), their positioners, list popups and backdrops live here too.
+ */
+@layer hds.theme, hds.base, hds.components;
+
+@layer hds.components {
+  .hds-surface {
+    --_bg: var(--hds-sem-surface-color-1-default-bg);
+    --_border: var(--hds-sem-surface-color-1-default-border);
+    --_shadow: var(--hds-sem-surface-color-1-default-shadow);
+
+    background: var(--_bg);
+    color: var(--hds-sem-type-color-body-fg);
+    border: var(--hds-sem-surface-measure-border-width) solid var(--_border);
+    border-radius: var(--hds-sem-surface-measure-radius);
+    box-shadow: var(--_shadow);
+  }
+
+  .hds-surface[data-elevation='0'] {
+    --_bg: var(--hds-sem-surface-color-0-default-bg);
+    --_border: var(--hds-sem-surface-color-0-default-border);
+    --_shadow: var(--hds-sem-surface-color-0-default-shadow);
+  }
+
+  .hds-surface[data-elevation='2'] {
+    --_bg: var(--hds-sem-surface-color-2-default-bg);
+    --_border: var(--hds-sem-surface-color-2-default-border);
+    --_shadow: var(--hds-sem-surface-color-2-default-shadow);
+  }
+
+  .hds-surface[data-elevation='3'] {
+    --_bg: var(--hds-sem-surface-color-3-default-bg);
+    --_border: var(--hds-sem-surface-color-3-default-border);
+    --_shadow: var(--hds-sem-surface-color-3-default-shadow);
+  }
+
+  .hds-positioner {
+    z-index: 50;
+    outline: 0;
+  }
+
+  .hds-popup {
+    outline: 0;
+    transform-origin: var(--transform-origin);
+    transition: opacity 150ms, transform 150ms;
+  }
+
+  .hds-popup[data-starting-style],
+  .hds-popup[data-ending-style] {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+
+  /* Popups whose content is a list of Action items (Select, Combobox, Menu). */
+  .hds-list {
+    display: flex;
+    flex-direction: column;
+    padding: var(--hds-sem-action-measure-gap);
+    min-width: var(--anchor-width);
+    max-height: var(--available-height);
+    overflow-y: auto;
+  }
+
+  .hds-list__items {
+    display: flex;
+    flex-direction: column;
+    outline: 0;
+  }
+
+  .hds-item {
+    display: flex;
+    align-items: center;
+    gap: var(--hds-sem-action-measure-gap);
+    padding: var(--hds-sem-action-measure-padding-y) var(--hds-sem-action-measure-padding-x);
+    border-width: 0;
+    border-radius: var(--hds-sem-action-measure-radius);
+    cursor: default;
+    outline-offset: calc(-1 * var(--hds-sem-focus-measure-stroke-width));
+  }
+
+  .hds-item__indicator {
+    display: flex;
+    margin-inline-start: auto;
+  }
+
+  .hds-list__label {
+    padding: var(--hds-sem-action-measure-padding-y) var(--hds-sem-action-measure-padding-x);
+    color: var(--hds-sem-type-color-caption-fg);
+    font-family: var(--hds-sem-type-other-caption-font-family);
+    font-size: var(--hds-sem-type-measure-caption-size);
+    font-weight: var(--hds-sem-type-other-caption-weight);
+    letter-spacing: var(--hds-sem-type-measure-caption-letter-spacing);
+  }
+
+  /* Overlay category: modal scrims. */
+  .hds-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: var(--hds-sem-overlay-color-bg);
+    transition: opacity 150ms;
+  }
+
+  .hds-backdrop[data-starting-style],
+  .hds-backdrop[data-ending-style] {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hds-popup,
+    .hds-backdrop {
+      transition: none;
+    }
+  }
+}
