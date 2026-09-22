@@ -22,7 +22,7 @@
   }
 
   .hds-dialog__description {
-    margin: var(--hds-sem-action-measure-gap) 0 var(--hds-sem-surface-measure-padding);
+    margin: var(--hds-sem-action-measure-md-gap) 0 var(--hds-sem-surface-measure-padding);
     color: var(--hds-sem-type-color-body-fg);
   }
 }

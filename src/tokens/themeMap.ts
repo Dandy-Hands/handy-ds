@@ -117,13 +117,17 @@ export function themeMap(d: Drivers): ThemeMap {
 
   // ACTION
   for (const pr of PRIORITY) expand(m, `action/color/${pr}`, ACTION_STATE, ACTION[pr]);
-  put(m, 'action/measure', {
-    'padding-x': p('space/4'),
-    'padding-y': p('space/2'),
-    radius: p(`radius/${action.radius}`),
-    gap: p('space/2'),
-    'border-width': p(`border/${action.border}`),
-  });
+  const actionSizes = { sm: [3, 1, 1], md: [4, 2, 2], lg: [5, 3, 2] }; // padding-x, padding-y, gap (space steps)
+  for (const size of SIZE) {
+    const [px, py, gap] = actionSizes[size as keyof typeof actionSizes];
+    put(m, `action/measure/${size}`, {
+      'padding-x': p(`space/${px}`),
+      'padding-y': p(`space/${py}`),
+      radius: p(`radius/${action.radius}`),
+      gap: p(`space/${gap}`),
+      'border-width': p(`border/${action.border}`),
+    });
+  }
 
   // INPUT/FIELD
   expand(m, 'input/color', INPUT_STATE, INPUT);

@@ -27,3 +27,18 @@ test('every component CSS rule lives in an hds layer', () => {
     assert.match(readFileSync(new URL(f, dir), 'utf8'), /@layer hds\.(components|base) \{/, f);
   }
 });
+
+// docs/components.md is what a consuming agent reads. A component that ships without an entry
+// there is invisible to every agent building a client app, so shipping one is a test failure.
+test('every exported component has an entry in docs/components.md', () => {
+  const index = readFileSync(new URL('../index.ts', dir), 'utf8');
+  const exported = (index.match(/export \{([^}]*)\}/g) ?? [])
+    .flatMap((line) => line.replace(/export \{|\}/g, '').split(','))
+    .map((name) => name.trim())
+    .filter((name) => name && !name.startsWith('type '));
+  const headings = new Set(
+    (readFileSync(new URL('../../docs/components.md', dir), 'utf8').match(/^### .+$/gm) ?? [])
+      .flatMap((h) => h.slice(4).split(',').map((name) => name.trim())),
+  );
+  for (const name of exported) assert.ok(headings.has(name), `docs/components.md has no "### ${name}" entry`);
+});

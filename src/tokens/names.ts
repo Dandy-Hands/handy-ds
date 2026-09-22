@@ -18,7 +18,7 @@ export const SENTIMENT = ['danger', 'warning', 'success', 'info'];
 const SEM: Record<string, Record<string, string[][]>> = {
   action: {
     color: [PRIORITY, ACTION_STATE, ['bg', 'fg', 'border']],
-    measure: [['padding-x', 'padding-y', 'radius', 'gap', 'border-width']],
+    measure: [SIZE, ['padding-x', 'padding-y', 'radius', 'gap', 'border-width']],
   },
   input: {
     color: [INPUT_STATE, ['bg', 'fg', 'border', 'placeholder-fg']],

@@ -6,7 +6,7 @@
     inline-size: 2.25em;
     block-size: 1.25em;
     padding: 2px;
-    border: var(--hds-sem-action-measure-border-width) solid var(--hds-sem-action-color-secondary-default-border);
+    border: var(--hds-sem-action-measure-md-border-width) solid var(--hds-sem-action-color-secondary-default-border);
     border-radius: 999px;
     background: var(--hds-sem-action-color-secondary-default-bg);
     cursor: pointer;

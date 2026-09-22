@@ -42,7 +42,7 @@
   .hds-table th button {
     display: inline-flex;
     align-items: center;
-    gap: var(--hds-sem-action-measure-gap);
+    gap: var(--hds-sem-action-measure-md-gap);
     margin: calc(-1 * var(--hds-sem-input-measure-md-padding-y)) calc(-1 * var(--hds-sem-input-measure-md-padding-x));
     padding: var(--hds-sem-input-measure-md-padding-y) var(--hds-sem-input-measure-md-padding-x);
     border: 0;

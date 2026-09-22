@@ -14,6 +14,6 @@
   }
 
   .hds-popover__description {
-    margin: var(--hds-sem-action-measure-gap) 0 0;
+    margin: var(--hds-sem-action-measure-md-gap) 0 0;
   }
 }

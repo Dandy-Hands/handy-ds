@@ -66,7 +66,7 @@
     margin-inline-start: auto;
     padding: 0.25em;
     border: 0;
-    border-radius: var(--hds-sem-action-measure-radius);
+    border-radius: var(--hds-sem-action-measure-md-radius);
     background: transparent;
     color: inherit;
     cursor: pointer;

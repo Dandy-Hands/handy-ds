@@ -1,7 +1,7 @@
 @layer hds.components {
   .hds-toggle-group {
     display: inline-flex;
-    gap: var(--hds-sem-action-measure-gap);
+    gap: var(--hds-sem-action-measure-md-gap);
   }
 
   .hds-toggle-group[data-orientation='vertical'] {

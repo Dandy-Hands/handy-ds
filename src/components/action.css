@@ -33,7 +33,7 @@
 
     background: var(--_default-bg);
     color: var(--_default-fg);
-    border: var(--hds-sem-action-measure-border-width) solid var(--_default-border);
+    border: var(--hds-sem-action-measure-md-border-width) solid var(--_default-border);
     font-family: var(--hds-sem-type-other-label-font-family);
     font-size: var(--hds-sem-type-measure-label-size);
     font-weight: var(--hds-sem-type-other-label-weight);

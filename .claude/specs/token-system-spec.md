@@ -61,7 +61,7 @@ hds/sem/{category}/{type}/[axis]/[state]/{property}
 
 ```
 hds/sem/action/color/primary/hover/bg
-hds/sem/action/measure/padding-x
+hds/sem/action/measure/md/padding-x
 hds/sem/input/color/error/border
 hds/sem/type/color/heading/fg
 hds/sem/surface/color/0/striped/bg
@@ -93,7 +93,7 @@ Section color rules driver: `sections: { hero: 'on-primary' }` adds `[data-secti
 
 | Category | Covers | Axis | States |
 |---|---|---|---|
-| Action | Buttons, clickable triggers, switches | priority (primary/secondary/tertiary) | default/hover/active/focus/disabled/selected |
+| Action | Buttons, clickable triggers, switches | priority (primary/secondary/tertiary), size (sm/md/lg) | default/hover/active/focus/disabled/selected |
 | Input/Field | Text inputs, selects, textareas, checkboxes, radios | size (sm/md/lg) | default/hover/focus/error/disabled/checked |
 | Surface | Cards, panels, containers | elevation (0–3) | default/striped |
 | Type | All text styles | role (display/heading/body/label/caption) | none |
@@ -129,7 +129,7 @@ A category's `other` list is empty unless that category has a value not covered 
 
 Axis applies to a type only where it produces a distinct value for that type:
 - Color: varies by priority, sentiment, elevation, role, state.
-- Measure: varies by sizing axes only (e.g., Input's size).
+- Measure: varies by sizing axes only (Action's and Input's size).
 - Drop unused axis/state segments.
 
 ---
@@ -138,7 +138,7 @@ Axis applies to a type only where it produces a distinct value for that type:
 
 **Action**
 - Color: `hds/sem/action/color/{priority}/{state}/{property}` — bg, fg, border
-- Measure: `hds/sem/action/measure/{property}` — padding-x, padding-y, radius, gap, border-width
+- Measure: `hds/sem/action/measure/{size}/{property}` — padding-x, padding-y, radius, gap, border-width. Only Button exposes the size; every other Action part reads `md`.
 - Other: none
 
 **Input/Field**
@@ -193,10 +193,10 @@ Axis applies to a type only where it produces a distinct value for that type:
   --hds-sem-action-color-tertiary-hover-bg: oklch(94% 0.03 250);
   --hds-sem-action-color-tertiary-default-fg: oklch(52% 0.18 250);
   --hds-sem-action-color-tertiary-hover-fg: oklch(40% 0.18 250);
-  --hds-sem-action-measure-padding-x: 16px;
-  --hds-sem-action-measure-padding-y: 10px;
-  --hds-sem-action-measure-radius: 8px;
-  --hds-sem-action-measure-gap: 8px;
+  --hds-sem-action-measure-md-padding-x: 16px;
+  --hds-sem-action-measure-md-padding-y: 10px;
+  --hds-sem-action-measure-md-radius: 8px;
+  --hds-sem-action-measure-md-gap: 8px;
 
   /* INPUT */
   --hds-sem-input-color-default-bg: oklch(98% 0.01 250);

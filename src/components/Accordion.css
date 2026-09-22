@@ -17,9 +17,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--hds-sem-action-measure-gap);
+    gap: var(--hds-sem-action-measure-md-gap);
     width: 100%;
-    padding: var(--hds-sem-action-measure-padding-y) var(--hds-sem-action-measure-padding-x);
+    padding: var(--hds-sem-action-measure-md-padding-y) var(--hds-sem-action-measure-md-padding-x);
     border-width: 0;
     border-radius: 0;
     text-align: start;

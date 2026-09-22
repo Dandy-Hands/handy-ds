@@ -31,6 +31,13 @@ import './theme.css';           // this client's tokens (or 'handy-ds/theme.css'
 import { Button } from 'handy-ds';
 ```
 
+Point the project's agents at the library docs. Add this to the client project's `CLAUDE.md`:
+
+```markdown
+UI comes from handy-ds. Pick components with `node_modules/handy-ds/docs/components.md`.
+Theming, contexts and app-CSS rules: `node_modules/handy-ds/docs/rules.md`. Never restyle a component with `className`.
+```
+
 `hds-theme` exits with code 1 and lists every failing pair when the config breaks a contrast rule. Fix the drivers or the mapping. Don't ignore the failure.
 
 Load font files yourself (Google Fonts `<link>`, `@font-face`). The theme only sets the `font-family` stacks.
@@ -85,7 +92,7 @@ Never edit component CSS to theme a client.
 
 | Need | Use |
 |---|---|
-| Do something (submit, open, save) | `Button` (`priority`: `primary` = the main action on the screen, at most one per view; `secondary` = other actions; `tertiary` = low-emphasis, toolbars, inline) |
+| Do something (submit, open, save) | `Button` (`priority`: `primary` = the main action on the screen, at most one per view; `secondary` = other actions; `tertiary` = low-emphasis, toolbars, inline. `size`: `sm`/`md`/`lg`, default `md`) |
 | Go somewhere that looks like a button | `LinkButton` (renders `<a>`) |
 | On/off setting that applies immediately | `Switch` |
 | Pressed/unpressed formatting button, or pick-one/pick-many from a few buttons | `Toggle`, `ToggleGroup` |
@@ -113,6 +120,8 @@ Never edit component CSS to theme a client.
 | Any text with a type role | `Text` (`variant`: `display`, `heading`, `body`, `label`, `caption`; pick the heading level with `render={<h3 />}`) |
 | An icon | `Icon` wrapping an SVG that uses `currentColor`. Give it `label` if it carries meaning. No `variant` inside buttons (it inherits the button's color) |
 | A dividing line | `Separator` (`weight`: `thin`, `medium`, `thick`; `orientation="vertical"`) |
+
+Props, use-when and don't-use-when for every component: `docs/components.md` (`node_modules/handy-ds/docs/components.md` in a client app).
 
 Compound components (`Select`, `Menu`, `Dialog`, ...) have the same parts and props as Base UI's. Use Base UI's docs for structure and behavior (`node_modules/@base-ui/react/docs/react/components/*.md`). handy-ds only adds styling. Examples of every component: `demo/main.tsx`.
 

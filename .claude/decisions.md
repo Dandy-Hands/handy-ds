@@ -53,7 +53,7 @@ Judgment calls made while building the phased plan (waves 2–6), with the reaso
 ## Wave 5: components (Phase 4/5)
 
 - **Compound components mirror Base UI's namespace:** `{ ...BaseSelect, Trigger: part(...) }`. The Base UI docs apply part for part, nothing is missing, and new Base UI parts show up automatically. Types like `Select.Root.Props` are imported from Base UI.
-- **Triggers** (Dialog, Popover, Menu) look like secondary Buttons by default. `data-priority` changes them. **Menubar** triggers need `data-priority="tertiary"` by hand. **Needs review:** could be automatic with a Menubar-specific trigger part.
+- ~~**Triggers** (Dialog, Popover, Menu) look like secondary Buttons by default.~~ **Reversed** (see "Triggers carry no styling" below).
 - **Gap 5, Tabs panel:** no category means no tokens. The panel is transparent and inherits type and ground; only the focus ring applies. The tab indicator uses `action/color/primary/selected/bg`.
 - **Gap 5, part tables** (added to spec section 9):
   - Navigation Menu: trigger and link are Action tertiary, the current link is `selected` (Base UI `active`), the popup is Surface elevation 2, and content has no color tokens.
@@ -79,3 +79,16 @@ Judgment calls made while building the phased plan (waves 2–6), with the reaso
 - **"Later: versioning and deprecation" (gap 11)** is not started, as planned. Packaging exists; version pinning and a deprecation policy wait for the first shipped client site.
 - **The Chrome extension wasn't connected,** so visual checks used headless Chrome screenshots: the demo page, the WordPress example (live posts from wordpress.org) and the PWA at phone width. Interactive states (hover, open popups, keyboard, offline mode, install prompt) were not clicked through. Render tests plus Base UI's own behavior cover the logic.
 - **Bundle size:** the examples are ~182 KB gzip, almost all React + the Base UI parts they use. Verified that unused handy-ds components are dropped from the bundle.
+
+## Button size axis
+
+- **Action gained a size axis** (`sm`/`md`/`lg`), so `hds/sem/action/measure/{property}` became `hds/sem/action/measure/{size}/{property}`. `token-system-spec.md` sections 4 and 7 updated, plus `checkTokenName()` and the Theme Map. Steps: sm `space/3`+`space/1`, md `space/4`+`space/2`, lg `space/5`+`space/3` (padding-x, padding-y); radius and border-width are the same driver value at every size, like Input's.
+- **Only Button exposes it.** Every other Action part (Tabs, Toggle, menu items, Accordion trigger, Dialog/Popover triggers) pins to `md` in its CSS. Opening the axis up to them is a per-component decision, not automatic.
+- **Needs review:** sm and lg reuse the md radius and border-width, so a `radius/full` theme keeps a pill at every size. Fine for now; per-size radius is a Theme Map change if a client needs it.
+
+## Triggers carry no styling
+
+- **Reverses the Wave 5 trigger decision.** `Dialog.Trigger`, `AlertDialog.Trigger`, `Popover.Trigger` and `Menu.Trigger` no longer carry `hds-button hds-action`, so they are not secondary Buttons by default.
+- **Why:** being a trigger says what a control does, not what it looks like. Base UI agrees — those parts give semantics only ("Renders a `<button>` element") and ship unstyled; their own docs put an explicit class string on every trigger. A dialog opens just as well from a card, an avatar or an icon, and the old default silently styled all of them.
+- **What replaces it:** the author opts in — `<Dialog.Trigger render={<Button priority="tertiary" />}>`. Nothing is styled by accident, and the Menubar workaround (`data-priority="tertiary"` by hand) disappears with it.
+- **Not affected:** `Accordion.Trigger`, `NavigationMenu.Trigger` and `Select.Trigger` keep their styling. Those are structural parts of their own component, not a free-standing control the author would choose the look of.

@@ -32,7 +32,7 @@ test('every Theme Map name passes the validator, in every context', () => {
 test('Theme Map covers every token in spec section 7 grammar', () => {
   // Counts per category follow from the validator's slot lists (full matrices).
   const count = (prefix: string) => Object.keys(base.map.default).filter((n) => n.startsWith(`hds/sem/${prefix}/`)).length;
-  assert.equal(count('action'), 3 * 6 * 3 + 5);
+  assert.equal(count('action'), 3 * 6 * 3 + 3 * 5);
   assert.equal(count('input'), 6 * 4 + 3 * 5);
   assert.equal(count('surface'), 4 * 2 * 3 + 3);
   assert.equal(count('type'), 5 * (1 + 3 + 2));
@@ -50,7 +50,7 @@ test('driver change regenerates primitives; semantic mapping is unchanged', () =
   assert.equal(other.primitives['hds/prim/shadow/level-2'], 'none');
   assert.equal(other.map.default['hds/sem/action/color/primary/default/bg'], base.map.default['hds/sem/action/color/primary/default/bg']);
   // Per-category style driver selects a step on the shared scale (spec section 1).
-  assert.equal(other.map.default['hds/sem/action/measure/radius'], '{hds/prim/radius/full}');
+  assert.equal(other.map.default['hds/sem/action/measure/md/radius'], '{hds/prim/radius/full}');
 });
 
 test('ramp: brand color lands exactly on its nearest step; lightness is monotonic', () => {

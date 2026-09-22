@@ -1,11 +1,31 @@
+/* Size comes from `data-size` (Action size axis). No data-size = md. */
 @layer hds.components {
   .hds-button {
+    --_gap: var(--hds-sem-action-measure-md-gap);
+    --_padding-x: var(--hds-sem-action-measure-md-padding-x);
+    --_padding-y: var(--hds-sem-action-measure-md-padding-y);
+    --_radius: var(--hds-sem-action-measure-md-radius);
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--hds-sem-action-measure-gap);
-    padding: var(--hds-sem-action-measure-padding-y) var(--hds-sem-action-measure-padding-x);
-    border-radius: var(--hds-sem-action-measure-radius);
+    gap: var(--_gap);
+    padding: var(--_padding-y) var(--_padding-x);
+    border-radius: var(--_radius);
     white-space: nowrap;
+  }
+
+  .hds-button[data-size='sm'] {
+    --_gap: var(--hds-sem-action-measure-sm-gap);
+    --_padding-x: var(--hds-sem-action-measure-sm-padding-x);
+    --_padding-y: var(--hds-sem-action-measure-sm-padding-y);
+    --_radius: var(--hds-sem-action-measure-sm-radius);
+  }
+
+  .hds-button[data-size='lg'] {
+    --_gap: var(--hds-sem-action-measure-lg-gap);
+    --_padding-x: var(--hds-sem-action-measure-lg-padding-x);
+    --_padding-y: var(--hds-sem-action-measure-lg-padding-y);
+    --_radius: var(--hds-sem-action-measure-lg-radius);
   }
 }

@@ -1,5 +1,30 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
 examples/*/src/theme.css
-examples/*/.env
 *.tgz
+
+# Generated tooling output
+graphify-out/
+
+# Env & secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+*.swp
+
+# Test coverage
+coverage/

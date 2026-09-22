@@ -18,10 +18,10 @@ const DEMO_SEM = [
   'action/color/tertiary/hover/bg',
   'action/color/tertiary/default/fg',
   'action/color/tertiary/hover/fg',
-  'action/measure/padding-x',
-  'action/measure/padding-y',
-  'action/measure/radius',
-  'action/measure/gap',
+  'action/measure/md/padding-x',
+  'action/measure/md/padding-y',
+  'action/measure/md/radius',
+  'action/measure/md/gap',
   'input/color/default/bg',
   'input/color/default/border',
   'input/color/default/fg',
@@ -83,6 +83,8 @@ test('demo list matches the spec demo tree exactly', () => {
 test('every spec example name is valid', () => {
   const examples = [
     ...DEMO_SEM,
+    'hds/sem/action/measure/sm/padding-x', // Button size axis, section 4
+    'hds/sem/action/measure/lg/padding-x',
     'hds/sem/action/color/tertiary/hover/bg', // Data Table, section 9
     'hds/sem/action/color/primary/selected/bg', // Switch, Tabs, Toggle
     'hds/prim/color/primary/600',
@@ -105,7 +107,8 @@ test('invalid names are rejected', () => {
     'hds/sem/action/color/primary/bg', // missing state
     'hds/sem/action/color/primary/default/hover/bg', // extra segment
     'hds/sem/action/color/quaternary/default/bg', // unknown priority
-    'hds/sem/action/measure/md/padding-x', // measure has no size axis on action
+    'hds/sem/action/measure/padding-x', // action measure needs a size segment
+    'hds/sem/action/measure/xl/padding-x', // unknown size
     'hds/sem/input/measure/xl/height', // unknown size
     'hds/sem/constructor/color/bg', // prototype key
     'hds/prim/colour/primary/600', // unknown primitive type

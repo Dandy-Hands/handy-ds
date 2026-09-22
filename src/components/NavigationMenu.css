@@ -6,7 +6,7 @@
 
   .hds-nav__list {
     display: flex;
-    gap: var(--hds-sem-action-measure-gap);
+    gap: var(--hds-sem-action-measure-md-gap);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -53,10 +53,10 @@
   .hds-nav__content {
     display: flex;
     flex-direction: column;
-    gap: var(--hds-sem-action-measure-gap);
+    gap: var(--hds-sem-action-measure-md-gap);
     width: max-content;
     max-width: min(400px, calc(100vw - 40px));
-    padding: var(--hds-sem-action-measure-gap);
+    padding: var(--hds-sem-action-measure-md-gap);
     transition: opacity 150ms;
   }
 

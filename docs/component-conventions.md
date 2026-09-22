@@ -60,11 +60,6 @@ Each `.tsx` imports the CSS it needs in this order: `base.css`, then category CS
 
 Use the category the spec assigns (token spec section 9 tables, decisions in `.claude/decisions.md`). Composites borrow per part: Select trigger is Input/Field, popup is Surface, options are Action. Don't invent a token. If a value can't be expressed with existing tokens, raise it as a spec change: new names must pass `checkTokenName()` and go into the Theme Map.
 
-## Checklist for a new component
+## Adding a component
 
-1. Wrap the Base UI part(s) with `part()` or a small function, as above.
-2. Style with category classes first. Add a component CSS file only for layout.
-3. `npm test`: prim-grep, token-existence and layer checks pass.
-4. Add a case to `src/components/render.test.ts`.
-5. Show it on the demo page (`npm run dev`) and try a driver change and a mapping change from the demo controls.
-6. Export it from `src/index.ts`, and add it to the component table in `docs/rules.md`.
+Three skills. `component-spec` (`.claude/skills/component-spec/SKILL.md`) drafts the spec in `.claude/specs/components/` and reviews it with the user. Then `component-build` (`.claude/skills/component-build/SKILL.md`) writes the code and holds the build checklist, and `component-figma` (`.claude/skills/component-figma/SKILL.md`) builds the Figma component. The last two are independent: run either order. Both refuse a spec that is not `Status: reviewed`.
