@@ -1,0 +1,32 @@
+---
+title: Button
+order: 1
+---
+
+import { Button } from 'handy-ds';
+
+# Button
+
+The primary control for triggering an action.
+
+## Usage
+
+Use a button when the user needs to submit, confirm, or start an action.
+Do not use a button for navigation; use a link instead.
+
+## Live example
+
+<Button>Save changes</Button>
+<Button data-context="on-primary">On primary</Button>
+
+## Anatomy
+
+- A button has a label and optional leading/trailing icons.
+- It supports `variant`, `size`, `disabled`, and `loading` states.
+- The visual style maps to the Action semantic tokens.
+
+## Owner notes
+
+- Wraps Base UI `Button`.
+- Extension props include `loading` and `variant` values beyond Base UI's defaults.
+- The `data-context="on-primary"` override is honored for surfaces placed on the primary color.
