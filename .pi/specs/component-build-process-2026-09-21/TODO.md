@@ -1,3 +1,6 @@
-# TODO — Research items from interview (component-build-process)
+# TODO — Items from component-build-process interview
 
-- [ ] API doc conventions: research best-practice concise API documentation formats for agent consumption (props tables, value definitions, when-to-use statements). Seed from Q4 opinions. — from Q4
+- [x] API doc conventions: research best-practice concise API documentation formats for agent consumption.
+  - Resolved: see `research/api-doc-conventions.md` and updated `hds-component-spec-interview` skill.
+- [ ] Pilot the process on `button`.
+- [ ] Pilot the process on `card`.
