@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import mdx from '@mdx-js/rollup';
+import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 import path from 'node:path';
 
@@ -10,12 +11,13 @@ export default defineConfig({
   root: __dirname,
   plugins: [
     react(),
-    mdx({ remarkPlugins: [remarkMdxFrontmatter] }),
+    mdx({ remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter] }),
   ],
   resolve: {
     alias: {
       'handy-ds': path.resolve(__dirname, '../src/index.ts'),
     },
+    dedupe: ['react', 'react-dom'],
   },
   server: {
     fs: {
