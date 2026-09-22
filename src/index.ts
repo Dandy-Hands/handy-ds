@@ -1,5 +1,6 @@
 // Action
-export { Button, LinkButton, type ButtonProps, type LinkButtonProps, type Priority } from './components/Button.tsx';
+export { Button, type ButtonProps, type Priority } from './components/Button.tsx';
+export { LinkButton, type LinkButtonProps } from './components/LinkButton.tsx';
 export { Toggle, ToggleGroup } from './components/Toggle.tsx';
 export { Toolbar } from './components/Toolbar.tsx';
 export { Switch } from './components/Switch.tsx';
