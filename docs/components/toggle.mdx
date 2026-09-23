@@ -1,0 +1,101 @@
+---
+title: Toggle
+order: 9
+---
+
+import { Toggle, ToggleGroup } from 'handy-ds';
+
+# Toggle
+
+A button that stays pressed. `ToggleGroup` is a row of them with single or
+multiple selection. Toggle wears the full button look — secondary by default —
+and shows its pressed state through the Action `selected` colors.
+
+## Usage
+
+Use Toggle for formatting controls (bold, italic) or picking one or several
+from a few options that all stay visible. Do not use it for a setting that
+applies the moment it changes — use Switch. Do not use it for more than about
+five options — use Select.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `data-priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the toggle's button look. |
+| `pressed` / `defaultPressed` (Toggle) | `boolean` | — | The controlled / initial pressed state. |
+| `onPressedChange` (Toggle) | `(pressed, eventDetails) => void` | — | Fires when the toggle is pressed or released. |
+| `value` (Toggle) | `any` | — | Identifies the toggle inside a ToggleGroup. |
+| `multiple` (ToggleGroup) | `boolean` | `false` | Lets several toggles be pressed at once. |
+| `value` / `defaultValue` (ToggleGroup) | `any[]` | — | The controlled / initial pressed values. |
+| `orientation` (ToggleGroup) | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the row. |
+| `disabled` | `boolean` | `false` | Ignores interaction. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
+| `children` | `ReactNode` | — | Label content. |
+
+All standard button attributes (`aria-*`, ...) are also accepted.
+
+## Pressed
+
+A pressed toggle takes the Action `selected` colors of its priority. The
+default priority is secondary.
+
+<ToggleGroup defaultValue={['b']}>
+  <Toggle value="b">Bold</Toggle>
+  <Toggle value="i">Italic</Toggle>
+  <Toggle value="u">Underline</Toggle>
+</ToggleGroup>
+
+## Priority
+
+`data-priority` changes the button look. It is a data attribute, not a prop,
+because the look depends on where the toggle sits.
+
+<ToggleGroup multiple defaultValue={['a']}>
+  <Toggle value="a">Default (secondary)</Toggle>
+  <Toggle value="t" data-priority="tertiary">Tertiary</Toggle>
+</ToggleGroup>
+
+## Multiple
+
+`multiple` lets several toggles stay pressed at once.
+
+<ToggleGroup multiple defaultValue={['a', 'c']}>
+  <Toggle value="a">List</Toggle>
+  <Toggle value="b">Grid</Toggle>
+  <Toggle value="c">Table</Toggle>
+</ToggleGroup>
+
+## Disabled
+
+A disabled toggle keeps its footprint and takes no input.
+
+<ToggleGroup>
+  <Toggle value="a">Available</Toggle>
+  <Toggle value="b" disabled>Unavailable</Toggle>
+</ToggleGroup>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Background, border, text (per priority × state) | `hds/sem/action/color/{priority}/{default,hover,active,focus,disabled,selected}/{bg,border,fg}` |
+| Footprint | `hds/sem/action/measure/md/{padding-x,padding-y,radius,gap,border-width}` |
+| Label type | `hds/sem/type/measure/label/*`, `hds/sem/type/other/label/*` |
+| Group gap | `hds/sem/action/measure/md/gap` |
+| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/toggle` and `toggle-group`. Toggle is
+  a single `part()` carrying the full Button classes, so it lines up next to
+  Buttons; the group is a flex row with the Action gap.
+- Extension decisions: no extension props. Priority is `data-priority` because
+  `hds-action` defaults to secondary. Toggle pins to the `md` Action measure —
+  only Button opens the size axis.
+- Known constraints: pressed state colors come from the `selected` state of the
+  current priority; a priority with no `selected` tokens falls back to its
+  default look on press.
+- Accessibility: pressed state is announced through the underlying toggle
+  semantics; arrow keys move inside the group. Label each toggle with text or
+  an `aria-label`.

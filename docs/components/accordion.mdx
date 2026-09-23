@@ -1,0 +1,98 @@
+---
+title: Accordion
+order: 17
+---
+
+import { Accordion, Text } from 'handy-ds';
+
+# Accordion
+
+Sections that show and hide in place. Each item is a full-width tertiary
+trigger over a collapsible panel; item edges are thin divider lines.
+
+## Usage
+
+Use Accordion for an FAQ, or long content the user scans before opening. Do
+not use it when exactly one section shows at a time in a fixed region — use
+Tabs. Write each item as `Item > Header > Trigger` plus `Panel`.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `value` / `defaultValue` (Root) | `any[]` | — | The controlled / initial open sections. |
+| `onValueChange` (Root) | `(value, eventDetails) => void` | — | Fires when a section opens or closes. |
+| `multiple` (Root) | `boolean` | `false` | Lets several sections stay open at once. |
+| `disabled` (Root, Trigger) | `boolean` | `false` | Ignores interaction on the whole accordion or one trigger. |
+| `value` (Trigger) | `any` | — | Identifies the section; matches the panel's `value`. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
+| `children` | `ReactNode` | — | Part content. |
+
+All standard attributes (`id`, `aria-*`, ...) are also accepted.
+
+## Open state
+
+The trigger opens its panel; the chevron rotates. One section is open at a
+time by default; the panel sits on the Surface-0 ground.
+
+<Accordion.Root>
+  <Accordion.Item>
+    <Accordion.Header><Accordion.Trigger>Shipping</Accordion.Trigger></Accordion.Header>
+    <Accordion.Panel><Text>Ships in 2–3 days.</Text></Accordion.Panel>
+  </Accordion.Item>
+  <Accordion.Item>
+    <Accordion.Header><Accordion.Trigger>Returns</Accordion.Trigger></Accordion.Header>
+    <Accordion.Panel><Text>Free within 30 days.</Text></Accordion.Panel>
+  </Accordion.Item>
+</Accordion.Root>
+
+## Multiple
+
+`multiple` lets several sections stay open at once.
+
+<Accordion.Root multiple defaultValue={['billing']}>
+  <Accordion.Item>
+    <Accordion.Header><Accordion.Trigger value="billing">Billing</Accordion.Trigger></Accordion.Header>
+    <Accordion.Panel><Text>Invoiced monthly.</Text></Accordion.Panel>
+  </Accordion.Item>
+  <Accordion.Item>
+    <Accordion.Header><Accordion.Trigger value="plans">Plans</Accordion.Trigger></Accordion.Header>
+    <Accordion.Panel><Text>Two plans, upgrade anytime.</Text></Accordion.Panel>
+  </Accordion.Item>
+</Accordion.Root>
+
+## Disabled
+
+A disabled trigger keeps its place and takes no input.
+
+<Accordion.Root>
+  <Accordion.Item>
+    <Accordion.Header><Accordion.Trigger disabled>Legacy section</Accordion.Trigger></Accordion.Header>
+    <Accordion.Panel><Text>Retired content.</Text></Accordion.Panel>
+  </Accordion.Item>
+</Accordion.Root>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Trigger look and states | `hds/sem/action/color/tertiary/{default,hover,active,focus,disabled,selected}/{bg,border,fg}` |
+| Trigger padding | `hds/sem/action/measure/md/{padding-x,padding-y,gap}` |
+| Item edge | `hds/sem/divider/color/border`, `hds/sem/divider/measure/thin-thickness` |
+| Panel ground | `hds/sem/surface/color/0/default/bg`, `hds/sem/surface/measure/padding` |
+| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/accordion`; the namespace is mirrored
+  and every prop passes through. `Root`, `Item`, `Header`, `Trigger`, and
+  `Panel` are the styled parts.
+- Extension decisions: no extension props. `Trigger` pins to Action tertiary
+  and fills the item edge-to-edge (radius flattened, focus ring inset). The
+  chevron is structural CSS, not an icon component.
+- Known constraints: the panel has a Surface-0 ground but no border or shadow;
+  inside a colored section, panels need a `data-context="default"` container to
+  keep normal colors.
+- Accessibility: triggers expose expanded/collapsed state and panels are
+  labeled by their trigger through the underlying behavior. Arrow keys move
+  between triggers.

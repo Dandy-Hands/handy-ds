@@ -1,0 +1,91 @@
+---
+title: Alert
+order: 18
+---
+
+import { Alert, Icon } from 'handy-ds';
+
+# Alert
+
+A message that stays on the page. A bordered block colored by sentiment — info,
+success, warning, or danger — with an optional heading and icon.
+
+## Usage
+
+Use Alert when the message is part of the page and must stay readable: form
+summaries, account warnings, empty-state notices. Do not use it for a short
+confirmation after an action — use Toast. Alert has no live-region role by
+default; pass `role="alert"` (urgent) or `role="status"` (polite) when it
+appears in response to an action.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `sentiment` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | Message color. `info` — neutral notice. `success` — confirmed. `warning` — act soon. `danger` — problem or destructive. |
+| `heading` | `ReactNode` | — | Short heading above the body. |
+| `icon` | `ReactNode` | — | Icon in front of the heading, colored with the sentiment's icon color. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
+| `role` | `'alert' \| 'status'` | — | Pass `alert` for urgent announcements, `status` for polite ones, when the alert appears in response to an action. |
+| `children` | `ReactNode` | — | Message body. |
+
+All standard attributes (`id`, `aria-*`, `className`, ...) are also accepted.
+
+## Sentiment
+
+The sentiment picks the Feedback color set: background, text, border, and icon
+color rise and fall together.
+
+### sentiment="info"
+
+<Alert sentiment="info" heading="Planned maintenance">The API is read-only on Sunday.</Alert>
+
+### sentiment="success"
+
+<Alert sentiment="success" heading="Connected">Your workspace is linked.</Alert>
+
+### sentiment="warning"
+
+<Alert sentiment="warning" heading="Card expiring">Update it before 1 March.</Alert>
+
+### sentiment="danger"
+
+<Alert sentiment="danger" heading="Payment failed">Check your card details and try again.</Alert>
+
+## Heading and icon
+
+`heading` renders a bold lead line; `icon` renders in the sentiment's icon
+color. Pair the icon with the `Icon` component so it inherits correctly.
+
+<Alert sentiment="warning" heading="Card expiring" icon="⚠">
+  Update it before 1 March.
+</Alert>
+
+## Live region
+
+A static banner announces nothing. When an alert appears in response to an
+action, give it a role.
+
+<Alert sentiment="success" role="status" heading="Saved">Your changes are live.</Alert>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Block per sentiment | `hds/sem/feedback/color/{info,success,warning,danger}/{bg,fg,border}` |
+| Icon span | `hds/sem/feedback/color/{sentiment}/icon-fg` |
+| Padding, radius, gap, border width | `hds/sem/feedback/measure/*` |
+| Heading weight | `hds/sem/type/other/label/weight` |
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive — a single-part `useRender` component
+  with the same `render` semantics as Base UI parts.
+- Extension decisions: `sentiment`, `heading`, and `icon` are the whole surface.
+  `heading` is a styled `<p>`, not a heading level — document structure stays
+  with the caller. No live-region role by default.
+- Known constraints: feedback colors are contrast-checked in the default
+  context only; on colored sections, wrap alerts in
+  `data-context="default"`.
+- Accessibility: static banners stay silent on purpose; opt in with
+  `role="alert"` or `role="status"` when the message follows an action.

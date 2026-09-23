@@ -1,0 +1,98 @@
+---
+title: Table
+order: 12
+---
+
+import { Table } from 'handy-ds';
+
+# Table
+
+Rows and columns of data. A styled native `<table>`: you write the markup, the
+component supplies the theme — row grounds, divider borders, header and body
+type.
+
+## Usage
+
+Use Table when the data has real columns and is compared across rows. Do not
+use it for a list, or a layout grid — use the app's own CSS. Write native
+`<thead>`, `<tbody>`, `<th>`, and `<td>` inside.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `striped` | `boolean` | `false` | Alternates even-row backgrounds with the Surface striped color. |
+| `children` | `ReactNode` | — | Native table markup: `<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>`. |
+
+All standard table attributes (`id`, `aria-*`, `className`, ...) are also
+accepted.
+
+For a sortable column, put a `<button>` inside the `th` and set
+`aria-sort="ascending"` or `"descending"` on the `th`; an arrow glyph appears
+from the sort value. Flip the value on click.
+
+## Striped
+
+`striped` alternates even rows with `hds/sem/surface/color/0/striped/bg`.
+
+<Table striped>
+  <thead><tr><th>Name</th><th>Role</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>Ada</td><td>Engineer</td><td>Active</td></tr>
+    <tr><td>Grace</td><td>Admiral</td><td>Away</td></tr>
+    <tr><td>Linus</td><td>Maintainer</td><td>Active</td></tr>
+    <tr><td>Margaret</td><td>Director</td><td>Active</td></tr>
+  </tbody>
+</Table>
+
+### striped={false}
+
+The default: every row on the same ground.
+
+<Table>
+  <thead><tr><th>Name</th><th>Role</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>Ada</td><td>Engineer</td><td>Active</td></tr>
+    <tr><td>Grace</td><td>Admiral</td><td>Away</td></tr>
+  </tbody>
+</Table>
+
+## Sortable column
+
+A `<th aria-sort>` with a `<button>` inside gets the tertiary action look and a
+sort arrow. Rows hover with the same action hover color.
+
+<Table>
+  <thead><tr><th aria-sort="ascending"><button type="button">Name</button></th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>Ada</td><td>Active</td></tr>
+    <tr><td>Grace</td><td>Away</td></tr>
+  </tbody>
+</Table>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Row ground / striped rows | `hds/sem/surface/color/0/{default,striped}/bg` |
+| Row hover | `hds/sem/action/color/tertiary/hover/bg` |
+| Cell borders | `hds/sem/divider/color/border`, `hds/sem/divider/measure/{thin,medium}-thickness` |
+| Header / body text | `hds/sem/type/color/{label,body}/fg`, `hds/sem/type/other/label/*` |
+| Cell padding | `hds/sem/input/measure/md/{padding-x,padding-y}` |
+| Sort button | `hds/sem/action/color/tertiary/{default,hover,active}/bg` |
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive — a plain styled `<table>` over native
+  `ComponentProps<'table'>`. No parts to wrap; styling is descendant rules on
+  `.hds-table`.
+- Extension decisions: `striped` is the only wrapper prop. The sortable-header
+  pattern is deliberately caller-driven (`aria-sort` + button) so the component
+  stays stateless.
+- Known constraints: cell padding borrows Input/Field measure tokens because
+  the spec has no layout-spacing tokens yet (gap 13, needs review). Row hover
+  borrows the Action tertiary hover color. Sort arrows come from `aria-sort`
+  values — the caller manages sort state.
+- Accessibility: native table semantics; `aria-sort` conveys column order. Keep
+  the sort button's label stable and announce changes through your own status
+  text if needed.

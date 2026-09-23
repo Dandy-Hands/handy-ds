@@ -1,0 +1,97 @@
+---
+title: Radio
+order: 7
+---
+
+import { Field, Fieldset, Radio, RadioGroup } from 'handy-ds';
+
+# Radio
+
+One choice out of two to five options, all visible. Renders a circular box with
+a dot as the selected mark. `RadioGroup` owns the selection and stacks the
+options.
+
+## Usage
+
+Use Radio when the user picks exactly one value from two to five options and
+they should all stay visible. Do not use it beyond about five options — use
+Select. Do not use it when several values can be picked at once — use Checkbox.
+Wrap the group in `Fieldset.Root` with a `Fieldset.Legend`, and label each
+option with `Field.Label`.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `value` | `string` | — | The value this option submits; identifies it inside the RadioGroup. |
+| `checked` / `defaultChecked` | `boolean` | — | The controlled / initial selection (managed by the RadioGroup). |
+| `onCheckedChange` | `(checked, eventDetails) => void` | — | Fires when the option is selected. |
+| `name` | `string` | — | Identifies the field on form submission. |
+| `disabled` | `boolean` | `false` | Ignores interaction and dims the option. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
+| `children` | `ReactNode` | — | Indicator content. |
+
+All standard attributes (`id`, `aria-*`, `required`, ...) are also accepted.
+
+## Checked
+
+The selected look comes from the Input/Field `checked` state:
+`hds/sem/input/color/checked/*`. The dot inherits the state's `fg`.
+
+<RadioGroup defaultValue="card">
+  <Field.Root>
+    <Fieldset.Root>
+      <Fieldset.Legend>Payment</Fieldset.Legend>
+      <Field.Item>
+        <Field.Label>
+          <Radio.Root value="card"><Radio.Indicator /></Radio.Root>
+          Card
+        </Field.Label>
+      </Field.Item>
+      <Field.Item>
+        <Field.Label>
+          <Radio.Root value="bank"><Radio.Indicator /></Radio.Root>
+          Bank transfer
+        </Field.Label>
+      </Field.Item>
+    </Fieldset.Root>
+  </Field.Root>
+</RadioGroup>
+
+## Disabled
+
+A disabled option ignores interaction and dims. The disabled **and** checked
+combination inverts the disabled colors so the mark still reads.
+
+<RadioGroup defaultValue="card">
+  <Field.Item>
+    <Field.Label>
+      <Radio.Root value="cash" disabled><Radio.Indicator /></Radio.Root>
+      Cash (unavailable)
+    </Field.Label>
+  </Field.Item>
+</RadioGroup>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Circle background, border | `hds/sem/input/color/default/{bg,border}` |
+| Checked background, dot, border | `hds/sem/input/color/checked/{bg,fg,border}` |
+| Hover / invalid / disabled borders | `hds/sem/input/color/{hover,error,disabled}/*` |
+| Group gap | `hds/sem/input/measure/sm/padding-x` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/radio` and `radio-group`; the
+  namespace is mirrored, so every prop passes through. `Root` and `Indicator`
+  are the styled parts; `RadioGroup` is a single stacked part.
+- Extension decisions: no wrapper props — the circle scales with its label
+  (`1.25em`, structural). The selected mark is a CSS dot drawn from
+  `currentColor`, not an injected glyph (the one difference from Checkbox).
+- Known constraints: the 1px border floor and the disabled + checked inversion
+  are shared with Checkbox. The group gap borrows Input/Field measure tokens
+  (layout-spacing gap 13, needs review).
+- Accessibility: the circle is a real labeled control through the wrapping
+  label; the group is named through `Fieldset.Legend` or `aria-labelledby`.
+  Arrow keys move between options.

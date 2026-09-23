@@ -1,0 +1,73 @@
+---
+title: Separator
+order: 13
+---
+
+import { Separator } from 'handy-ds';
+
+# Separator
+
+A dividing line between groups that spacing alone does not separate. Reads the
+Divider category: one color, three thicknesses.
+
+## Usage
+
+Use Separator between groups of content, and inside toolbars and menus. Do not
+use it when spacing is enough — a line is noise. Keep weights consistent within
+one surface.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `weight` | `'thin' \| 'medium' \| 'thick'` | `'thin'` | Line thickness. `thin` — default hairline. `medium` — heavier, e.g. under a table header. `thick` — strongest emphasis. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Rule direction; `vertical` stretches to the row height. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
+
+All standard attributes (`id`, `aria-*`, `className`, ...) are also accepted.
+
+## Weight
+
+The weight axis picks the Divider thickness step; the color stays the same.
+
+### weight="thin"
+
+<Separator weight="thin" />
+
+### weight="medium"
+
+<Separator weight="medium" />
+
+### weight="thick"
+
+<Separator weight="thick" />
+
+## Orientation
+
+`orientation="vertical"` turns the rule upright and stretches it to the row
+height.
+
+<div style={{ display: 'flex', alignItems: 'stretch', gap: 16, minHeight: 64 }}>
+  <span>Left</span>
+  <Separator orientation="vertical" />
+  <span>Right</span>
+</div>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Line color | `hds/sem/divider/color/border` |
+| Thickness | `hds/sem/divider/measure/{thin,medium,thick}/thickness` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/separator`; every prop passes through,
+  including `orientation` and `render`.
+- Extension decisions: `weight` (default `thin`) is the only wrapper prop; it
+  sets `data-weight`. Vertical orientation is structural — no extra tokens.
+- Known constraints: none. The line is context-passive; on-primary grounds
+  automatically get the overridden divider color.
+- Accessibility: renders with the separator role and correct semantics through
+  the underlying behavior; decorative use is hidden from assistive tech by
+  default.

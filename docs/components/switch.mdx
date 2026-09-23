@@ -1,0 +1,76 @@
+---
+title: Switch
+order: 8
+---
+
+import { Switch, Field } from 'handy-ds';
+
+# Switch
+
+An on/off control whose change takes effect the moment it flips. Renders a
+pill-shaped track with a sliding thumb. Off looks like a secondary action; on
+looks like a selected primary action.
+
+## Usage
+
+Use Switch for settings that apply immediately — a visibility flag, a
+preference toggle. Do not use it when the value is submitted with a form; use
+Checkbox. Label the switch with `Field.Label` or a wrapping `<label>`.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `checked` / `defaultChecked` | `boolean` | — | The controlled / initial state. |
+| `onCheckedChange` | `(checked, eventDetails) => void` | — | Fires when the switch is flipped. |
+| `value` | `string` | — | The value submitted with the form when the switch is on. |
+| `name` | `string` | — | Identifies the field on form submission. |
+| `disabled` | `boolean` | `false` | Ignores interaction and dims the track. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
+| `children` | `ReactNode` | — | Switch content; `Switch.Thumb` renders the sliding knob. |
+
+All standard attributes (`id`, `aria-*`, ...) are also accepted.
+
+## Checked
+
+The track reads Action tokens: secondary when off, primary `selected` when on.
+The thumb uses the matching state's `fg` and slides between the two ends.
+
+<label>
+  <Switch.Root defaultChecked><Switch.Thumb /></Switch.Root>
+  Email notifications
+</label>
+
+<label>
+  <Switch.Root><Switch.Thumb /></Switch.Root>
+  Public profile
+</label>
+
+## Disabled
+
+A disabled switch ignores interaction and dims the track and thumb.
+
+<label>
+  <Switch.Root disabled><Switch.Thumb /></Switch.Root>
+  Beta features
+</label>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Track off (default, hover, disabled) | `hds/sem/action/color/secondary/{default,hover,disabled}/{bg,border}` |
+| Track on | `hds/sem/action/color/primary/selected/{bg,border}` |
+| Thumb off / on / disabled | `hds/sem/action/color/secondary/default/fg`, `hds/sem/action/color/primary/selected/fg`, `hds/sem/action/color/secondary/disabled/fg` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/switch`; the namespace is mirrored and
+  every prop passes through. `Root` and `Thumb` are the styled parts.
+- Extension decisions: no wrapper props. The track size (`2.25em × 1.25em`),
+  pill radius (`999px`), and thumb travel (`1em`) are structural literals that
+  scale with the surrounding font size.
+- Known constraints: no invalid state — an instant setting has no form
+  validation to mirror. No size axis; the switch scales with its label.
+- Accessibility: the switch is a real labeled control through the wrapping
+  label and announces on/off state. Keyboard toggling is native.

@@ -1,0 +1,95 @@
+---
+title: Dialog
+order: 15
+---
+
+import { AlertDialog, Dialog } from 'handy-ds';
+
+# Dialog
+
+A task that blocks the page. The popup is a surface at elevation 3; a dimmed
+backdrop covers the page; focus stays inside until the dialog closes.
+`AlertDialog` is the confirm/cancel variant and cannot be dismissed by clicking
+outside.
+
+## Usage
+
+Use Dialog when the user must finish or dismiss before carrying on: edit
+forms, blocking choices. Use AlertDialog to confirm destructive actions —
+deletion, permission changes. Do not use Dialog for extra detail next to a
+trigger — use Popover.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `open` / `defaultOpen` (Root) | `boolean` | — | The controlled / initial open state. |
+| `onOpenChange` (Root) | `(open, eventDetails) => void` | — | Fires when the dialog opens or closes. |
+| `modal` (Root) | `boolean \| 'trap-focus'` | `true` | `true` traps focus, locks page scroll, and dismisses on outside press (AlertDialog never dismisses on outside press). `'trap-focus'` traps focus without locking scroll. |
+| `data-priority` (Trigger, Close) | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the trigger and close buttons. |
+| `initialFocus` / `finalFocus` (Popup) | `React.Ref` | — | Element to focus when the dialog opens / after it closes. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
+| `children` | `ReactNode` | — | Part content: backdrop, popup, title, description, close. |
+
+All standard attributes (`id`, `aria-*`, ...) are also accepted.
+
+## Open state
+
+The trigger opens the dialog; the backdrop dims the page with the Overlay
+token; Escape and the close button dismiss.
+
+<Dialog.Root>
+  <Dialog.Trigger data-priority="primary">Open dialog</Dialog.Trigger>
+  <Dialog.Portal>
+    <Dialog.Backdrop />
+    <Dialog.Popup>
+      <Dialog.Title>Edit profile</Dialog.Title>
+      <Dialog.Description>Changes apply to every workspace.</Dialog.Description>
+      <Dialog.Close>Done</Dialog.Close>
+    </Dialog.Popup>
+  </Dialog.Portal>
+</Dialog.Root>
+
+## Alert dialog
+
+`AlertDialog` blocks outside-click dismissal, so a destructive confirm always
+gets an explicit choice. Its trigger and close carry the same button look.
+
+<AlertDialog.Root>
+  <AlertDialog.Trigger data-priority="primary">Delete project</AlertDialog.Trigger>
+  <AlertDialog.Portal>
+    <AlertDialog.Backdrop />
+    <AlertDialog.Popup>
+      <AlertDialog.Title>Delete project?</AlertDialog.Title>
+      <AlertDialog.Description>This removes it for everyone.</AlertDialog.Description>
+      <AlertDialog.Close>Cancel</AlertDialog.Close>
+      <AlertDialog.Close data-priority="primary">Delete</AlertDialog.Close>
+    </AlertDialog.Popup>
+  </AlertDialog.Portal>
+</AlertDialog.Root>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Popup ground | `hds/sem/surface/color/3/default/{bg,border,shadow}`, `hds/sem/surface/measure/*` |
+| Backdrop | `hds/sem/overlay/color/bg` |
+| Trigger / Close | `hds/sem/action/color/secondary/*`, `hds/sem/action/measure/md/*` |
+| Title | `hds/sem/type/color/heading/fg`, `hds/sem/type/measure/heading/*`, `hds/sem/type/other/heading/*` |
+| Description | `hds/sem/type/color/body/fg` |
+| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/dialog` and `alert-dialog` in one
+  family; both namespaces are mirrored, and every prop passes through. The
+  popup, backdrop, and text parts are styled; Portal is a passthrough.
+- Extension decisions: no extension props. Elevation is fixed at 3 and the
+  popup width is structural (`min(32rem, calc(100vw - 2rem))`). Trigger and
+  Close carry the secondary Button look, changeable with `data-priority`.
+- Known constraints: the decisions log ("Triggers carry no styling") and the
+  shipped trigger styling disagree — this spec follows the code; reconcile one
+  side at review. The popup is centered and scrolls internally at small
+  viewport heights.
+- Accessibility: focus is trapped and restored by the underlying behavior;
+  `Title` labels the dialog. Give AlertDialog an explicit cancel and confirm.

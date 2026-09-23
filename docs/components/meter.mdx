@@ -1,0 +1,86 @@
+---
+title: Meter
+order: 20
+---
+
+import { Meter, Progress } from 'handy-ds';
+
+# Meter
+
+A value in a known range — storage used, a score — with a label, a track, a
+fill, and a formatted value. `Progress` is the task-completion sibling: same
+parts, primary fill, and an indeterminate state.
+
+## Usage
+
+Use Meter when the number means something on its own and has a known range. Do
+not use it for a task running to completion — use Progress. Pass
+`value={null}` to Progress when the duration is unknown.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `sentiment` (Meter.Root) | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | Fill color. `info` — neutral. `success` — good level. `warning` — nearing a limit. `danger` — over a limit. |
+| `value` (Root) | `number` | — | The current value. `Progress.Root` also accepts `null` (indeterminate). |
+| `min` / `max` (Root) | `number` | `0` / `100` | The range ends. |
+| `format` (Root) | `Intl.NumberFormatOptions` | — | Formats the displayed value. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
+| `children` | `ReactNode` | — | Parts: `Label`, `Value`, `Track` with `Indicator` inside. |
+
+All standard attributes (`id`, `aria-*`, ...) are also accepted.
+
+## Sentiment
+
+The sentiment picks the fill color from the Feedback category. The track stays
+the striped Surface-0 ground.
+
+### sentiment="info"
+
+<Meter.Root value={40}><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+
+### sentiment="success"
+
+<Meter.Root value={72} sentiment="success"><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+
+### sentiment="warning"
+
+<Meter.Root value={88} sentiment="warning"><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+
+### sentiment="danger"
+
+<Meter.Root value={97} sentiment="danger"><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+
+## Progress
+
+`Progress` fills with the primary action color. With `value={null}` the
+indicator slides — the indeterminate state — and freezes under
+`prefers-reduced-motion`.
+
+<Progress.Root value={40}><Progress.Label>Upload</Progress.Label><Progress.Value /><Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root>
+
+<Progress.Root value={null}><Progress.Label>Working…</Progress.Label><Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Track | `hds/sem/surface/color/0/striped/bg` |
+| Meter fill per sentiment | `hds/sem/feedback/color/{info,success,warning,danger}/icon-fg` |
+| Progress fill | `hds/sem/action/color/primary/default/bg` |
+| Label | `hds/sem/type/color/label/fg`, `hds/sem/type/measure/label/size`, `hds/sem/type/other/label/*` |
+| Value | `hds/sem/type/color/caption/fg`, `hds/sem/type/measure/caption/size` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/meter` and `progress` in one family;
+  both namespaces are mirrored. `Root`, `Label`, `Track`, `Indicator`, and
+  `Value` are the styled parts, shared between the two.
+- Extension decisions: `sentiment` on `Meter.Root` is the only wrapper prop;
+  `Progress` has none. Track height and pill radius are structural literals.
+- Known constraints: the fill borrows the Feedback `icon-fg` token for Meter —
+  the spec's own mapping (section 9). The value text uses caption tokens with
+  tabular numerals.
+- Accessibility: the value is announced with its range by the underlying
+  behavior; `aria-valuetext` / `getAriaValueText` refine the announcement.
+  Indeterminate progress communicates an unknown duration.

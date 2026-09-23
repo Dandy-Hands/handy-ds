@@ -1,0 +1,98 @@
+---
+title: NumberField
+order: 5
+---
+
+import { NumberField } from 'handy-ds';
+
+# NumberField
+
+A number input with decrement and increment steppers. The group renders as one
+Input/Field control: a − button, the value input, and a + button in a shared
+frame.
+
+## Usage
+
+Use NumberField for a quantity the user nudges up and down — seats, copies,
+minutes. Do not use it for a short known list of options; Select or Radio fits
+better there. Do not use it for a range with no exact number in mind; the
+library does not ship a slider yet.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `data-size` (Group) | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows. `md` — default. `lg` — large or hero forms. |
+| `value` / `defaultValue` | `number` | — | The controlled / initial value. |
+| `min` / `max` | `number` | — | The smallest / largest allowed value. |
+| `step` | `number \| 'any'` | `1` | Amount added or removed by the steppers and arrow keys. |
+| `onValueChange` | `(value, eventDetails) => void` | — | Fires when the value changes. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
+| `children` | `ReactNode` | — | Group content: decrement button, value input, increment button. |
+
+All standard attributes (`id`, `aria-*`, `name`, ...) are also accepted.
+
+## Size
+
+The group takes the Input/Field size axis as `data-size`. It sets height,
+padding, radius, and border width from `hds/sem/input/measure/*`. The default
+is `md`.
+
+### data-size="sm"
+
+<NumberField.Group data-size="sm">
+  <NumberField.Decrement />
+  <NumberField.Input />
+  <NumberField.Increment />
+</NumberField.Group>
+
+### data-size="md"
+
+<NumberField.Group>
+  <NumberField.Decrement />
+  <NumberField.Input />
+  <NumberField.Increment />
+</NumberField.Group>
+
+### data-size="lg"
+
+<NumberField.Group data-size="lg">
+  <NumberField.Decrement />
+  <NumberField.Input />
+  <NumberField.Increment />
+</NumberField.Group>
+
+## Disabled
+
+A disabled group keeps its footprint and takes no input.
+
+<NumberField.Group data-disabled="">
+  <NumberField.Decrement />
+  <NumberField.Input defaultValue={4} />
+  <NumberField.Increment />
+</NumberField.Group>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Group background, text, border | `hds/sem/input/color/{default,hover,focus,error,disabled}/*` |
+| Group size (height, padding, radius, border) | `hds/sem/input/measure/{sm,md,lg}/*` |
+| Group focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+| Stepper hover | `hds/sem/action/color/tertiary/hover/{bg,fg}` |
+| Value text | `hds/sem/type/other/body/*`, `hds/sem/type/measure/body/*` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/number-field`. The namespace is
+  mirrored, so `Root`, `ScrubArea`, `ScrubAreaCursor`, and `Clear` pass through
+  unstyled; `Group`, `Input`, `Decrement`, and `Increment` are styled.
+- Extension decisions: no wrapper props. The only axis is `data-size` on
+  `Group`, matching `Field.Control`. `Decrement` and `Increment` ship built-in
+  minus/plus glyphs as overridable `children` defaults — no `icon` prop.
+- Known constraints: stepper hover borrows Action tertiary colors — the one
+  deliberate cross-category read in the control look. Scrub area is unstyled;
+  add classes if a surface needs scrubbing.
+- Accessibility: the value is announced with its min/max context by the
+  underlying behavior; the steppers are real buttons with accessible names.
+  Label the field with `Field.Label` in a `Field.Root`.

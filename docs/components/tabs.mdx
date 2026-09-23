@@ -1,0 +1,106 @@
+---
+title: Tabs
+order: 10
+---
+
+import { Tabs, Text } from 'handy-ds';
+
+# Tabs
+
+Switches between views in the same place. Tab triggers are tertiary actions; a
+sliding indicator marks the active tab. Panels are transparent and inherit the
+surrounding colors.
+
+## Usage
+
+Use Tabs when several panels share one region and only one shows at a time —
+overview/details/reviews, settings sections. Do not use them when the panels
+are separate pages, or when several panels may be open at once — use Accordion.
+Panels carry no styling, so put `Text` roles or components inside them.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `value` / `defaultValue` (Root) | `any` | — | The controlled / initial active tab. |
+| `onValueChange` (Root) | `(value, eventDetails) => void` | — | Fires when the active tab changes. |
+| `orientation` (Root) | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the list and panels. |
+| `activationMode` (Root) | `'automatic' \| 'manual'` | `'automatic'` | `automatic` activates on arrow-key focus; `manual` needs Enter or Space. |
+| `value` (Tab) | `any` | — | Identifies the tab; matches the panel's `value`. |
+| `disabled` (Tab) | `boolean` | `false` | Ignores interaction on the tab. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element, e.g. `render={<a href />}` on a Tab. |
+| `children` | `ReactNode` | — | Part content. |
+
+All standard attributes (`id`, `aria-*`, ...) are also accepted.
+
+## Selected
+
+The active tab takes the Action tertiary `selected` colors, and the indicator
+fills with `hds/sem/action/color/primary/selected/bg`. Arrow keys move between
+tabs and activate immediately by default.
+
+<Tabs.Root defaultValue="one">
+  <Tabs.List>
+    <Tabs.Tab value="one">Overview</Tabs.Tab>
+    <Tabs.Tab value="two">Details</Tabs.Tab>
+    <Tabs.Tab value="three">Reviews</Tabs.Tab>
+    <Tabs.Indicator />
+  </Tabs.List>
+  <Tabs.Panel value="one"><Text>Overview panel.</Text></Tabs.Panel>
+  <Tabs.Panel value="two"><Text>Details panel.</Text></Tabs.Panel>
+  <Tabs.Panel value="three"><Text>Reviews panel.</Text></Tabs.Panel>
+</Tabs.Root>
+
+## Orientation
+
+`orientation="vertical"` flips the list to a rail and the indicator to the
+side. The list edge uses Divider tokens in both directions.
+
+<Tabs.Root defaultValue="one" orientation="vertical">
+  <Tabs.List>
+    <Tabs.Tab value="one">Overview</Tabs.Tab>
+    <Tabs.Tab value="two">Details</Tabs.Tab>
+    <Tabs.Indicator />
+  </Tabs.List>
+  <Tabs.Panel value="one"><Text>Overview panel.</Text></Tabs.Panel>
+  <Tabs.Panel value="two"><Text>Details panel.</Text></Tabs.Panel>
+</Tabs.Root>
+
+## Disabled
+
+A disabled tab keeps its place in the row and takes no input.
+
+<Tabs.Root defaultValue="one">
+  <Tabs.List>
+    <Tabs.Tab value="one">Overview</Tabs.Tab>
+    <Tabs.Tab value="two" disabled>Details</Tabs.Tab>
+    <Tabs.Indicator />
+  </Tabs.List>
+  <Tabs.Panel value="one"><Text>Overview panel.</Text></Tabs.Panel>
+</Tabs.Root>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Tab look and states | `hds/sem/action/color/tertiary/{default,hover,active,focus,selected,disabled}/{bg,border,fg}` |
+| Tab padding and radius | `hds/sem/action/measure/md/{padding-x,padding-y,radius}` |
+| List edge | `hds/sem/divider/color/border`, `hds/sem/divider/measure/thin-thickness` |
+| Indicator fill | `hds/sem/action/color/primary/selected/bg` |
+| Indicator thickness | `hds/sem/divider/measure/medium-thickness` |
+| Panel | none — no tokens |
+| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/tabs`; the namespace is mirrored and
+  every prop passes through. `Root`, `List`, `Tab`, `Indicator`, and `Panel`
+  are the styled parts.
+- Extension decisions: no extension props. `Tab` pins to Action tertiary with
+  `md` measure — only Button opens the size axis. The panel deliberately has no
+  category (gap 5 decision): no tokens, no chrome.
+- Known constraints: the indicator animates `left/width/top/height`; position
+  variables come from the underlying behavior. Panels inherit the page ground —
+  a panel on a colored section keeps that section's colors.
+- Accessibility: tabs follow the WAI-ARIA tabs pattern through the underlying
+  behavior; the indicator is decorative. Keep one panel per tab value.

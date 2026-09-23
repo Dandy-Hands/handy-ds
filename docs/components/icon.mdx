@@ -1,0 +1,99 @@
+---
+title: Icon
+order: 14
+---
+
+import { Icon } from 'handy-ds';
+
+# Icon
+
+Wraps an SVG so it takes an icon role color and a size. The SVG must use
+`currentColor` for its stroke or fill; the box defaults to the surrounding font
+size.
+
+## Usage
+
+Use Icon for any icon; the SVG draws with `currentColor`. Do not use it for
+content images — use `<img>`. Omit `variant` inside a Button or Alert so the
+icon matches the text around it. Give `label` to an icon that carries meaning
+on its own.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `variant` | `'default' \| 'secondary' \| 'accent'` | inherits the surrounding text color | Role color. `default` — normal icon color. `secondary` — muted. `accent` — brand accent. |
+| `size` | `string` | the surrounding font size | Any CSS length, e.g. `'1.5em'`. |
+| `label` | `string` | none — the icon is hidden from assistive tech | Accessible name for an icon that carries meaning on its own. |
+
+All standard attributes (`id`, `aria-*`, `className`, ...) are also accepted.
+
+## Variant
+
+The role picks the Icon color token. Without a variant the icon keeps
+`currentColor` and matches its surroundings — the right choice inside buttons
+and alerts.
+
+### variant="default"
+
+<Icon variant="default" label="Star">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2l3 7 7 .6-5.3 4.7 1.6 7L12 17.8 5.7 21.3l1.6-7L2 9.6 9 9z" /></svg>
+</Icon>
+
+### variant="secondary"
+
+<Icon variant="secondary" label="Star">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2l3 7 7 .6-5.3 4.7 1.6 7L12 17.8 5.7 21.3l1.6-7L2 9.6 9 9z" /></svg>
+</Icon>
+
+### variant="accent"
+
+<Icon variant="accent" label="Star">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2l3 7 7 .6-5.3 4.7 1.6 7L12 17.8 5.7 21.3l1.6-7L2 9.6 9 9z" /></svg>
+</Icon>
+
+### variant unset
+
+Follows the surrounding text color.
+
+<span style={{ color: 'var(--hds-sem-action-color-primary-default-fg)' }}>
+  <Icon label="Star">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2l3 7 7 .6-5.3 4.7 1.6 7L12 17.8 5.7 21.3l1.6-7L2 9.6 9 9z" /></svg>
+  </Icon>
+</span>
+
+## Size
+
+`size` takes any CSS length and sets the box. The default is the surrounding
+font size.
+
+<Icon variant="accent" size="1.25em" label="Small star">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2l3 7 7 .6-5.3 4.7 1.6 7L12 17.8 5.7 21.3l1.6-7L2 9.6 9 9z" /></svg>
+</Icon>
+
+<Icon variant="accent" size="2em" label="Large star">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2l3 7 7 .6-5.3 4.7 1.6 7L12 17.8 5.7 21.3l1.6-7L2 9.6 9 9z" /></svg>
+</Icon>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| `variant="default"` | `hds/sem/icon/color/default/fg` |
+| `variant="secondary"` | `hds/sem/icon/color/secondary/fg` |
+| `variant="accent"` | `hds/sem/icon/color/accent/fg` |
+| Unset variant | inherits `currentColor` — no token read |
+| Size | structural `--_size` (default `1em`) |
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive — a plain span wrapper. There is no
+  icon component to wrap; the icon artwork always comes from the caller.
+- Extension decisions: `variant`, `size`, and `label` are the whole surface.
+  Size deliberately has no measure token (spec section 7); it rides a private
+  custom property and defaults to the text size.
+- Known constraints: the SVG must draw with `currentColor` — a hard-coded
+  `stroke` or `fill` ignores the theme.
+- Accessibility: `label` makes the icon an image with a name; without it the
+  icon is decorative and hidden from assistive tech. Never rely on an unlabeled
+  icon as the only control affordance.

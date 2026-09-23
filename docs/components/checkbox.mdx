@@ -1,0 +1,121 @@
+---
+title: Checkbox
+order: 6
+---
+
+import { Checkbox, CheckboxGroup, Field } from 'handy-ds';
+
+# Checkbox
+
+A yes/no control, or one of several picked from a few options. Renders a square
+box with a built-in check glyph; a dash appears when the box is
+`indeterminate`.
+
+## Usage
+
+Use Checkbox when the value is submitted with a form, or when several options
+can be picked at once. Do not use it for a setting that applies the moment it
+changes — use Switch. Label every checkbox with `Field.Label` or a wrapping
+`<label>`.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `checked` / `defaultChecked` | `boolean` | — | The controlled / initial tick state. |
+| `indeterminate` | `boolean` | `false` | Shows a dash: the box stands for a partly selected set. |
+| `onCheckedChange` | `(checked, eventDetails) => void` | — | Fires when the box is ticked or unticked. |
+| `value` | `string` | — | The value submitted with the form when checked. |
+| `name` | `string` | — | Identifies the field on form submission. |
+| `disabled` | `boolean` | `false` | Ignores interaction and dims the box. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
+| `children` | `ReactNode` | — | Indicator content; the built-in check and dash glyphs can be overridden. |
+
+All standard attributes (`id`, `aria-*`, `required`, ...) are also accepted.
+
+## Checked
+
+The checked look comes from the Input/Field `checked` state:
+`hds/sem/input/color/checked/*`. The mark inherits the state's `fg`.
+
+<Field.Root>
+  <Field.Label>
+    <Checkbox.Root defaultChecked>
+      <Checkbox.Indicator />
+    </Checkbox.Root>
+    Subscribe
+  </Field.Label>
+</Field.Root>
+
+## Indeterminate
+
+`indeterminate` shows a dash instead of the check. Use it on a parent box that
+stands for a partly selected set.
+
+<Field.Root>
+  <Field.Label>
+    <Checkbox.Root indeterminate>
+      <Checkbox.Indicator />
+    </Checkbox.Root>
+    Some selected
+  </Field.Label>
+</Field.Root>
+
+## Disabled
+
+A disabled box ignores interaction and dims. A disabled **and** checked box
+inverts the disabled colors so the mark still reads.
+
+<Field.Root disabled>
+  <Field.Label>
+    <Checkbox.Root defaultChecked>
+      <Checkbox.Indicator />
+    </Checkbox.Root>
+    Disabled checked
+  </Field.Label>
+</Field.Root>
+
+## Group
+
+`CheckboxGroup` stacks boxes vertically with shared spacing. Pick several
+options from a few.
+
+<CheckboxGroup defaultValue={['email']}>
+  <Field.Root>
+    <Field.Label>
+      <Checkbox.Root value="email"><Checkbox.Indicator /></Checkbox.Root>
+      Email me
+    </Field.Label>
+  </Field.Root>
+  <Field.Root>
+    <Field.Label>
+      <Checkbox.Root value="sms"><Checkbox.Indicator /></Checkbox.Root>
+      Text me
+    </Field.Label>
+  </Field.Root>
+</CheckboxGroup>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Box background, border | `hds/sem/input/color/default/{bg,border}` |
+| Checked background, mark, border | `hds/sem/input/color/checked/{bg,fg,border}` |
+| Hover / invalid / disabled borders | `hds/sem/input/color/{hover,error,disabled}/*` |
+| Box radius | `hds/sem/input/measure/md/radius` (halved) |
+| Group gap | `hds/sem/input/measure/sm/padding-x` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/checkbox` and `checkbox-group`; the
+  namespace is mirrored, so every prop passes through. `Root` and `Indicator`
+  are the styled parts.
+- Extension decisions: no wrapper props — the box scales with its label
+  (`1.25em`, structural). `Indicator` ships built-in check and dash glyphs as
+  overridable `children` defaults.
+- Known constraints: the border has a 1px floor so an unchecked box stays
+  visible when the input border driver is `none`. Disabled + checked inverts
+  the disabled colors on purpose. The group gap borrows Input/Field measure
+  tokens (layout-spacing gap 13, needs review).
+- Accessibility: the box is a real labeled control through the wrapping label;
+  `indeterminate` is conveyed by the underlying behavior. Label every box.

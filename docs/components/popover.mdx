@@ -1,0 +1,89 @@
+---
+title: Popover
+order: 16
+---
+
+import { Popover } from 'handy-ds';
+
+# Popover
+
+Extra information or small controls anchored to a trigger. The popup is a
+surface at elevation 2, positioned next to its trigger; the page behind stays
+usable.
+
+## Usage
+
+Use Popover for secondary content: definitions, small forms, help text. Do not
+use it for a list of commands — use Menu. Do not use it when the user must read
+or act before continuing — use Dialog.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `open` / `defaultOpen` (Root) | `boolean` | — | The controlled / initial open state. |
+| `onOpenChange` (Root) | `(open, eventDetails) => void` | — | Fires when the popover opens or closes. |
+| `modal` (Root) | `boolean \| 'trap-focus'` | `false` | Non-modal by default: the page behind stays usable. Set `true` to block outside interaction. |
+| `data-priority` (Trigger) | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the trigger button. |
+| `side` / `align` / `sideOffset` (Positioner) | — | — | Placement relative to the trigger and the gap from it. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
+| `children` | `ReactNode` | — | Part content: positioner, popup, title, description. |
+
+All standard attributes (`id`, `aria-*`, ...) are also accepted.
+
+## Open state
+
+The trigger opens the popover; the popup anchors to it. Escape, outside
+press, or a `Close` part dismisses.
+
+<Popover.Root>
+  <Popover.Trigger>Notifications</Popover.Trigger>
+  <Popover.Portal>
+    <Popover.Positioner sideOffset={8}>
+      <Popover.Popup>
+        <Popover.Title>Notifications</Popover.Title>
+        <Popover.Description>You are all caught up.</Popover.Description>
+      </Popover.Popup>
+    </Popover.Positioner>
+  </Popover.Portal>
+</Popover.Root>
+
+## Non-modal
+
+A popover never blocks the page by default: click outside, and it dismisses
+while the page keeps working. This is the difference from Dialog.
+
+<Popover.Root>
+  <Popover.Trigger data-priority="tertiary">What's this?</Popover.Trigger>
+  <Popover.Portal>
+    <Popover.Positioner sideOffset={4}>
+      <Popover.Popup>Billing happens on the 1st of each month.</Popover.Popup>
+    </Popover.Positioner>
+  </Popover.Portal>
+</Popover.Root>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Popup ground | `hds/sem/surface/color/2/default/{bg,border,shadow}`, `hds/sem/surface/measure/*` |
+| Backdrop (when rendered) | `hds/sem/overlay/color/bg` |
+| Trigger | `hds/sem/action/color/secondary/*`, `hds/sem/action/measure/md/*` |
+| Close | `hds/sem/action/color/tertiary/*` |
+| Title | `hds/sem/type/color/label/fg`, `hds/sem/type/measure/label/*`, `hds/sem/type/other/label/*` |
+| Description | `hds/sem/type/color/body/fg` |
+| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/popover`; the namespace is mirrored
+  and every prop passes through. `Trigger`, `Backdrop`, `Positioner`, `Popup`,
+  `Title`, `Description`, and `Close` are the styled parts.
+- Extension decisions: no extension props. Elevation fixed at 2; popup
+  max-width structural (`min(24rem, var(--available-width))`). `Close` pins
+  tertiary; the trigger keeps the secondary button look, changeable with
+  `data-priority` (same decisions-vs-code flag as Dialog).
+- Known constraints: hover-open (`openOnHover`, `delay`, `closeDelay`) works
+  through passthrough but is undocumented; document it if a surface needs it.
+- Accessibility: the popup is labeled by `Title` and announced on open. Escape
+  closes; focus returns to the trigger.

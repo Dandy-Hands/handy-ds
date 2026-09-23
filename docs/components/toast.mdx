@@ -1,0 +1,67 @@
+---
+title: Toast
+order: 19
+---
+
+import { Button, Toast, Toaster } from 'handy-ds';
+
+# Toast
+
+A short-lived message after an action: a stacked notification in a fixed
+bottom-right viewport, colored by its `type`.
+
+## Usage
+
+Use Toast to confirm something that happened, with nothing for the user to do.
+Do not use it when the user must read or act on the message — use Alert or
+Dialog. Wrap the app in `Toast.Provider` once, render `<Toaster />` once, then
+call `Toast.useToastManager().add(...)` from anywhere.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `type` (via `add`) | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | The toast's color and tone. `info` — neutral notice. `success` — confirmed. `warning` — act soon. `danger` — problem. |
+| `title` (via `add`) | `ReactNode` | — | Short heading of the toast. |
+| `description` (via `add`) | `ReactNode` | — | Detail below the title. |
+| `timeout` (via `add` or `Provider`) | `number` | `5000` | Milliseconds before auto-dismiss; `0` keeps the toast until dismissed. |
+| `limit` (Provider) | `number` | `3` | Maximum toasts shown at once; extras hide until space frees. |
+| `actionProps` (via `add`) | button props | — | Props for the toast's action button. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
+| `children` | `ReactNode` | — | Part content. |
+
+All standard attributes (`id`, `aria-*`, ...) are also accepted.
+
+## Type
+
+The toast's `type` is its sentiment. `Toaster` maps it to the Feedback colors;
+`info` is the default.
+
+<Toast.Provider>
+  <ToastDemo />
+  <Toaster />
+</Toast.Provider>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Toast block per sentiment | `hds/sem/feedback/color/{info,success,warning,danger}/{bg,fg,border}` |
+| Depth | `hds/sem/surface/color/2/default/shadow` |
+| Padding, radius, gap, border width | `hds/sem/feedback/measure/*` |
+| Action | `hds/sem/action/color/secondary/*`, `hds/sem/action/measure/md/*` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/toast`; the namespace is mirrored, so
+  `Provider`, `Portal`, and the manager hook all pass through. `Toaster` is a
+  handy-ds component that renders the viewport from the manager.
+- Extension decisions: no extension props. The `type` sent to `add()` carries
+  the sentiment (default `info`). `Close` ships an X glyph with
+  `aria-label="Close"`. The viewport is a simple stacked list — no swipe or
+  stack animation.
+- Known constraints: the toast adds a Surface elevation-2 shadow on top of its
+  Feedback colors — a deliberate cross-category borrow for depth. Timeout and
+  limit keep Base UI's defaults.
+- Accessibility: toasts announce through the underlying live-region behavior
+  (`priority: 'low' | 'high'` on the toast object). The close button is labeled.

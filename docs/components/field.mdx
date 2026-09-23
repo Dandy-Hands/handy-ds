@@ -1,0 +1,119 @@
+---
+title: Field
+order: 4
+---
+
+import { Field, Fieldset, Form, Input } from 'handy-ds';
+
+# Field
+
+One labelled form value: label, control, description, and error, wired together
+for assistive tech. `Fieldset` groups related fields. `Form` validates and
+submits. Bare `Input` is a text input without a Field wrapper.
+
+## Usage
+
+Use the full Field set for any labelled text entry: `Field.Root` wraps one
+value, and the label, description and error attach to the control
+automatically. Do not use bare `Input` when a visible label exists — use
+`Field.Control`, which renders the same input with the wiring included. Use
+bare `Input` only when the control has no visible label, and give it an
+`aria-label`.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `size` (Input only) | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows and compact layouts. `md` — default. `lg` — large or hero forms. `Field.Control` takes the same axis as `data-size`. |
+| `invalid` (Field.Root) | `boolean` | — | Marks the field and its control, description and error with `data-invalid`. |
+| `match` (Field.Error) | `boolean \| ValidityState key` | — | Shows the error when the control's validity matches. `valueMissing` — empty required field. `typeMismatch` — wrong format, e.g. an email. `true` — always show. |
+| `onSubmit` (Form) | `(event: FormEvent) => void` | — | Fires when the form submits. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
+| `children` | `ReactNode` | — | Label, control, description and error content. |
+
+All standard attributes (`id`, `aria-*`, `name`, `placeholder`, `required`, ...)
+are also accepted on the control parts.
+
+## Size
+
+The size axis on `Input` and `Field.Control`. It sets height, padding, radius,
+and border width from `hds/sem/input/measure/*`. `Field.Control` defaults to
+`md`; give it `data-size` to match a neighbouring `Input`.
+
+### size="sm"
+
+<Input size="sm" placeholder="Compact input" />
+
+### size="md"
+
+<Input placeholder="Default input" />
+
+### size="lg"
+
+<Input size="lg" placeholder="Large input" />
+
+## Invalid
+
+`invalid` on `Field.Root` drives the error look: the control takes the error
+border and colors, and `Field.Error` shows its message when the validity
+matches.
+
+<Field.Root invalid>
+  <Field.Label>Email</Field.Label>
+  <Field.Control defaultValue="not-an-email" />
+  <Field.Error match>Enter a valid email.</Field.Error>
+</Field.Root>
+
+## Description and error
+
+`Field.Description` renders caption type below the control. `Field.Error`
+renders in the danger feedback color and is read out with the control.
+
+<Form onSubmit={(e) => e.preventDefault()}>
+  <Field.Root>
+    <Field.Label>Name</Field.Label>
+    <Field.Control placeholder="Jane Doe" />
+    <Field.Description>As it appears on your ID.</Field.Description>
+  </Field.Root>
+</Form>
+
+## Fieldset and Form
+
+`Fieldset.Root` groups related fields under a `Fieldset.Legend`. `Form` wires
+validation and submit. Their gaps borrow Input/Field measure tokens, so they
+scale with density.
+
+<Form onSubmit={(e) => e.preventDefault()}>
+  <Fieldset.Root>
+    <Fieldset.Legend>Payment</Fieldset.Legend>
+    <Field.Root><Field.Label>Name on card</Field.Label><Field.Control /></Field.Root>
+  </Fieldset.Root>
+</Form>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Control background, text, border | `hds/sem/input/color/{default,hover,focus,error,disabled}/*` |
+| Control size (height, padding, radius, border) | `hds/sem/input/measure/{sm,md,lg}/*` |
+| Group focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+| Label | `hds/sem/type/color/label/fg`, `hds/sem/type/measure/label/*`, `hds/sem/type/other/label/*` |
+| Description | `hds/sem/type/color/caption/fg`, `hds/sem/type/measure/caption/*`, `hds/sem/type/other/caption/*` |
+| Error text | `hds/sem/feedback/color/danger/fg` |
+| Field gap / Form gap | `hds/sem/input/measure/sm/padding-y`, `hds/sem/input/measure/lg/padding-x` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/field`, `field/set`, `form`, and
+  `input`; namespaces are mirrored so the underlying docs apply part for part.
+  Every part passes props through, `render` included.
+- Extension decisions: `size` on `Input` is the only wrapper prop;
+  `Field.Control` takes `data-size` instead so the part stays prop-free. No
+  extension props on `Field`, `Fieldset`, or `Form`.
+- Known constraints: layout gaps borrow Input/Field measure tokens because the
+  spec has no layout-spacing tokens yet (gap 13, needs review). Error text
+  contrast is checked in the default context only — forms inside colored
+  sections need a `data-context="default"` container (gap 14, needs review).
+- Accessibility: label, description, and error are wired to the control by the
+  underlying Field behavior. Error text uses the danger feedback color, which
+  is contrast-checked in the default context.

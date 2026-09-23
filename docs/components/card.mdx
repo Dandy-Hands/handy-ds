@@ -1,0 +1,90 @@
+---
+title: Card
+order: 11
+---
+
+import { Card, Text } from 'handy-ds';
+
+# Card
+
+A box of related content on a surface ground: background, border, shadow,
+radius, and padding at a chosen elevation. Renders a `div` by default.
+
+## Usage
+
+Use Card to group content that belongs together on a page: a settings block, a
+product summary, a dashboard tile. Do not use it when the content only needs
+spacing — use the app's own layout CSS. Pick the lowest elevation that
+separates the card from its ground.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `elevation` | `0 \| 1 \| 2 \| 3` | `1` | Surface level. `0` — flat, on the page ground. `1` — default card. `2` — raised, e.g. over other content. `3` — topmost, modal surfaces. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element, e.g. `render={<article />}`, without changing the look. |
+| `children` | `ReactNode` | — | Card content. |
+
+All standard attributes (`id`, `aria-*`, `className`, ...) are also accepted.
+
+## Elevation
+
+The elevation axis picks the Surface color triple: background, border, and
+shadow rise together.
+
+### elevation={0}
+
+Flat — the page ground's color, no lift.
+
+<Card elevation={0}><Text>Elevation zero</Text></Card>
+
+### elevation={1}
+
+The default card.
+
+<Card elevation={1}><Text>Elevation one</Text></Card>
+
+### elevation={2}
+
+Raised over other content.
+
+<Card elevation={2}><Text>Elevation two</Text></Card>
+
+### elevation={3}
+
+Topmost — dialogs use this level.
+
+<Card elevation={3}><Text>Elevation three</Text></Card>
+
+## Inside a colored section
+
+A Card re-resolves with its section. Put `data-context="default"` on the card
+to restore normal colors inside a hero or other colored ground.
+
+<section data-section="hero">
+  <Card data-context="default">
+    <Text>Normal colors, restored.</Text>
+  </Card>
+</section>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Ground (per elevation) | `hds/sem/surface/color/{0,1,2,3}/default/{bg,border,shadow}` |
+| Padding, radius, border width | `hds/sem/surface/measure/{padding,radius,border-width}` |
+| Content text color | `hds/sem/type/color/body/fg` |
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive — a single-part `useRender` component
+  with the same `render` semantics as Base UI parts.
+- Extension decisions: `elevation` (0–3, default 1) is the only wrapper prop;
+  it sets `data-elevation`. There is no padding or radius prop — those are
+  theme-owned.
+- Known constraints: the card is context-passive by design. An
+  always-reset-to-default behavior inside colored sections was considered and
+  rejected (needs-review entry in the decisions log); the explicit
+  `data-context="default"` attribute won.
+- Accessibility: the card is a plain landmark-less container — give it
+  `aria-label` or a heading inside when it stands alone.
