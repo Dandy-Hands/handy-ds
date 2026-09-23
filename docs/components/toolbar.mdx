@@ -1,0 +1,66 @@
+---
+title: Toolbar
+order: 12
+---
+
+import { Toolbar } from 'handy-ds';
+
+# Toolbar
+
+A bar of controls for a region — buttons, links, a small input, and
+separators — with arrow-key navigation between them. Each part borrows its own
+category's look: tertiary action buttons, a small Input/Field control, a
+divider.
+
+## Usage
+
+Use Toolbar for a control strip that acts on a region: an editor bar, a
+bulk-action strip over a table. Do not use it for site navigation — that is
+NavigationMenu.
+
+## Parts
+
+Buttons and links are Action `tertiary` and keep the default control size. The
+input is pinned to size `sm` so it sits level with the buttons. The separator
+is the shared Divider look. Group related controls with `Toolbar.Group`.
+
+<Toolbar.Root>
+  <Toolbar.Button>Cut</Toolbar.Button>
+  <Toolbar.Button>Copy</Toolbar.Button>
+  <Toolbar.Separator />
+  <Toolbar.Button>Paste</Toolbar.Button>
+  <Toolbar.Separator />
+  <Toolbar.Input placeholder="Search" />
+</Toolbar.Root>
+
+## Groups
+
+`Toolbar.Group` clusters related controls so keyboard users traverse them as
+one stop in the bar's arrow-key navigation.
+
+<Toolbar.Root aria-label="Text formatting">
+  <Toolbar.Group>
+    <Toolbar.Button>Bold</Toolbar.Button>
+    <Toolbar.Button>Italic</Toolbar.Button>
+    <Toolbar.Button>Underline</Toolbar.Button>
+  </Toolbar.Group>
+  <Toolbar.Separator />
+  <Toolbar.Link href="#help">Help</Toolbar.Link>
+</Toolbar.Root>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Button / Link colors | `hds/sem/action/color/tertiary/*` |
+| Button / Link measure | `hds/sem/action/measure/md/*` |
+| Input | `hds/sem/input/color/*`, `hds/sem/input/measure/sm/*` |
+| Separator | `hds/sem/divider/color/border`, `hds/sem/divider/measure/{weight}/thickness` |
+| Bar gap / layout | shared toggle-group layout gap from `hds/sem/action/measure/*` |
+
+## Owner notes
+
+- Base UI mapping: wraps the Base UI toolbar namespace part for part (`{ ...BaseToolbar, Button: part(...), ... }`); every unrestyled part passes through and Base UI's docs apply one for one.
+- Extension decisions: no handy-ds props — each part composes its own category's tokens (buttons Action tertiary, input Input/Field `sm`, separator Divider); the bar itself carries no color tokens.
+- Known constraints: only `Toolbar.Input` has a pinned size; buttons keep the Action default, so an all-`lg` toolbar needs per-button attributes. Don't reuse it as site navigation.
+- Accessibility: arrow keys move focus between parts (skipping disabled ones), and `Toolbar.Group` clusters related controls for screen-reader traversal. The focus ring comes from the shared Focus tokens.
