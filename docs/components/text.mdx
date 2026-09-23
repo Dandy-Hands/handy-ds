@@ -1,0 +1,118 @@
+---
+title: Text
+order: 2
+---
+
+import { Text } from 'handy-ds';
+
+# Text
+
+Applies a typography role — display, heading, body, label, or caption — to a run
+of text and renders the right element by default. Roles decide intent (color,
+family, weight, rhythm); an optional per-role `size` step picks within the
+role's band.
+
+## Usage
+
+Use Text for any free-standing text run in a client app: hero copy, headings,
+body copy, labels, captions — on both web pages and app screens.
+Do not use it inside interactive controls, which already style their own text;
+and do not treat it as a heading-level picker — pick the role by purpose and the
+heading level by document structure (`render={<h2 />}`).
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `variant` | `'display' \| 'heading' \| 'body' \| 'label' \| 'caption'` | `'body'` | Typography role. `display` — hero and marketing statements. `heading` — section and card titles. `body` — default reading text. `label` — short UI text such as field labels and meta. `caption` — small supporting text below body weight. |
+| `size` | `1 \| 2 \| 3` | — | Size step within the role's band. `1` — the role's smallest. `2` — the role's default. `3` — the role's largest. Unset renders the role default. Steps pair across roles: Display 1 with Body 1 is a designed pairing. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element, e.g. `render={<h3 />}`, without changing the look. |
+| `children` | `ReactNode` | — | Text content. Inline emphasis uses `<strong>` and `<em>`; animated spans take client CSS. |
+
+All standard attributes (`id`, `aria-*`, `className`, ...) are also accepted.
+
+## Variant
+
+The role decides intent — color, family, weight, leading, and tracking. The
+element defaults by role (display `h1`, heading `h2`, body `p`, label `span`,
+caption `small`).
+
+### display
+
+Hero and marketing statements. Renders `h1`.
+
+<Text variant="display">Ship faster with zero rewrites</Text>
+
+### heading
+
+Section and card titles. Renders `h2`.
+
+<Text variant="heading">Plan overview</Text>
+
+### body
+
+Default reading text. Renders `p`.
+
+<Text>The goal of typography is to make reading effortless.</Text>
+
+### label
+
+Short UI text such as field labels and meta. Renders `span`.
+
+<Text variant="label">Drivers</Text>
+
+### caption
+
+Small supporting text below body weight. Renders `small`.
+
+<Text variant="caption">Last updated 2026-09-22</Text>
+
+## Size
+
+The `size` axis picks a step inside the role's band. `1` is the role's smallest,
+`3` its largest; unset and `2` render the role default. Step numbers pair across
+roles by theme design — Display 1 with Body 1 is a designed pairing. Leading and
+tracking stay the role's own; only font size moves within a band.
+
+### size={1}
+
+<Text variant="display" size={1}>Display one</Text>
+<Text variant="body" size={1}>Body one pairs with Display one.</Text>
+
+### size={2}
+
+Same as unset — the role default.
+
+<Text variant="display" size={2}>Display default (2)</Text>
+<Text variant="body" size={2}>Body default (2)</Text>
+
+### size={3}
+
+<Text variant="display" size={3}>Display three</Text>
+<Text variant="body" size={3}>Body three.</Text>
+
+## Inline emphasis
+
+No `weight` prop — emphasize words with plain `<strong>`, `<em>`, or `<span>`
+inside `children`. Browser defaults handle emphasis; animated spans take client
+CSS.
+
+<Text variant="display">
+  Ship <strong>faster</strong> with <em>zero</em> rewrites
+</Text>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Role color | `hds/sem/type/color/{role}/fg` |
+| Role size / rhythm | `hds/sem/type/measure/{role}/size`, `.../line-height`, `.../letter-spacing` |
+| Size steps (`size` set) | `hds/sem/type/measure/{role}/{step}/size`, `.../line-height`, `.../letter-spacing` (step ∈ 1–3, all emitted; step 2 duplicates the role-level values) |
+| Role face | `hds/sem/type/other/{role}/font-family`, `.../weight` |
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive — single-part `useRender` component with the same `render` semantics as Base UI parts.
+- Extension decisions: `size` (1–3 per role) is new; steps pair across roles by theme design; `weight` was explicitly rejected — inline emphasis is plain HTML with browser defaults.
+- Known constraints: the size-step segment required a `checkTokenName()` extension (`OPTIONAL_SEGMENT`, only for `type/measure`) and a Theme Map band table (`TYPE_BANDS`, scale steps 1–9). Per-step leading/tracking are constant per role — if a display-3 headline reads too tight, add per-step leading values to the band emission.
+- Accessibility: context-passive — type fg tokens re-resolve from an ancestor's `data-context="on-primary"` or `data-section` overrides, so contrast holds wherever the component lands; the component itself adds no handling. Keep heading levels in document order via `render`.
