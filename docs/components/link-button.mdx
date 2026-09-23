@@ -1,0 +1,69 @@
+---
+title: LinkButton
+order: 2
+---
+
+import { LinkButton } from 'handy-ds';
+
+# LinkButton
+
+A link that looks like a Button. LinkButton takes navigation ("View all",
+"Read the docs", calls to action) and dresses it in the Action category's
+visuals without pretending it is a button.
+
+## Usage
+
+Use LinkButton when the control moves the user to another page or view but
+should read as an action, like a "View all" link or a marketing CTA. Do not
+use it for in-place actions (submit, save, open a dialog) — that is Button's
+job. Do not use a real Button with `href` instead; an `<a>` is the correct
+semantics for navigation, and Button's `loading` state would make no sense.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'primary'` | Visual weight. `primary` — the view's main action. `secondary` — supporting actions next to the main one. `tertiary` — low-weight inline actions. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense toolbars and compact layouts. `md` — default. `lg` — hero and marketing contexts. |
+| `href` | `string` | — | Destination URL, passed to the rendered `<a>`. |
+| `target` / `rel` / `aria-*` | — | — | Standard link attributes pass through. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element or composes with another component. |
+| `children` | `ReactNode` | — | Label content. Icons go here — pair with the `Icon` component. |
+
+## Priority
+
+Same axis as Button, same token sets. Primary for the strongest CTA, tertiary
+for quiet inline links that should still read as clickable.
+
+<LinkButton href="#" priority="primary">View all reports</LinkButton>
+<LinkButton href="#" priority="secondary">View all reports</LinkButton>
+<LinkButton href="#" priority="tertiary">View all reports</LinkButton>
+
+## Size
+
+Same axis as Button, so a LinkButton sits flush next to a Button in one bar.
+
+<LinkButton href="#" size="sm">Read the docs</LinkButton>
+<LinkButton href="#" size="md">Read the docs</LinkButton>
+<LinkButton href="#" size="lg">Read the docs</LinkButton>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Background, border, text | `hds/sem/action/color/{priority}/{default,hover,active,focus,selected}/{bg,border,fg}` |
+| Padding, radius, gap | `hds/sem/action/measure/{sm,md,lg}/...` |
+| Label type | `hds/sem/type/measure/label/*`, `hds/sem/type/other/label/*` |
+| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive — built on `useRender` + `mergeProps`,
+  so it takes the same `render` prop as Base UI parts.
+- Extension decisions: it exists because a link must stay an `<a>`; it shares
+  Button's `priority`/`size` axes and the whole Action look. It has no
+  `loading` or `fullWidth` — links navigate, they don't run actions.
+- Known constraints: never render it as a `<button>` via `render`; Base UI
+  forbids that composition.
+- Accessibility: native `<a>` semantics (middle-click, open-in-new-tab, screen
+  reader link role) are preserved; the focus ring comes from the base layer.

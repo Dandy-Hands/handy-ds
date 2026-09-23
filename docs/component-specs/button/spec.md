@@ -1,6 +1,6 @@
 # Button — Internal Spec
 
-- Status: reviewed
+- Status: docs-built
 - Date: 2026-09-21
 - Interview: `interview-guide-2026-09-21.md`
 - Base UI version documented from: `@base-ui/react` 1.8.0 (`@base-ui/react/button`)

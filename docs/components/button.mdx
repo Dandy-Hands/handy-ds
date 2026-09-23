@@ -7,26 +7,95 @@ import { Button } from 'handy-ds';
 
 # Button
 
-The primary control for triggering an action.
+The primary control for triggering an action. Button covers every action the
+user takes in place: submit, save, confirm, open, cancel. It is the Action
+category's reference part, themed entirely by semantic tokens.
 
 ## Usage
 
-Use a button when the user needs to submit, confirm, or start an action.
-Do not use a button for navigation; use a link instead.
+Use a button when the user acts in place: submitting a form, saving, opening a
+dialog, confirming a destructive choice. Use one primary button per view and
+mark the rest secondary or tertiary. Do not use a button for navigation — use
+LinkButton. Do not put button styling on Dialog or Menu triggers; a trigger's
+look depends on what renders it, and triggers ship unstyled on purpose.
 
-## Live example
+## Props
 
-<Button>Save changes</Button>
-<Button data-context="on-primary">On primary</Button>
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'primary'` | Visual weight. `primary` — the view's main action. `secondary` — supporting actions next to the main one. `tertiary` — low-weight inline actions. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense toolbars and compact layouts. `md` — default. `lg` — hero and marketing contexts. |
+| `loading` | `boolean` | `false` | Shows a spinner, sets `aria-busy="true"`, and blocks clicks while the action runs. |
+| `fullWidth` | `boolean` | `false` | Stretches to the full width of its container. |
+| `disabled` | `boolean` | — | Makes the button visible but inert. |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Set `submit` to submit a form. |
+| `onClick` | `(event: MouseEvent) => void` | — | Fires when the button is activated. Event handlers, ids, and refs appear here only. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element or composes with another component. |
+| `children` | `ReactNode` | — | Label content. Icons go here — pair with the `Icon` component. |
+
+## Priority
+
+The visual weight axis. It picks the `hds/sem/action/color/{priority}/*` set:
+primary is filled, secondary is outlined, tertiary is borderless.
+
+<Button priority="primary">Save changes</Button>
+<Button priority="secondary">Save changes</Button>
+<Button priority="tertiary">Save changes</Button>
+
+## Size
+
+The size axis, shared with Input/Field controls so rows of controls line up.
+It sets padding, radius, and gap from `hds/sem/action/measure/*`.
+
+<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>
+
+## Disabled
+
+A disabled button keeps its footprint but takes no input. `action.css` styles
+it from the `disabled` state tokens of the current priority.
+
+<Button disabled>Save changes</Button>
+<Button priority="secondary" disabled>Save changes</Button>
+
+## Loading
+
+While `loading`, the button shows a spinner, sets `aria-busy="true"`, and
+blocks clicks (it is disabled, so the disabled tokens apply). Icons are not a
+prop — put an `Icon` in children and it inherits the button's color.
+
+<Button loading>Saving…</Button>
+<Button loading priority="secondary">Uploading…</Button>
+
+## Full width
+
+`fullWidth` stretches the button to its container. It is structural — no token
+is involved.
+
+<Button fullWidth>Save changes</Button>
 
 ## Anatomy
 
-- A button has a label and optional leading/trailing icons.
-- It supports `variant`, `size`, `disabled`, and `loading` states.
-- The visual style maps to the Action semantic tokens.
+| Part | Semantic token |
+| ---- | -------------- |
+| Background, border, text | `hds/sem/action/color/{priority}/{default,hover,active,focus,disabled,selected}/{bg,border,fg}` |
+| Padding, radius, gap | `hds/sem/action/measure/{sm,md,lg}/...` |
+| Label type | `hds/sem/type/measure/label/*`, `hds/sem/type/other/label/*` |
+| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+| Spinner | reuses the state fg token via `currentColor` |
 
 ## Owner notes
 
-- Wraps Base UI `Button`.
-- Extension props include `loading` and `variant` values beyond Base UI's defaults.
-- The `data-context="on-primary"` override is honored for surfaces placed on the primary color.
+- Base UI mapping: wraps `@base-ui/react/button`; every native prop passes
+  through, including `aria-*` and `render`. `nativeButton` and callback-form
+  `className`/`style` work but are undocumented edge cases.
+- Extension decisions: `priority` and `size` set data attributes the CSS maps
+  to tokens; `loading` and `fullWidth` are new; LinkButton moved to its own
+  component. `type="button"` is the default so plain buttons never submit.
+- Known constraints: triggers (`Dialog.Trigger`, `Menu.Trigger`, ...) do not
+  look like Buttons by default — style them deliberately if you want that.
+  Only Button opens the size axis among Action parts.
+- Accessibility: native button semantics and focus ring are free. The spinner
+  is `aria-hidden`; loading state is announced through `aria-busy`. Spinner
+  animation stops under `prefers-reduced-motion`.

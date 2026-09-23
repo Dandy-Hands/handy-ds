@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 import mdx from '@mdx-js/rollup';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
+import remarkGfm from 'remark-gfm';
 import path from 'node:path';
 
 const __dirname = import.meta.dirname;
@@ -11,7 +12,7 @@ export default defineConfig({
   root: __dirname,
   plugins: [
     react(),
-    mdx({ remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter] }),
+    mdx({ remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkGfm] }),
   ],
   resolve: {
     alias: {
