@@ -1,0 +1,132 @@
+---
+title: Toast
+order: 6
+---
+
+import { Button, Toast, Toaster } from 'handy-ds';
+
+export function ToastDemo({ type, title, description }) {
+  const toast = Toast.useToastManager();
+  return (
+    <Button
+      priority="secondary"
+      onClick={() => toast.add({ title, description, type })}
+    >
+      Add {type} toast
+    </Button>
+  );
+}
+
+# Toast
+
+A short-lived message confirming something that happened, with nothing for
+the user to do. Wrap the app once in `Toast.Provider` and render `<Toaster />`;
+from anywhere, `Toast.useToastManager().add({ title, description, type })`
+raises one. A toast's `type` is its sentiment.
+
+## Usage
+
+Use Toast for save confirmations, copy successes, and background-task
+outcomes. Do not use it when the user must read or act on the message — use
+Alert for persistent messages or Dialog for blocking ones.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `title` | `ReactNode` | — | `add()` option. The bold first line. |
+| `description` | `ReactNode` | — | `add()` option. Supporting text under the title. |
+| `type` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | The toast's sentiment. `info` — neutral confirmation. `success` — the action worked. `warning` — it worked, but read this. `danger` — something failed. |
+| `timeout` | `number` | `5000` | Ms before auto-dismiss; `0` never dismisses. |
+| `priority` | `'low' \| 'high'` | `'low'` | Announcement urgency. `low` — polite. `high` — urgent. |
+| `limit` | `number` | — | `Provider` only. Maximum toasts shown at once. |
+| `onClick` | `(event) => void` | — | `Toast.Action` only. Fires when the action button is clicked. |
+
+No handy-ds props: toasts are raised through `add()`, not JSX props.
+
+## Type
+
+The sentiment axis. `type` is passed to `add()` and becomes the toast's
+`data-sentiment`, which picks the Feedback color set. There is no `sentiment`
+prop — `type` is the single source of truth.
+
+Each demo below has its own `Toast.Provider` so the fired toast stays on
+screen next to its button.
+
+### info
+
+Neutral confirmation. The default when `type` is omitted.
+
+<Toast.Provider>
+  <ToastDemo type="info" title="Copied to clipboard" />
+  <Toaster />
+</Toast.Provider>
+
+### success
+
+The action worked.
+
+<Toast.Provider>
+  <ToastDemo type="success" title="Saved" description="All changes are up to date." />
+  <Toaster />
+</Toast.Provider>
+
+### warning
+
+It worked, but the user should read this.
+
+<Toast.Provider>
+  <ToastDemo type="warning" title="Draft saved" description="It has not been published yet." />
+  <Toaster />
+</Toast.Provider>
+
+### danger
+
+Something failed or was destructive.
+
+<Toast.Provider>
+  <ToastDemo type="danger" title="Upload failed" description="Try again in a minute." />
+  <Toaster />
+</Toast.Provider>
+
+## Timeout
+
+`timeout` controls auto-dismiss; the default is 5 seconds and `0` pins the
+toast until closed. Set it per toast in `add()` or app-wide on
+`Toast.Provider`.
+
+<Toast.Provider timeout={0}>
+  <ToastDemo type="info" title="Pinned" description="This one never auto-dismisses." />
+  <Toaster />
+</Toast.Provider>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Toast frame colors (per `type`) | `hds/sem/feedback/color/{info,success,warning,danger}/{bg,fg,border,icon-fg}` |
+| Toast frame padding, radius, gap, border | `hds/sem/feedback/measure/*` |
+| Title weight | `hds/sem/type/other/label/weight` |
+| Elevation shadow | `hds/sem/surface/color/2/default/shadow` |
+| Close button radius | `hds/sem/action/measure/md/radius` |
+| Action button | `hds/sem/action/*` |
+| Viewport | no tokens — fixed position and structural width only |
+
+## Owner notes
+
+- Base UI mapping: `Toast` spreads the whole toast primitive namespace
+  (`src/components/Toast.tsx`); `Toaster` is a ready-made renderer over
+  `Portal > Viewport > Root > Content + Close`, so most apps never touch the
+  raw parts. Custom renderers can compose them directly.
+- Extension decisions: `type` doubles as the sentiment axis (`data-sentiment`
+  on each Root) — no separate `sentiment` prop. `Toaster` ships a simple
+  stacked viewport with a fade/rise transition, deliberately without swipe or
+  stack animation. `Toast.Close` comes with a built-in X icon and
+  `aria-label="Close"`.
+- Known constraints: toasts render in a portal, so page-level
+  `data-context`/`data-section` overrides do not restyle them. The viewport is
+  fixed bottom-end with a 22rem max width — structural, not themeable.
+- Accessibility: toasts pause their timers on hover/focus and are announced
+  through a live region (polite by default; `priority: 'high'` announces
+  urgently). Focus moves sensibly on open/close. Toasts auto-dismiss in 5
+  seconds — never put required reading in one.

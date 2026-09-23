@@ -1,0 +1,137 @@
+---
+title: Toggle
+order: 4
+---
+
+import { Toggle, ToggleGroup } from 'handy-ds';
+
+# Toggle
+
+A button that stays pressed until pressed again. `ToggleGroup` is a row of
+Toggles that manages single- or multiple-selection. Both are Action-category
+parts: a pressed toggle uses the Action `selected` colors.
+
+## Usage
+
+Use Toggle for formatting controls (bold, italic), filters, and picking one or
+several from a few options that are all visible. Do not use it when the change
+applies immediately to a preference — use Switch — or for more than about five
+options — use Select.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `pressed` | `boolean` | — | Controlled pressed state of a standalone Toggle. |
+| `defaultPressed` | `boolean` | `false` | Uncontrolled initial pressed state. |
+| `onPressedChange` | `(pressed, eventDetails) => void` | — | Fires when a Toggle is pressed or released. |
+| `value` | `string` | — | Identifies a Toggle inside a ToggleGroup. |
+| `value` / `defaultValue` (group) | `string[]` | — | The pressed values of a ToggleGroup. |
+| `onValueChange` | `(groupValue, eventDetails) => void` | — | Fires when the group's pressed set changes. |
+| `multiple` | `boolean` | `false` | `false` — at most one pressed. `true` — any number pressed. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Row vs column layout and arrow-key direction. |
+| `loopFocus` | `boolean` | `true` | Arrow keys wrap in the group. |
+| `disabled` | `boolean` | `false` | Visible but inert. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
+| `children` | `ReactNode` | — | Label content. |
+
+All standard attributes are accepted. There are no handy-ds props: the look is
+Action `secondary` by default and `data-priority` changes the weight.
+
+## Priority
+
+The visual weight axis, shared with Button. Toggle defaults to the Action
+`secondary` look; set `data-priority` per instance to move it. There is no
+`priority` prop — the attribute is the API on purpose.
+
+### data-priority unset (secondary)
+
+<ToggleGroup defaultValue={['b']}>
+  <Toggle value="b">Bold</Toggle>
+  <Toggle value="i">Italic</Toggle>
+</ToggleGroup>
+
+### data-priority="primary"
+
+<Toggle data-priority="primary" defaultPressed>Enabled</Toggle>
+
+### data-priority="tertiary"
+
+<Toggle data-priority="tertiary" defaultPressed>Pinned</Toggle>
+
+## Pressed
+
+A pressed toggle renders `data-pressed` and takes the Action `selected`
+colors. Control it with `pressed` / `defaultPressed` / `onPressedChange`.
+
+<Toggle defaultPressed>Pressed</Toggle>
+<Toggle>Not pressed</Toggle>
+
+## Multiple
+
+A `ToggleGroup` is a radio row by default (`multiple` unset or `false`: at
+most one pressed). With `multiple`, it behaves like a checkbox row.
+
+### single
+
+<ToggleGroup defaultValue={['day']}>
+  <Toggle value="day">Day</Toggle>
+  <Toggle value="week">Week</Toggle>
+  <Toggle value="month">Month</Toggle>
+</ToggleGroup>
+
+### multiple
+
+<ToggleGroup multiple defaultValue={['email']}>
+  <Toggle value="email">Email</Toggle>
+  <Toggle value="sms">SMS</Toggle>
+  <Toggle value="push">Push</Toggle>
+</ToggleGroup>
+
+## Orientation
+
+`orientation` lays the group out as a row or a column and sets the arrow-key
+direction.
+
+<ToggleGroup orientation="vertical" defaultValue={['left']}>
+  <Toggle value="left">Left</Toggle>
+  <Toggle value="center">Center</Toggle>
+  <Toggle value="right">Right</Toggle>
+</ToggleGroup>
+
+## Disabled
+
+A disabled Toggle keeps its footprint and takes no input; the disabled tokens
+of its priority apply.
+
+<Toggle disabled>Off</Toggle>
+<Toggle defaultPressed disabled>Locked on</Toggle>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Toggle look (all states incl. pressed) | `hds/sem/action/color/{priority}/{default,hover,active,focus,disabled,selected}/{bg,fg,border}` |
+| Toggle padding, radius, border | `hds/sem/action/measure/md/*` (size pinned to `md`) |
+| ToggleGroup gap | `hds/sem/action/measure/md/gap` |
+| Label type | `hds/sem/type/measure/label/*`, `hds/sem/type/other/label/*` |
+| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+
+## Owner notes
+
+- Base UI mapping: `Toggle` wraps `@base-ui/react/toggle`, `ToggleGroup` wraps
+  `@base-ui/react/toggle-group` — one file, `src/components/Toggle.tsx`. Every
+  part and prop passes through unchanged, so the upstream docs apply part for
+  part.
+- Extension decisions: deliberately none. No `priority` prop (set
+  `data-priority` per instance), no `size` axis (pinned to `md` like every
+  non-Button Action part), no `loading`. The pressed state rides Base UI's
+  `data-pressed`, which the shared Action CSS maps to the `selected` tokens —
+  the same mapping Tabs and Select options use.
+- Known constraints: a group manages its children by `value`, so every Toggle
+  in a group needs a stable one. Single-selection groups can return to zero
+  pressed (click the active toggle to unpress) — for a required choice use
+  Select or Radio.
+- Accessibility: native button semantics, `aria-pressed` on standalone Toggles
+  and roving-tabindex arrow-key navigation in groups come from the underlying
+  primitives. The focus ring is the shared Focus category ring.

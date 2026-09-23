@@ -1,0 +1,142 @@
+---
+title: NumberField
+order: 5
+---
+
+import { NumberField } from 'handy-ds';
+
+# NumberField
+
+A number input with steppers: the shared Input/Field control look with minus
+and plus buttons that nudge the value by a step. Clamps, formatting, and
+locale-aware parsing are built in.
+
+## Usage
+
+Use NumberField for a quantity the user nudges up and down — counts, amounts,
+sizes — with `min`/`max` clamps and `format` for currency or units. Do not use
+it when no exact number is in mind and any value in a range will do; the
+library does not ship a slider yet, so a plain Input is the interim answer.
+
+## Props
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `data-size` (Group) | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows. `md` — default. `lg` — hero and marketing forms. |
+| `value` / `defaultValue` | `number` | — | Controlled / initial value. |
+| `min` / `max` | `number` | — | Clamp range; out-of-range values are flagged. |
+| `step` | `number \| 'any'` | `1` | Stepper and arrow-key amount; `'any'` allows decimals. |
+| `smallStep` / `largeStep` | `number` | `0.1` / `10` | Fine and coarse step amounts. |
+| `format` | `Intl.NumberFormatOptions` | — | Display format: currency, percent, units. |
+| `locale` | `Intl.LocalesArgument` | browser locale | Parsing and formatting locale. |
+| `onValueChange` | `(value, eventDetails) => void` | — | Fires while the value changes. |
+| `onValueCommitted` | `(value, eventDetails) => void` | — | Fires on commit (blur, Enter). |
+| `disabled` | `boolean` | `false` | Visible but inert. |
+| `readOnly` | `boolean` | `false` | Not editable, still focusable. |
+| `required` | `boolean` | `false` | Marks the field required. |
+| `name` / `form` | `string` | — | Form field name and owning form. |
+
+All standard attributes are accepted. The steppers ship with built-in minus
+and plus icons; pass different `children` to swap them.
+
+## Size
+
+The size axis lives on `NumberField.Group` as `data-size`, shared with
+Input/Field controls so rows of controls line up. It drives height, padding,
+radius, and border width.
+
+### data-size="sm"
+
+<NumberField.Root defaultValue={2}>
+  <NumberField.Group data-size="sm">
+    <NumberField.Decrement />
+    <NumberField.Input />
+    <NumberField.Increment />
+  </NumberField.Group>
+</NumberField.Root>
+
+### data-size="md"
+
+<NumberField.Root defaultValue={2}>
+  <NumberField.Group data-size="md">
+    <NumberField.Decrement />
+    <NumberField.Input />
+    <NumberField.Increment />
+  </NumberField.Group>
+</NumberField.Root>
+
+### data-size="lg"
+
+<NumberField.Root defaultValue={2}>
+  <NumberField.Group data-size="lg">
+    <NumberField.Decrement />
+    <NumberField.Input />
+    <NumberField.Increment />
+  </NumberField.Group>
+</NumberField.Root>
+
+## Steps and clamps
+
+`step` sets the amount the steppers add; `min` and `max` clamp the range and
+flag out-of-range values. `format` renders currency, percent, or units while
+keeping the typed value numeric.
+
+<NumberField.Root defaultValue={2} min={0} max={10}>
+  <NumberField.Group>
+    <NumberField.Decrement />
+    <NumberField.Input />
+    <NumberField.Increment />
+  </NumberField.Group>
+</NumberField.Root>
+
+<NumberField.Root
+  defaultValue={9.99}
+  min={0}
+  format={{ style: 'currency', currency: 'USD' }}
+>
+  <NumberField.Group>
+    <NumberField.Decrement />
+    <NumberField.Input />
+    <NumberField.Increment />
+  </NumberField.Group>
+</NumberField.Root>
+
+## Disabled
+
+A disabled field keeps its footprint and takes no input; the Input/Field
+disabled tokens apply to the whole frame, steppers included.
+
+<NumberField.Root defaultValue={4} disabled>
+  <NumberField.Group>
+    <NumberField.Decrement />
+    <NumberField.Input />
+    <NumberField.Increment />
+  </NumberField.Group>
+</NumberField.Root>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Group frame (all states) | `hds/sem/input/color/{default,hover,focus,error,disabled}/{bg,fg,border,placeholder-fg}` |
+| Group height, padding, radius, border | `hds/sem/input/measure/{sm,md,lg}/*` |
+| Group type | `hds/sem/type/measure/body/*`, `hds/sem/type/other/body/*` |
+| Stepper hover | `hds/sem/action/color/tertiary/hover/{bg,fg}` |
+| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+
+## Owner notes
+
+- Base UI mapping: wraps the whole number-field primitive namespace
+  (`src/components/NumberField.tsx`) — `Root`, `Group`, `Input`, `Decrement`,
+  `Increment` plus the unstyled `ScrubArea` parts and hooks, so upstream
+  additions appear automatically.
+- Extension decisions: only one — `Group` carries the Input/Field `data-size`
+  axis (default `md`). Steppers get built-in minus/plus icons as default
+  `children`. No other handy-ds props; `format`/`locale` cover currency and
+  units.
+- Known constraints: the look is entirely the shared `.hds-control` rules in
+  `control.css`, so it can never drift from Input. Scrub-area parts are
+  structural only — no styling was specced for them.
+- Accessibility: the frame shows one focus ring around the whole group while
+  the inner input keeps native number semantics; arrow keys step, Page
+  Up/Down coarse-step, and the steppers are real buttons with labels.
