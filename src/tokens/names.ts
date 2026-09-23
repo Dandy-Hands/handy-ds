@@ -9,6 +9,7 @@ export const SIZE = ['sm', 'md', 'lg'];
 export const ELEVATION = ['0', '1', '2', '3'];
 export const SURFACE_STATE = ['default', 'striped'];
 export const TYPE_ROLE = ['display', 'heading', 'body', 'label', 'caption'];
+export const TYPE_SIZE = ['1', '2', '3']; // per-role size steps: 1 = smallest, 2 = role default, 3 = largest
 export const ICON_ROLE = ['default', 'secondary', 'accent'];
 export const WEIGHT = ['thin', 'medium', 'thick'];
 export const SENTIMENT = ['danger', 'warning', 'success', 'info'];
@@ -53,6 +54,10 @@ const SEM: Record<string, Record<string, string[][]>> = {
   },
 };
 
+// Segment slot lists are exact; a category/type listed in OPTIONAL_SEGMENT also accepts
+// one extra middle segment from that set. Currently only Type's size steps (spec gap).
+const OPTIONAL_SEGMENT: Record<string, readonly string[]> = { 'type/measure': TYPE_SIZE };
+
 // Shape check only. The full primitive list is whatever resolvePrimitives() emits;
 // tokens.test.ts asserts every emitted name passes this and never depends on driver values.
 const PRIM_TYPES = ['color', 'space', 'radius', 'border', 'type', 'shadow'];
@@ -76,11 +81,25 @@ export function checkTokenName(name: string): string | null {
     if (!Object.hasOwn(SEM, category)) return `unknown category "${category}"`;
     if (!Object.hasOwn(SEM[category], type)) return `category "${category}" has no type "${type}"`;
     const slots = SEM[category][type];
-    if (segments.length !== slots.length) {
-      return `expected ${slots.length} segment(s) after "${category}/${type}", got ${segments.length}`;
+    const optional = OPTIONAL_SEGMENT[`${category}/${type}`];
+    const extra = segments.length - slots.length;
+    if (extra === 0) {
+      const i = segments.findIndex((s, i) => !slots[i].includes(s));
+      return i === -1 ? null : `"${segments[i]}" not allowed here (expected ${slots[i].join('|')})`;
     }
-    const i = segments.findIndex((s, i) => !slots[i].includes(s));
-    return i === -1 ? null : `"${segments[i]}" not allowed here (expected ${slots[i].join('|')})`;
+    if (extra === 1 && optional) {
+      if (!slots[0].includes(segments[0])) {
+        return `"${segments[0]}" not allowed here (expected ${slots[0].join('|')})`;
+      }
+      if (!optional.includes(segments[1])) {
+        return `"${segments[1]}" not allowed here (expected ${optional.join('|')})`;
+      }
+      const last = slots.length - 1;
+      return slots[last].includes(segments[2])
+        ? null
+        : `"${segments[2]}" not allowed here (expected ${slots[last].join('|')})`;
+    }
+    return `expected ${slots.length}${optional ? ` or ${slots.length + 1}` : ''} segment(s) after "${category}/${type}", got ${segments.length}`;
   }
 
   return 'layer must be "prim" or "sem"';

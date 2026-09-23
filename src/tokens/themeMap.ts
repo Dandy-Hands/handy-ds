@@ -71,6 +71,14 @@ const INPUT: StateTable = {
 };
 
 const TYPE_COLOR = { display: 'neutral/950', heading: 'neutral/950', body: 'neutral/800', label: 'neutral/900', caption: 'neutral/700' };
+// Scale step per size step (1/2/3). The middle entry must equal the role's default scale step.
+const TYPE_BANDS: Record<string, [number, number, number]> = {
+  display: [7, 8, 9],
+  heading: [5, 6, 7],
+  body: [2, 3, 4],
+  label: [2, 3, 4],
+  caption: [1, 2, 3],
+};
 const ICON_COLOR = { default: 'neutral/800', secondary: 'neutral/600', accent: 'accent/600' };
 
 // ---------- on-primary context ----------
@@ -175,6 +183,17 @@ export function themeMap(d: Drivers): ThemeMap {
       'letter-spacing': p(`type/tracking/${tracking}`),
     });
     put(m, `type/other/${role}`, { 'font-family': p(`type/family/${family}`), weight });
+    // Size steps (Text size prop): role-relative band, 1 = smallest, 2 = the role default
+    // above, 3 = largest. Step values repeat the role's leading/tracking for now; only
+    // font size moves within a band. Step-2 tokens duplicate the role-level values by design.
+    const band = TYPE_BANDS[role as keyof typeof TYPE_BANDS];
+    for (const step of [1, 2, 3]) {
+      put(m, `type/measure/${role}/${step}`, {
+        size: p(`type/scale/${band[step - 1]}`),
+        'line-height': p(`type/leading/${leading}`),
+        'letter-spacing': p(`type/tracking/${tracking}`),
+      });
+    }
   }
 
   // ICON

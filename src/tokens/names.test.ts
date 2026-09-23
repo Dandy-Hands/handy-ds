@@ -84,6 +84,9 @@ test('every spec example name is valid', () => {
   const examples = [
     ...DEMO_SEM,
     'hds/sem/action/measure/sm/padding-x', // Button size axis, section 4
+    'hds/sem/type/measure/heading/1/size', // Text size steps (2026-09-22 spec gap)
+    'hds/sem/type/measure/body/2/size',
+    'hds/sem/type/measure/display/3/line-height',
     'hds/sem/action/measure/lg/padding-x',
     'hds/sem/action/color/tertiary/hover/bg', // Data Table, section 9
     'hds/sem/action/color/primary/selected/bg', // Switch, Tabs, Toggle
@@ -109,6 +112,10 @@ test('invalid names are rejected', () => {
     'hds/sem/action/color/quaternary/default/bg', // unknown priority
     'hds/sem/action/measure/padding-x', // action measure needs a size segment
     'hds/sem/action/measure/xl/padding-x', // unknown size
+    'hds/sem/type/measure/heading/4/size', // unknown size step (only 1–3)
+    'hds/sem/type/measure/heading/1/bogus', // unknown property
+    'hds/sem/type/color/heading/1/fg', // color has no size steps
+    'hds/sem/type/other/heading/1/weight', // other has no size steps
     'hds/sem/input/measure/xl/height', // unknown size
     'hds/sem/constructor/color/bg', // prototype key
     'hds/prim/colour/primary/600', // unknown primitive type

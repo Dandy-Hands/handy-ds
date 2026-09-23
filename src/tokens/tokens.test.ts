@@ -35,7 +35,7 @@ test('Theme Map covers every token in spec section 7 grammar', () => {
   assert.equal(count('action'), 3 * 6 * 3 + 3 * 5);
   assert.equal(count('input'), 6 * 4 + 3 * 5);
   assert.equal(count('surface'), 4 * 2 * 3 + 3);
-  assert.equal(count('type'), 5 * (1 + 3 + 2));
+  assert.equal(count('type'), 5 * (1 + 3 + 2 + 3 * 3)); // role tokens + 3 size steps × 3 measure props
   assert.equal(count('icon'), 3);
   assert.equal(count('divider'), 1 + 3);
   assert.equal(count('feedback'), 4 * 4 + 4);

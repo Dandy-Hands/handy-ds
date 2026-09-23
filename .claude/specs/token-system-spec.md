@@ -129,7 +129,7 @@ A category's `other` list is empty unless that category has a value not covered 
 
 Axis applies to a type only where it produces a distinct value for that type:
 - Color: varies by priority, sentiment, elevation, role, state.
-- Measure: varies by sizing axes only (Action's and Input's size).
+- Measure: varies by sizing axes only (Action's and Input's size, Type's optional size step).
 - Drop unused axis/state segments.
 
 ---
@@ -151,7 +151,7 @@ Axis applies to a type only where it produces a distinct value for that type:
 
 **Type**
 - Color: `hds/sem/type/color/{role}/{property}` — fg
-- Measure: `hds/sem/type/measure/{role}/{property}` — size, line-height, letter-spacing
+- Measure: `hds/sem/type/measure/{role}/[{step}]/{property}` — size, line-height, letter-spacing. `{step}` (1–3) is optional: unset and 2 read the role-level tokens (the role default); 1 is the role's smallest size, 3 its largest. All three steps are emitted; step numbers pair across roles by theme design. Step weights stay role-level.
 - Other: `hds/sem/type/other/{role}/{property}` — font-family, weight
 
 **Icon**
