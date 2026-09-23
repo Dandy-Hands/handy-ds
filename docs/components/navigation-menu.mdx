@@ -1,0 +1,77 @@
+---
+title: NavigationMenu
+order: 11
+---
+
+import { NavigationMenu } from 'handy-ds';
+
+# NavigationMenu
+
+Site navigation with dropdown panels: a horizontal list of triggers, each
+opening a popup of destination links that share one animated viewport.
+Triggers and links are Action tertiary; the current page renders in the
+selected state.
+
+## Usage
+
+Use NavigationMenu for the top-level navigation of a site. Do not use it for
+commands — that is Menu — and do not build app-style menu rows with it — that
+is Menubar.
+
+## Links
+
+Triggers and links are Action `tertiary`. A plain `Link` sits directly in the
+list; a `Trigger` opens a `Content` page of links. Mark the current page's
+link with `active` — it renders in the selected state.
+
+export function NavMenuDemo() {
+  return (
+    <NavigationMenu.Root>
+      <NavigationMenu.List>
+        <NavigationMenu.Item>
+          <NavigationMenu.Trigger>
+            Products
+            <NavigationMenu.Icon />
+          </NavigationMenu.Trigger>
+          <NavigationMenu.Content>
+            <NavigationMenu.Link href="#widgets">Widgets</NavigationMenu.Link>
+            <NavigationMenu.Link href="#gadgets">Gadgets</NavigationMenu.Link>
+            <NavigationMenu.Link href="#kits">Kits</NavigationMenu.Link>
+          </NavigationMenu.Content>
+        </NavigationMenu.Item>
+        <NavigationMenu.Item>
+          <NavigationMenu.Link href="#pricing">Pricing</NavigationMenu.Link>
+        </NavigationMenu.Item>
+        <NavigationMenu.Item>
+          <NavigationMenu.Link href="#docs" active>Docs</NavigationMenu.Link>
+        </NavigationMenu.Item>
+      </NavigationMenu.List>
+      <NavigationMenu.Portal>
+        <NavigationMenu.Positioner sideOffset={8}>
+          <NavigationMenu.Popup>
+            <NavigationMenu.Viewport />
+          </NavigationMenu.Popup>
+        </NavigationMenu.Positioner>
+      </NavigationMenu.Portal>
+    </NavigationMenu.Root>
+  );
+}
+
+<NavMenuDemo />
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Trigger / link colors | `hds/sem/action/color/tertiary/*` (incl. `selected` for the current page) |
+| List gap | `hds/sem/action/measure/md/gap` |
+| Popup background / border / shadow | `hds/sem/surface/color/2/*` |
+| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+| Backdrop | `hds/sem/overlay/color/bg` |
+
+## Owner notes
+
+- Base UI mapping: wraps the Base UI navigation-menu namespace part for part (`{ ...BaseNavigationMenu, Trigger: part(...), ... }`); every unrestyled part passes through and Base UI's docs apply one for one.
+- Extension decisions: triggers and links are pinned to Action tertiary with the trigger icon (chevron) and rotation built in; the popup rides the shared viewport so pages animate width/height between triggers.
+- Known constraints: the popup must assemble as `Portal > Positioner > Popup > Viewport`. Popup sizing follows the primitive's CSS sizing variables — panel widths come from the content, not a prop. `Content` pages carry no color tokens; they inherit type and ground.
+- Accessibility: hover, focus, and arrow-key navigation between triggers come from the wrapped primitive; `active` is announced as the current page. Popup transitions stop under `prefers-reduced-motion`.

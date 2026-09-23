@@ -1,0 +1,137 @@
+---
+title: Menu
+order: 10
+---
+
+import { Menu, ContextMenu, Menubar } from 'handy-ds';
+
+# Menu
+
+A list of commands behind a trigger: actions, links, checkbox and radio
+choices, submenus, and separators. Items are Action tertiary buttons in a
+Surface popup; nothing is visible until asked for. The family ships three
+shapes: `Menu` (trigger menu), `ContextMenu` (right-click), and `Menubar`
+(app-style row).
+
+## Usage
+
+Use Menu for commands that act and do not need to be visible until asked for —
+row actions, editor commands, app menus. Do not use it when the user is
+choosing a value for a form; that is Select. Do not use it for site
+navigation; that is NavigationMenu, whose links go to destinations.
+
+## Trigger
+
+The trigger renders as a secondary Button. Pass `data-priority="tertiary"` to
+lighten it — required inside a `Menubar`, where a row of secondary buttons
+would shout.
+
+<Menu.Root>
+  <Menu.Trigger>Actions</Menu.Trigger>
+  <Menu.Portal>
+    <Menu.Positioner>
+      <Menu.Popup>
+        <Menu.Item onClick={() => {}}>Duplicate</Menu.Item>
+        <Menu.Item onClick={() => {}}>Rename…</Menu.Item>
+        <Menu.Separator />
+        <Menu.Item onClick={() => {}}>Delete</Menu.Item>
+      </Menu.Popup>
+    </Menu.Positioner>
+  </Menu.Portal>
+</Menu.Root>
+
+## Item kinds
+
+Items are Action tertiary. Beyond plain items: `LinkItem` navigates,
+`CheckboxItem` toggles with a trailing check, `RadioItem` picks one of a group
+with a trailing dot, `SubmenuTrigger` opens a nested menu, `GroupLabel` names a
+group as caption text, and `Separator` draws a divider.
+
+export function MenuKindsDemo() {
+  return (
+    <Menu.Root>
+      <Menu.Trigger>View</Menu.Trigger>
+      <Menu.Portal>
+        <Menu.Positioner>
+          <Menu.Popup>
+            <Menu.GroupLabel>Sort by</Menu.GroupLabel>
+            <Menu.RadioItem value="name">Name<Menu.RadioItemIndicator /></Menu.RadioItem>
+            <Menu.RadioItem value="date">Date<Menu.RadioItemIndicator /></Menu.RadioItem>
+            <Menu.Separator />
+            <Menu.CheckboxItem defaultChecked>
+              Autosave
+              <Menu.CheckboxItemIndicator />
+            </Menu.CheckboxItem>
+          </Menu.Popup>
+        </Menu.Positioner>
+      </Menu.Portal>
+    </Menu.Root>
+  );
+}
+
+<MenuKindsDemo />
+
+## Context menu
+
+`ContextMenu.Trigger` wraps an area — it is not a button — and opens the same
+popup on right-click or long-press.
+
+<ContextMenu.Trigger
+  style={{
+    padding: '1rem',
+    border: '1px dashed currentColor',
+    borderRadius: '8px',
+  }}
+>
+  Right-click this area
+</ContextMenu.Trigger>
+
+## Menubar
+
+`Menubar` lays out `Menu.Root`s in an app-style row. Give every trigger
+`data-priority="tertiary"`.
+
+<Menubar>
+  <Menu.Root>
+    <Menu.Trigger data-priority="tertiary">File</Menu.Trigger>
+    <Menu.Portal>
+      <Menu.Positioner>
+        <Menu.Popup>
+          <Menu.Item>New</Menu.Item>
+          <Menu.Item>Open…</Menu.Item>
+        </Menu.Popup>
+      </Menu.Positioner>
+    </Menu.Portal>
+  </Menu.Root>
+  <Menu.Root>
+    <Menu.Trigger data-priority="tertiary">Edit</Menu.Trigger>
+    <Menu.Portal>
+      <Menu.Positioner>
+        <Menu.Popup>
+          <Menu.Item>Cut</Menu.Item>
+          <Menu.Item>Copy</Menu.Item>
+        </Menu.Popup>
+      </Menu.Positioner>
+    </Menu.Portal>
+  </Menu.Root>
+</Menubar>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Popup background / border / shadow | `hds/sem/surface/color/2/*` |
+| Popup padding, item gap | `hds/sem/action/measure/md/gap` |
+| Item colors | `hds/sem/action/color/tertiary/*` |
+| Item padding, radius | `hds/sem/action/measure/md/padding-y`, `.../padding-x`, `.../radius` |
+| Trigger | `hds/sem/action/color/secondary/*` |
+| Group label | `hds/sem/type/color/caption-fg`, `hds/sem/type/measure/caption/size` |
+| Backdrop | `hds/sem/overlay/color/bg` |
+| Menubar gap | `hds/sem/action/measure/md/gap` |
+
+## Owner notes
+
+- Base UI mapping: wraps the Base UI menu, context-menu, and menubar namespaces part for part (`{ ...BaseMenu, Trigger: part(...), ... }`); every unstylable part passes through and Base UI's docs apply one for one.
+- Extension decisions: triggers render as secondary Buttons with a `data-priority` escape hatch; items are pinned to Action tertiary; indicator glyphs (check, dot) and the submenu arrow are built in with `currentColor`.
+- Known constraints: the popup must assemble as `Portal > Positioner > Popup` — there is no single-part shortcut. `ContextMenu.Trigger` is an area, not a button, and ships unstyled.
+- Accessibility: full keyboard support (arrows, typeahead, Enter/Esc) comes from the wrapped primitive; items carry the shared focus ring inset to the list edge; the backdrop is the Overlay scrim behind open menus.
