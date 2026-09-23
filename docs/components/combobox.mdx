@@ -1,0 +1,243 @@
+---
+title: Combobox
+order: 5
+---
+
+import { Combobox } from 'handy-ds';
+
+# Combobox
+
+A long list the user filters by typing. The input group takes text, opens an
+elevated popup of options, and with `multiple` shows the selection as removable
+chips inside the input.
+
+## Usage
+
+Use Combobox when the option list is long, or when several values are picked at
+once. Do not use it when the user may enter a value that is not in the list —
+use Autocomplete (free text with suggestions); do not use it for a short fixed
+list — use Radio.
+
+## Props
+
+Combobox is a compound component: `Combobox.Root` takes the configuration props
+and the other parts compose the widget. The props below are the ones that
+change what Combobox shows or does; every part also accepts standard
+attributes.
+
+| Prop | Applies to | Type | Default | Description |
+| ---- | ---------- | ---- | ------- | ----------- |
+| `items` | `Root` | `Array<string \| { label, value }>` | — | The option list the popup filters and renders. |
+| `value` | `Root` | `any \| any[]` | — | Controlled selected value(s). |
+| `defaultValue` | `Root` | `any \| any[]` | — | Uncontrolled initial selection. |
+| `onValueChange` | `Root` | `(value, event) => void` | — | Fires when the selection changes. Event handlers, ids, and refs appear here only. |
+| `multiple` | `Root` | `boolean` | `false` | Allows several selections; they render as removable chips. |
+| `name` | `Root` | `string` | — | Form field name for native submission. |
+| `disabled` | `Root` | `boolean` | `false` | Makes the whole widget inert. |
+| `required` | `Root` | `boolean` | `false` | Marks the field required for forms. |
+| `render` | any part | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element of a part. |
+| `data-size` | `InputGroup` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input group control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+
+## Single select
+
+The default. Type to filter, pick one option; the check marks the chosen one.
+
+<Combobox.Root items={['Japan', 'Jordan', 'Norway', 'Portugal']} defaultValue="Norway">
+  <Combobox.Label>Country</Combobox.Label>
+  <Combobox.InputGroup>
+    <Combobox.Input placeholder="Type to filter…" />
+    <Combobox.Clear />
+    <Combobox.Trigger />
+  </Combobox.InputGroup>
+  <Combobox.Portal>
+    <Combobox.Positioner>
+      <Combobox.Popup>
+        <Combobox.List>
+          {['Japan', 'Jordan', 'Norway', 'Portugal'].map((c) => (
+            <Combobox.Item key={c} value={c}>
+              <Combobox.ItemText>{c}</Combobox.ItemText>
+              <Combobox.ItemIndicator />
+            </Combobox.Item>
+          ))}
+        </Combobox.List>
+        <Combobox.Empty>No matches</Combobox.Empty>
+      </Combobox.Popup>
+    </Combobox.Positioner>
+  </Combobox.Portal>
+</Combobox.Root>
+
+## Multiple (chips)
+
+With `multiple`, each selection becomes a chip with its own remove button.
+
+<Combobox.Root items={['fast', 'compact', 'accessible', 'typed']} multiple defaultValue={['fast', 'typed']}>
+  <Combobox.Label>Tags</Combobox.Label>
+  <Combobox.InputGroup>
+    <Combobox.Chips>
+      {(chip) => (
+        <Combobox.Chip key={chip.value}>
+          {chip.label}
+          <Combobox.ChipRemove />
+        </Combobox.Chip>
+      )}
+    </Combobox.Chips>
+    <Combobox.Input placeholder="Add…" />
+  </Combobox.InputGroup>
+  <Combobox.Portal>
+    <Combobox.Positioner>
+      <Combobox.Popup>
+        <Combobox.List>
+          {['fast', 'compact', 'accessible', 'typed'].map((t) => (
+            <Combobox.Item key={t} value={t}>
+              <Combobox.ItemText>{t}</Combobox.ItemText>
+              <Combobox.ItemIndicator />
+            </Combobox.Item>
+          ))}
+        </Combobox.List>
+        <Combobox.Empty>No matches</Combobox.Empty>
+      </Combobox.Popup>
+    </Combobox.Positioner>
+  </Combobox.Portal>
+</Combobox.Root>
+
+## Input group size
+
+The input group reads the Input/Field control look. `data-size` picks the
+control height and padding; options always read the md action measure.
+
+### sm
+
+Dense layouts and compact forms.
+
+<Combobox.Root items={['Japan', 'Norway', 'Portugal']} defaultValue="Norway">
+  <Combobox.InputGroup data-size="sm">
+    <Combobox.Input placeholder="Filter…" />
+    <Combobox.Trigger />
+  </Combobox.InputGroup>
+  <Combobox.Portal>
+    <Combobox.Positioner>
+      <Combobox.Popup>
+        <Combobox.List>
+          {['Japan', 'Norway', 'Portugal'].map((c) => (
+            <Combobox.Item key={c} value={c}>
+              <Combobox.ItemText>{c}</Combobox.ItemText>
+              <Combobox.ItemIndicator />
+            </Combobox.Item>
+          ))}
+        </Combobox.List>
+      </Combobox.Popup>
+    </Combobox.Positioner>
+  </Combobox.Portal>
+</Combobox.Root>
+
+### md
+
+Default.
+
+<Combobox.Root items={['Japan', 'Norway', 'Portugal']} defaultValue="Norway">
+  <Combobox.InputGroup data-size="md">
+    <Combobox.Input placeholder="Filter…" />
+    <Combobox.Trigger />
+  </Combobox.InputGroup>
+  <Combobox.Portal>
+    <Combobox.Positioner>
+      <Combobox.Popup>
+        <Combobox.List>
+          {['Japan', 'Norway', 'Portugal'].map((c) => (
+            <Combobox.Item key={c} value={c}>
+              <Combobox.ItemText>{c}</Combobox.ItemText>
+              <Combobox.ItemIndicator />
+            </Combobox.Item>
+          ))}
+        </Combobox.List>
+      </Combobox.Popup>
+    </Combobox.Positioner>
+  </Combobox.Portal>
+</Combobox.Root>
+
+### lg
+
+Large form contexts.
+
+<Combobox.Root items={['Japan', 'Norway', 'Portugal']} defaultValue="Norway">
+  <Combobox.InputGroup data-size="lg">
+    <Combobox.Input placeholder="Filter…" />
+    <Combobox.Trigger />
+  </Combobox.InputGroup>
+  <Combobox.Portal>
+    <Combobox.Positioner>
+      <Combobox.Popup>
+        <Combobox.List>
+          {['Japan', 'Norway', 'Portugal'].map((c) => (
+            <Combobox.Item key={c} value={c}>
+              <Combobox.ItemText>{c}</Combobox.ItemText>
+              <Combobox.ItemIndicator />
+            </Combobox.Item>
+          ))}
+        </Combobox.List>
+      </Combobox.Popup>
+    </Combobox.Positioner>
+  </Combobox.Portal>
+</Combobox.Root>
+
+## Disabled
+
+The whole widget goes inert; the input group reads the disabled input colors.
+
+<Combobox.Root items={['Japan', 'Norway', 'Portugal']} defaultValue="Norway" disabled>
+  <Combobox.InputGroup>
+    <Combobox.Input placeholder="Filter…" />
+    <Combobox.Trigger />
+  </Combobox.InputGroup>
+  <Combobox.Portal>
+    <Combobox.Positioner>
+      <Combobox.Popup>
+        <Combobox.List>
+          {['Japan', 'Norway', 'Portugal'].map((c) => (
+            <Combobox.Item key={c} value={c}>
+              <Combobox.ItemText>{c}</Combobox.ItemText>
+              <Combobox.ItemIndicator />
+            </Combobox.Item>
+          ))}
+        </Combobox.List>
+      </Combobox.Popup>
+    </Combobox.Positioner>
+  </Combobox.Portal>
+</Combobox.Root>
+
+## Autocomplete
+
+The same package exports `Autocomplete`: identical parts and looks, but the
+value does not have to come from the list. No chips parts, no item indicator.
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Input group (Input/Field) | `hds/sem/input/color/{state}/*`, `hds/sem/input/measure/{sm,md,lg}/*` |
+| Popup (Surface elevation 2) | `hds/sem/surface/color/2/*`, `hds/sem/surface/measure/*` |
+| Options (Action tertiary) | `hds/sem/action/color/tertiary/{state}/*`, `hds/sem/action/measure/md/*` |
+| Chips (Action secondary) | `hds/sem/action/color/secondary/*`; radius `hds/sem/action/measure/md/radius`, padding/gap `hds/sem/input/measure/sm/padding-*` |
+| Empty / status text | `hds/sem/type/color/caption/fg`, `hds/sem/type/measure/caption/size` |
+| Group labels | `hds/sem/type/color/label/fg`, `hds/sem/type/measure/label/*` |
+| Separator | `hds/sem/divider/*` |
+| Backdrop | `hds/sem/overlay/color/bg` |
+| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+
+## Owner notes
+
+- Base UI mapping: wraps the Base UI Combobox as a compound component — every
+  part spreads through unchanged; `Autocomplete` (same file) wraps the Base UI
+  Autocomplete the same way. Types like `Combobox.Root.Props` come from Base UI.
+- Extension decisions: deliberately none — "no handy-ds props" is the
+  components.md contract. Overrides go through part props (e.g.
+  `data-size="lg"` on `InputGroup`). Chips read Action secondary via the
+  no-priority Action default, per the Wave 5 part table.
+- Known constraints: the chip cross-borrows two input measure tokens for
+  padding/gap — if a spacing token set lands (open gap 13), chips should move
+  to it. Long lists get Base UI's scroll arrows, which render unstyled.
+- Accessibility: Base UI provides the combobox semantics, keyboard support
+  (`Arrow` keys, `Enter`/`Esc`, `Backspace` removes a chip), and live status
+  announcements through `Combobox.Status`. The clear button carries
+  `aria-label="Clear"`. The focus ring comes from the shared `:focus-visible`
+  rule.

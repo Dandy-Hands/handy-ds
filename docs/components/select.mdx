@@ -1,0 +1,199 @@
+---
+title: Select
+order: 4
+---
+
+import { Select } from 'handy-ds';
+
+# Select
+
+Picks one value from a known list that is too long for radio buttons and does
+not need typed filtering. The trigger is a standard input-height control; the
+options open in an elevated popup list.
+
+## Usage
+
+Use Select when the option list is fixed, longer than about five, and does not
+need filtering. Do not use it when the user must type to narrow the list — use
+Combobox; do not use it for short lists — use Radio.
+
+## Props
+
+Select is a compound component: `Select.Root` takes the configuration props and
+the other parts compose the widget. The props below are the ones that change
+what Select shows or does; every part also accepts standard attributes.
+
+| Prop | Applies to | Type | Default | Description |
+| ---- | ---------- | ---- | ------- | ----------- |
+| `items` | `Root` | `Array<string \| { label, value }>` | — | The option list the popup renders. |
+| `value` | `Root` | `any` | — | Controlled selected value. |
+| `defaultValue` | `Root` | `any` | — | Uncontrolled initial selected value. |
+| `onValueChange` | `Root` | `(value, event) => void` | — | Fires when the user picks an option. Event handlers, ids, and refs appear here only. |
+| `multiple` | `Root` | `boolean` | `false` | Allows several selected values. |
+| `name` | `Root` | `string` | — | Form field name for native submission. |
+| `disabled` | `Root` | `boolean` | `false` | Makes the whole widget inert. |
+| `required` | `Root` | `boolean` | `false` | Marks the field required for forms. |
+| `render` | any part | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element of a part. |
+| `data-size` | `Trigger` | `'sm' \| 'md' \| 'lg'` | `'md'` | Trigger control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+
+## Parts
+
+A Select needs the Root plus a trigger chain and an option list. `Select.Label`
+is optional; `Select.ItemIndicator` shows the check on the chosen option.
+
+<Select.Root items={['Apple', 'Banana', 'Cherry']} defaultValue="Banana">
+  <Select.Label>Fruit</Select.Label>
+  <Select.Trigger>
+    <Select.Value />
+    <Select.Icon />
+  </Select.Trigger>
+  <Select.Portal>
+    <Select.Positioner>
+      <Select.Popup>
+        <Select.List>
+          {['Apple', 'Banana', 'Cherry'].map((f) => (
+            <Select.Item key={f} value={f}>
+              <Select.ItemText>{f}</Select.ItemText>
+              <Select.ItemIndicator />
+            </Select.Item>
+          ))}
+        </Select.List>
+      </Select.Popup>
+    </Select.Positioner>
+  </Select.Portal>
+</Select.Root>
+
+## Trigger size
+
+The trigger reads the Input/Field control look. `data-size` picks the control
+height and padding. Items always read the md action measure; only the trigger
+changes size.
+
+### sm
+
+Dense layouts and compact forms.
+
+<Select.Root items={['Apple', 'Banana', 'Cherry']} defaultValue="Banana">
+  <Select.Trigger data-size="sm">
+    <Select.Value />
+    <Select.Icon />
+  </Select.Trigger>
+  <Select.Portal>
+    <Select.Positioner>
+      <Select.Popup>
+        <Select.List>
+          {['Apple', 'Banana', 'Cherry'].map((f) => (
+            <Select.Item key={f} value={f}>
+              <Select.ItemText>{f}</Select.ItemText>
+              <Select.ItemIndicator />
+            </Select.Item>
+          ))}
+        </Select.List>
+      </Select.Popup>
+    </Select.Positioner>
+  </Select.Portal>
+</Select.Root>
+
+### md
+
+Default.
+
+<Select.Root items={['Apple', 'Banana', 'Cherry']} defaultValue="Banana">
+  <Select.Trigger data-size="md">
+    <Select.Value />
+    <Select.Icon />
+  </Select.Trigger>
+  <Select.Portal>
+    <Select.Positioner>
+      <Select.Popup>
+        <Select.List>
+          {['Apple', 'Banana', 'Cherry'].map((f) => (
+            <Select.Item key={f} value={f}>
+              <Select.ItemText>{f}</Select.ItemText>
+              <Select.ItemIndicator />
+            </Select.Item>
+          ))}
+        </Select.List>
+      </Select.Popup>
+    </Select.Positioner>
+  </Select.Portal>
+</Select.Root>
+
+### lg
+
+Large form contexts.
+
+<Select.Root items={['Apple', 'Banana', 'Cherry']} defaultValue="Banana">
+  <Select.Trigger data-size="lg">
+    <Select.Value />
+    <Select.Icon />
+  </Select.Trigger>
+  <Select.Portal>
+    <Select.Positioner>
+      <Select.Popup>
+        <Select.List>
+          {['Apple', 'Banana', 'Cherry'].map((f) => (
+            <Select.Item key={f} value={f}>
+              <Select.ItemText>{f}</Select.ItemText>
+              <Select.ItemIndicator />
+            </Select.Item>
+          ))}
+        </Select.List>
+      </Select.Popup>
+    </Select.Positioner>
+  </Select.Portal>
+</Select.Root>
+
+## Disabled
+
+The whole widget goes inert; the trigger reads the disabled input colors.
+
+<Select.Root items={['Apple', 'Banana', 'Cherry']} defaultValue="Banana" disabled>
+  <Select.Trigger>
+    <Select.Value />
+    <Select.Icon />
+  </Select.Trigger>
+  <Select.Portal>
+    <Select.Positioner>
+      <Select.Popup>
+        <Select.List>
+          {['Apple', 'Banana', 'Cherry'].map((f) => (
+            <Select.Item key={f} value={f}>
+              <Select.ItemText>{f}</Select.ItemText>
+              <Select.ItemIndicator />
+            </Select.Item>
+          ))}
+        </Select.List>
+      </Select.Popup>
+    </Select.Positioner>
+  </Select.Portal>
+</Select.Root>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Trigger (Input/Field) | `hds/sem/input/color/{state}/*`, `hds/sem/input/measure/{sm,md,lg}/*` |
+| Popup (Surface elevation 2) | `hds/sem/surface/color/2/*`, `hds/sem/surface/measure/*` |
+| Options (Action tertiary) | `hds/sem/action/color/tertiary/{state}/*`, `hds/sem/action/measure/md/*` |
+| Item indicator | uses the item's selected fg via `currentColor` |
+| Group labels | `hds/sem/type/color/label/fg`, `hds/sem/type/measure/label/*` |
+| Separator | `hds/sem/divider/*` |
+| Backdrop | `hds/sem/overlay/color/bg` |
+| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+
+## Owner notes
+
+- Base UI mapping: wraps the Base UI Select as a compound component — every
+  part and hook spreads through unchanged; types like `Select.Root.Props` come
+  from Base UI. Only DOM-rendering parts get classes via `part()`.
+- Extension decisions: deliberately none — "no handy-ds props" is the
+  components.md contract. Visual overrides go through part props (e.g.
+  `data-size="lg"` on the Trigger), which `part()` defaults allow.
+- Known constraints: the trigger pins the Input/Field category and items pin
+  Action md; the Action size axis is Button-only by decision. Long lists get
+  Base UI's scroll arrows, which render unstyled structural parts.
+- Accessibility: Base UI provides the listbox semantics, keyboard navigation
+  (`Arrow` keys, type-ahead, `Enter`/`Esc`), and `aria-*` wiring. The check
+  indicator is decorative; selection is announced by the listbox state. The
+  focus ring comes from the shared `:focus-visible` rule.
