@@ -1,6 +1,6 @@
 # Internal Spec: Separator
 
-- Status: reviewed (retroactive; owner pre-approved, interview skipped)
+- Status: docs-built
 - Date: 2026-09-23
 - Interview: `interview-guide-2026-09-23.md` (retroactive)
 - Base UI version documented from: `@base-ui/react` 1.8.0 (`@base-ui/react/separator`)
