@@ -10,6 +10,7 @@ const __dirname = import.meta.dirname;
 
 export default defineConfig({
   root: __dirname,
+  base: '/handy-ds/',
   plugins: [
     react(),
     mdx({ remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkGfm] }),
