@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@mdx-js/react": "^3.1.0",
+    "culori": "^4.0.2",
     "gray-matter": "^4.0.3",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "@mdx-js/rollup": "^3.1.0",
+    "@types/culori": "^4.0.1",
     "@types/node": "^26.6.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
