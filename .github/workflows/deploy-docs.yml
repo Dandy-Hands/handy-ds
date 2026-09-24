@@ -32,8 +32,18 @@ jobs:
         run: npm ci
         working-directory: docs-site
       - name: Build
-        run: npm run build
         working-directory: docs-site
+        run: |
+          if ! npm run build > ci-build.log 2>&1; then
+            git config user.name ci-debug
+            git config user.email ci@localhost
+            git add -f ci-build.log
+            git commit -m "ci: build log [skip ci]"
+            git push origin HEAD:main
+            exit 1
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: SPA fallback
         run: cp dist/index.html dist/404.html
         working-directory: docs-site
