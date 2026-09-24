@@ -64,12 +64,14 @@ A disabled option ignores interaction and dims. The disabled **and** checked
 combination inverts the disabled colors so the mark still reads.
 
 <RadioGroup defaultValue="card">
-  <Field.Item>
-    <Field.Label>
-      <Radio.Root value="cash" disabled><Radio.Indicator /></Radio.Root>
-      Cash (unavailable)
-    </Field.Label>
-  </Field.Item>
+  <Field.Root>
+    <Field.Item>
+      <Field.Label>
+        <Radio.Root value="cash" disabled><Radio.Indicator /></Radio.Root>
+        Cash (unavailable)
+      </Field.Label>
+    </Field.Item>
+  </Field.Root>
 </RadioGroup>
 
 ## Anatomy

@@ -40,37 +40,45 @@ is `md`.
 
 ### data-size="sm"
 
-<NumberField.Group data-size="sm">
-  <NumberField.Decrement />
-  <NumberField.Input />
-  <NumberField.Increment />
-</NumberField.Group>
+<NumberField.Root defaultValue={1}>
+  <NumberField.Group data-size="sm">
+    <NumberField.Decrement />
+    <NumberField.Input />
+    <NumberField.Increment />
+  </NumberField.Group>
+</NumberField.Root>
 
 ### data-size="md"
 
-<NumberField.Group>
-  <NumberField.Decrement />
-  <NumberField.Input />
-  <NumberField.Increment />
-</NumberField.Group>
+<NumberField.Root defaultValue={1}>
+  <NumberField.Group>
+    <NumberField.Decrement />
+    <NumberField.Input />
+    <NumberField.Increment />
+  </NumberField.Group>
+</NumberField.Root>
 
 ### data-size="lg"
 
-<NumberField.Group data-size="lg">
-  <NumberField.Decrement />
-  <NumberField.Input />
-  <NumberField.Increment />
-</NumberField.Group>
+<NumberField.Root defaultValue={1}>
+  <NumberField.Group data-size="lg">
+    <NumberField.Decrement />
+    <NumberField.Input />
+    <NumberField.Increment />
+  </NumberField.Group>
+</NumberField.Root>
 
 ## Disabled
 
 A disabled group keeps its footprint and takes no input.
 
-<NumberField.Group data-disabled="">
-  <NumberField.Decrement />
-  <NumberField.Input defaultValue={4} />
-  <NumberField.Increment />
-</NumberField.Group>
+<NumberField.Root defaultValue={4} disabled>
+  <NumberField.Group data-disabled="">
+    <NumberField.Decrement />
+    <NumberField.Input defaultValue={4} />
+    <NumberField.Increment />
+  </NumberField.Group>
+</NumberField.Root>
 
 ## Anatomy
 
