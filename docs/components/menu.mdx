@@ -74,17 +74,30 @@ export function MenuKindsDemo() {
 ## Context menu
 
 `ContextMenu.Trigger` wraps an area — it is not a button — and opens the same
-popup on right-click or long-press.
+popup on right-click or long-press. Every part, including `Trigger`, sits
+inside `ContextMenu.Root`, which owns the open state.
 
-<ContextMenu.Trigger
-  style={{
-    padding: '1rem',
-    border: '1px dashed currentColor',
-    borderRadius: '8px',
-  }}
->
-  Right-click this area
-</ContextMenu.Trigger>
+<ContextMenu.Root>
+  <ContextMenu.Trigger
+    style={{
+      padding: '1rem',
+      border: '1px dashed currentColor',
+      borderRadius: '8px',
+    }}
+  >
+    Right-click this area
+  </ContextMenu.Trigger>
+  <ContextMenu.Portal>
+    <ContextMenu.Positioner>
+      <ContextMenu.Popup>
+        <ContextMenu.Item onClick={() => {}}>Duplicate</ContextMenu.Item>
+        <ContextMenu.Item onClick={() => {}}>Rename…</ContextMenu.Item>
+        <ContextMenu.Separator />
+        <ContextMenu.Item onClick={() => {}}>Delete</ContextMenu.Item>
+      </ContextMenu.Popup>
+    </ContextMenu.Positioner>
+  </ContextMenu.Portal>
+</ContextMenu.Root>
 
 ## Menubar
 
