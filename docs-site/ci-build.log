@@ -1,0 +1,6 @@
+
+> build
+> tsc && vite build
+
+../src/tokens/contrast.ts(4,30): error TS2307: Cannot find module 'culori' or its corresponding type declarations.
+../src/tokens/primitives.ts(3,59): error TS2307: Cannot find module 'culori' or its corresponding type declarations.
