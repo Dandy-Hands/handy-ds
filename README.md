@@ -60,7 +60,7 @@ The full rules (drivers, mapping, contexts, which component to use) are in [`doc
 
 ```sh
 npm install
-npm run dev     # demo page at demo/
+npm run dev     # docs site with live theming (docs-site/)
 npm test        # typecheck + node --test
 npm run build   # test, then build dist/
 ```
@@ -79,8 +79,8 @@ npm run dev
 src/tokens/       drivers → primitives → theme map → CSS, contrast checker
 src/components/   components and their CSS
 bin/hds-theme.js  client theme CLI
-demo/             dev demo page
+docs-site/        docs site (npm run dev)
+docs/             mdx + md content it renders
 examples/         WordPress and PWA example apps
-docs/             rules.md (building client apps), component-conventions.md (building components)
 .claude/specs/    design specs: read before changing tokens or conventions
 ```

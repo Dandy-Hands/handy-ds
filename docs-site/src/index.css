@@ -98,3 +98,33 @@ body {
   background: transparent;
   padding: 0;
 }
+
+.theme-flyout {
+  width: 18rem;
+}
+
+.theme-flyout .controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.theme-flyout .controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+}
+
+/* Showcase layout only. Not part of the library. */
+.showcase .hero { padding: 3rem 2rem; display: flex; flex-direction: column; gap: 1rem; }
+.showcase .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr)); gap: 1.5rem; padding: 2rem; }
+.showcase .grid > * { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+.showcase .grid > * > :is(.hds-form, .hds-accordion, .hds-tabs, .hds-table, .hds-alert, .hds-meter, .hds-field, .hds-separator) { align-self: stretch; }
+.showcase .wide { grid-column: 1 / -1; }
+.showcase .row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.showcase .nested { max-width: 32rem; }

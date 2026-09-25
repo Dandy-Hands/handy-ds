@@ -10,7 +10,7 @@ Read `docs/rules.md` first: it covers setup, theming, contexts and the rules for
 2. Never set `className` to change a component's colors, spacing or radius. Those come from the theme. A visual change is a driver change or a mapping change (`docs/rules.md` sections 2 and 3).
 3. Every component accepts `render` to swap its tag: `<Text render={<h3 />}>`.
 
-Working examples of all of these on one page: `demo/main.tsx`.
+Working examples of all of these on one page: the Overview page of the docs site (`npm run dev`).
 
 ---
 

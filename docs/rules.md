@@ -123,7 +123,7 @@ Never edit component CSS to theme a client.
 
 Props, use-when and don't-use-when for every component: `docs/components.md` (`node_modules/handy-ds/docs/components.md` in a client app).
 
-Compound components (`Select`, `Menu`, `Dialog`, ...) have the same parts and props as Base UI's. Use Base UI's docs for structure and behavior (`node_modules/@base-ui/react/docs/react/components/*.md`). handy-ds only adds styling. Examples of every component: `demo/main.tsx`.
+Compound components (`Select`, `Menu`, `Dialog`, ...) have the same parts and props as Base UI's. Use Base UI's docs for structure and behavior (`node_modules/@base-ui/react/docs/react/components/*.md`). handy-ds only adds styling. Examples of every component: the Overview page of the docs site (`npm run dev`).
 
 ## 5. Contexts (colored sections)
 

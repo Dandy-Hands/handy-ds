@@ -13,19 +13,15 @@ const defaultTheme: Plugin = {
   },
 };
 
-export default defineConfig(({ command }) =>
-  command === 'serve'
-    ? { root: 'demo' }
-    : {
-        plugins: [defaultTheme],
-        build: {
-          lib: {
-            entry: { index: 'src/index.ts', tokens: 'src/tokens/index.ts' },
-            formats: ['es'],
-            cssFileName: 'styles',
-          },
-          rolldownOptions: { external },
-          sourcemap: true,
-        },
-      },
-);
+export default defineConfig({
+  plugins: [defaultTheme],
+  build: {
+    lib: {
+      entry: { index: 'src/index.ts', tokens: 'src/tokens/index.ts' },
+      formats: ['es'],
+      cssFileName: 'styles',
+    },
+    rolldownOptions: { external },
+    sourcemap: true,
+  },
+});

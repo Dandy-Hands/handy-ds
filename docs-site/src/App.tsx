@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useParams, Navigate } from 'react-router-dom';
 import { Layout } from './Layout.tsx';
+import { Showcase } from './Showcase.tsx';
 
 interface Page {
   path: string;
@@ -48,14 +49,20 @@ function Page() {
   const { '*': slug } = useParams();
   const page = pages.find((p) => p.path === (slug ?? ''));
   if (!page) return <Navigate to="/" replace />;
-  return <page.Component />;
+  return (
+    <>
+      <page.Component />
+      {page.path === '' && <Showcase />}
+    </>
+  );
 }
 
 export function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/handy-ds">
       <Routes>
         <Route path="/" element={<Layout pages={pages} />}>
+          <Route index element={<Page />} />
           <Route path="*" element={<Page />} />
         </Route>
       </Routes>
