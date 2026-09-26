@@ -56,6 +56,32 @@ Each `.tsx` imports the CSS it needs in this order: `base.css`, then category CS
 - Imports use `.ts`/`.tsx` extensions. Only erasable TS syntax (no enums, no namespaces).
 - Export from `src/index.ts` under its category heading.
 
+## Props
+
+- **One prop name = one axis everywhere in the library.** `size` always means the size axis, `priority` always Action priority, `variant` always the component's category role. Never reuse an axis name for a different axis, and never give one axis two names. Where the rule bites, fix the prop, not the rule (e.g. Icon's `size` must become a real size axis or be renamed — decided at Icon's spec interview).
+- An axis prop is named after its spec axis (`priority`, `size`, `elevation`, `sentiment`, `weight`, `variant`) and set as the matching data attribute.
+- **Where possible, a prop's values appear verbatim in the axis slot of the token names the component reads** (`action/measure/md/padding-x` ⇔ `size="md"` on Button). Per-category value sets are fine where the token taxonomy has them (each category has its own role axis). A prop that breaks the slot rule needs a recorded reason in its spec.
+- **Value sets are defined once per axis** and shared across components (table below). A component may only diverge when its semantics genuinely differ; record the divergence and the reason in the component spec.
+- **Named values.** All axis steps are named (`sm/md/lg`, `primary/secondary/tertiary`, `thin/medium/thick`). Numeric values are not used; if a future axis genuinely mirrors a primitive scale numbering, record the reason in its spec.
+- Axis props are **typed unions, never `string`**, exported alongside the component (`export type Size = 'sm' | 'md' | 'lg'`).
+- The axis default is documented in the spec and applied as a `part()`/`defaults` data attribute (e.g. `data-size="md"`), so callers always see the current value in the DOM.
+- Base UI props are passed through unchanged — no renaming, no re-typing. Only extension props follow these rules.
+
+Canonical axis value sets:
+
+| Axis | Values | Definition |
+|---|---|---|
+| `priority` | `primary`, `secondary`, `tertiary` | How strongly an interactive element commands attention (its main action vs a supporting one). Action-category axis; use on any part that renders the Action look. |
+| `size` | `sm`, `md` (default), `lg` | Physical footprint that scales with context — control height and padding for interactive controls, glyph size for icons, type size for Text. Use wherever a component offers size steps. |
+| `elevation` | `0`, `1`, `2`, `3` | Distance above the page plane (shadow depth). Surface-category axis; use on any part that renders the Surface look — cards, popups, positioners, backdrops. |
+| `sentiment` | `danger`, `warning`, `success`, `info` | Semantic valence of a message or measurement. Feedback-category axis; use on any part that renders the Feedback look. |
+| `weight` | `thin`, `medium`, `thick` | Stroke thickness of a divider line. Divider-category axis; use on any part that renders the Divider look. (Border thickness — not type weight.) |
+| `variant` | per-category role sets: Icon `default`, `secondary`, `accent`; Text `display`, `heading`, `body`, `label`, `caption` | Which role within the component's category value scale (color emphasis for Icon; full typographic role for Text). Use when a part renders in a specific category role. |
+
+A component uses an axis when its definition matches, decided by the token category the component's spec assigns — not by copying another component's choice.
+
+New axes (e.g. `status` on Progress) get added to this table when their component's spec is written.
+
 ## Tokens a component may use
 
 Use the category the spec assigns (token spec section 9 tables, decisions in `.claude/decisions.md`). Composites borrow per part: Select trigger is Input/Field, popup is Surface, options are Action. Don't invent a token. If a value can't be expressed with existing tokens, raise it as a spec change: new names must pass `checkTokenName()` and go into the Theme Map.
