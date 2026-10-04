@@ -11,6 +11,26 @@ One choice out of two to five options, all visible. Renders a circular box with
 a dot as the selected mark. `RadioGroup` owns the selection and stacks the
 options.
 
+<RadioGroup defaultValue="card">
+  <Field.Root>
+    <Fieldset.Root>
+      <Fieldset.Legend>Payment</Fieldset.Legend>
+      <Field.Item>
+        <Field.Label>
+          <Radio.Root value="card"><Radio.Indicator /></Radio.Root>
+          Card
+        </Field.Label>
+      </Field.Item>
+      <Field.Item>
+        <Field.Label>
+          <Radio.Root value="bank"><Radio.Indicator /></Radio.Root>
+          Bank transfer
+        </Field.Label>
+      </Field.Item>
+    </Fieldset.Root>
+  </Field.Root>
+</RadioGroup>
+
 ## Usage
 
 Use Radio when the user picks exactly one value from two to five options and
@@ -19,19 +39,28 @@ Select. Do not use it when several values can be picked at once — use Checkbox
 Wrap the group in `Fieldset.Root` with a `Fieldset.Legend`, and label each
 option with `Field.Label`.
 
-## Props
+## Base UI API
+
+Wraps Base UI's `Radio` and `RadioGroup`; every part passes through unchanged,
+styled via `part()`.
+
+| Element | Notes |
+| ------- | ----- |
+| `Root` props (`value`, `checked`, `onCheckedChange`, `name`, `disabled`, ...) | Exposed — full passthrough on the namespace. |
+| `Root`, `Indicator` | Styled with `part()`; the mark is a CSS dot. |
+| `RadioGroup` | Single `part()` stack, shared with `CheckboxGroup`. |
+| `data-checked`, `data-invalid`, `data-disabled` | Consumed by CSS. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `value` | `string` | — | The value this option submits; identifies it inside the RadioGroup. |
-| `checked` / `defaultChecked` | `boolean` | — | The controlled / initial selection (managed by the RadioGroup). |
-| `onCheckedChange` | `(checked, eventDetails) => void` | — | Fires when the option is selected. |
-| `name` | `string` | — | Identifies the field on form submission. |
 | `disabled` | `boolean` | `false` | Ignores interaction and dims the option. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
 | `children` | `ReactNode` | — | Indicator content. |
 
-All standard attributes (`id`, `aria-*`, `required`, ...) are also accepted.
+`render`, `checked`/`onCheckedChange`, standard attributes, and the group's props (`defaultValue`, `name`, ...) are passthrough — they appear here only, never get their own section.
 
 ## Checked
 

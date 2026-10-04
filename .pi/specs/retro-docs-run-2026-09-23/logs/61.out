@@ -1,0 +1,10 @@
+```
+DONE 61
+branch: 61 (pushed)
+families: Select, Meter
+index rows:
+| Select | Picks one value from a long, fixed list | The list is known, longer than about five, and needs no typing to narrow | [select.md](select.md) |
+| Meter, Progress | Shows a measured value (Meter) or task completion (Progress) on a striped track | Meter — the number means something on its own; Progress — work that will finish | [meter.md](meter.md) |
+decisions needing review: none
+build: docs-site npm run build exits 0
+```

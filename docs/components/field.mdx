@@ -11,6 +11,11 @@ One labelled form value: label, control, description, and error, wired together
 for assistive tech. `Fieldset` groups related fields. `Form` validates and
 submits. Bare `Input` is a text input without a Field wrapper.
 
+<Field.Root>
+  <Field.Label>Email</Field.Label>
+  <Field.Control placeholder="you@example.com" />
+</Field.Root>
+
 ## Usage
 
 Use the full Field set for any labelled text entry: `Field.Root` wraps one
@@ -20,7 +25,21 @@ automatically. Do not use bare `Input` when a visible label exists — use
 bare `Input` only when the control has no visible label, and give it an
 `aria-label`.
 
-## Props
+## Base UI API
+
+Wraps Base UI's `Field`, `Fieldset`, `Form`, and `Input`; every part passes
+through unchanged, styled via `part()`.
+
+| Element | Notes |
+| ------- | ----- |
+| `Field.Root/Label/Control/Description/Error/Item` | All exposed, namespace mirrored; each renders its own DOM. |
+| `Fieldset.Root/Legend` | Exposed, namespace mirrored. |
+| `Form` | Single `part()`; validation and submit behavior are Base UI's, untouched. |
+| Native input props on `Input` (`type`, `placeholder`, `required`, `aria-*`, ...) | Exposed — full passthrough. The HTML `size` attribute is omitted from the wrapper type so the axis prop owns the name. |
+| `Field.Root`'s `invalid` and Base UI's `data-invalid` | Consumed by CSS for the error state. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
@@ -28,11 +47,9 @@ bare `Input` only when the control has no visible label, and give it an
 | `invalid` (Field.Root) | `boolean` | — | Marks the field and its control, description and error with `data-invalid`. |
 | `match` (Field.Error) | `boolean \| ValidityState key` | — | Shows the error when the control's validity matches. `valueMissing` — empty required field. `typeMismatch` — wrong format, e.g. an email. `true` — always show. |
 | `onSubmit` (Form) | `(event: FormEvent) => void` | — | Fires when the form submits. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
 | `children` | `ReactNode` | — | Label, control, description and error content. |
 
-All standard attributes (`id`, `aria-*`, `name`, `placeholder`, `required`, ...)
-are also accepted on the control parts.
+`render`, standard attributes, and every remaining Base UI prop are passthrough — they appear here only, never get their own section.
 
 ## Size
 

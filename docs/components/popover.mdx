@@ -11,25 +11,49 @@ Extra information or small controls anchored to a trigger. The popup is a
 surface at elevation 2, positioned next to its trigger; the page behind stays
 usable.
 
+<Popover.Root>
+  <Popover.Trigger>Notifications</Popover.Trigger>
+  <Popover.Portal>
+    <Popover.Positioner sideOffset={8}>
+      <Popover.Popup>
+        <Popover.Title>Notifications</Popover.Title>
+        <Popover.Description>You are all caught up.</Popover.Description>
+      </Popover.Popup>
+    </Popover.Positioner>
+  </Popover.Portal>
+</Popover.Root>
+
 ## Usage
 
 Use Popover for secondary content: definitions, small forms, help text. Do not
 use it for a list of commands — use Menu. Do not use it when the user must read
 or act before continuing — use Dialog.
 
-## Props
+## Base UI API
+
+Wraps Base UI's `Popover`; every part passes through unchanged, styled via
+`part()`. `modal` keeps Base UI's non-modal default.
+
+| Element | Notes |
+| ------- | ----- |
+| `Root` props (`open`, `defaultOpen`, `onOpenChange`, `modal`, `delay`, `closeDelay`, ...) | Exposed — full passthrough. |
+| `Trigger`, `Close` | Styled as Action buttons; Close pins `data-priority: 'tertiary'`. |
+| `Portal`, `Positioner`, `Backdrop` | Portal passthrough; backdrop gets the Overlay scrim. |
+| `Popup` | Surface elevation 2, popup transitions. |
+| `Title`, `Description` | Label type / body color. |
+| `openOnHover` / `delay` / `closeDelay` (Trigger) | Exposed — passthrough, not documented (edge-case hover behavior). |
+| `data-open`, `data-starting-style`, `data-ending-style` | Consumed by CSS for popup/backdrop transitions. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `open` / `defaultOpen` (Root) | `boolean` | — | The controlled / initial open state. |
-| `onOpenChange` (Root) | `(open, eventDetails) => void` | — | Fires when the popover opens or closes. |
-| `modal` (Root) | `boolean \| 'trap-focus'` | `false` | Non-modal by default: the page behind stays usable. Set `true` to block outside interaction. |
-| `data-priority` (Trigger) | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the trigger button. |
+| `modal` | `boolean \| 'trap-focus'` | `false` | Non-modal by default: the page behind stays usable. Set `true` to block outside interaction. |
 | `side` / `align` / `sideOffset` (Positioner) | — | — | Placement relative to the trigger and the gap from it. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
 | `children` | `ReactNode` | — | Part content: positioner, popup, title, description. |
 
-All standard attributes (`id`, `aria-*`, ...) are also accepted.
+`open`/`defaultOpen`, `onOpenChange`, `data-priority`, `render`, and standard attributes are passthrough — they appear here only, never get their own section.
 
 ## Open state
 

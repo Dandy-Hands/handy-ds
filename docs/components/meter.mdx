@@ -11,24 +11,37 @@ A value in a known range — storage used, a score — with a label, a track, a
 fill, and a formatted value. `Progress` is the task-completion sibling: same
 parts, primary fill, and an indeterminate state.
 
+<Meter.Root value={40}><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+
 ## Usage
 
 Use Meter when the number means something on its own and has a known range. Do
 not use it for a task running to completion — use Progress. Pass
 `value={null}` to Progress when the duration is unknown.
 
-## Props
+## Base UI API
+
+Wraps Base UI's `Meter` and `Progress`; every part passes through unchanged,
+styled via `part()` — the look is shared by both.
+
+| Element | Notes |
+| ------- | ----- |
+| `Root` props (`value`, `min`, `max`, `format`, `locale`, `aria-valuetext`, ...) | Exposed — full passthrough. `Progress.Root` accepts `null` for `value`, driving `data-indeterminate`. |
+| `Root`, `Label`, `Track`, `Indicator`, `Value` | Styled with `part()` — shared by Meter and Progress. |
+| `data-indeterminate` (Progress), `data-sentiment` (Meter.Root) | Consumed by CSS. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `sentiment` (Meter.Root) | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | Fill color. `info` — neutral. `success` — good level. `warning` — nearing a limit. `danger` — over a limit. |
-| `value` (Root) | `number` | — | The current value. `Progress.Root` also accepts `null` (indeterminate). |
-| `min` / `max` (Root) | `number` | `0` / `100` | The range ends. |
-| `format` (Root) | `Intl.NumberFormatOptions` | — | Formats the displayed value. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
+| `sentiment` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | Fill color. `info` — neutral. `success` — good level. `warning` — nearing a limit. `danger` — over a limit. |
+| `value` | `number` | — | The current value. `Progress.Root` also accepts `null` (indeterminate). |
+| `min` / `max` | `number` | `0` / `100` | The range ends. |
+| `format` | `Intl.NumberFormatOptions` | — | Formats the displayed value. |
 | `children` | `ReactNode` | — | Parts: `Label`, `Value`, `Track` with `Indicator` inside. |
 
-All standard attributes (`id`, `aria-*`, ...) are also accepted.
+`render` and standard attributes are passthrough on every part — they appear here only, never get their own section.
 
 ## Sentiment
 

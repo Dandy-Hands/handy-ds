@@ -1,0 +1,29 @@
+```
+已完成 组-20
+分支: 20 (已推送)
+系列: Field (+Input/Fieldset/Form), NumberField, Checkbox (+CheckboxGroup), Radio (+RadioGroup), Dialog (+AlertDialog), Popover, Accordion, Switch, Toggle (+ToggleGroup), Tabs, Card, Table, Separator, Icon, Alert, Toast (+Toaster), Meter (+Progress)
+索引行:
+| Field | 一个带标签的表单值：标签、控件、描述、错误信息，连接到 assistive tech | 任何带标签的文本输入 —— 仅在不可见标签时使用纯粹的 Input | [field.md](field.md) |
+| NumberField | 带有步进器的数字输入 | 用户上下调节的数量 | [number-field.md](number-field.md) |
+| Checkbox | 复选框：是/否或多选 | 与表单一起提交，或者可以多选 | [checkbox.md](checkbox.md) |
+| Radio | 从 2–5 个可见选项中选择一个 | 用户应该能看到所有选项，且只能选择一个 | [radio.md](radio.md) |
+| Dialog | 一个阻塞页面的任务（Surface 3 弹窗 + 叠加背景）；AlertDialog 确认破坏性操作 | 用户必须完成或关闭；使用 Popover 获取非阻塞详情 | [dialog.md](dialog.md) |
+| Popover | 锚定在触发器上的非阻塞面板（Surface 2） | 二级内容，保持页面可用；命令请使用 Menu | [popover.md](popover.md) |
+| Accordion | 带有三元触发器和 Surface-0 面板的显示/隐藏部分 | FAQ 或可扫描的长内容；一次只能固定显示一个时使用 Tabs | [accordion.md](accordion.md) |
+| Switch | 带有滑动滑块的即时开关（Action secondary/primary-selected） | 立即生效的设置；与表单一起提交时请使用 Checkbox | [switch.md](switch.md) |
+| Toggle | 保持按下状态的按钮（完整的 Button 外观，selected 状态）+ ToggleGroup 行 | 格式化控件或从几个可见选项中选择；偏好设置请使用 Switch | [toggle.md](toggle.md) |
+| Tabs | 在同一个地方切换视图（三元标签页，滑动指示器，无 Token 面板） | 一个区域内只能显示一个面板；独立堆叠部分请使用 Accordion | [tabs.md](tabs.md) |
+| Card | 在选定高度下的 Surface 内容框 | 对相关内容进行分组；纯粹为了间距请不要使用 | [card.md](card.md) |
+| Table | 带有主题行、边框和排序按钮模式的原生样式化表格 | 具有跨行比较的真实列数据；列表请不要使用 | [table.md](table.md) |
+| Separator | 具有三权重的分割线 (Divider 分类) | 仅靠间距无法分隔的组 | [separator.md](separator.md) |
+| Icon | 用图标角色颜色和大小包装 SVG | 任何绘制有 currentColor 的图标；内容图像请使用 img | [icon.md](icon.md) |
+| Alert | 静态的、基于情感颜色的页面消息，可选标题/图标；无实时区域角色 | 消息必须在页面上保持可读；短暂确认请使用 Toast | [alert.md](alert.md) |
+| Toast | 操作后短暂的生命周期通知，带有固定的堆叠视口 | 确认无需用户操作的事情；必须阅读的内容请使用 Alert/Dialog | [toast.md](toast.md) |
+| Meter | 已知范围内的一个值 (条纹轨道，情感填充)；Progress 添加了不确定状态 | 数字本身有意义；运行任务请使用 Progress | [meter.md](meter.md) |
+需要审查的决策：
+1. **触发器样式与决策日志冲突。** `.claude/decisions.md` ("Triggers carry no styling") 指出 `Dialog.Trigger`、`AlertDialog.Trigger`、`Popover.Trigger` 和 `Menu.Trigger` 失去了 `hds-button hds-action` 样式，但 `src/components/Dialog.tsx`、`Popover.tsx` 和 `Menu.tsx` 在 `main` 分支上仍然携带它。根据简报，以代码为准；文档将 triggers 记录为 secondary-Button 样式。需要调整其中一方。
+2. **布局间距借用了 Input/Field 度量 Token（缺失间距 13，已在决策日志中标记为需要审查）** —— 已记录在 Field gaps、CheckboxGroup/RadioGroup gaps 和 Table cell padding 中。
+3. **`Field.Error` 的危险 Token 仅在默认上下文中进行了对比检查（缺失间距 14，需要审查）** —— 已记录在 Field/Dialog MDX 中，并带有 `data-context="default"` 的指导。
+4. **Toast 在 Feedback 颜色之上借用了 `surface/color/2/shadow`，Meter 借用了 `feedback/icon-fg`** —— 两者都是规范 Section 9 / 共享 CSS 设计所拥有的刻意跨类别读取；仅在此处注明以供审查。
+构建: docs-site `npm run build` 退出码为 0 (17 个新的 MDX 页面 + 共享的 toast 演示模块；只有对另一个组的文件也构成风险的预先存在的 chunk-size 警告)
+```

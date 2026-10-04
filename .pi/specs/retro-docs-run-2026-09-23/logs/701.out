@@ -1,0 +1,10 @@
+```
+DONE 701
+branch: 701 (pushed)
+families: none — assignment '701' resolves to no component family. Verified against src/index.ts exports, run.sh GROUPS (input, select-combobox, menus, overlays, feedback, toggles, surfaces — they cover all 22 undocumented components), docs/components.md, docs/api/index.md, and .claude/decisions.md. No component, file, export, or group named '701' exists, and no numeric→component mapping exists on disk or in session logs. No spec, API doc, or MDX was written; nothing was fabricated.
+index rows: none
+decisions needing review:
+- Orchestrator launched this agent with group/families '701' instead of a component list. If a real family was intended for this agent, relaunch with explicit family names (e.g. Dialog,Popover,Accordion) and the work can proceed per BRIEF.
+- 16 numeric worktrees/branches (12, 20, 33, 61, 79, 80, 81, 98, 100, 204, 250, 395, 398, 399, 400, 701) exist with no mapping to components; all appear to be the same malformed launch. Branch 98 was already pushed empty.
+build: not run — no docs-site files changed (docs-site not touched)
+```

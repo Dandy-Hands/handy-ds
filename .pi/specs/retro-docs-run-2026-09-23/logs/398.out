@@ -1,0 +1,14 @@
+Note on scope: my prompt assigned group `398` with "families: 398", but no component maps to that id — the coordinator's runner had an IFS parse bug (confirmed in the coordinator's session log: array entries split into 16 bare tokens; `=== launching 400 ->  ===` with an empty branch). I resolved the job as best the evidence allowed: documented the **Dialog** family (Dialog + AlertDialog, one source file — the BRIEF's own example family), committed to branch `398`, and pushed.
+
+```
+DONE 398
+branch: 398 (pushed; named '398' per task instruction, not docs/<group-slug> — group id had no slug)
+families: Dialog (Dialog + AlertDialog, src/components/Dialog.tsx)
+index rows:
+| Dialog | Modal task surface over a scrim; AlertDialog variant for confirm/cancel | The user must finish or dismiss before carrying on; confirm destructive actions with AlertDialog | [dialog.md](dialog.md) |
+decisions needing review: 
+- Group id 398 had no family mapping (runner IFS bug); Dialog family chosen by this agent — coordinator should confirm no duplicate coverage when the 7 slug groups run.
+- decisions.md "Triggers carry no styling" (reversal of Wave 5) is recorded but NOT implemented in code: Dialog.Trigger/Close still carry `hds-button hds-action` (Dialog.tsx:16,21). Code wins per run rule; docs document the code behavior.
+- Popup layout values (width min(32rem,…), max-height, z-index 50, 150ms transitions) are hard-coded, not tokenized — matches decisions.md gap 13 (spacing tokens "Needs review").
+build: docs-site `npm run build` exit 0 (dialog.mdx compiled clean); `npm test` 21/21 pass
+```

@@ -1,0 +1,14 @@
+```
+DONE 80
+branch: 80 (pushed)
+families: Menu (Menu + ContextMenu + Menubar), NavigationMenu, Toolbar
+index rows:
+| Menu | Commands behind a trigger, in three shapes (Menu, ContextMenu, Menubar) | Commands that act and need not be visible until asked; not for form values (Select) or site navigation (NavigationMenu) | [menu.md](menu.md) |
+| NavigationMenu | Site navigation with dropdown link panels sharing one animated viewport | The top-level navigation of a site; not for commands (Menu) | [navigation-menu.md](navigation-menu.md) |
+| Toolbar | Bar of controls for a region with arrow-key navigation | Editor bars and control strips acting on a region; not for site navigation | [toolbar.md](toolbar.md) |
+decisions needing review:
+- Group '80' launched with a corrupted family mapping (families literally "80"); mapping was unrecoverable from run.sh, BRIEF.md, and the coordinator session. Recovered scope by surveying sibling agents' branches: feedback (Alert/Toast/Meter) was already done and integrated (commit de61299/b53bac2), so this agent took the unclaimed menus group instead. My first-pass alert/toast/meter docs were discarded (git reset to b53bac2) to avoid merge conflicts with the feedback agent's versions.
+- Menu.Trigger renders as a secondary Button (code Menu.tsx:20 + action.css:9 "No data-priority = secondary"). This coexists with the reversed "Triggers carry no styling" decision in decisions.md Wave 5 — code wins, but the decisions log could note that the reversal does not apply to parts explicitly styled as Buttons.
+- Meter spec (other agent) and my discarded Meter work both flagged decisions.md gap 13 (spacing tokens): Meter.css grid gap still borrows input/measure/sm/padding-*.
+build: docs-site npm run build exits 0 (pre-existing chunk-size warning only)
+```

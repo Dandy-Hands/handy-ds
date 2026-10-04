@@ -1,0 +1,9 @@
+```
+DONE 395
+branch: 395 (pushed)
+families: Dialog (Dialog + AlertDialog, one family per `src/components/Dialog.tsx`)
+index rows:
+| Dialog | A modal overlay that blocks the page until the task inside is finished or dismissed | The user must finish or dismiss before carrying on — AlertDialog for destructive confirmations, Popover for non-blocking detail | [dialog.md](dialog.md) |
+decisions needing review: (1) Group "395" had no family mapping recoverable anywhere (run.sh in this dir defines only slug groups; no job list exists in the repo, logs, or session history). Chose the brief's own example family Dialog = Dialog + AlertDialog per "one family per source file". Coordinator should de-duplicate against the other numbered branches (100, 12, 20, 204, 250, 33, 398, 399, 400, 61, 701, 79, 80, 81, 98). (2) Code/decisions conflict: `.claude/decisions.md` "Triggers carry no styling" says Dialog.Trigger no longer carries `hds-button hds-action`, but the shipped code (`Dialog.tsx:16,21,27,32`), its JSDoc, and `docs/components.md` all still style triggers as secondary Buttons. Code wins per the brief; decisions entry needs review. (3) AlertDialog's second Close in examples uses `data-priority="primary"` for the destructive action — no danger priority exists in the Action set (possible future gap).
+build: docs-site `npm run build` exits 0 (dialog.mdx renders; other groups' files not touched)
+```

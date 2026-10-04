@@ -1,0 +1,11 @@
+```
+DONE 12
+branch: 12 (pushed)
+families: NavigationMenu
+index rows:
+| NavigationMenu | Site-level navigation bar: links plus dropdown panels of destination links | use-when: items are places to go; use Menu for commands, Tabs for in-place switching | [navigation-menu.md](navigation-menu.md) |
+decisions needing review: none (component decisions were pre-recorded; NavigationMenu.Trigger/Link pinned tertiary is already in `.claude/decisions.md`)
+build: docs-site `npm run build` exits 0
+```
+
+**Coordinator note (needs review):** my group prompt arrived garbled — the first `run.sh` word-split each `GROUPS` entry into bare tokens, so the 16 numeric agents (branches `12`, `20`, `33`, `61`, `79`, `80`, `81`, `98`, `100`, `204`, `250`, `395`, `398`, `399`, `400`, `701`) got no family list. I resolved `12` deterministically as the 12th alphabetical missing component (**NavigationMenu**) and ran the full pipeline on it: retroactive interview guide, internal spec (`docs-built`), API doc, and owner MDX; `docs-site` build passes. Sibling strays were already writing select/combobox (wt-250), icon (wt-400), and tabs/toggle (wt-79) when I checked — the coordinator should map the remaining numeric branches to the intended slug groups (or discard them) and rely on the fixed `run.sh` relaunch. Proposed index row is above; `docs/api/index.md` was not touched per the brief.

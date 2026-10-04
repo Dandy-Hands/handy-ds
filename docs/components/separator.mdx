@@ -10,21 +10,34 @@ import { Separator } from 'handy-ds';
 A dividing line between groups that spacing alone does not separate. Reads the
 Divider category: one color, three thicknesses.
 
+<Separator />
+<Separator weight="medium" />
+
 ## Usage
 
 Use Separator between groups of content, and inside toolbars and menus. Do not
 use it when spacing is enough — a line is noise. Keep weights consistent within
 one surface.
 
-## Props
+## Base UI API
+
+Wraps Base UI's `Separator`; full passthrough.
+
+| Element | Notes |
+| ------- | ----- |
+| Props (`orientation`, `role` presentation defaults, native `div` props, ...) | Exposed — full passthrough. |
+| `orientation` | Base UI's prop, consumed by the CSS (`data-orientation='vertical'`). |
+| `render` | Exposed — passthrough. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `weight` | `'thin' \| 'medium' \| 'thick'` | `'thin'` | Line thickness. `thin` — default hairline. `medium` — heavier, e.g. under a table header. `thick` — strongest emphasis. |
-| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Rule direction; `vertical` stretches to the row height. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
+| `children` | `ReactNode` | — | Content inside the divider, if any. |
 
-All standard attributes (`id`, `aria-*`, `className`, ...) are also accepted.
+`render`, `orientation`, and standard attributes are passthrough — they appear here only, never get their own section (`orientation` is covered under its own axis section).
 
 ## Weight
 

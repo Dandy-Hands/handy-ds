@@ -13,12 +13,49 @@ Surface popup; nothing is visible until asked for. The family ships three
 shapes: `Menu` (trigger menu), `ContextMenu` (right-click), and `Menubar`
 (app-style row).
 
+<Menu.Root>
+  <Menu.Trigger>Actions</Menu.Trigger>
+  <Menu.Portal>
+    <Menu.Positioner>
+      <Menu.Popup>
+        <Menu.Item onClick={() => {}}>Duplicate</Menu.Item>
+        <Menu.Item onClick={() => {}}>Rename…</Menu.Item>
+        <Menu.Separator />
+        <Menu.Item onClick={() => {}}>Delete</Menu.Item>
+      </Menu.Popup>
+    </Menu.Positioner>
+  </Menu.Portal>
+</Menu.Root>
+
 ## Usage
 
 Use Menu for commands that act and do not need to be visible until asked for —
 row actions, editor commands, app menus. Do not use it when the user is
 choosing a value for a form; that is Select. Do not use it for site
 navigation; that is NavigationMenu, whose links go to destinations.
+
+## Base UI API
+
+Compound namespaces that spread every Base UI part unchanged and restyle only
+the DOM-rendering parts via `part()`: `Trigger`, `Positioner`, `Popup`, `Item`,
+`LinkItem`, `SubmenuTrigger`, `CheckboxItem` (+`CheckboxItemIndicator`),
+`RadioItem` (+`RadioItemIndicator`), `GroupLabel`, `Separator`, `Backdrop`.
+All other parts (`Portal`, `Group`, ...) pass through unchanged, and Base UI's
+part docs apply one for one. `Menubar` is a single-part wrapper.
+
+| Element | Notes |
+| ------- | ----- |
+| `Trigger` | Secondary button look; `data-priority` overrides it. |
+| `Item` / `LinkItem` | Action tertiary list items. |
+| `CheckboxItem` / `RadioItem` | With built-in indicator glyphs. |
+| `Popup` | Surface elevation 2. |
+| `Backdrop` | Overlay scrim. |
+
+## Extension API
+
+handy-ds adds no props. The only handy-ds-ism is the `data-priority`
+attribute on styled parts. Every Base UI prop passes through one for one —
+nothing gets its own section.
 
 ## Trigger
 

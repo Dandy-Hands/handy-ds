@@ -1,0 +1,12 @@
+DONE 98
+branch: 98 (pushed)
+families: Dialog (incl. AlertDialog), Popover, Accordion
+index rows:
+| Dialog | Blocks the page with a task the user must finish or dismiss; AlertDialog is the confirm/cancel variant that never closes on outside click | The user must complete or explicitly confirm before carrying on | [dialog.md](dialog.md) |
+| Popover | Non-modal floating panel anchored to a trigger for extra information or small controls | The content is secondary and the page behind stays usable | [popover.md](popover.md) |
+| Accordion | Sections that show and hide in place behind full-width tertiary trigger rows | An FAQ or long content the user scans before opening; use Tabs when one panel shows at a time | [accordion.md](accordion.md) |
+decisions needing review:
+- Assignment ambiguity: my prompt said "component families: 98" with no family names; no mapping existed, so I claimed the unclaimed overlays group (Dialog, Popover, Accordion) after confirming other agents had taken select, tabs, toggle, and number-field.
+- `.claude/decisions.md` "Triggers carry no styling" (lines 89–96) reverses the trigger look, but the shipped code still styles `Dialog.Trigger`/`Close` and `Popover.Trigger` as secondary Actions (`Dialog.tsx:16,21`, `Popover.tsx:12`). Per the brief, code wins and all three specs document the code; the decisions entry needs reconciling.
+- Specs flag the same conflict inline in their Extension API sections.
+build: docs-site `npm run build` exits 0 (805 modules; failures found on my files were none)

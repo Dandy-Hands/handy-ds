@@ -1,0 +1,11 @@
+```
+DONE 400
+branch: 400 (pushed)
+families: Icon
+index rows:
+| Icon | Wraps an SVG so it takes an Icon color and the surrounding text size | Any icon whose SVG uses currentColor — not content images | [icon.md](icon.md) |
+decisions needing review:
+  1. Family-token resolution: the run prompt gave "component families: 400", which names no component or group in run.sh, docs/components.md, or anywhere in the repo. Owner was absent, so I resolved it deterministically: docs/components.md line 400 falls inside the Icon entry (line 399) — the only literal in-repo mapping for "400". Documented Icon only. If "400" meant a different family (or set), the coordinator should reassign and rerun.
+  2. Code-vs-docs conflict: docs/components.md rule 3 says "Every component accepts render". Icon has no render prop (plain span, no useRender) — code wins per the brief; flagged in spec.md and icon.mdx Owner notes for a carve-out.
+build: docs-site `npm run build` exit 0 (803 modules, no errors)
+```

@@ -10,6 +10,8 @@ import { Alert, Icon } from 'handy-ds';
 A message that stays on the page. A bordered block colored by sentiment — info,
 success, warning, or danger — with an optional heading and icon.
 
+<Alert sentiment="success" heading="Connected">Your workspace is linked.</Alert>
+
 ## Usage
 
 Use Alert when the message is part of the page and must stay readable: form
@@ -18,18 +20,27 @@ confirmation after an action — use Toast. Alert has no live-region role by
 default; pass `role="alert"` (urgent) or `role="status"` (polite) when it
 appears in response to an action.
 
-## Props
+## Base UI API
+
+No Base UI primitive — a single-part `useRender` component that passes all
+standard attributes through.
+
+| Element | Notes |
+| ------- | ----- |
+| `render` | Exposed — swap the element without changing the look. |
+| Native `div` props (`id`, `aria-*`, `className`, `style`, `role`, ...) | Exposed — full passthrough; `role` is how callers opt into live-region behavior. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `sentiment` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | Message color. `info` — neutral notice. `success` — confirmed. `warning` — act soon. `danger` — problem or destructive. |
 | `heading` | `ReactNode` | — | Short heading above the body. |
 | `icon` | `ReactNode` | — | Icon in front of the heading, colored with the sentiment's icon color. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
-| `role` | `'alert' \| 'status'` | — | Pass `alert` for urgent announcements, `status` for polite ones, when the alert appears in response to an action. |
 | `children` | `ReactNode` | — | Message body. |
 
-All standard attributes (`id`, `aria-*`, `className`, ...) are also accepted.
+`role`, `render`, and standard attributes are passthrough — they appear here only, never get their own section (`role` is covered under Live region).
 
 ## Sentiment
 

@@ -11,6 +11,15 @@ A yes/no control, or one of several picked from a few options. Renders a square
 box with a built-in check glyph; a dash appears when the box is
 `indeterminate`.
 
+<Field.Root>
+  <Field.Label>
+    <Checkbox.Root defaultChecked>
+      <Checkbox.Indicator />
+    </Checkbox.Root>
+    Subscribe
+  </Field.Label>
+</Field.Root>
+
 ## Usage
 
 Use Checkbox when the value is submitted with a form, or when several options
@@ -18,7 +27,20 @@ can be picked at once. Do not use it for a setting that applies the moment it
 changes — use Switch. Label every checkbox with `Field.Label` or a wrapping
 `<label>`.
 
-## Props
+## Base UI API
+
+Wraps Base UI's `Checkbox` and `CheckboxGroup`; every part passes through
+unchanged, styled via `part()`.
+
+| Element | Notes |
+| ------- | ----- |
+| `Root` props (`checked`, `indeterminate`, `onCheckedChange`, `value`, `name`, `disabled`, `readOnly`, ...) | Exposed — full passthrough on the namespace. |
+| `Root`, `Indicator` | Styled with `part()` — built-in check and dash glyphs as overridable defaults. |
+| `CheckboxGroup` | Single `part()` stack. |
+| `data-checked`, `data-indeterminate`, `data-invalid`, `data-disabled` | Consumed by CSS. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
@@ -28,10 +50,9 @@ changes — use Switch. Label every checkbox with `Field.Label` or a wrapping
 | `value` | `string` | — | The value submitted with the form when checked. |
 | `name` | `string` | — | Identifies the field on form submission. |
 | `disabled` | `boolean` | `false` | Ignores interaction and dims the box. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
 | `children` | `ReactNode` | — | Indicator content; the built-in check and dash glyphs can be overridden. |
 
-All standard attributes (`id`, `aria-*`, `required`, ...) are also accepted.
+`render` and standard attributes are passthrough — they appear here only, never get their own section.
 
 ## Checked
 

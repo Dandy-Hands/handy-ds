@@ -11,21 +11,38 @@ Rows and columns of data. A styled native `<table>`: you write the markup, the
 component supplies the theme — row grounds, divider borders, header and body
 type.
 
+<Table>
+  <thead><tr><th>Name</th><th>Role</th></tr></thead>
+  <tbody>
+    <tr><td>Ada</td><td>Engineer</td></tr>
+    <tr><td>Grace</td><td>Admiral</td></tr>
+  </tbody>
+</Table>
+
 ## Usage
 
 Use Table when the data has real columns and is compared across rows. Do not
 use it for a list, or a layout grid — use the app's own CSS. Write native
 `<thead>`, `<tbody>`, `<th>`, and `<td>` inside.
 
-## Props
+## Base UI API
+
+No Base UI primitive — a plain function component over native `<table>` props.
+
+| Element | Notes |
+| ------- | ----- |
+| Native `<table>` props (`id`, `aria-*`, `className`, `style`, ...) | Exposed — full passthrough. |
+| Inner markup (`thead`, `tbody`, `tr`, `th`, `td`) | Caller-written; styled through `.hds-table` descendant rules. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `striped` | `boolean` | `false` | Alternates even-row backgrounds with the Surface striped color. |
 | `children` | `ReactNode` | — | Native table markup: `<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>`. |
 
-All standard table attributes (`id`, `aria-*`, `className`, ...) are also
-accepted.
+Standard table attributes are passthrough — they appear here only, never get their own section.
 
 For a sortable column, put a `<button>` inside the `th` and set
 `aria-sort="ascending"` or `"descending"` on the `th`; an arrow glyph appears

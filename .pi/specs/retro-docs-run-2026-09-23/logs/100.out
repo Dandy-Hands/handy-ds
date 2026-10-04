@@ -1,0 +1,13 @@
+All work committed and pushed. Note: the runner glitched — it passed a numeric slug instead of component names, so I recovered the intended grouping (the `surfaces` group, per the coordinator's session log) and cross-checked sibling worktrees to avoid collisions. Sibling `20` also claimed Card, so that one may be a duplicate at merge time.
+
+```
+DONE 100
+branch: 100 (pushed)
+families: Card, Separator, Table
+index rows:
+| Card | Groups related content into a raised Surface box | Content belongs together on a page and needs elevation, not just spacing | [card.md](card.md) |
+| Separator | A themed dividing line between content groups | Groups need a visible division that spacing alone does not give | [separator.md](separator.md) |
+| Table | A themed data table over native table markup | Data has real columns and is compared across rows | [table.md](table.md) |
+decisions needing review: Table cell padding borrows hds/sem/input/measure/md/padding-* (decisions.md gap 13, "Needs review: consider a spacing token set") — flagged in docs/component-specs/table/spec.md; Card also documented on sibling branch 20 (duplicate likely at merge — runner glitch assigned families as numbers)
+build: docs-site npm run build exits 0 (805 modules, includes all three MDX pages)
+```

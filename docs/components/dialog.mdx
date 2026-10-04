@@ -12,6 +12,18 @@ backdrop covers the page; focus stays inside until the dialog closes.
 `AlertDialog` is the confirm/cancel variant and cannot be dismissed by clicking
 outside.
 
+<Dialog.Root>
+  <Dialog.Trigger data-priority="primary">Open dialog</Dialog.Trigger>
+  <Dialog.Portal>
+    <Dialog.Backdrop />
+    <Dialog.Popup>
+      <Dialog.Title>Edit profile</Dialog.Title>
+      <Dialog.Description>Changes apply to every workspace.</Dialog.Description>
+      <Dialog.Close>Done</Dialog.Close>
+    </Dialog.Popup>
+  </Dialog.Portal>
+</Dialog.Root>
+
 ## Usage
 
 Use Dialog when the user must finish or dismiss before carrying on: edit
@@ -19,19 +31,36 @@ forms, blocking choices. Use AlertDialog to confirm destructive actions —
 deletion, permission changes. Do not use Dialog for extra detail next to a
 trigger — use Popover.
 
-## Props
+## Base UI API
+
+Wraps Base UI's `Dialog` and `AlertDialog`; every part passes through
+unchanged, styled via `part()`. Both keep Base UI's modal defaults
+(`modal: true`).
+
+| Element | Notes |
+| ------- | ----- |
+| `Root` props (`open`, `defaultOpen`, `onOpenChange`, `modal`, ...) | Exposed — full passthrough. |
+| `Trigger`, `Close` | Styled as Action buttons (secondary look; `data-priority` overrides). |
+| `Portal`, `Backdrop` | Portal passthrough; backdrop gets the Overlay scrim. |
+| `Popup` | Surface elevation 3, popup transitions, centered modal layout. |
+| `Title`, `Description` | Heading type / body color. |
+| `initialFocus` / `finalFocus` (Popup) | Exposed — passthrough. |
+| `data-open`, `data-starting-style`, `data-ending-style` | Consumed by CSS for popup/backdrop transitions. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+`AlertDialog` mirrors every decision; the difference is the dismissal rules (no outside-click dismiss).
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `open` / `defaultOpen` (Root) | `boolean` | — | The controlled / initial open state. |
-| `onOpenChange` (Root) | `(open, eventDetails) => void` | — | Fires when the dialog opens or closes. |
-| `modal` (Root) | `boolean \| 'trap-focus'` | `true` | `true` traps focus, locks page scroll, and dismisses on outside press (AlertDialog never dismisses on outside press). `'trap-focus'` traps focus without locking scroll. |
+| `open` / `defaultOpen` | `boolean` | — | The controlled / initial open state. |
+| `onOpenChange` | `(open, eventDetails) => void` | — | Fires when the dialog opens or closes. |
+| `modal` | `boolean \| 'trap-focus'` | `true` | `true` traps focus, locks page scroll, and dismisses on outside press (AlertDialog never dismisses on outside press). `'trap-focus'` traps focus without locking scroll. |
 | `data-priority` (Trigger, Close) | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the trigger and close buttons. |
-| `initialFocus` / `finalFocus` (Popup) | `React.Ref` | — | Element to focus when the dialog opens / after it closes. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
 | `children` | `ReactNode` | — | Part content: backdrop, popup, title, description, close. |
 
-All standard attributes (`id`, `aria-*`, ...) are also accepted.
+`initialFocus`/`finalFocus`, `render`, and standard attributes are passthrough — they appear here only, never get their own section.
 
 ## Open state
 

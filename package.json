@@ -24,7 +24,10 @@
   "files": [
     "dist",
     "bin",
-    "docs"
+    "docs/api",
+    "docs/components",
+    "docs/rules.md",
+    "docs/components.md"
   ],
   "sideEffects": [
     "*.css"

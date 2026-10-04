@@ -22,6 +22,6 @@ export default defineConfig({
       cssFileName: 'styles',
     },
     rolldownOptions: { external },
-    sourcemap: true,
+    sourcemap: false,
   },
 });

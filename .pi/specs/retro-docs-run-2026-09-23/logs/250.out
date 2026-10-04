@@ -1,0 +1,12 @@
+```
+DONE 250
+branch: 250 (pushed)
+families: Select, Combobox (incl. Autocomplete — same source file)
+index rows:
+| Select | Picks one value from a known list | The list is fixed, longer than about five, and needs no typed filtering | [select.md](select.md) |
+| Combobox | A long list filtered by typing, single or multi-select with chips | The list is long, or several values are picked at once | [combobox.md](combobox.md) |
+decisions needing review: chip padding/gap cross-borrow Input/Field measure tokens (`hds/sem/input/measure/sm/padding-*`) — should move to a spacing token set when gap 13 lands; code/spec conflicts: none
+build: docs-site `npm run build` exits 0
+```
+
+Note for the coordinator: the launch prompt passed families "250", which matches no group in `run.sh`. I resolved it as the smallest group (`select-combobox`) per the plan's smoke-test note. Also: other groups' files (dialog, number-field, toast, toggle) are sitting untracked in the **main repo** working tree — those agents appear to have written outside their worktrees; not touched.

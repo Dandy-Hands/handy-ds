@@ -11,6 +11,11 @@ A button that stays pressed. `ToggleGroup` is a row of them with single or
 multiple selection. Toggle wears the full button look — secondary by default —
 and shows its pressed state through the Action `selected` colors.
 
+<ToggleGroup defaultValue={['b']}>
+  <Toggle value="b">Bold</Toggle>
+  <Toggle value="i">Italic</Toggle>
+</ToggleGroup>
+
 ## Usage
 
 Use Toggle for formatting controls (bold, italic) or picking one or several
@@ -18,22 +23,25 @@ from a few options that all stay visible. Do not use it for a setting that
 applies the moment it changes — use Switch. Do not use it for more than about
 five options — use Select.
 
-## Props
+## Base UI API
+
+Wraps Base UI's `Toggle` and `ToggleGroup`; full passthrough via `part()` on
+both.
+
+| Element | Notes |
+| ------- | ----- |
+| `Toggle` props (`pressed`, `defaultPressed`, `onPressedChange`, `value`, `disabled`, ...) | Exposed — full passthrough. |
+| `ToggleGroup` props (`value`, `defaultValue`, `onValueChange`, `multiple`, `orientation`, ...) | Exposed — full passthrough. |
+| `Toggle` look | The complete Button footprint; `data-pressed` drives the Action `selected` colors. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `data-priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the toggle's button look. |
-| `pressed` / `defaultPressed` (Toggle) | `boolean` | — | The controlled / initial pressed state. |
-| `onPressedChange` (Toggle) | `(pressed, eventDetails) => void` | — | Fires when the toggle is pressed or released. |
-| `value` (Toggle) | `any` | — | Identifies the toggle inside a ToggleGroup. |
-| `multiple` (ToggleGroup) | `boolean` | `false` | Lets several toggles be pressed at once. |
-| `value` / `defaultValue` (ToggleGroup) | `any[]` | — | The controlled / initial pressed values. |
-| `orientation` (ToggleGroup) | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the row. |
-| `disabled` | `boolean` | `false` | Ignores interaction. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
 | `children` | `ReactNode` | — | Label content. |
 
-All standard button attributes (`aria-*`, ...) are also accepted.
+Every other Base UI prop (`pressed`, `onPressedChange`, `value`, `multiple`, `orientation`, `disabled`, `render`, standard attributes) is passthrough — it appears here only, never gets its own section.
 
 ## Pressed
 

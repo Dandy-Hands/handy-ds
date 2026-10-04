@@ -11,6 +11,28 @@ A long list the user filters by typing. The input group takes text, opens an
 elevated popup of options, and with `multiple` shows the selection as removable
 chips inside the input.
 
+<Combobox.Root items={['Japan', 'Jordan', 'Norway', 'Portugal']} defaultValue="Norway">
+  <Combobox.InputGroup>
+    <Combobox.Input placeholder="Type to filter…" />
+    <Combobox.Clear />
+    <Combobox.Trigger />
+  </Combobox.InputGroup>
+  <Combobox.Portal>
+    <Combobox.Positioner>
+      <Combobox.Popup>
+        <Combobox.List>
+          {['Japan', 'Jordan', 'Norway', 'Portugal'].map((c) => (
+            <Combobox.Item key={c} value={c}>
+              <Combobox.ItemText>{c}</Combobox.ItemText>
+              <Combobox.ItemIndicator />
+            </Combobox.Item>
+          ))}
+        </Combobox.List>
+      </Combobox.Popup>
+    </Combobox.Positioner>
+  </Combobox.Portal>
+</Combobox.Root>
+
 ## Usage
 
 Use Combobox when the option list is long, or when several values are picked at
@@ -18,25 +40,39 @@ once. Do not use it when the user may enter a value that is not in the list —
 use Autocomplete (free text with suggestions); do not use it for a short fixed
 list — use Radio.
 
-## Props
+## Base UI API
+
+Wraps Base UI's `Combobox` as a compound component: every part spreads
+unchanged, DOM-rendering parts restyled via `part()`. All Base UI props keep
+their documented semantics; types like `Combobox.Root.Props` stay importable
+from `@base-ui/react/combobox`.
+
+| Element | Notes |
+| ------- | ----- |
+| `Root` props (`items`, `value`, `onValueChange`, `multiple`, `name`, `disabled`, `required`, filtering props, ...) | Exposed — full passthrough. |
+| `InputGroup`, `Input`, `Trigger`, `Clear` | Styled as the Input/Field control; built-in chevron and clear glyphs. |
+| `Chips` / `Chip` / `ChipRemove` | Chip row; chips wear the Action secondary look. |
+| `Positioner` / `Popup` / `List` / `Item` / `ItemIndicator` | Elevated popup, Action tertiary list items with built-in check. |
+| `Empty` / `Status` | Caption-styled status rows. |
+| Passthrough-only parts (`Root`, `Portal`, `ItemText`, `Group`, scroll arrows) | No styled DOM; every prop passes through, `ref` included. |
+
+## Extension API
 
 Combobox is a compound component: `Combobox.Root` takes the configuration props
-and the other parts compose the widget. The props below are the ones that
-change what Combobox shows or does; every part also accepts standard
-attributes.
+and the other parts compose the widget.
 
-| Prop | Applies to | Type | Default | Description |
-| ---- | ---------- | ---- | ------- | ----------- |
-| `items` | `Root` | `Array<string \| { label, value }>` | — | The option list the popup filters and renders. |
-| `value` | `Root` | `any \| any[]` | — | Controlled selected value(s). |
-| `defaultValue` | `Root` | `any \| any[]` | — | Uncontrolled initial selection. |
-| `onValueChange` | `Root` | `(value, event) => void` | — | Fires when the selection changes. Event handlers, ids, and refs appear here only. |
-| `multiple` | `Root` | `boolean` | `false` | Allows several selections; they render as removable chips. |
-| `name` | `Root` | `string` | — | Form field name for native submission. |
-| `disabled` | `Root` | `boolean` | `false` | Makes the whole widget inert. |
-| `required` | `Root` | `boolean` | `false` | Marks the field required for forms. |
-| `render` | any part | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element of a part. |
-| `data-size` | `InputGroup` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input group control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `items` | `Array<string \| { label, value }>` | — | The option list the popup filters and renders. |
+| `value` / `defaultValue` | `any \| any[]` | — | Controlled selected value(s) / uncontrolled initial selection. |
+| `onValueChange` | `(value, event) => void` | — | Fires when the selection changes. |
+| `multiple` | `boolean` | `false` | Allows several selections; they render as removable chips. |
+| `name` | `string` | — | Form field name for native submission. |
+| `disabled` | `boolean` | `false` | Makes the whole widget inert. |
+| `required` | `boolean` | `false` | Marks the field required for forms. |
+| `data-size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input group control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+
+`render`, `ref`, and standard attributes are passthrough on every part — they appear here only, never get their own section.
 
 ## Single select
 

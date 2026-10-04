@@ -1,0 +1,8 @@
+DONE 79
+branch: 79 (pushed)
+families: Toggle (Toggle + ToggleGroup), Tabs
+index rows:
+| Toggle | A two-state button and a shared-state group row for formatting controls and small visible option sets | Use for stay-pressed controls or picking one/several from about five visible options; use Switch for immediate settings, Select for longer lists | [toggle.md](toggle.md) |
+| Tabs | Switches between views in one region: tab triggers, sliding indicator, one visible panel | Use when several panels share one region and only one shows at a time; use Accordion when panels are separate or several may be open | [tabs.md](tabs.md) |
+decisions needing review: none — one flag: Tabs' indicator slide is a hardcoded 200ms in `src/components/Tabs.css` (no motion tokens exist yet); noted in `docs/component-specs/tabs/spec.md` and Owner notes. Code and docs agree otherwise.
+build: docs-site `npm run build` exits 0 (tsc + vite, 8 files added).

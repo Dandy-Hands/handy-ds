@@ -11,6 +11,10 @@ Wraps an SVG so it takes an icon role color and a size. The SVG must use
 `currentColor` for its stroke or fill; the box defaults to the surrounding font
 size.
 
+<Icon variant="accent" label="Star">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2l3 7 7 .6-5.3 4.7 1.6 7L12 17.8 5.7 21.3l1.6-7L2 9.6 9 9z" /></svg>
+</Icon>
+
 ## Usage
 
 Use Icon for any icon; the SVG draws with `currentColor`. Do not use it for
@@ -18,15 +22,26 @@ content images — use `<img>`. Omit `variant` inside a Button or Alert so the
 icon matches the text around it. Give `label` to an icon that carries meaning
 on its own.
 
-## Props
+## Base UI API
+
+No Base UI primitive — a plain function component over native `span` props.
+
+| Element | Notes |
+| ------- | ----- |
+| Native `span` props (`id`, `className`, `style`, ...) | Exposed — full passthrough. |
+| `aria-*` handling | Managed by the component from `label`: `role="img"` + `aria-label` when labeled, `aria-hidden` otherwise. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `variant` | `'default' \| 'secondary' \| 'accent'` | inherits the surrounding text color | Role color. `default` — normal icon color. `secondary` — muted. `accent` — brand accent. |
 | `size` | `string` | the surrounding font size | Any CSS length, e.g. `'1.5em'`. |
 | `label` | `string` | none — the icon is hidden from assistive tech | Accessible name for an icon that carries meaning on its own. |
+| `children` | `ReactNode` | — | The SVG. Must use `currentColor`. |
 
-All standard attributes (`id`, `aria-*`, `className`, ...) are also accepted.
+Standard attributes are passthrough — they appear here only, never get their own section.
 
 ## Variant
 

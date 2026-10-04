@@ -10,6 +10,8 @@ import { Card, Text } from 'handy-ds';
 A box of related content on a surface ground: background, border, shadow,
 radius, and padding at a chosen elevation. Renders a `div` by default.
 
+<Card elevation={1}><Text>A settings block</Text></Card>
+
 ## Usage
 
 Use Card to group content that belongs together on a page: a settings block, a
@@ -17,15 +19,25 @@ product summary, a dashboard tile. Do not use it when the content only needs
 spacing — use the app's own layout CSS. Pick the lowest elevation that
 separates the card from its ground.
 
-## Props
+## Base UI API
+
+No Base UI primitive — a single-part `useRender` component that passes all
+standard attributes through.
+
+| Element | Notes |
+| ------- | ----- |
+| `render` | Exposed — swap the element (`<article />`, a `RouterLink`, ...) without changing the look. |
+| Native `div` props (`id`, `aria-*`, `className`, `style`, ...) | Exposed — full passthrough. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `elevation` | `0 \| 1 \| 2 \| 3` | `1` | Surface level. `0` — flat, on the page ground. `1` — default card. `2` — raised, e.g. over other content. `3` — topmost, modal surfaces. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element, e.g. `render={<article />}`, without changing the look. |
 | `children` | `ReactNode` | — | Card content. |
 
-All standard attributes (`id`, `aria-*`, `className`, ...) are also accepted.
+`render` and standard attributes are passthrough — they appear here only, never get their own section.
 
 ## Elevation
 

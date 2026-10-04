@@ -1,0 +1,8 @@
+Preparing worktree (new branch '204')
+error: could not lock config file .git/config: File exists
+error: unable to write upstream branch configuration
+hint:
+hint: After fixing the error cause you may try to fix up
+hint: the remote tracking information by invoking:
+hint:   git branch --set-upstream-to=origin/refs/heads/main
+Preparing worktree (checking out '204')

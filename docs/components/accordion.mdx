@@ -10,25 +10,43 @@ import { Accordion, Text } from 'handy-ds';
 Sections that show and hide in place. Each item is a full-width tertiary
 trigger over a collapsible panel; item edges are thin divider lines.
 
+<Accordion.Root>
+  <Accordion.Item>
+    <Accordion.Header><Accordion.Trigger>Shipping</Accordion.Trigger></Accordion.Header>
+    <Accordion.Panel><Text>Ships in 2–3 days.</Text></Accordion.Panel>
+  </Accordion.Item>
+</Accordion.Root>
+
 ## Usage
 
 Use Accordion for an FAQ, or long content the user scans before opening. Do
 not use it when exactly one section shows at a time in a fixed region — use
 Tabs. Write each item as `Item > Header > Trigger` plus `Panel`.
 
-## Props
+## Base UI API
+
+Wraps Base UI's `Accordion`; every part passes through unchanged, styled via
+`part()`.
+
+| Element | Notes |
+| ------- | ----- |
+| `Root` props (`value`, `defaultValue`, `onValueChange`, `multiple`, `disabled`, ...) | Exposed — full passthrough on the namespace. |
+| `Root`, `Item`, `Header`, `Trigger`, `Panel` | Styled with `part()` — tertiary action trigger, Surface panel. |
+| `data-panel-open` (Trigger), `data-open` (Panel) | Consumed by CSS for chevron rotation and open state. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `value` / `defaultValue` (Root) | `any[]` | — | The controlled / initial open sections. |
-| `onValueChange` (Root) | `(value, eventDetails) => void` | — | Fires when a section opens or closes. |
-| `multiple` (Root) | `boolean` | `false` | Lets several sections stay open at once. |
-| `disabled` (Root, Trigger) | `boolean` | `false` | Ignores interaction on the whole accordion or one trigger. |
+| `value` / `defaultValue` | `any[]` | — | The controlled / initial open sections. |
+| `onValueChange` | `(value, eventDetails) => void` | — | Fires when a section opens or closes. |
+| `multiple` | `boolean` | `false` | Lets several sections stay open at once. |
+| `disabled` | `boolean` | `false` | Ignores interaction on the whole accordion or one trigger. |
 | `value` (Trigger) | `any` | — | Identifies the section; matches the panel's `value`. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
 | `children` | `ReactNode` | — | Part content. |
 
-All standard attributes (`id`, `aria-*`, ...) are also accepted.
+`render` and standard attributes are passthrough — they appear here only, never get their own section.
 
 ## Open state
 

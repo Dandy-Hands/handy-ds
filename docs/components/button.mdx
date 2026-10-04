@@ -11,6 +11,9 @@ The primary control for triggering an action. Button covers every action the
 user takes in place: submit, save, confirm, open, cancel. It is the Action
 category's reference part, themed entirely by semantic tokens.
 
+<Button priority="primary">Save changes</Button>
+<Button priority="secondary">Cancel</Button>
+
 ## Usage
 
 Use a button when the user acts in place: submitting a form, saving, opening a
@@ -19,7 +22,19 @@ mark the rest secondary or tertiary. Do not use a button for navigation — use
 LinkButton. Do not put button styling on Dialog or Menu triggers; a trigger's
 look depends on what renders it, and triggers ship unstyled on purpose.
 
-## Props
+## Base UI API
+
+Wraps Base UI's `Button`; every native prop passes through.
+
+| Element | Notes |
+| ------- | ----- |
+| Native `<button>` props (`disabled`, `type`, `onClick`, `form*`, `aria-*`, ...) | Exposed — full passthrough. |
+| `disabled` | As-is; the `data-disabled` attribute is consumed by the CSS. |
+| `type` | Default `button` is kept — plain buttons never submit; set `submit` explicitly. |
+| `render` | Exposed — replace the element or compose with another component. |
+| `nativeButton`, callback-form `className`/`style` | Available via passthrough, not documented — edge cases. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
@@ -27,11 +42,8 @@ look depends on what renders it, and triggers ship unstyled on purpose.
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense toolbars and compact layouts. `md` — default. `lg` — hero and marketing contexts. |
 | `loading` | `boolean` | `false` | Shows a spinner, sets `aria-busy="true"`, and blocks clicks while the action runs. |
 | `fullWidth` | `boolean` | `false` | Stretches to the full width of its container. |
-| `disabled` | `boolean` | — | Makes the button visible but inert. |
-| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Set `submit` to submit a form. |
-| `onClick` | `(event: MouseEvent) => void` | — | Fires when the button is activated. Event handlers, ids, and refs appear here only. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element or composes with another component. |
-| `children` | `ReactNode` | — | Label content. Icons go here — pair with the `Icon` component. |
+
+Standard attributes and the passthrough props in the Base UI API table appear here only — never get their own section.
 
 ## Priority
 

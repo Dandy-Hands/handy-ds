@@ -3,6 +3,7 @@ import { Link, useLocation, Outlet } from 'react-router-dom';
 import { buildTheme, type ThemeConfig } from '../../src/tokens/index.ts';
 import { Popover, Button } from 'handy-ds';
 import { ThemeControls } from './ThemePanel.tsx';
+import { setDocTheme } from '../../docs/token-pages.tsx';
 
 interface Page {
   path: string;
@@ -25,6 +26,13 @@ export function Layout({ pages }: { pages: Page[] }) {
     },
   } as Required<Pick<ThemeConfig, 'drivers'>> & ThemeConfig);
   const theme = useMemo(() => buildTheme(config), [config]);
+  setDocTheme(theme);
+
+  // Sidebar sections: tokens get their own area, everything else is components.
+  const sections = [
+    { title: 'Tokens', pages: pages.filter((p) => p.path.startsWith('tokens/')) },
+    { title: 'Components', pages: pages.filter((p) => !p.path.startsWith('tokens/')) },
+  ].filter((s) => s.pages.length > 0);
 
   return (
     <div className="docs-layout">
@@ -33,22 +41,8 @@ export function Layout({ pages }: { pages: Page[] }) {
         <h1>
           <Link to="/">handy-ds</Link>
         </h1>
-        <nav>
-          <ul>
-            {pages.map((page) => (
-              <li key={page.path}>
-                <Link
-                  to={`/${page.path}`}
-                  className={current === page.path ? 'active' : ''}
-                >
-                  {page.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
         <Popover.Root>
-          <Popover.Trigger>Theme ⚙</Popover.Trigger>
+          <Popover.Trigger className="theme-trigger">Theme ⚙</Popover.Trigger>
           <Popover.Portal>
             <Popover.Positioner side="right" align="start" sideOffset={8}>
               <Popover.Popup className="theme-flyout">
@@ -58,6 +52,25 @@ export function Layout({ pages }: { pages: Page[] }) {
             </Popover.Positioner>
           </Popover.Portal>
         </Popover.Root>
+        <nav>
+          {sections.map((section) => (
+            <div key={section.title}>
+              <h2>{section.title}</h2>
+              <ul>
+                {section.pages.map((page) => (
+                  <li key={page.path}>
+                    <Link
+                      to={`/${page.path}`}
+                      className={current === page.path ? 'active' : ''}
+                    >
+                      {page.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
       </aside>
       <main className="docs-content">
         <Outlet />

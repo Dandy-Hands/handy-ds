@@ -11,30 +11,67 @@ Picks one value from a known list that is too long for radio buttons and does
 not need typed filtering. The trigger is a standard input-height control; the
 options open in an elevated popup list.
 
+
+<Select.Root items={['Apple', 'Banana', 'Cherry']} defaultValue="Banana">
+  <Select.Trigger>
+    <Select.Value />
+    <Select.Icon />
+  </Select.Trigger>
+  <Select.Portal>
+    <Select.Positioner>
+      <Select.Popup>
+        <Select.List>
+          {['Apple', 'Banana', 'Cherry'].map((f) => (
+            <Select.Item key={f} value={f}>
+              <Select.ItemText>{f}</Select.ItemText>
+              <Select.ItemIndicator />
+            </Select.Item>
+          ))}
+        </Select.List>
+      </Select.Popup>
+    </Select.Positioner>
+  </Select.Portal>
+</Select.Root>
+
 ## Usage
 
 Use Select when the option list is fixed, longer than about five, and does not
 need filtering. Do not use it when the user must type to narrow the list — use
 Combobox; do not use it for short lists — use Radio.
 
-## Props
+## Base UI API
 
-Select is a compound component: `Select.Root` takes the configuration props and
-the other parts compose the widget. The props below are the ones that change
-what Select shows or does; every part also accepts standard attributes.
+Wraps Base UI's `Select` as a compound component: every part spreads
+unchanged, DOM-rendering parts restyled via `part()`. All Base UI props keep
+their documented semantics; types like `Select.Root.Props` stay importable
+from `@base-ui/react/select`.
 
-| Prop | Applies to | Type | Default | Description |
-| ---- | ---------- | ---- | ------- | ----------- |
-| `items` | `Root` | `Array<string \| { label, value }>` | — | The option list the popup renders. |
-| `value` | `Root` | `any` | — | Controlled selected value. |
-| `defaultValue` | `Root` | `any` | — | Uncontrolled initial selected value. |
-| `onValueChange` | `Root` | `(value, event) => void` | — | Fires when the user picks an option. Event handlers, ids, and refs appear here only. |
-| `multiple` | `Root` | `boolean` | `false` | Allows several selected values. |
-| `name` | `Root` | `string` | — | Form field name for native submission. |
-| `disabled` | `Root` | `boolean` | `false` | Makes the whole widget inert. |
-| `required` | `Root` | `boolean` | `false` | Marks the field required for forms. |
-| `render` | any part | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element of a part. |
-| `data-size` | `Trigger` | `'sm' \| 'md' \| 'lg'` | `'md'` | Trigger control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+| Element | Notes |
+| ------- | ----- |
+| `Root` props (`items`, `value`, `onValueChange`, `multiple`, `name`, `disabled`, `required`, ...) | Exposed — full passthrough. |
+| `Trigger`, `Icon` | Input/Field control with built-in chevron. |
+| `Positioner` / `Popup` / `List` / `Item` / `ItemIndicator` | Elevated popup, Action tertiary list items with built-in check. |
+| `Label` / `GroupLabel` | Field-label / list-label looks. |
+| `Separator`, `Backdrop` | Shared divider and overlay looks. |
+| Passthrough-only parts (`Root`, `Value`, `ItemText`, `Group`, `Portal`, scroll arrows) | No styled DOM; every prop passes through, `ref` included. |
+
+## Extension API
+
+Select is a compound component: `Select.Root` takes the configuration props
+and the other parts compose the widget.
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `items` | `Array<string \| { label, value }>` | — | The option list the popup renders. |
+| `value` / `defaultValue` | `any` | — | Controlled selected value / uncontrolled initial value. |
+| `onValueChange` | `(value, event) => void` | — | Fires when the user picks an option. |
+| `multiple` | `boolean` | `false` | Allows several selected values. |
+| `name` | `string` | — | Form field name for native submission. |
+| `disabled` | `boolean` | `false` | Makes the whole widget inert. |
+| `required` | `boolean` | `false` | Marks the field required for forms. |
+| `data-size` (Trigger) | `'sm' \| 'md' \| 'lg'` | `'md'` | Trigger control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+
+`render`, `ref`, and standard attributes are passthrough on every part — they appear here only, never get their own section.
 
 ## Parts
 

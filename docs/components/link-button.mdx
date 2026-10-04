@@ -11,6 +11,8 @@ A link that looks like a Button. LinkButton takes navigation ("View all",
 "Read the docs", calls to action) and dresses it in the Action category's
 visuals without pretending it is a button.
 
+<LinkButton href="#" priority="secondary">View all reports</LinkButton>
+
 ## Usage
 
 Use LinkButton when the control moves the user to another page or view but
@@ -19,16 +21,27 @@ use it for in-place actions (submit, save, open a dialog) — that is Button's
 job. Do not use a real Button with `href` instead; an `<a>` is the correct
 semantics for navigation, and Button's `loading` state would make no sense.
 
-## Props
+## Base UI API
+
+No Base UI primitive — built on `useRender` + `mergeProps`, so it takes the
+same `render` prop as Base UI parts.
+
+| Element | Notes |
+| ------- | ----- |
+| `useRender` props (`render`, native `<a>` props) | Exposed — full passthrough. |
+| `href`, `target`, `rel`, `aria-*` | Standard link attributes pass through to the rendered `<a>`. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'primary'` | Visual weight. `primary` — the view's main action. `secondary` — supporting actions next to the main one. `tertiary` — low-weight inline actions. |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense toolbars and compact layouts. `md` — default. `lg` — hero and marketing contexts. |
 | `href` | `string` | — | Destination URL, passed to the rendered `<a>`. |
-| `target` / `rel` / `aria-*` | — | — | Standard link attributes pass through. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element or composes with another component. |
 | `children` | `ReactNode` | — | Label content. Icons go here — pair with the `Icon` component. |
+
+Standard attributes and `render` appear here only — never get their own section.
 
 ## Priority
 

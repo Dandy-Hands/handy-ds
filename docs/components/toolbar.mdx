@@ -12,11 +12,36 @@ separators — with arrow-key navigation between them. Each part borrows its own
 category's look: tertiary action buttons, a small Input/Field control, a
 divider.
 
+<Toolbar.Root>
+  <Toolbar.Button>Cut</Toolbar.Button>
+  <Toolbar.Button>Copy</Toolbar.Button>
+  <Toolbar.Separator />
+  <Toolbar.Input placeholder="Search" />
+</Toolbar.Root>
+
 ## Usage
 
 Use Toolbar for a control strip that acts on a region: an editor bar, a
 bulk-action strip over a table. Do not use it for site navigation — that is
 NavigationMenu.
+
+## Base UI API
+
+Compound namespace that spreads every Base UI Toolbar part unchanged and
+restyles only the DOM-rendering parts via `part()`: `Root`, `Group`, `Button`,
+`Link`, `Input`, `Separator`. All other parts pass through, and Base UI's part
+docs apply one for one.
+
+| Element | Notes |
+| ------- | ----- |
+| `Button` / `Link` | Action tertiary buttons. |
+| `Input` | Input/Field control, pinned to size `sm`. |
+| `Separator` | Shared Divider look. |
+
+## Extension API
+
+handy-ds adds no props. Every Base UI prop passes through one for one —
+nothing gets its own section.
 
 ## Parts
 

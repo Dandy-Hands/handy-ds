@@ -11,6 +11,12 @@ A number input with decrement and increment steppers. The group renders as one
 Input/Field control: a − button, the value input, and a + button in a shared
 frame.
 
+<NumberField.Group defaultValue={5}>
+  <NumberField.Decrement />
+  <NumberField.Input />
+  <NumberField.Increment />
+</NumberField.Group>
+
 ## Usage
 
 Use NumberField for a quantity the user nudges up and down — seats, copies,
@@ -18,19 +24,27 @@ minutes. Do not use it for a short known list of options; Select or Radio fits
 better there. Do not use it for a range with no exact number in mind; the
 library does not ship a slider yet.
 
-## Props
+## Base UI API
+
+Wraps Base UI's `NumberField`; every part passes through unchanged, styled via
+`part()`.
+
+| Element | Notes |
+| ------- | ----- |
+| `Root` props (`value`, `min`, `max`, `step`, `smallStep`, `largeStep`, `snapOnStep`, `locale`, `format`, ...) | Exposed — full passthrough on the namespace. |
+| `Group`, `Input`, `Decrement`, `Increment` | Styled as the Input/Field control. |
+| `Decrement` / `Increment` children | Built-in minus/plus glyphs as overridable defaults. |
+| `ScrubArea`, `ScrubAreaCursor`, `Clear` | Pass through unstyled. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `data-size` (Group) | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows. `md` — default. `lg` — large or hero forms. |
-| `value` / `defaultValue` | `number` | — | The controlled / initial value. |
-| `min` / `max` | `number` | — | The smallest / largest allowed value. |
-| `step` | `number \| 'any'` | `1` | Amount added or removed by the steppers and arrow keys. |
-| `onValueChange` | `(value, eventDetails) => void` | — | Fires when the value changes. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
 | `children` | `ReactNode` | — | Group content: decrement button, value input, increment button. |
 
-All standard attributes (`id`, `aria-*`, `name`, ...) are also accepted.
+Every other Base UI prop (`value`, `min`, `max`, `step`, `onValueChange`, ...), `render`, and standard attributes are passthrough — they appear here only, never get their own section.
 
 ## Size
 

@@ -11,6 +11,16 @@ Switches between views in the same place. Tab triggers are tertiary actions; a
 sliding indicator marks the active tab. Panels are transparent and inherit the
 surrounding colors.
 
+<Tabs.Root defaultValue="one">
+  <Tabs.List>
+    <Tabs.Tab value="one">Overview</Tabs.Tab>
+    <Tabs.Tab value="two">Details</Tabs.Tab>
+    <Tabs.Indicator />
+  </Tabs.List>
+  <Tabs.Panel value="one"><Text>Overview panel.</Text></Tabs.Panel>
+  <Tabs.Panel value="two"><Text>Details panel.</Text></Tabs.Panel>
+</Tabs.Root>
+
 ## Usage
 
 Use Tabs when several panels share one region and only one shows at a time —
@@ -18,20 +28,31 @@ overview/details/reviews, settings sections. Do not use them when the panels
 are separate pages, or when several panels may be open at once — use Accordion.
 Panels carry no styling, so put `Text` roles or components inside them.
 
-## Props
+## Base UI API
+
+Wraps Base UI's `Tabs`; every part passes through unchanged, styled via
+`part()`.
+
+| Element | Notes |
+| ------- | ----- |
+| `Root` props (`value`, `defaultValue`, `onValueChange`, `orientation`, `activationMode`, `loopFocus`, ...) | Exposed — full passthrough on the namespace. |
+| `Root`, `List`, `Tab`, `Indicator`, `Panel` | Styled with `part()` — tertiary action tabs, sliding indicator. |
+| `Tab` props (`value`, `disabled`, `nativeButton`, `render`) | Exposed — passthrough; `render` composes links as tabs. |
+| `data-selected` (Tab), `data-orientation` (Root/List) | Consumed by CSS. |
+| Callback-form `className`/`style` | Available via passthrough, not documented. |
+
+## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `value` / `defaultValue` (Root) | `any` | — | The controlled / initial active tab. |
 | `onValueChange` (Root) | `(value, eventDetails) => void` | — | Fires when the active tab changes. |
 | `orientation` (Root) | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the list and panels. |
-| `activationMode` (Root) | `'automatic' \| 'manual'` | `'automatic'` | `automatic` activates on arrow-key focus; `manual` needs Enter or Space. |
 | `value` (Tab) | `any` | — | Identifies the tab; matches the panel's `value`. |
 | `disabled` (Tab) | `boolean` | `false` | Ignores interaction on the tab. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element, e.g. `render={<a href />}` on a Tab. |
 | `children` | `ReactNode` | — | Part content. |
 
-All standard attributes (`id`, `aria-*`, ...) are also accepted.
+`activationMode` and standard attributes are passthrough — they appear here only, never get their own section.
 
 ## Selected
 

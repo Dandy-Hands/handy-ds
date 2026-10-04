@@ -1,0 +1,12 @@
+DONE 33
+branch: 33 (pushed — prompt overrode the brief's `docs/<group-slug>` with branch `33`)
+families: Alert, Toast, Meter
+index rows:
+| Alert | Static feedback banner that stays on the page, with a sentiment color set | Use when the message must remain readable where it is; not for short post-action confirmations | [alert.md](alert.md) |
+| Toast | Short-lived post-action message pushed through a provider and rendered by a single `<Toaster />` | Use to confirm something that happened; not when the user must read or act — use Alert or Dialog | [toast.md](toast.md) |
+| Meter | Measured value in a known range (and family sibling Progress for running tasks) | Use when the number means something on its own; use Progress when something runs to completion | [meter.md](meter.md) |
+decisions needing review:
+- **Group mapping was broken**: the runner passed `families: 33` (a number, not component names); the numeric→family mapping is unrecoverable. Other numeric agents self-assigned to the named group plan; the feedback group (Alert, Toast, Meter) was the only fully unclaimed one, so group 33 took it. Coordinator should dedupe any sibling overlaps on merge.
+- Meter/Progress layout gap borrows `hds/sem/input/measure/sm/*` (recorded gap-13 "consider a spacing token set") — `Meter.css:8`.
+- Toast close button has no dedicated hover token treatment (`Feedback.css:63-73`) — a Feedback close-hover token is the natural addition if wanted.
+build: docs-site `npm run build` exits 0 (fixed nothing — all three MDX pages passed first build; no other group's build failures observed)

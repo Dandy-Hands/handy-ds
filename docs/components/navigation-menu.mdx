@@ -12,11 +12,39 @@ opening a popup of destination links that share one animated viewport.
 Triggers and links are Action tertiary; the current page renders in the
 selected state.
 
+<NavigationMenu.Root>
+  <NavigationMenu.List>
+    <NavigationMenu.Item>
+      <NavigationMenu.Trigger>Products</NavigationMenu.Trigger>
+    </NavigationMenu.Item>
+  </NavigationMenu.List>
+</NavigationMenu.Root>
+
 ## Usage
 
 Use NavigationMenu for the top-level navigation of a site. Do not use it for
 commands — that is Menu — and do not build app-style menu rows with it — that
 is Menubar.
+
+## Base UI API
+
+Compound namespace that spreads every Base UI part unchanged and restyles only
+the DOM-rendering parts via `part()`: `Root`, `List`, `Trigger`, `Icon`,
+`Content`, `Link`, `Positioner`, `Popup`, `Viewport`, `Backdrop`. All other
+parts (`Portal`, ...) pass through, and Base UI's part docs apply one for one.
+
+| Element | Notes |
+| ------- | ----- |
+| `Trigger` / `Link` | Action tertiary. |
+| `Popup` | Surface elevation 2. |
+| `Viewport` | Shared animated panel container. |
+
+Required assembly: `Root > List (Triggers) > Portal > Positioner > Popup > Viewport`, with `Content` pages inside the viewport.
+
+## Extension API
+
+handy-ds adds no props. Every Base UI prop passes through one for one —
+nothing gets its own section.
 
 ## Links
 
