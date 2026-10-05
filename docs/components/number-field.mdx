@@ -39,12 +39,18 @@ Wraps Base UI's `NumberField`; every part passes through unchanged, styled via
 
 ## Extension API
 
+### NumberField.Root
+
+Every Base UI prop (`value`, `min`, `max`, `step`, `onValueChange`, ...) is passthrough — it appears here only, never gets its own section.
+
+### NumberField.Group
+
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `data-size` (Group) | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows. `md` — default. `lg` — large or hero forms. |
+| `data-size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows. `md` — default. `lg` — large or hero forms. |
 | `children` | `ReactNode` | — | Group content: decrement button, value input, increment button. |
 
-Every other Base UI prop (`value`, `min`, `max`, `step`, `onValueChange`, ...), `render`, and standard attributes are passthrough — they appear here only, never get their own section.
+`render` and standard attributes are passthrough on every part — they appear here only, never get their own section.
 
 ## Size
 

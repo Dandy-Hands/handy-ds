@@ -47,13 +47,20 @@ Wraps Base UI's `Popover`; every part passes through unchanged, styled via
 
 ## Extension API
 
+### Popover.Root
+
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `modal` | `boolean \| 'trap-focus'` | `false` | Non-modal by default: the page behind stays usable. Set `true` to block outside interaction. |
-| `side` / `align` / `sideOffset` (Positioner) | — | — | Placement relative to the trigger and the gap from it. |
 | `children` | `ReactNode` | — | Part content: positioner, popup, title, description. |
 
-`open`/`defaultOpen`, `onOpenChange`, `data-priority`, `render`, and standard attributes are passthrough — they appear here only, never get their own section.
+### Popover.Positioner
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `side` / `align` / `sideOffset` | — | — | Placement relative to the trigger and the gap from it. |
+
+`open`/`defaultOpen`, `onOpenChange`, `data-priority` (Trigger), `render`, and standard attributes are passthrough — they appear here only, never get their own section.
 
 ## Open state
 

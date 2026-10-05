@@ -6,17 +6,27 @@ Popover is extra information or small controls anchored to a trigger, with the p
 
 ## Props
 
+### Popover.Root
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `open` / `defaultOpen` (Root) | `boolean` | — | The controlled / initial open state. |
-| `onOpenChange` (Root) | `(open, eventDetails) => void` | — | Fires when the popover opens or closes. |
-| `modal` (Root) | `boolean \| 'trap-focus'` | `false` | Non-modal by default: the page behind stays usable. Set `true` to block outside interaction. |
-| `data-priority` (Trigger) | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the trigger button. |
-| `side` / `align` / `sideOffset` (Positioner) | — | — | Placement relative to the trigger and the gap from it. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
-| `children` | `ReactNode` | — | Part content: positioner, popup, title, description. |
+| `open` / `defaultOpen` | `boolean` | — | The controlled / initial open state. |
+| `onOpenChange` | `(open, eventDetails) => void` | — | Fires when the popover opens or closes. |
+| `modal` | `boolean \| 'trap-focus'` | `false` | Non-modal by default: the page behind stays usable. Set `true` to block outside interaction. |
 
-All standard attributes (`id`, `aria-*`, ...) are also accepted.
+### Popover.Trigger
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `data-priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the trigger button. |
+
+### Popover.Positioner
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `side` / `align` / `sideOffset` | — | — | Placement relative to the trigger and the gap from it. |
+
+`children` holds part content (positioner, popup, title, description) on every part, and `render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element on any part. All standard attributes (`id`, `aria-*`, ...) are also accepted.
 
 ## Examples
 

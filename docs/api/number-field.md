@@ -6,17 +6,23 @@ NumberField is a number input with decrement and increment steppers. Use it for 
 
 ## Props
 
+### NumberField.Root
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `data-size` (Group) | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows. `md` — default. `lg` — large or hero forms. |
 | `value` / `defaultValue` | `number` | — | The controlled / initial value. |
 | `min` / `max` | `number` | — | The smallest / largest allowed value. |
 | `step` | `number \| 'any'` | `1` | Amount added or removed by the steppers and arrow keys. |
 | `onValueChange` | `(value, eventDetails) => void` | — | Fires when the value changes. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
+
+### NumberField.Group
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `data-size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows. `md` — default. `lg` — large or hero forms. |
 | `children` | `ReactNode` | — | Group content: decrement button, value input, increment button. |
 
-All standard attributes (`id`, `aria-*`, `name`, ...) are also accepted.
+`render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element on any part. All standard attributes (`id`, `aria-*`, `name`, ...) are also accepted.
 
 ## Examples
 

@@ -6,20 +6,26 @@ Toggle is a button that stays pressed. ToggleGroup is a row of them. Use it for 
 
 ## Props
 
+### Toggle
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `data-priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the toggle's button look. |
-| `pressed` / `defaultPressed` (Toggle) | `boolean` | — | The controlled / initial pressed state. |
-| `onPressedChange` (Toggle) | `(pressed, eventDetails) => void` | — | Fires when the toggle is pressed or released. |
-| `value` (Toggle) | `any` | — | Identifies the toggle inside a ToggleGroup. |
-| `multiple` (ToggleGroup) | `boolean` | `false` | Lets several toggles be pressed at once. |
-| `value` / `defaultValue` (ToggleGroup) | `any[]` | — | The controlled / initial pressed values. |
-| `orientation` (ToggleGroup) | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the row. |
-| `disabled` | `boolean` | `false` | Ignores interaction. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
+| `pressed` / `defaultPressed` | `boolean` | — | The controlled / initial pressed state. |
+| `onPressedChange` | `(pressed, eventDetails) => void` | — | Fires when the toggle is pressed or released. |
+| `value` | `any` | — | Identifies the toggle inside a ToggleGroup. |
+| `disabled` | `boolean` | `false` | Ignores interaction. Also on ToggleGroup. |
 | `children` | `ReactNode` | — | Label content. |
 
-All standard button attributes (`aria-*`, ...) are also accepted.
+### ToggleGroup
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `multiple` | `boolean` | `false` | Lets several toggles be pressed at once. |
+| `value` / `defaultValue` | `any[]` | — | The controlled / initial pressed values. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the row. |
+
+`render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element on any part. All standard button attributes (`aria-*`, ...) are also accepted.
 
 ## Examples
 

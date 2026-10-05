@@ -43,14 +43,21 @@ Wraps Base UI's `Tabs`; every part passes through unchanged, styled via
 
 ## Extension API
 
+### Tabs.Root
+
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `value` / `defaultValue` (Root) | `any` | — | The controlled / initial active tab. |
-| `onValueChange` (Root) | `(value, eventDetails) => void` | — | Fires when the active tab changes. |
-| `orientation` (Root) | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the list and panels. |
-| `value` (Tab) | `any` | — | Identifies the tab; matches the panel's `value`. |
-| `disabled` (Tab) | `boolean` | `false` | Ignores interaction on the tab. |
+| `value` / `defaultValue` | `any` | — | The controlled / initial active tab. |
+| `onValueChange` | `(value, eventDetails) => void` | — | Fires when the active tab changes. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the list and panels. |
 | `children` | `ReactNode` | — | Part content. |
+
+### Tabs.Tab
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `value` | `any` | — | Identifies the tab; matches the panel's `value`. |
+| `disabled` | `boolean` | `false` | Ignores interaction on the tab. |
 
 `activationMode` and standard attributes are passthrough — they appear here only, never get their own section.
 

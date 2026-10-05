@@ -6,16 +6,31 @@ Field is one labelled form value: label, control, description, and error, wired 
 
 ## Props
 
+### Field.Root
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `size` (Input only) | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows and compact layouts. `md` — default. `lg` — large or hero forms. `Field.Control` takes the same axis as `data-size`. |
-| `invalid` (Field.Root) | `boolean` | — | Marks the field and its control, description and error with `data-invalid`. |
-| `match` (Field.Error) | `boolean \| ValidityState key` | — | Shows the error when the control's validity matches. `valueMissing` — empty required field. `typeMismatch` — wrong format, e.g. an email. `true` — always show. |
-| `onSubmit` (Form) | `(event: FormEvent) => void` | — | Fires when the form submits. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
-| `children` | `ReactNode` | — | Label, control, description and error content. |
+| `invalid` | `boolean` | — | Marks the field and its control, description and error with `data-invalid`. |
 
-All standard attributes (`id`, `aria-*`, `name`, `placeholder`, `required`, ...) are also accepted on the control parts.
+### Input
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows and compact layouts. `md` — default. `lg` — large or hero forms. `Field.Control` takes the same axis as `data-size`. |
+
+### Field.Error
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `match` | `boolean \| ValidityState key` | — | Shows the error when the control's validity matches. `valueMissing` — empty required field. `typeMismatch` — wrong format, e.g. an email. `true` — always show. |
+
+### Form
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `onSubmit` | `(event: FormEvent) => void` | — | Fires when the form submits. |
+
+`children` holds content on every part (label, control, description and error), and `render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element on any part. All standard attributes (`id`, `aria-*`, `name`, `placeholder`, `required`, ...) are also accepted on the control parts.
 
 ## Examples
 

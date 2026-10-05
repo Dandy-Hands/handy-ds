@@ -28,20 +28,34 @@ five options — use Select.
 Wraps Base UI's `Toggle` and `ToggleGroup`; full passthrough via `part()` on
 both.
 
+### Toggle
+
 | Element | Notes |
 | ------- | ----- |
 | `Toggle` props (`pressed`, `defaultPressed`, `onPressedChange`, `value`, `disabled`, ...) | Exposed — full passthrough. |
-| `ToggleGroup` props (`value`, `defaultValue`, `onValueChange`, `multiple`, `orientation`, ...) | Exposed — full passthrough. |
 | `Toggle` look | The complete Button footprint; `data-pressed` drives the Action `selected` colors. |
 
+### ToggleGroup
+
+| Element | Notes |
+| ------- | ----- |
+| `ToggleGroup` props (`value`, `defaultValue`, `onValueChange`, `multiple`, `orientation`, ...) | Exposed — full passthrough. |
+
 ## Extension API
+
+### Toggle
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `data-priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the toggle's button look. |
 | `children` | `ReactNode` | — | Label content. |
 
-Every other Base UI prop (`pressed`, `onPressedChange`, `value`, `multiple`, `orientation`, `disabled`, `render`, standard attributes) is passthrough — it appears here only, never gets its own section.
+### ToggleGroup
+
+handy-ds adds no props to ToggleGroup; the row layout uses the Action gap. Every
+Base UI prop (`pressed`, `onPressedChange`, `value`, `multiple`, `orientation`,
+`disabled`, `render`, standard attributes) is passthrough — it appears here
+only, never gets its own section.
 
 ## Pressed
 
@@ -60,6 +74,7 @@ default priority is secondary.
 because the look depends on where the toggle sits.
 
 <ToggleGroup multiple defaultValue={['a']}>
+  <Toggle value="c" data-priority="primary">Primary</Toggle>
   <Toggle value="a">Default (secondary)</Toggle>
   <Toggle value="t" data-priority="tertiary">Tertiary</Toggle>
 </ToggleGroup>

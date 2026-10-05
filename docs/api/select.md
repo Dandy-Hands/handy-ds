@@ -6,21 +6,28 @@ Select picks one value from a fixed list. Use it when the list is known, longer 
 
 ## Props
 
-Select is a compound component: `Select.Root` takes the configuration props, and `Select.Trigger`, `Select.Value`, `Select.Icon`, `Select.Portal`, `Select.Positioner`, `Select.Popup`, `Select.List`, `Select.Item`, `Select.ItemText`, `Select.ItemIndicator`, `Select.Group`, `Select.GroupLabel`, `Select.Separator`, and `Select.Backdrop` compose the widget. All standard attributes (`id`, `aria-*`, `className`, ...) are accepted on every part.
+Select is a compound component: `Select.Root` takes the configuration props, and `Select.Trigger`, `Select.Value`, `Select.Icon`, `Select.Portal`, `Select.Positioner`, `Select.Popup`, `Select.List`, `Select.Item`, `Select.ItemText`, `Select.ItemIndicator`, `Select.Group`, `Select.GroupLabel`, `Select.Separator`, and `Select.Backdrop` compose the widget.
 
-| Prop | Applies to | Type | Default | Description |
-| --- | --- | --- | --- | --- |
-| `items` | `Root` | `Array<string \| { label, value }>` | — | The option list the popup renders. |
-| `value` | `Root` | `any` | — | Controlled selected value. |
-| `defaultValue` | `Root` | `any` | — | Uncontrolled initial selected value. |
-| `onValueChange` | `Root` | `(value, event) => void` | — | Fires when the user picks an option. |
-| `multiple` | `Root` | `boolean` | `false` | Allows several selected values; use Combobox for multi-select with chips. |
-| `name` | `Root` | `string` | — | Form field name for native submission. |
-| `disabled` | `Root` | `boolean` | `false` | Makes the whole widget inert. |
-| `required` | `Root` | `boolean` | `false` | Marks the field required for forms. |
-| `children` | `Trigger`, `Item`, `Group` | `ReactNode` | — | Trigger content (pair `Value` + `Icon`), item label (or `ItemText`), grouped items. |
-| `render` | any part | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element of a part. |
-| `data-size` | `Trigger` | `'sm' \| 'md' \| 'lg'` | `'md'` | Trigger control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+### Select.Root
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` | `Array<string \| { label, value }>` | — | The option list the popup renders. |
+| `value` | `any` | — | Controlled selected value. |
+| `defaultValue` | `any` | — | Uncontrolled initial selected value. |
+| `onValueChange` | `(value, event) => void` | — | Fires when the user picks an option. |
+| `multiple` | `boolean` | `false` | Allows several selected values; use Combobox for multi-select with chips. |
+| `name` | `string` | — | Form field name for native submission. |
+| `disabled` | `boolean` | `false` | Makes the whole widget inert. |
+| `required` | `boolean` | `false` | Marks the field required for forms. |
+
+### Select.Trigger
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `data-size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Trigger control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+
+`children` holds content on `Trigger` (pair `Value` + `Icon`), `Item` (label, or `ItemText`), and `Group` (grouped items). `render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element of any part. All standard attributes (`id`, `aria-*`, `className`, ...) are accepted on every part.
 
 ## Examples
 

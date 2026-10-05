@@ -60,6 +60,8 @@ from `@base-ui/react/select`.
 Select is a compound component: `Select.Root` takes the configuration props
 and the other parts compose the widget.
 
+### Select.Root
+
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `items` | `Array<string \| { label, value }>` | — | The option list the popup renders. |
@@ -69,7 +71,12 @@ and the other parts compose the widget.
 | `name` | `string` | — | Form field name for native submission. |
 | `disabled` | `boolean` | `false` | Makes the whole widget inert. |
 | `required` | `boolean` | `false` | Marks the field required for forms. |
-| `data-size` (Trigger) | `'sm' \| 'md' \| 'lg'` | `'md'` | Trigger control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+
+### Select.Trigger
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `data-size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Trigger control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
 
 `render`, `ref`, and standard attributes are passthrough on every part — they appear here only, never get their own section.
 

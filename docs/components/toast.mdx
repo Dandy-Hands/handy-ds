@@ -46,15 +46,23 @@ Wraps Base UI's `Toast`; every part passes through unchanged, styled via
 
 ## Extension API
 
+### `Toast.useToastManager().add()` options
+
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `type` (via `add`) | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | The toast's color and tone. `info` — neutral notice. `success` — confirmed. `warning` — act soon. `danger` — problem. |
-| `title` (via `add`) | `ReactNode` | — | Short heading of the toast. |
-| `description` (via `add`) | `ReactNode` | — | Detail below the title. |
-| `timeout` (via `add` or `Provider`) | `number` | `5000` | Milliseconds before auto-dismiss; `0` keeps the toast until dismissed. |
-| `actionProps` (via `add`) | button props | — | Props for the toast's action button. |
+| `type` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | The toast's color and tone. `info` — neutral notice. `success` — confirmed. `warning` — act soon. `danger` — problem. |
+| `title` | `ReactNode` | — | Short heading of the toast. |
+| `description` | `ReactNode` | — | Detail below the title. |
+| `timeout` | `number` | `5000` | Milliseconds before auto-dismiss; `0` keeps the toast until dismissed. Also settable on the Provider. |
+| `actionProps` | button props | — | Props for the toast's action button. |
 
-`limit` is a Provider passthrough documented here for convenience; `render` and standard attributes are passthrough on every part — they appear here only, never get their own section.
+### Toast.Provider
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `limit` | `number` | `3` | Maximum toasts shown at once; extras hide until space frees. |
+
+`render` and standard attributes are passthrough on every part — they appear here only, never get their own section.
 
 ## Type
 

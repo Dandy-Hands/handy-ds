@@ -8,21 +8,28 @@ The same package also exports **Autocomplete**: free text with suggestions, for 
 
 ## Props
 
-Combobox is a compound component: `Combobox.Root` takes the configuration props, and `Combobox.Label`, `Combobox.InputGroup`, `Combobox.Input`, `Combobox.Trigger`, `Combobox.Clear`, `Combobox.Chips`, `Combobox.Chip`, `Combobox.ChipRemove`, `Combobox.Portal`, `Combobox.Positioner`, `Combobox.Popup`, `Combobox.List`, `Combobox.Item`, `Combobox.ItemText`, `Combobox.ItemIndicator`, `Combobox.Group`, `Combobox.GroupLabel`, `Combobox.Separator`, `Combobox.Empty`, `Combobox.Status`, and `Combobox.Backdrop` compose the widget. All standard attributes (`id`, `aria-*`, `className`, ...) are accepted on every part.
+Combobox is a compound component: `Combobox.Root` takes the configuration props, and `Combobox.Label`, `Combobox.InputGroup`, `Combobox.Input`, `Combobox.Trigger`, `Combobox.Clear`, `Combobox.Chips`, `Combobox.Chip`, `Combobox.ChipRemove`, `Combobox.Portal`, `Combobox.Positioner`, `Combobox.Popup`, `Combobox.List`, `Combobox.Item`, `Combobox.ItemText`, `Combobox.ItemIndicator`, `Combobox.Group`, `Combobox.GroupLabel`, `Combobox.Separator`, `Combobox.Empty`, `Combobox.Status`, and `Combobox.Backdrop` compose the widget.
 
-| Prop | Applies to | Type | Default | Description |
-| --- | --- | --- | --- | --- |
-| `items` | `Root` | `Array<string \| { label, value }>` | — | The option list the popup filters and renders. |
-| `value` | `Root` | `any \| any[]` | — | Controlled selected value(s). |
-| `defaultValue` | `Root` | `any \| any[]` | — | Uncontrolled initial selection. |
-| `onValueChange` | `Root` | `(value, event) => void` | — | Fires when the selection changes. |
-| `multiple` | `Root` | `boolean` | `false` | Allows several selections; selected values render as removable chips in the input. |
-| `name` | `Root` | `string` | — | Form field name for native submission. |
-| `disabled` | `Root` | `boolean` | `false` | Makes the whole widget inert. |
-| `required` | `Root` | `boolean` | `false` | Marks the field required for forms. |
-| `children` | `Item`, `Group` | `ReactNode` | — | Item label (or `ItemText`), grouped items. |
-| `render` | any part | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element of a part. |
-| `data-size` | `InputGroup` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input group control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+### Combobox.Root
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `items` | `Array<string \| { label, value }>` | — | The option list the popup filters and renders. |
+| `value` | `any \| any[]` | — | Controlled selected value(s). |
+| `defaultValue` | `any \| any[]` | — | Uncontrolled initial selection. |
+| `onValueChange` | `(value, event) => void` | — | Fires when the selection changes. |
+| `multiple` | `boolean` | `false` | Allows several selections; selected values render as removable chips in the input. |
+| `name` | `string` | — | Form field name for native submission. |
+| `disabled` | `boolean` | `false` | Makes the whole widget inert. |
+| `required` | `boolean` | `false` | Marks the field required for forms. |
+
+### Combobox.InputGroup
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `data-size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input group control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+
+`children` holds content on `Item` (label, or `ItemText`) and `Group` (grouped items). `render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element of any part. All standard attributes (`id`, `aria-*`, `className`, ...) are accepted on every part.
 
 ## Examples
 

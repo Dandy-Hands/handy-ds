@@ -52,15 +52,22 @@ unchanged, styled via `part()`. Both keep Base UI's modal defaults
 
 ## Extension API
 
+### Dialog.Root
+
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `open` / `defaultOpen` | `boolean` | — | The controlled / initial open state. |
 | `onOpenChange` | `(open, eventDetails) => void` | — | Fires when the dialog opens or closes. |
 | `modal` | `boolean \| 'trap-focus'` | `true` | `true` traps focus, locks page scroll, and dismisses on outside press (AlertDialog never dismisses on outside press). `'trap-focus'` traps focus without locking scroll. |
-| `data-priority` (Trigger, Close) | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the trigger and close buttons. |
 | `children` | `ReactNode` | — | Part content: backdrop, popup, title, description, close. |
 
-`initialFocus`/`finalFocus`, `render`, and standard attributes are passthrough — they appear here only, never get their own section.
+### Dialog.Trigger, Dialog.Close
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `data-priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the trigger and close buttons. |
+
+`initialFocus`/`finalFocus` (Popup), `render`, and standard attributes are passthrough — they appear here only, never get their own section.
 
 ## Open state
 

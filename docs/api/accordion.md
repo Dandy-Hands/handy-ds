@@ -6,17 +6,22 @@ Accordion shows and hides sections in place. Use it for an FAQ, or long content 
 
 ## Props
 
+### Accordion.Root
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` / `defaultValue` (Root) | `any[]` | — | The controlled / initial open sections. |
-| `onValueChange` (Root) | `(value, eventDetails) => void` | — | Fires when a section opens or closes. |
-| `multiple` (Root) | `boolean` | `false` | Lets several sections stay open at once. |
-| `disabled` (Root, Trigger) | `boolean` | `false` | Ignores interaction on the whole accordion or one trigger. |
-| `value` (Trigger) | `any` | — | Identifies the section; matches the panel's `value`. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
-| `children` | `ReactNode` | — | Part content. |
+| `value` / `defaultValue` | `any[]` | — | The controlled / initial open sections. |
+| `onValueChange` | `(value, eventDetails) => void` | — | Fires when a section opens or closes. |
+| `multiple` | `boolean` | `false` | Lets several sections stay open at once. |
+| `disabled` | `boolean` | `false` | Ignores interaction on the whole accordion. Also on Trigger. |
 
-All standard attributes (`id`, `aria-*`, ...) are also accepted.
+### Accordion.Trigger
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `any` | — | Identifies the section; matches the panel's `value`. |
+
+`children` holds part content on every part, and `render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element on any part. All standard attributes (`id`, `aria-*`, ...) are also accepted.
 
 ## Examples
 

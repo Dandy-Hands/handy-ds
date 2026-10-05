@@ -6,17 +6,27 @@ Dialog is a task that blocks the page: the user must finish or dismiss before ca
 
 ## Props
 
+### Dialog.Root
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `open` / `defaultOpen` (Root) | `boolean` | — | The controlled / initial open state. |
-| `onOpenChange` (Root) | `(open, eventDetails) => void` | — | Fires when the dialog opens or closes. |
-| `modal` (Root) | `boolean \| 'trap-focus'` | `true` | `true` traps focus, locks page scroll, and dismisses on outside press (AlertDialog never dismisses on outside press). `'trap-focus'` traps focus without locking scroll. |
-| `data-priority` (Trigger, Close) | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the trigger and close buttons. |
-| `initialFocus` / `finalFocus` (Popup) | `React.Ref` | — | Element to focus when the dialog opens / after it closes. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
-| `children` | `ReactNode` | — | Part content: backdrop, popup, title, description, close. |
+| `open` / `defaultOpen` | `boolean` | — | The controlled / initial open state. |
+| `onOpenChange` | `(open, eventDetails) => void` | — | Fires when the dialog opens or closes. |
+| `modal` | `boolean \| 'trap-focus'` | `true` | `true` traps focus, locks page scroll, and dismisses on outside press (AlertDialog never dismisses on outside press). `'trap-focus'` traps focus without locking scroll. |
 
-All standard attributes (`id`, `aria-*`, ...) are also accepted.
+### Dialog.Trigger, Dialog.Close
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `data-priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the trigger and close buttons. |
+
+### Dialog.Popup
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `initialFocus` / `finalFocus` | `React.Ref` | — | Element to focus when the dialog opens / after it closes. |
+
+`children` holds part content (backdrop, popup, title, description, close) on every part, and `render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element on any part. All standard attributes (`id`, `aria-*`, ...) are also accepted.
 
 ## Examples
 

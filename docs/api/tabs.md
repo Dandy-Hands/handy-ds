@@ -6,18 +6,23 @@ Tabs switch between views in the same place. Use them when several panels share 
 
 ## Props
 
+### Tabs.Root
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` / `defaultValue` (Root) | `any` | — | The controlled / initial active tab. |
-| `onValueChange` (Root) | `(value, eventDetails) => void` | — | Fires when the active tab changes. |
-| `orientation` (Root) | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the list and panels. |
-| `activationMode` (Root) | `'automatic' \| 'manual'` | `'automatic'` | `automatic` activates on arrow-key focus; `manual` needs Enter or Space. |
-| `value` (Tab) | `any` | — | Identifies the tab; matches the panel's `value`. |
-| `disabled` (Tab) | `boolean` | `false` | Ignores interaction on the tab. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element, e.g. `render={<a href />}` on a Tab. |
-| `children` | `ReactNode` | — | Part content. |
+| `value` / `defaultValue` | `any` | — | The controlled / initial active tab. |
+| `onValueChange` | `(value, eventDetails) => void` | — | Fires when the active tab changes. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the list and panels. |
+| `activationMode` | `'automatic' \| 'manual'` | `'automatic'` | `automatic` activates on arrow-key focus; `manual` needs Enter or Space. |
 
-All standard attributes (`id`, `aria-*`, ...) are also accepted.
+### Tabs.Tab
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `any` | — | Identifies the tab; matches the panel's `value`. |
+| `disabled` | `boolean` | `false` | Ignores interaction on the tab. |
+
+`children` holds part content on every part, and `render` (`ReactElement \| (props, state) => ReactElement`, e.g. `render={<a href />}` on a Tab) replaces the rendered element on any part. All standard attributes (`id`, `aria-*`, ...) are also accepted.
 
 ## Examples
 

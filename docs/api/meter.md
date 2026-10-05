@@ -6,16 +6,17 @@ Meter shows a value in a known range: storage used, a score. Use it when the num
 
 ## Props
 
+### Meter.Root
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `sentiment` (Meter.Root) | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | Fill color. `info` — neutral. `success` — good level. `warning` — nearing a limit. `danger` — over a limit. |
-| `value` (Root) | `number` | — | The current value. `Progress.Root` also accepts `null` (indeterminate). |
-| `min` / `max` (Root) | `number` | `0` / `100` | The range ends. |
-| `format` (Root) | `Intl.NumberFormatOptions` | — | Formats the displayed value. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
+| `sentiment` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | Fill color. `info` — neutral. `success` — good level. `warning` — nearing a limit. `danger` — over a limit. |
+| `value` | `number` | — | The current value. `Progress.Root` also accepts `null` (indeterminate). |
+| `min` / `max` | `number` | `0` / `100` | The range ends. |
+| `format` | `Intl.NumberFormatOptions` | — | Formats the displayed value. |
 | `children` | `ReactNode` | — | Parts: `Label`, `Value`, `Track` with `Indicator` inside. |
 
-All standard attributes (`id`, `aria-*`, ...) are also accepted.
+The other parts (`Track`, `Indicator`, `Label`, `Value`) take no handy-ds props. `render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element on any part. All standard attributes (`id`, `aria-*`, ...) are also accepted.
 
 ## Examples
 

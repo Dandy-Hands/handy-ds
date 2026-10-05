@@ -37,16 +37,23 @@ Wraps Base UI's `Accordion`; every part passes through unchanged, styled via
 
 ## Extension API
 
+### Accordion.Root
+
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
 | `value` / `defaultValue` | `any[]` | — | The controlled / initial open sections. |
 | `onValueChange` | `(value, eventDetails) => void` | — | Fires when a section opens or closes. |
 | `multiple` | `boolean` | `false` | Lets several sections stay open at once. |
-| `disabled` | `boolean` | `false` | Ignores interaction on the whole accordion or one trigger. |
-| `value` (Trigger) | `any` | — | Identifies the section; matches the panel's `value`. |
+| `disabled` | `boolean` | `false` | Ignores interaction on the whole accordion. Also on Trigger. |
+
+### Accordion.Trigger
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `value` | `any` | — | Identifies the section; matches the panel's `value`. |
 | `children` | `ReactNode` | — | Part content. |
 
-`render` and standard attributes are passthrough — they appear here only, never get their own section.
+`render` and standard attributes are passthrough on every part — they appear here only, never get their own section.
 
 ## Open state
 

@@ -88,4 +88,9 @@ Use the category the spec assigns (token spec section 9 tables, decisions in `.c
 
 ## Adding a component
 
-Three skills. `component-spec` (`.claude/skills/component-spec/SKILL.md`) drafts the spec in `.claude/specs/components/` and reviews it with the user. Then `component-build` (`.claude/skills/component-build/SKILL.md`) writes the code and holds the build checklist, and `component-figma` (`.claude/skills/component-figma/SKILL.md`) builds the Figma component. The last two are independent: run either order. Both refuse a spec that is not `Status: reviewed`.
+Four skills in `.claude/skills/`, run in order. The spec has a status block with one line per phase (`spec`, `code`, `figma`, `docs`). Each skill sets only its own line and refuses to start until the lines it needs are set.
+
+1. `hds-component-spec-interview` interviews the user, then writes the internal spec `docs/component-specs/<component>/spec.md` and the agent-facing API doc `docs/api/<component>.md`. Writes the status block with `spec: reviewed` and the rest `pending`.
+2. `hds-component-code` builds the component from the reviewed spec. Needs `spec: reviewed`. Sets `code: built`.
+3. `hds-component-figma` builds the Figma component from the reviewed spec. Independent of step 2: run either order. Needs `spec: reviewed`. Sets `figma: built`.
+4. `hds-component-docs` writes `docs/components/<component>.mdx` with live examples, after the code is built. Needs `spec: reviewed` and `code: built`. Sets `docs: built`.
