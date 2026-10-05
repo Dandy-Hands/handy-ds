@@ -1,6 +1,6 @@
 # Feature Spec: Component Build Process
 
-- Status: draft
+- Status: accepted (in use through the `hds-component-*` skills in `.claude/skills/`)
 - Date: 2026-09-21
 - Interview: `interview-guide.md`
 - Research: `TODO.md` (API doc conventions)
@@ -58,6 +58,16 @@ A repeatable, two-phase process that produces, for every Base UI-derived compone
   THE SYSTEM SHALL require that `hds-component-code` has already run and `npm run build` passes.
 - WHEN a component is built
   THE SYSTEM SHALL respect existing `docs/component-conventions.md` and the semantic-token-only rule.
+- WHEN any phase finishes
+  THE SYSTEM SHALL set only that phase's line in the internal spec's status block, which has one line per phase:
+  ```
+  Status:
+  - spec: reviewed
+  - code: pending | built
+  - figma: pending | built
+  - docs: pending | built
+  ```
+  Code and Figma each need `spec: reviewed`; owner docs need `spec: reviewed` and `code: built`.
 
 ## Acceptance criteria
 

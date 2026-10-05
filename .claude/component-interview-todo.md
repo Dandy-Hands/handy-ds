@@ -8,7 +8,7 @@ least: build foundations before composites.
 Per component:
 1. Write interview guide → `docs/component-specs/<component>/interview-guide-<date>.md`
 2. Interview user per Base UI prop + extension props + token mapping
-3. Write internal spec → `docs/component-specs/<component>/spec.md` (Status: reviewed)
+3. Write internal spec → `docs/component-specs/<component>/spec.md` (status block: `spec: reviewed`, other phases `pending`)
 4. Write API doc → `docs/api/<component>.md`
 5. Update `docs/api/index.md`
 

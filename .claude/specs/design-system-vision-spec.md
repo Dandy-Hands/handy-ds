@@ -22,31 +22,32 @@ This consistency makes each new client build faster than the last. It also makes
 ## 3. Tech Stack
 
 - React for component code.
-- Base UI as the primitive layer. Base UI provides unstyled, accessible component behavior: keyboard handling, focus management, ARIA roles, and similar logic.
+- Base UI as the behavior layer. Base UI provides unstyled, accessible component behavior: keyboard handling, focus management, ARIA roles, and similar logic.
 - Plain CSS using CSS custom properties for styling. No Tailwind and no other utility CSS framework.
+- A charting library for data visualization. The library is not chosen yet. It must take its colors from the theme's data-visualization palette.
 - The component library is built and versioned as a private package. Client projects install it as a dependency.
 
 ## 4. Theming Model
 
 The theming system has three layers.
 
-**Drivers.** A driver is a direct, simple input. Examples: a brand color, an accent color, a density setting, a border radius setting. A person sets driver values by hand for each client.
+**Drivers.** A driver is a direct input that a person sets for each client. Examples: a brand color, a density setting, a border radius setting, the palette color used for primary actions.
 
-**Primitives.** Primitives are generated from driver values. A color driver generates a full range of color shades. A type scale driver generates a full set of font sizes. Primitives are not set by hand. They are calculated from drivers.
+**Primitives.** Primitives are generated from driver values. A color driver generates a full palette of color shades. A type scale driver generates a full set of font sizes. Primitives are not set by hand. They are calculated from drivers.
 
-**Semantic tokens.** Semantic tokens are named values that describe a purpose, not a raw value. Examples: the background color of a primary button, the text color of an error message. Semantic tokens point to specific primitive values.
+**Semantic tokens.** Semantic tokens are named values that describe a purpose, not a raw value. Examples: the background color of a primary button, the text color of an error message. Semantic tokens point to specific primitive values. The set of semantic tokens is kept as small as the components allow.
 
 Components read only semantic tokens. A component never reads a driver value or a primitive value directly. This keeps components stable. It also means a full theme change requires no change to component code.
 
-## 5. Two Levels of Theme Control
+The theme includes a data-visualization palette: a set of colors for charts and graphs. It follows the same three layers as every other color.
 
-The system supports two levels of adjustment.
+## 5. Theme Control
 
-**Driver-level adjustment.** This is the fast, easy level. A person changes a driver value, such as a color or a radius setting, and the primitives and semantic tokens update to match. This level covers most client theming needs.
+Drivers are the only way to theme a client. There is no second, deeper level of control. A client theme is a set of driver values, and nothing else.
 
-**Mapping-level adjustment.** This is a deeper, harder level. Instead of changing a driver value, a person changes which primitive value a semantic token points to. For example, a semantic token for a button background might normally point to a mid-range shade of the primary color. At the mapping level, a person can point it to a different shade, or to a different color scale entirely.
+Drivers are detailed enough to cover the needs that a deeper level would otherwise cover. The most important case is color. A color driver generates a palette. Other drivers then pick the exact palette color for each use, such as the background of a primary action. The library does not pre-select a hue or a shade for a use. Each pick has a default, so a person sets only the picks that matter for the client.
 
-Mapping-level adjustment takes more time and more care than driver-level adjustment. It also produces a wider range of possible results. The two levels work together: drivers set the raw material, and mapping decides how that material is used.
+How the drivers become semantic tokens is library code. A client does not change it. If a client needs a result that drivers cannot produce, the team adds or extends a driver. The new driver then serves every client.
 
 ## 6. Driver List
 
@@ -54,27 +55,37 @@ The starting set of drivers:
 
 - Primary brand color.
 - Accent color.
+- Palette color picks for each use, such as action backgrounds.
 - Typography set and type scale.
 - Density (how compact or roomy the layout is).
 - Style settings per element category (actions, inputs, surfaces), including border style and border radius.
 - Shadow settings.
 - Color rules for specific sections, such as hero sections.
+- Data-visualization palette settings.
 
-This list is not final. It will be expanded as the team identifies more tunable properties.
+This list is under rework. It will be expanded as the team identifies more tunable properties.
 
-## 7. Component Layer
+## 7. Driver Interface
 
-The library wraps Base UI primitives into a set of ready-to-use components: buttons, inputs, modals, navigation elements, and cards, at minimum.
+The system includes a driver interface: a visual tool where a person sets each driver for a client. Each token type has two parts in the interface. The palette part shapes the primitive palette. The application part assigns palette values to specific uses. Each driver type has a control that fits it. For example, a color pick uses a swatch selector that shows the generated palette. The tool shows a live preview of the components with the current driver values. Its output is a driver config that a client project uses directly. The detailed design is in `.claude/specs/driver-interface-spec.md`.
+
+## 8. Component Layer
+
+The library provides a set of ready-to-use components. These include, at minimum: buttons, inputs, modals, navigation elements, cards, carousels, page sections, layout components, and charts.
+
+Where Base UI has a matching component, the library wraps it and does not re-implement its behavior. Where Base UI has no match, such as for cards and layout components, the library builds the component on the same conventions.
 
 Each component follows the same file structure and the same prop naming conventions. Each component consumes semantic tokens only, through CSS custom properties.
 
-## 8. Platform Integration
+Each component goes through the same process before it is built. A spec interview defines its API: which props it exposes, what they are called, and which semantic tokens they map to. The team approves the API before code is written. The component then gets its code, its Figma component, and its documentation, each from the approved spec.
+
+## 9. Platform Integration
 
 **Headless WordPress.** The system connects to WordPress through its data API. The exact method, REST or WPGraphQL, is decided during implementation. A data-fetching layer sits between WordPress and the components.
 
 **Progressive web app.** The system includes a standard PWA shell: a service worker, a web app manifest, and basic offline support.
 
-## 9. Agent Usage
+## 10. Agent Usage
 
 A coding agent uses this system to build client applications. The agent follows a written rules document that explains:
 
@@ -84,12 +95,13 @@ A coding agent uses this system to build client applications. The agent follows 
 
 The rules document is written and maintained by the team. The agent does not decide these rules on its own.
 
-## 10. Success Criteria
+## 11. Success Criteria
 
 The first version of this system is complete when:
 
 - A person can set driver values for a new client and produce a themed application without editing component code.
+- A person can set every driver through the driver interface, without editing a config file by hand.
+- A person can pick the exact palette color for each color use, such as primary action backgrounds.
 - The same component set renders correctly across at least one WordPress site and one PWA.
 - A coding agent can build a full page from the component library by following the written rules document, without direct supervision on component choice.
-- Changing a client's theme requires only a change to driver values, not a change to any component.
-- A person can adjust primitive-to-semantic mappings for a client that needs a result outside what driver values alone can produce.
+- Changing a client's theme requires only a change to driver values, not a change to any component and not a change to library code.

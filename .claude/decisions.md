@@ -92,3 +92,19 @@ Judgment calls made while building the phased plan (waves 2–6), with the reaso
 - **Why:** being a trigger says what a control does, not what it looks like. Base UI agrees — those parts give semantics only ("Renders a `<button>` element") and ship unstyled; their own docs put an explicit class string on every trigger. A dialog opens just as well from a card, an avatar or an icon, and the old default silently styled all of them.
 - **What replaces it:** the author opts in — `<Dialog.Trigger render={<Button priority="tertiary" />}>`. Nothing is styled by accident, and the Menubar workaround (`data-priority="tertiary"` by hand) disappears with it.
 - **Not affected:** `Accordion.Trigger`, `NavigationMenu.Trigger` and `Select.Trigger` keep their styling. Those are structural parts of their own component, not a free-standing control the author would choose the look of.
+
+## Element categories (token rework)
+
+- **Eight categories replace the nine of the token spec:** Action, Field, Surface, Content, Graphic, Feedback, Focus, Overlay. Decided 2026-10-04; table in `.claude/specs/driver-interface-spec.md` section 3.
+- **Content = Type + Icon.** Text and icons share the foreground color roles, so a person picks them once. Typography (family, size, weight) is not part of Content; it has its own driver-interface step.
+- **Graphic = Divider + data visualization.** Non-text, non-interactive marks. Gives the data-visualization palette a home.
+- **Field** is Input/Field renamed; the slash does not fit a token path.
+- **Focus and Overlay stay separate** as effects that apply across categories, even though each is only one or two tokens.
+- **Not done yet:** `token-system-spec.md` still lists the nine categories. Tracked in `.claude/TODO.md`.
+
+## Drivers-only theming
+
+- **Clients theme through drivers only. The mapping level is removed.** Vision spec sections 5 and 11 rewritten on 2026-10-04. The mapping-operations proposal (`.claude/specs/theming-rework-mapping-operations.md`, deleted 2026-10-04; see git history) is rejected.
+- **Why:** one level of control is simpler to learn, to document, and to build a driver interface for. A mapping change made for one client helps no other client; a new driver helps all of them.
+- **What replaces it:** more detailed drivers. Color drivers generate the palette, and pick drivers choose the exact palette color for each use (e.g. primary action background), instead of the Theme Map pre-selecting a hue and shade. This also answers the Wave 3 "light brand color" review note: the client picks their exact color for buttons with a driver, not a mapping.
+- **Not done yet:** the driver rework itself. `token-system-spec.md` and `src/tokens/` still use the fixed recipe in `themeMap.ts`. Tracked in `.claude/TODO.md`.
