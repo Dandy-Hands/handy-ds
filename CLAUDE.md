@@ -20,9 +20,12 @@ When you spot a problem outside the task at hand, tell the user and ask whether 
 
 - `.claude/specs/design-system-vision-spec.md` — product-level vision: scope (headless WordPress + PWA), tech stack (React + Base UI + plain CSS custom properties, no Tailwind), the three-layer theming model (drivers → primitives → semantic tokens), drivers-only theme control (palette color picks per use, no mapping level), the driver interface, the component process, and success criteria for v1.
 - `.claude/specs/driver-interface-spec.md` — draft design of the driver interface (theme-building tool): a palette part and an application part per token type, step order, open questions.
-- `.claude/specs/token-system-spec.md` — the token system design in detail: the same four-layer pipeline (Drivers → Primitives → Semantic Tokens → Components), the `hds` namespace and naming grammar for primitive and semantic token names, the context-override mechanism (`data-context="on-primary"`), the category/type/axis/state model, a full demo token tree, and Base UI → category mapping tables for composite components.
+- `.claude/specs/token-system-spec.md` — the token system design in detail (rewritten 2026-10-07): the four-layer pipeline (Drivers → Primitives → Semantic Tokens → Components), the full driver list with defaults, the OKLCH hue-wheel palette and role map, pick drivers and pick rules (states, dark overrides, WCAG AA), modes and brand contexts (`on-primary`, `on-secondary`), the `hds` naming grammar, and the full semantic token set. Component mapping is left to each component's spec interview.
+- `.claude/specs/token-rework-interview.md` — the decision record for the token spec: each decision, who made it, and the rejected options.
 
-Read both specs in full before creating any token, category, resolver, or component-file convention. Where implementation and spec disagree, the spec wins unless the user says otherwise. Section 10 of `token-system-spec.md` ("Not Done Yet") lists open gaps — expect to make judgment calls there and flag them.
+Read the specs in full before creating any token, category, resolver, or component-file convention. Where implementation and spec disagree, the spec wins unless the user says otherwise. Section 9 of `token-system-spec.md` ("Not Done Yet") lists open gaps — expect to make judgment calls there and flag them.
+
+**Code lags the spec.** `src/tokens/`, `docs/component-conventions.md` and `docs/rules.md` still implement the previous token spec (nine categories, old grammar, Theme Map). Their rewrite is tracked in `.claude/TODO.md`.
 
 ## Tooling
 
@@ -33,7 +36,7 @@ Read both specs in full before creating any token, category, resolver, or compon
 - No lint config.
 - `bin/hds-theme.js` — client CLI: `hds-theme theme.config.js > theme.css` (contrast failures → stderr, exit 1).
 - `examples/wordpress`, `examples/pwa` — standalone Vite apps installing the package via `file:../..`; run `npm run build` at the root first.
-- `src/tokens/` — drivers → primitives → Theme Map → CSS (`buildTheme()`), contrast checker, and `checkTokenName()` (validate slash form, never emitted CSS names).
+- `src/tokens/` — drivers → primitives → Theme Map → CSS (`buildTheme()`), contrast checker, and `checkTokenName()` (validate slash form, never emitted CSS names). Implements the previous token spec; see "Code lags the spec".
 
 ## Docs
 
@@ -44,12 +47,12 @@ Read both specs in full before creating any token, category, resolver, or compon
 
 Token pipeline: **Drivers → Primitives → Semantic Tokens → Components**.
 
-- Drivers are hand-set inputs (brand color, density, type scale, border radius, etc.) — see spec section 6 for the starting driver list.
-- Primitives are generated from drivers, never hand-set. Namespace: `hds/prim/{type}/{property}` (e.g. `hds/prim/color/primary/600`).
-- Semantic tokens point at primitives and are named by purpose, not value. Namespace: `hds/sem/{category}/{type}/[axis]/[state]/{property}` (e.g. `hds/sem/action/color/primary/hover/bg`).
+- Drivers are the only client inputs: palette drivers (brand colors, density, type scale, radius, etc.) and pick drivers (which primitive each semantic token uses). No mapping level. Full list: token spec section 3.
+- Primitives are generated from drivers, never hand-set. Namespace: `hds/prim/{type}/{scale}/[{step}]` (e.g. `hds/prim/color/primary/600`). Semantic tokens point at role aliases (`primary`, `danger`, `neutral`, ...), never at hue slots, except data visualization.
+- Semantic tokens point at primitives and are named by purpose, not value. Namespace: `hds/sem/{type}/[category]/[axis]/[state]/{property}` (e.g. `hds/sem/color/action/primary/hover/bg`). Types: `color`, `measure`, `radius`, `border`, `elevation`, `typography`. Only `color` has a category.
 - Components read **semantic tokens only**, via CSS custom properties. A component must never reference a driver or primitive value directly — this is the invariant that makes a full theme swap require zero component changes.
 
-Categories are fixed: Action, Input/Field, Surface, Type, Icon, Divider, Feedback, Overlay, Focus (token-system-spec.md section 4). Composite components (Select, Menu, Tabs, Data Table, etc.) are not their own category — they compose tokens from these categories per the mapping tables in spec section 9.
+Color categories are fixed: Action, Field, Surface, Content, Graphic, Feedback, Focus, Overlay (token-system-spec.md section 7.1). Composite components (Select, Menu, Tabs, Data Table, etc.) are not their own category — they compose tokens from these categories. Each component's spec interview records its token mapping (spec section 8).
 
 ## Base UI
 
