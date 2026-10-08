@@ -4,9 +4,9 @@
 
 body {
   margin: 0;
-  font-family: var(--hds-typography-body-family, system-ui, sans-serif);
-  background: var(--hds-surface-bg, #fff);
-  color: var(--hds-type-body-color, #111);
+  font-family: var(--hds-sem-typography-body-md-family, system-ui, sans-serif);
+  background: var(--hds-sem-color-surface-base-bg, #fff);
+  color: var(--hds-sem-color-content-default-fg, #111);
 }
 
 .docs-layout {
@@ -17,8 +17,8 @@ body {
 
 .docs-sidebar {
   padding: 1.5rem;
-  border-right: 1px solid var(--hds-divider-color, #ddd);
-  background: var(--hds-surface-elevated-bg, #f8f8f8);
+  border-right: 1px solid var(--hds-sem-color-graphic-divider-default, #ddd);
+  background: var(--hds-sem-color-surface-raised-bg, #f8f8f8);
 }
 
 .docs-sidebar h1 {
@@ -44,14 +44,14 @@ body {
 .docs-sidebar a {
   display: block;
   padding: 0.375rem 0.5rem;
-  border-radius: var(--hds-action-radius, 0.25rem);
+  border-radius: var(--hds-sem-radius-control, 0.25rem);
   color: inherit;
   text-decoration: none;
 }
 
 .docs-sidebar a:hover,
 .docs-sidebar a.active {
-  background: var(--hds-action-hover-bg, #e8e8e8);
+  background: var(--hds-sem-color-action-tertiary-hover-bg, #e8e8e8);
 }
 
 .docs-content {
@@ -63,7 +63,7 @@ body {
 .docs-content h1,
 .docs-content h2,
 .docs-content h3 {
-  color: var(--hds-type-heading-color, #111);
+  color: var(--hds-sem-color-content-strong-fg, #111);
 }
 
 .docs-content table {
@@ -76,22 +76,22 @@ body {
 .docs-content td {
   text-align: left;
   padding: 0.5rem;
-  border-bottom: 1px solid var(--hds-divider-color, #ddd);
+  border-bottom: 1px solid var(--hds-sem-color-graphic-divider-default, #ddd);
 }
 
 .docs-content code {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.875em;
-  background: var(--hds-surface-elevated-bg, #f4f4f4);
+  background: var(--hds-sem-color-surface-raised-bg, #f4f4f4);
   padding: 0.125rem 0.25rem;
-  border-radius: var(--hds-input-radius, 0.25rem);
+  border-radius: var(--hds-sem-radius-control, 0.25rem);
 }
 
 .docs-content pre {
   padding: 1rem;
   overflow-x: auto;
-  background: var(--hds-surface-elevated-bg, #f4f4f4);
-  border-radius: var(--hds-surface-radius, 0.5rem);
+  background: var(--hds-sem-color-surface-raised-bg, #f4f4f4);
+  border-radius: var(--hds-sem-radius-container, 0.5rem);
 }
 
 .docs-content pre code {
@@ -158,11 +158,11 @@ body {
   font: inherit;
   font-size: 0.875rem;
   cursor: pointer;
-  border: 1px solid var(--hds-divider-color, #ddd);
-  border-radius: var(--hds-action-radius, 0.25rem);
-  background: var(--hds-surface-color, #fff);
+  border: 1px solid var(--hds-sem-color-graphic-divider-default, #ddd);
+  border-radius: var(--hds-sem-radius-control, 0.25rem);
+  background: var(--hds-sem-color-surface-raised-bg, #fff);
   color: inherit;
 }
 .docs-sidebar .theme-trigger:hover {
-  background: var(--hds-action-hover-bg, #e8e8e8);
+  background: var(--hds-sem-color-action-tertiary-hover-bg, #e8e8e8);
 }

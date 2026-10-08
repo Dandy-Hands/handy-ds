@@ -9,14 +9,12 @@ npm install handy-ds react react-dom       # private package: install from the t
 ```
 
 ```js
-// theme.config.js: this file is the client's whole theme
+// theme.config.js: this file is the client's whole theme (drivers only)
 export default {
-  drivers: {
-    color: { primary: '#0f766e', accent: '#be185d' },
-    typography: { headingFamily: '"Fraunces", Georgia, serif', bodyFamily: 'Inter, system-ui, sans-serif' },
-    density: 1,
-    radius: 6,
-  },
+  color: { primary: '#0f766e', secondary: '#be185d' },
+  typography: { family: { heading: '"Fraunces", Georgia, serif', body: 'Inter, system-ui, sans-serif' } },
+  density: 1,
+  radius: { control: '100' },
 };
 ```
 
@@ -38,61 +36,63 @@ UI comes from handy-ds. Pick components with `node_modules/handy-ds/docs/compone
 Theming, contexts and app-CSS rules: `node_modules/handy-ds/docs/rules.md`. Never restyle a component with `className`.
 ```
 
-`hds-theme` exits with code 1 and lists every failing pair when the config breaks a contrast rule. Fix the drivers or the mapping. Don't ignore the failure.
+`hds-theme` exits with code 1 and lists every failing pair when the config breaks a contrast rule. Fix it with a pick driver (section 3). Don't ignore the failure.
 
 Load font files yourself (Google Fonts `<link>`, `@font-face`). The theme only sets the `font-family` stacks.
 
-## 2. Theme a client: drivers first
+## 2. Theme a client: palette drivers
 
-Change only what the brand needs. Everything left out uses the default (`defaultDrivers` in `handy-ds/tokens`).
+Drivers are the only way to theme a client. There is no mapping level. Change only what the brand needs; everything left out uses the default (`defaultDrivers` in `handy-ds/tokens`)..
 
 | Driver | What it does |
 |---|---|
-| `color.primary` | Brand color, as any CSS color. Makes an 11-step ramp (50–950); the color itself lands on its nearest step. Buttons, links, focus ring, checked controls and on-primary sections use it. |
-| `color.accent` | Second brand color. Accent icons use it. Point more tokens at it with a mapping (section 3). |
-| `color.neutral` | Optional. Grays. Leave it out to tint grays from the primary hue. |
-| `color.danger/warning/success/info` | Feedback colors (alerts, toasts, meters, errors). |
-| `typography.headingFamily`, `bodyFamily` | Font stacks. |
-| `typography.baseSize`, `scaleRatio` | Body size in px and type-scale ratio (1.2 is tight, 1.25 is default, 1.333 is dramatic). |
-| `typography.headingWeight` | `regular`, `medium`, `semibold` or `bold`. |
-| `density` | Multiplies all spacing. 0.85 is compact, 1 is default, 1.15 is roomy. |
-| `radius` | Base corner radius in px. The other steps scale from it. |
-| `style.action/input/surface` | Per category: `radius` (`none`, `sm`, `base`, `lg`, `xl`, `full`) and `border` (`none`, `thin`, `medium`, `thick`). Pill buttons: `style: { action: { radius: 'full' } }`. |
-| `shadow.strength` | 0 is flat, 1 is default, 2 is heavy. |
-| `sections` | Which context a named page section uses: `{ hero: 'on-primary', promo: 'default' }`. See section 5. |
+| `color.primary` | Brand color, as any CSS color. Anchors a wheel of 11 hue ramps (`hue-0`…`hue-10`) of 11 stops (50–950). The exact color lands on its nearest stop. |
+| `color.secondary` | Optional second brand color. Leave it out and its hue is primary + 163.6°. |
+| `color.floor` | Lowest chroma of the 9 generated ramps (0–1). Keeps a gray brand's system colors colorful. |
+| `color.neutralTint`, `color.neutral` | Gray tint at the primary hue, or an exact neutral color. |
+| `color.contrast`, `color.darkContrast`, `color.darkChroma` | Bend the lightness stops (−1 to +1) for light and dark mode; scale dark-mode chroma. |
+| `roles.danger/warning/success/info` | Which ramp each system color uses (`'hue-3'`). Default: nearest hue to red, amber, green, blue. |
+| `typography.family.heading/body/mono` | Font stacks. |
+| `typography.baseSize`, `ratio` | Body size in px and type-scale ratio (1.2 tight, 1.25 default, 1.333 dramatic). |
+| `density` | Multiplies all spacing. 0.85 compact, 1 default, 1.15 roomy. |
+| `radius.control/container/indicator/round` | Radius step per shape role: `none`, `050`, `100`, `200`, `300`, `400`, `600`, `round`. Pill buttons: `radius: { control: 'round' }`. |
+| `border.control/container/divider/focus` | Border step per role: `none`, `025`, `050`, `100`. |
+| `shadow.strength` | 0 flat, 1 default, 2 heavy. |
+| `overlay.opacity` | Modal scrim opacity. |
+| `mode` | Page default: `light`, `dark` or `system`. |
+| `sections` | Mode or context for a named page section: `{ hero: 'on-primary', footer: 'dark' }`. See section 5. |
 
-Driver changes cover most client requests. Try them first.
+## 3. Theme a client: pick drivers
 
-## 3. Theme a client: mapping (only when drivers can't do it)
-
-A mapping points one semantic token at a different primitive. Put it in the same config:
+A pick sets which palette color one semantic color token reads. Every token has a default pick; set only the ones the client needs.
 
 ```js
 export default {
-  drivers: { color: { primary: '#1d4ed8', accent: '#f59e0b' } },
-  mapping: {
-    default: {
-      'hds/sem/action/color/primary/default/bg': '{hds/prim/color/accent/600}',
-      'hds/sem/action/color/primary/hover/bg': '{hds/prim/color/accent/700}',
-    },
-    'on-primary': {},
+  color: { primary: '#1d4ed8', secondary: '#f59e0b' },
+  picks: {
+    'action/primary/default/bg': 'secondary/600',
+    'action/primary/default/border': 'secondary/600',
+    'content/accent/fg': { light: 'primary/700', dark: 'primary/300' },
   },
+  contexts: { 'on-primary': { 'surface/raised/bg': 'neutral/50' } },
+  typography: { styles: { heading: { md: { weight: 'semibold' } } } },
 };
 ```
 
-- Keys are semantic token names in slash form. Values are `{hds/prim/...}` references or literal CSS.
-- Primitive names: `color/{primary|accent|neutral|danger|warning|success|info}/{50…950}`, `color/white`, `color/black`, `space/{0,1,2,3,4,5,6,8,10,12,16,20,24}`, `radius/{none,sm,base,lg,xl,full}`, `border/{none,thin,medium,thick}`, `type/scale/{1…8}`, `type/leading/*`, `type/tracking/*`, `type/weight/*`, `type/family/{heading,body}`, `shadow/level-{0…3}`.
-- Unknown names throw at build time, and mappings are contrast-checked.
-- Change every state of a token you move (default, hover, active...). Otherwise hover will jump back to the old color.
-- A one-off CSS override also works (`:root { --hds-sem-…: var(--hds-prim-…) }` in unlayered app CSS always wins), but it skips the contrast check. Prefer the config.
+- Keys are color token names without `hds/sem/color/` (`action/primary/default/bg`). `action/disabled/bg|fg` set the Action disabled pair.
+- Values: `{role}/{stop}` (`primary`, `secondary`, `neutral`, `danger`, `warning`, `success`, `info`; stops 50–950), `white`, `black`, `transparent`. Data-visualization tokens (`graphic/categorical/*`, ...) can also pick a slot: `hue-4/500`.
+- Pick the `default` state only. Hover (+1 stop), active (+2) and selected derive from it. A pick on a state token overrides the derivation. `states.step` changes the offsets.
+- The object form `{ light, dark }` sets a dark-mode override. Without one, dark mode uses the same pick on the dark palette.
+- `contexts.on-primary` / `on-secondary` override picks inside brand sections.
+- Unknown keys and bad values throw at build time. Every pick is contrast-checked in both modes and every context.
 
-Never edit component CSS to theme a client.
+Never edit component CSS or override `--hds-*` properties in app CSS to theme a client. If drivers can't produce a result, the team adds a driver.
 
 ## 4. Pick a component
 
 | Need | Use |
 |---|---|
-| Do something (submit, open, save) | `Button` (`priority`: `primary` = the main action on the screen, at most one per view; `secondary` = other actions; `tertiary` = low-emphasis, toolbars, inline. `size`: `sm`/`md`/`lg`, default `md`) |
+| Do something (submit, open, save) | `Button` (`priority`: `primary` = the main action on the screen, at most one per view; `secondary` = other actions; `tertiary` = low-emphasis, toolbars, inline; `danger` = destructive. `size`: `sm`/`md`/`lg`, default `md`) |
 | Go somewhere that looks like a button | `LinkButton` (renders `<a>`) |
 | On/off setting that applies immediately | `Switch` |
 | Pressed/unpressed formatting button, or pick-one/pick-many from a few buttons | `Toggle`, `ToggleGroup` |
@@ -108,7 +108,7 @@ Never edit component CSS to theme a client.
 | Free text with suggestions | `Autocomplete` |
 | Yes/no or many-of-few | `Checkbox` (`CheckboxGroup` for a set) |
 | Group related fields | `Fieldset` inside a `Form` |
-| Box of related content | `Card` (`elevation` 0–3; 1 is default) |
+| Box of related content | `Card` (`elevation` 0–3; 1 is default. 0 = page level, 1 = raised card, 2 = floating, 3 = modal) |
 | Must-see task that blocks the page | `Dialog`. Confirm a destructive action: `AlertDialog` |
 | Extra info or small controls anchored to a trigger | `Popover` |
 | Show/hide sections (FAQ) | `Accordion` |
@@ -125,18 +125,21 @@ Props, use-when and don't-use-when for every component: `docs/components.md` (`n
 
 Compound components (`Select`, `Menu`, `Dialog`, ...) have the same parts and props as Base UI's. Use Base UI's docs for structure and behavior (`node_modules/@base-ui/react/docs/react/components/*.md`). handy-ds only adds styling. Examples of every component: the Overview page of the docs site (`npm run dev`).
 
-## 5. Contexts (colored sections)
+## 5. Modes and contexts (colored sections)
 
-- A section on a brand-colored background: `<section data-section="hero">` (the client's `sections` driver decides the context) or `<section data-context="on-primary">` (always on-primary).
-- Everything inside restyles itself: text, buttons, inputs, cards and focus rings. Don't pass color props.
-- Inside a colored section, `data-context="default"` on an element restores normal colors for its subtree (a white card in a hero). Put forms in such a card: field error text is only contrast-checked in the default context.
-- Only `default` and `on-primary` exist. Don't invent new `data-context` values.
+- A dark band on a light page (or the reverse): `data-mode="dark"` / `data-mode="light"` on any element. A mode resets brand contexts inside it.
+- A section on a brand-colored background: `<section data-section="hero">` (the client's `sections` driver decides) or `data-context="on-primary"` / `"on-secondary"`.
+- Everything inside restyles itself: text, buttons, inputs, cards and focus rings. Don't pass color props. Cards in a brand section become darker brand panels.
+- Inside a colored section, `data-context="default"` on an element restores root colors for its subtree (a light card in a hero). Put forms in such a card: field error text is only contrast-checked in the default context.
+- Only `default`, `on-primary` and `on-secondary` exist. Don't invent new `data-context` values.
 
 ## 6. Writing app code against the library
 
 - Style app layout (grids, page spacing, widths) in the app's own CSS. Leave component internals alone.
-- When app CSS needs a design value, read a semantic token: `color: var(--hds-sem-type-color-caption-fg)`. Never a primitive, never a hex code.
-- Choose the token by **category first**: what is this thing? Clickable is Action. Data entry is Input/Field. Container is Surface. Text is Type. Status message is Feedback. Line is Divider. Then pick the axis (priority, size, elevation, role, sentiment) and the state.
-- Reuse before adding. A new token needs a real, repeated purpose the existing ones can't express, and a spec change (`.claude/specs/token-system-spec.md`, then `checkTokenName()` and the Theme Map). One-off needs use an existing token or app-local CSS.
+- When app CSS needs a design value, read a semantic token: `color: var(--hds-sem-color-content-muted-fg)`, `gap: var(--hds-sem-measure-space-400)`. Never a primitive, never a hex code.
+- Token names: `hds/sem/{type}/[category]/[axis]/[state]/{property}`. Types: `color`, `measure` (`space/{step}`, `size/{step}`), `radius/{role}`, `border/{role}`, `elevation/{raised|floating|modal}`, `typography/{role}/{sm|md|lg}/{property}`.
+- For color, choose the **category first**: clickable is Action, data entry is Field, container is Surface (level `sunken`, `base`, `raised`, `floating`, `modal`), text and icons are Content, lines and charts are Graphic, status is Feedback. Then the axis and the state. Full list: `SEM_TOKENS` in `handy-ds/tokens`.
+- Charts read `graphic/categorical/{1…8}`, `graphic/sequential/{1…9}` or `graphic/diverging/{1…9}`.
+- Reuse before adding. A new token needs a real, repeated purpose and a spec change (`.claude/specs/token-system-spec.md`, then `names.ts` and `picks.ts`). One-off needs use an existing token or app-local CSS.
 - Adding a component to the library: follow `docs/component-conventions.md`.
-- Don't set `className` to restyle a component's colors. If it's a theming need, it's a driver or a mapping.
+- Don't set `className` to restyle a component's colors. A theming need is a driver.

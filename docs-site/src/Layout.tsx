@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { buildTheme, type ThemeConfig } from '../../src/tokens/index.ts';
+import { buildTheme, defaultDrivers, type DriverInput } from '../../src/tokens/index.ts';
 import { Popover, Button } from 'handy-ds';
 import { ThemeControls } from './ThemePanel.tsx';
 import { setDocTheme } from '../../docs/token-pages.tsx';
@@ -15,17 +15,8 @@ interface Page {
 export function Layout({ pages }: { pages: Page[] }) {
   const location = useLocation();
   const current = location.pathname.replace(/^\//, '');
-  const [config, setConfig] = useState({
-    drivers: {
-      color: { primary: '#0069ca', accent: '#d55c13' },
-      density: 1,
-      radius: 8,
-      shadow: { strength: 1 },
-      style: { action: { radius: 'base' as const } },
-      typography: { headingFamily: '"Source Serif 4", Georgia, serif' },
-    },
-  } as Required<Pick<ThemeConfig, 'drivers'>> & ThemeConfig);
-  const theme = useMemo(() => buildTheme(config), [config]);
+  const [drivers, setDrivers] = useState<DriverInput>(defaultDrivers);
+  const theme = useMemo(() => buildTheme(drivers), [drivers]);
   setDocTheme(theme);
 
   // Sidebar sections: tokens get their own area, everything else is components.
@@ -47,7 +38,7 @@ export function Layout({ pages }: { pages: Page[] }) {
             <Popover.Positioner side="right" align="start" sideOffset={8}>
               <Popover.Popup className="theme-flyout">
                 <Popover.Title>Live theming</Popover.Title>
-                <ThemeControls config={config} setConfig={setConfig} failures={theme.contrast} />
+                <ThemeControls drivers={drivers} setDrivers={setDrivers} failures={theme.contrast} />
               </Popover.Popup>
             </Popover.Positioner>
           </Popover.Portal>

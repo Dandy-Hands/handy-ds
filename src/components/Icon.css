@@ -15,7 +15,7 @@
     block-size: 100%;
   }
 
-  .hds-icon[data-variant='default'] { color: var(--hds-sem-icon-color-default-fg); }
-  .hds-icon[data-variant='secondary'] { color: var(--hds-sem-icon-color-secondary-fg); }
-  .hds-icon[data-variant='accent'] { color: var(--hds-sem-icon-color-accent-fg); }
+  .hds-icon[data-variant='default'] { color: var(--hds-sem-color-content-default-fg); }
+  .hds-icon[data-variant='secondary'] { color: var(--hds-sem-color-content-muted-fg); }
+  .hds-icon[data-variant='accent'] { color: var(--hds-sem-color-content-accent-fg); }
 }

@@ -8,21 +8,21 @@
     width: min(32rem, calc(100vw - 2rem));
     max-height: calc(100dvh - 2rem);
     overflow: auto;
-    padding: var(--hds-sem-surface-measure-padding);
+    padding: var(--hds-sem-measure-space-600);
   }
 
   .hds-dialog__title {
     margin: 0;
-    color: var(--hds-sem-type-color-heading-fg);
-    font-family: var(--hds-sem-type-other-heading-font-family);
-    font-size: var(--hds-sem-type-measure-heading-size);
-    font-weight: var(--hds-sem-type-other-heading-weight);
-    line-height: var(--hds-sem-type-measure-heading-line-height);
-    letter-spacing: var(--hds-sem-type-measure-heading-letter-spacing);
+    color: var(--hds-sem-color-content-strong-fg);
+    font-family: var(--hds-sem-typography-heading-md-family);
+    font-size: var(--hds-sem-typography-heading-md-size);
+    font-weight: var(--hds-sem-typography-heading-md-weight);
+    line-height: var(--hds-sem-typography-heading-md-leading);
+    letter-spacing: var(--hds-sem-typography-heading-md-tracking);
   }
 
   .hds-dialog__description {
-    margin: var(--hds-sem-action-measure-md-gap) 0 var(--hds-sem-surface-measure-padding);
-    color: var(--hds-sem-type-color-body-fg);
+    margin: var(--hds-sem-measure-space-200) 0 var(--hds-sem-measure-space-600);
+    color: var(--hds-sem-color-content-default-fg);
   }
 }

@@ -1,4 +1,4 @@
-/* Page-level defaults: body type, context grounds, the Focus category's ring. */
+/* Page-level defaults: body type, mode and context grounds, the Focus category's ring. */
 @layer hds.theme, hds.base, hds.components;
 
 @layer hds.base {
@@ -7,23 +7,24 @@
   }
 
   body,
+  [data-mode],
   [data-context],
   [data-section] {
-    background: var(--hds-sem-surface-color-0-default-bg);
-    color: var(--hds-sem-type-color-body-fg);
+    background: var(--hds-sem-color-surface-base-bg);
+    color: var(--hds-sem-color-content-default-fg);
   }
 
   body {
     margin: 0;
-    font-family: var(--hds-sem-type-other-body-font-family);
-    font-size: var(--hds-sem-type-measure-body-size);
-    font-weight: var(--hds-sem-type-other-body-weight);
-    line-height: var(--hds-sem-type-measure-body-line-height);
-    letter-spacing: var(--hds-sem-type-measure-body-letter-spacing);
+    font-family: var(--hds-sem-typography-body-md-family);
+    font-size: var(--hds-sem-typography-body-md-size);
+    font-weight: var(--hds-sem-typography-body-md-weight);
+    line-height: var(--hds-sem-typography-body-md-leading);
+    letter-spacing: var(--hds-sem-typography-body-md-tracking);
   }
 
   :focus-visible {
-    outline: var(--hds-sem-focus-measure-stroke-width) solid var(--hds-sem-focus-color-stroke);
+    outline: var(--hds-sem-border-focus) solid var(--hds-sem-color-focus-ring);
     outline-offset: 2px;
   }
 }

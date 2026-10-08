@@ -1,66 +1,79 @@
-// Token name grammar from token-system-spec.md sections 2, 6 and 7.
-// Validates slash-form names (hds/sem/action/color/primary/hover/bg), not emitted CSS
+// Token name grammar and the full semantic token list (token-system-spec.md sections 2 and 7).
+// Validates slash-form names (hds/sem/color/action/primary/hover/bg), not emitted CSS
 // custom properties: those can't be parsed back because property names contain hyphens.
 
-export const PRIORITY = ['primary', 'secondary', 'tertiary'];
-export const ACTION_STATE = ['default', 'hover', 'active', 'focus', 'disabled', 'selected'];
-export const INPUT_STATE = ['default', 'hover', 'focus', 'error', 'disabled', 'checked'];
-export const SIZE = ['sm', 'md', 'lg'];
-export const ELEVATION = ['0', '1', '2', '3'];
-export const SURFACE_STATE = ['default', 'striped'];
-export const TYPE_ROLE = ['display', 'heading', 'body', 'label', 'caption'];
-export const TYPE_SIZE = ['1', '2', '3']; // per-role size steps: 1 = smallest, 2 = role default, 3 = largest
-export const ICON_ROLE = ['default', 'secondary', 'accent'];
-export const WEIGHT = ['thin', 'medium', 'thick'];
-export const SENTIMENT = ['danger', 'warning', 'success', 'info'];
+export const STOPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const;
+export const SLOT_COUNT = 11;
+export const SYSTEM_ROLES = ['danger', 'warning', 'success', 'info'] as const;
+export const ROLES = ['primary', 'secondary', ...SYSTEM_ROLES] as const;
 
-// Section 7 templates: category -> type -> ordered segment slots; the last slot is the property.
-// Section 6 falls out of this table: the `other` type exists only under `type`.
-const SEM: Record<string, Record<string, string[][]>> = {
-  action: {
-    color: [PRIORITY, ACTION_STATE, ['bg', 'fg', 'border']],
-    measure: [SIZE, ['padding-x', 'padding-y', 'radius', 'gap', 'border-width']],
-  },
-  input: {
-    color: [INPUT_STATE, ['bg', 'fg', 'border', 'placeholder-fg']],
-    measure: [SIZE, ['padding-x', 'padding-y', 'height', 'radius', 'border-width']],
-  },
-  surface: {
-    color: [ELEVATION, SURFACE_STATE, ['bg', 'border', 'shadow']],
-    measure: [['padding', 'radius', 'border-width']],
-  },
-  type: {
-    color: [TYPE_ROLE, ['fg']],
-    measure: [TYPE_ROLE, ['size', 'line-height', 'letter-spacing']],
-    other: [TYPE_ROLE, ['font-family', 'weight']],
-  },
-  icon: {
-    color: [ICON_ROLE, ['fg']],
-  },
-  divider: {
-    color: [['border']],
-    measure: [WEIGHT, ['thickness']],
-  },
-  feedback: {
-    color: [SENTIMENT, ['bg', 'fg', 'border', 'icon-fg']],
-    measure: [['padding', 'radius', 'gap', 'border-width']],
-  },
-  overlay: {
-    color: [['bg']],
-  },
-  focus: {
-    color: [['stroke']],
-    measure: [['stroke-width']],
-  },
-};
+export const PRIORITY = ['primary', 'secondary', 'tertiary', 'danger'] as const;
+export const ACTION_STATE = ['default', 'hover', 'active', 'disabled', 'selected'] as const;
+export const ACTION_PROP = ['bg', 'fg', 'border'] as const;
+export const FIELD_STATE = ['default', 'hover', 'focus', 'error', 'disabled', 'checked'] as const;
+export const FIELD_PROP = ['bg', 'fg', 'border', 'placeholder'] as const;
+export const LEVEL = ['sunken', 'base', 'raised', 'floating', 'modal'] as const;
+export const CONTENT_ROLE = ['strong', 'default', 'muted', 'accent', 'link'] as const;
+export const SENTIMENT = SYSTEM_ROLES;
+export const FEEDBACK_PROP = ['bg', 'fg', 'border', 'icon'] as const;
+export const CATEGORICAL = 8;
+export const SEQUENTIAL = 9;
+export const DIVERGING = 9;
 
-// Segment slot lists are exact; a category/type listed in OPTIONAL_SEGMENT also accepts
-// one extra middle segment from that set. Currently only Type's size steps (spec gap).
-const OPTIONAL_SEGMENT: Record<string, readonly string[]> = { 'type/measure': TYPE_SIZE };
+export const SPACE = ['050', '100', '200', '300', '400', '600', '800', '1000', '1200', '1600', '2400'] as const;
+export const SIZE = ['400', '500', '600', '800', '1000', '1200', '1600', '2400', '3200'] as const;
+export const SHAPE_ROLE = ['control', 'container', 'indicator', 'round'] as const;
+export const BORDER_ROLE = ['control', 'container', 'divider', 'focus'] as const;
+export const ELEVATION = ['raised', 'floating', 'modal'] as const;
+export const TEXT_ROLE = ['display', 'heading', 'body', 'label', 'caption'] as const;
+export const TEXT_SIZE = ['sm', 'md', 'lg'] as const;
+export const TEXT_PROP = ['family', 'size', 'weight', 'leading', 'tracking'] as const;
+
+const range = (n: number) => Array.from({ length: n }, (_, i) => String(i + 1));
+const cross = (prefix: string, ...lists: readonly (readonly string[])[]): string[] =>
+  lists.reduce<string[]>((acc, list) => acc.flatMap((a) => list.map((s) => `${a}/${s}`)), [prefix]);
+
+/** Every color token, without the `hds/sem/color/` prefix (spec 7.2, 146 names). */
+export const COLOR_TOKENS: string[] = [
+  ...cross('action', PRIORITY, ACTION_STATE, ACTION_PROP),
+  ...cross('field', FIELD_STATE, FIELD_PROP),
+  ...cross('surface', LEVEL, ['bg', 'border']),
+  ...cross('content', CONTENT_ROLE, ['fg']),
+  'content/link/hover/fg',
+  ...cross('graphic/divider', ['default', 'strong']),
+  ...cross('graphic/categorical', range(CATEGORICAL)),
+  ...cross('graphic/sequential', range(SEQUENTIAL)),
+  ...cross('graphic/diverging', range(DIVERGING)),
+  ...cross('feedback', SENTIMENT, FEEDBACK_PROP),
+  'focus/ring',
+  'overlay/scrim',
+];
+
+/** Every semantic token in slash form (spec 7.8, 252 names). */
+export const SEM_TOKENS: string[] = [
+  ...COLOR_TOKENS.map((n) => `color/${n}`),
+  ...cross('measure/space', SPACE),
+  ...cross('measure/size', SIZE),
+  ...cross('radius', SHAPE_ROLE),
+  ...cross('border', BORDER_ROLE),
+  ...cross('elevation', ELEVATION),
+  ...cross('typography', TEXT_ROLE, TEXT_SIZE, TEXT_PROP),
+].map((n) => `hds/sem/${n}`);
+
+// Segment trie of SEM_TOKENS, for error messages that name the first bad segment.
+type Trie = Map<string, Trie>;
+const trie: Trie = new Map();
+for (const name of SEM_TOKENS) {
+  let node = trie;
+  for (const seg of name.split('/').slice(2)) {
+    if (!node.has(seg)) node.set(seg, new Map());
+    node = node.get(seg)!;
+  }
+}
 
 // Shape check only. The full primitive list is whatever resolvePrimitives() emits;
 // tokens.test.ts asserts every emitted name passes this and never depends on driver values.
-const PRIM_TYPES = ['color', 'space', 'radius', 'border', 'type', 'shadow'];
+const PRIM_TYPES = ['color', 'dimension', 'radius', 'border', 'shadow', 'typography'];
 const SEGMENT = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
 /** Returns an error message, or null when the name is valid. */
@@ -77,29 +90,15 @@ export function checkTokenName(name: string): string | null {
   }
 
   if (layer === 'sem') {
-    const [category, type, ...segments] = rest;
-    if (!Object.hasOwn(SEM, category)) return `unknown category "${category}"`;
-    if (!Object.hasOwn(SEM[category], type)) return `category "${category}" has no type "${type}"`;
-    const slots = SEM[category][type];
-    const optional = OPTIONAL_SEGMENT[`${category}/${type}`];
-    const extra = segments.length - slots.length;
-    if (extra === 0) {
-      const i = segments.findIndex((s, i) => !slots[i].includes(s));
-      return i === -1 ? null : `"${segments[i]}" not allowed here (expected ${slots[i].join('|')})`;
-    }
-    if (extra === 1 && optional) {
-      if (!slots[0].includes(segments[0])) {
-        return `"${segments[0]}" not allowed here (expected ${slots[0].join('|')})`;
+    let node = trie;
+    for (const seg of rest) {
+      const next = node.get(seg);
+      if (!next) {
+        return node.size === 0 ? `extra segment "${seg}"` : `"${seg}" not allowed here (expected ${[...node.keys()].join('|')})`;
       }
-      if (!optional.includes(segments[1])) {
-        return `"${segments[1]}" not allowed here (expected ${optional.join('|')})`;
-      }
-      const last = slots.length - 1;
-      return slots[last].includes(segments[2])
-        ? null
-        : `"${segments[2]}" not allowed here (expected ${slots[last].join('|')})`;
+      node = next;
     }
-    return `expected ${slots.length}${optional ? ` or ${slots.length + 1}` : ''} segment(s) after "${category}/${type}", got ${segments.length}`;
+    return node.size === 0 ? null : `incomplete name (next: ${[...node.keys()].join('|')})`;
   }
 
   return 'layer must be "prim" or "sem"';

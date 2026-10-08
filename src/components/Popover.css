@@ -1,19 +1,19 @@
 @layer hds.components {
   .hds-popover {
     max-width: min(24rem, var(--available-width));
-    padding: var(--hds-sem-surface-measure-padding);
+    padding: var(--hds-sem-measure-space-600);
   }
 
   .hds-popover__title {
     margin: 0;
-    color: var(--hds-sem-type-color-label-fg);
-    font-family: var(--hds-sem-type-other-label-font-family);
-    font-size: var(--hds-sem-type-measure-label-size);
-    font-weight: var(--hds-sem-type-other-label-weight);
-    line-height: var(--hds-sem-type-measure-label-line-height);
+    color: var(--hds-sem-color-content-default-fg);
+    font-family: var(--hds-sem-typography-label-md-family);
+    font-size: var(--hds-sem-typography-label-md-size);
+    font-weight: var(--hds-sem-typography-label-md-weight);
+    line-height: var(--hds-sem-typography-label-md-leading);
   }
 
   .hds-popover__description {
-    margin: var(--hds-sem-action-measure-md-gap) 0 0;
+    margin: var(--hds-sem-measure-space-200) 0 0;
   }
 }

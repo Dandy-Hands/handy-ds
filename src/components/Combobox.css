@@ -3,22 +3,22 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--hds-sem-input-measure-sm-padding-y);
+    gap: var(--hds-sem-measure-space-100);
     flex: 1;
   }
 
   .hds-combobox__chip {
     display: inline-flex;
     align-items: center;
-    gap: var(--hds-sem-input-measure-sm-padding-y);
-    padding: 0 var(--hds-sem-input-measure-sm-padding-x);
-    border-radius: var(--hds-sem-action-measure-md-radius);
-    font-size: var(--hds-sem-type-measure-caption-size);
+    gap: var(--hds-sem-measure-space-100);
+    padding: 0 var(--hds-sem-measure-space-200);
+    border-radius: var(--hds-sem-radius-control);
+    font-size: var(--hds-sem-typography-caption-md-size);
   }
 
   .hds-combobox__status:not(:empty) {
-    padding: var(--hds-sem-action-measure-md-padding-y) var(--hds-sem-action-measure-md-padding-x);
-    color: var(--hds-sem-type-color-caption-fg);
-    font-size: var(--hds-sem-type-measure-caption-size);
+    padding: var(--hds-sem-measure-space-200) var(--hds-sem-measure-space-400);
+    color: var(--hds-sem-color-content-muted-fg);
+    font-size: var(--hds-sem-typography-caption-md-size);
   }
 }

@@ -1,29 +1,29 @@
 /* Meter and Progress (token spec section 9). */
 @layer hds.components {
   .hds-meter {
-    --_fill: var(--hds-sem-feedback-color-info-icon-fg);
+    --_fill: var(--hds-sem-color-feedback-info-icon);
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    gap: var(--hds-sem-input-measure-sm-padding-y) var(--hds-sem-input-measure-sm-padding-x);
+    gap: var(--hds-sem-measure-space-100) var(--hds-sem-measure-space-200);
   }
 
-  .hds-meter[data-sentiment='success'] { --_fill: var(--hds-sem-feedback-color-success-icon-fg); }
-  .hds-meter[data-sentiment='warning'] { --_fill: var(--hds-sem-feedback-color-warning-icon-fg); }
-  .hds-meter[data-sentiment='danger'] { --_fill: var(--hds-sem-feedback-color-danger-icon-fg); }
-  .hds-progress { --_fill: var(--hds-sem-action-color-primary-default-bg); }
+  .hds-meter[data-sentiment='success'] { --_fill: var(--hds-sem-color-feedback-success-icon); }
+  .hds-meter[data-sentiment='warning'] { --_fill: var(--hds-sem-color-feedback-warning-icon); }
+  .hds-meter[data-sentiment='danger'] { --_fill: var(--hds-sem-color-feedback-danger-icon); }
+  .hds-progress { --_fill: var(--hds-sem-color-action-primary-default-bg); }
 
   .hds-meter__label {
-    color: var(--hds-sem-type-color-label-fg);
-    font-family: var(--hds-sem-type-other-label-font-family);
-    font-size: var(--hds-sem-type-measure-label-size);
-    font-weight: var(--hds-sem-type-other-label-weight);
+    color: var(--hds-sem-color-content-default-fg);
+    font-family: var(--hds-sem-typography-label-md-family);
+    font-size: var(--hds-sem-typography-label-md-size);
+    font-weight: var(--hds-sem-typography-label-md-weight);
   }
 
   .hds-meter__value {
     grid-column: 2;
-    color: var(--hds-sem-type-color-caption-fg);
-    font-size: var(--hds-sem-type-measure-caption-size);
+    color: var(--hds-sem-color-content-muted-fg);
+    font-size: var(--hds-sem-typography-caption-md-size);
     font-variant-numeric: tabular-nums;
   }
 
@@ -33,7 +33,7 @@
     block-size: 0.5rem;
     overflow: hidden;
     border-radius: 999px;
-    background: var(--hds-sem-surface-color-0-striped-bg);
+    background: var(--hds-sem-color-surface-sunken-bg);
   }
 
   .hds-meter__indicator {

@@ -44,5 +44,5 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  border-bottom: var(--hds-sem-divider-measure-thin-thickness) solid var(--hds-sem-divider-color-border);
+  border-bottom: var(--hds-sem-border-divider) solid var(--hds-sem-color-graphic-divider-default);
 }

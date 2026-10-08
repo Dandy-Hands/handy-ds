@@ -5,7 +5,7 @@
   }
 
   .hds-accordion__item {
-    border-bottom: var(--hds-sem-divider-measure-thin-thickness) solid var(--hds-sem-divider-color-border);
+    border-bottom: var(--hds-sem-border-divider) solid var(--hds-sem-color-graphic-divider-default);
   }
 
   .hds-accordion__header {
@@ -17,13 +17,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--hds-sem-action-measure-md-gap);
+    gap: var(--hds-sem-measure-space-200);
     width: 100%;
-    padding: var(--hds-sem-action-measure-md-padding-y) var(--hds-sem-action-measure-md-padding-x);
+    padding: var(--hds-sem-measure-space-200) var(--hds-sem-measure-space-400);
     border-width: 0;
     border-radius: 0;
     text-align: start;
-    outline-offset: calc(-1 * var(--hds-sem-focus-measure-stroke-width));
+    outline-offset: calc(-1 * var(--hds-sem-border-focus));
   }
 
   .hds-accordion__trigger::after {
@@ -42,7 +42,7 @@
   }
 
   .hds-accordion__panel {
-    padding: var(--hds-sem-surface-measure-padding);
-    background: var(--hds-sem-surface-color-0-default-bg);
+    padding: var(--hds-sem-measure-space-600);
+    background: var(--hds-sem-color-surface-base-bg);
   }
 }

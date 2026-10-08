@@ -3,7 +3,7 @@
  * `data-priority` picks the axis; interaction states map to Base UI's data attributes:
  *   hover    :hover, [data-highlighted] (keyboard/pointer highlight in lists)
  *   active   :active
- *   focus    :focus-visible (the ring itself comes from base.css)
+ *   focus    no color change; the Focus ring comes from base.css
  *   selected [data-pressed] (Toggle), [data-active] (Tab, NavigationMenu.Link), [data-selected] (Select/Combobox item)
  *   disabled [data-disabled], :disabled
  * No data-priority = secondary.
@@ -12,84 +12,87 @@
 
 @layer hds.components {
   .hds-action {
-    --_default-bg: var(--hds-sem-action-color-secondary-default-bg);
-    --_default-fg: var(--hds-sem-action-color-secondary-default-fg);
-    --_default-border: var(--hds-sem-action-color-secondary-default-border);
-    --_hover-bg: var(--hds-sem-action-color-secondary-hover-bg);
-    --_hover-fg: var(--hds-sem-action-color-secondary-hover-fg);
-    --_hover-border: var(--hds-sem-action-color-secondary-hover-border);
-    --_active-bg: var(--hds-sem-action-color-secondary-active-bg);
-    --_active-fg: var(--hds-sem-action-color-secondary-active-fg);
-    --_active-border: var(--hds-sem-action-color-secondary-active-border);
-    --_focus-bg: var(--hds-sem-action-color-secondary-focus-bg);
-    --_focus-fg: var(--hds-sem-action-color-secondary-focus-fg);
-    --_focus-border: var(--hds-sem-action-color-secondary-focus-border);
-    --_selected-bg: var(--hds-sem-action-color-secondary-selected-bg);
-    --_selected-fg: var(--hds-sem-action-color-secondary-selected-fg);
-    --_selected-border: var(--hds-sem-action-color-secondary-selected-border);
-    --_disabled-bg: var(--hds-sem-action-color-secondary-disabled-bg);
-    --_disabled-fg: var(--hds-sem-action-color-secondary-disabled-fg);
-    --_disabled-border: var(--hds-sem-action-color-secondary-disabled-border);
+    --_default-bg: var(--hds-sem-color-action-secondary-default-bg);
+    --_default-fg: var(--hds-sem-color-action-secondary-default-fg);
+    --_default-border: var(--hds-sem-color-action-secondary-default-border);
+    --_hover-bg: var(--hds-sem-color-action-secondary-hover-bg);
+    --_hover-fg: var(--hds-sem-color-action-secondary-hover-fg);
+    --_hover-border: var(--hds-sem-color-action-secondary-hover-border);
+    --_active-bg: var(--hds-sem-color-action-secondary-active-bg);
+    --_active-fg: var(--hds-sem-color-action-secondary-active-fg);
+    --_active-border: var(--hds-sem-color-action-secondary-active-border);
+    --_selected-bg: var(--hds-sem-color-action-secondary-selected-bg);
+    --_selected-fg: var(--hds-sem-color-action-secondary-selected-fg);
+    --_selected-border: var(--hds-sem-color-action-secondary-selected-border);
+    --_disabled-bg: var(--hds-sem-color-action-secondary-disabled-bg);
+    --_disabled-fg: var(--hds-sem-color-action-secondary-disabled-fg);
+    --_disabled-border: var(--hds-sem-color-action-secondary-disabled-border);
 
     background: var(--_default-bg);
     color: var(--_default-fg);
-    border: var(--hds-sem-action-measure-md-border-width) solid var(--_default-border);
-    font-family: var(--hds-sem-type-other-label-font-family);
-    font-size: var(--hds-sem-type-measure-label-size);
-    font-weight: var(--hds-sem-type-other-label-weight);
-    line-height: var(--hds-sem-type-measure-label-line-height);
-    letter-spacing: var(--hds-sem-type-measure-label-letter-spacing);
+    border: var(--hds-sem-border-control) solid var(--_default-border);
+    font-family: var(--hds-sem-typography-label-md-family);
+    font-size: var(--hds-sem-typography-label-md-size);
+    font-weight: var(--hds-sem-typography-label-md-weight);
+    line-height: var(--hds-sem-typography-label-md-leading);
+    letter-spacing: var(--hds-sem-typography-label-md-tracking);
     cursor: pointer;
     user-select: none;
     text-decoration: none;
   }
 
   .hds-action[data-priority='primary'] {
-    --_default-bg: var(--hds-sem-action-color-primary-default-bg);
-    --_default-fg: var(--hds-sem-action-color-primary-default-fg);
-    --_default-border: var(--hds-sem-action-color-primary-default-border);
-    --_hover-bg: var(--hds-sem-action-color-primary-hover-bg);
-    --_hover-fg: var(--hds-sem-action-color-primary-hover-fg);
-    --_hover-border: var(--hds-sem-action-color-primary-hover-border);
-    --_active-bg: var(--hds-sem-action-color-primary-active-bg);
-    --_active-fg: var(--hds-sem-action-color-primary-active-fg);
-    --_active-border: var(--hds-sem-action-color-primary-active-border);
-    --_focus-bg: var(--hds-sem-action-color-primary-focus-bg);
-    --_focus-fg: var(--hds-sem-action-color-primary-focus-fg);
-    --_focus-border: var(--hds-sem-action-color-primary-focus-border);
-    --_selected-bg: var(--hds-sem-action-color-primary-selected-bg);
-    --_selected-fg: var(--hds-sem-action-color-primary-selected-fg);
-    --_selected-border: var(--hds-sem-action-color-primary-selected-border);
-    --_disabled-bg: var(--hds-sem-action-color-primary-disabled-bg);
-    --_disabled-fg: var(--hds-sem-action-color-primary-disabled-fg);
-    --_disabled-border: var(--hds-sem-action-color-primary-disabled-border);
+    --_default-bg: var(--hds-sem-color-action-primary-default-bg);
+    --_default-fg: var(--hds-sem-color-action-primary-default-fg);
+    --_default-border: var(--hds-sem-color-action-primary-default-border);
+    --_hover-bg: var(--hds-sem-color-action-primary-hover-bg);
+    --_hover-fg: var(--hds-sem-color-action-primary-hover-fg);
+    --_hover-border: var(--hds-sem-color-action-primary-hover-border);
+    --_active-bg: var(--hds-sem-color-action-primary-active-bg);
+    --_active-fg: var(--hds-sem-color-action-primary-active-fg);
+    --_active-border: var(--hds-sem-color-action-primary-active-border);
+    --_selected-bg: var(--hds-sem-color-action-primary-selected-bg);
+    --_selected-fg: var(--hds-sem-color-action-primary-selected-fg);
+    --_selected-border: var(--hds-sem-color-action-primary-selected-border);
+    --_disabled-bg: var(--hds-sem-color-action-primary-disabled-bg);
+    --_disabled-fg: var(--hds-sem-color-action-primary-disabled-fg);
+    --_disabled-border: var(--hds-sem-color-action-primary-disabled-border);
   }
 
   .hds-action[data-priority='tertiary'] {
-    --_default-bg: var(--hds-sem-action-color-tertiary-default-bg);
-    --_default-fg: var(--hds-sem-action-color-tertiary-default-fg);
-    --_default-border: var(--hds-sem-action-color-tertiary-default-border);
-    --_hover-bg: var(--hds-sem-action-color-tertiary-hover-bg);
-    --_hover-fg: var(--hds-sem-action-color-tertiary-hover-fg);
-    --_hover-border: var(--hds-sem-action-color-tertiary-hover-border);
-    --_active-bg: var(--hds-sem-action-color-tertiary-active-bg);
-    --_active-fg: var(--hds-sem-action-color-tertiary-active-fg);
-    --_active-border: var(--hds-sem-action-color-tertiary-active-border);
-    --_focus-bg: var(--hds-sem-action-color-tertiary-focus-bg);
-    --_focus-fg: var(--hds-sem-action-color-tertiary-focus-fg);
-    --_focus-border: var(--hds-sem-action-color-tertiary-focus-border);
-    --_selected-bg: var(--hds-sem-action-color-tertiary-selected-bg);
-    --_selected-fg: var(--hds-sem-action-color-tertiary-selected-fg);
-    --_selected-border: var(--hds-sem-action-color-tertiary-selected-border);
-    --_disabled-bg: var(--hds-sem-action-color-tertiary-disabled-bg);
-    --_disabled-fg: var(--hds-sem-action-color-tertiary-disabled-fg);
-    --_disabled-border: var(--hds-sem-action-color-tertiary-disabled-border);
+    --_default-bg: var(--hds-sem-color-action-tertiary-default-bg);
+    --_default-fg: var(--hds-sem-color-action-tertiary-default-fg);
+    --_default-border: var(--hds-sem-color-action-tertiary-default-border);
+    --_hover-bg: var(--hds-sem-color-action-tertiary-hover-bg);
+    --_hover-fg: var(--hds-sem-color-action-tertiary-hover-fg);
+    --_hover-border: var(--hds-sem-color-action-tertiary-hover-border);
+    --_active-bg: var(--hds-sem-color-action-tertiary-active-bg);
+    --_active-fg: var(--hds-sem-color-action-tertiary-active-fg);
+    --_active-border: var(--hds-sem-color-action-tertiary-active-border);
+    --_selected-bg: var(--hds-sem-color-action-tertiary-selected-bg);
+    --_selected-fg: var(--hds-sem-color-action-tertiary-selected-fg);
+    --_selected-border: var(--hds-sem-color-action-tertiary-selected-border);
+    --_disabled-bg: var(--hds-sem-color-action-tertiary-disabled-bg);
+    --_disabled-fg: var(--hds-sem-color-action-tertiary-disabled-fg);
+    --_disabled-border: var(--hds-sem-color-action-tertiary-disabled-border);
   }
 
-  .hds-action:focus-visible {
-    background: var(--_focus-bg);
-    color: var(--_focus-fg);
-    border-color: var(--_focus-border);
+  .hds-action[data-priority='danger'] {
+    --_default-bg: var(--hds-sem-color-action-danger-default-bg);
+    --_default-fg: var(--hds-sem-color-action-danger-default-fg);
+    --_default-border: var(--hds-sem-color-action-danger-default-border);
+    --_hover-bg: var(--hds-sem-color-action-danger-hover-bg);
+    --_hover-fg: var(--hds-sem-color-action-danger-hover-fg);
+    --_hover-border: var(--hds-sem-color-action-danger-hover-border);
+    --_active-bg: var(--hds-sem-color-action-danger-active-bg);
+    --_active-fg: var(--hds-sem-color-action-danger-active-fg);
+    --_active-border: var(--hds-sem-color-action-danger-active-border);
+    --_selected-bg: var(--hds-sem-color-action-danger-selected-bg);
+    --_selected-fg: var(--hds-sem-color-action-danger-selected-fg);
+    --_selected-border: var(--hds-sem-color-action-danger-selected-border);
+    --_disabled-bg: var(--hds-sem-color-action-danger-disabled-bg);
+    --_disabled-fg: var(--hds-sem-color-action-danger-disabled-fg);
+    --_disabled-border: var(--hds-sem-color-action-danger-disabled-border);
   }
 
   .hds-action:hover,

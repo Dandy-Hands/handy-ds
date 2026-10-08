@@ -57,7 +57,7 @@ unchanged, styled via `part()`.
 ## Checked
 
 The checked look comes from the Input/Field `checked` state:
-`hds/sem/input/color/checked/*`. The mark inherits the state's `fg`.
+`hds/sem/color/field/checked/*`. The mark inherits the state's `fg`.
 
 <Field.Root>
   <Field.Label>
@@ -120,11 +120,11 @@ options from a few.
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Box background, border | `hds/sem/input/color/default/{bg,border}` |
-| Checked background, mark, border | `hds/sem/input/color/checked/{bg,fg,border}` |
-| Hover / invalid / disabled borders | `hds/sem/input/color/{hover,error,disabled}/*` |
-| Box radius | `hds/sem/input/measure/md/radius` (halved) |
-| Group gap | `hds/sem/input/measure/sm/padding-x` |
+| Box background, border | `hds/sem/color/field/default/{bg,border}` |
+| Checked background, mark, border | `hds/sem/color/field/checked/{bg,fg,border}` |
+| Hover / invalid / disabled borders | `hds/sem/color/field/{hover,error,disabled}/*` |
+| Box radius | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (halved) |
+| Group gap | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
 
 ## Owner notes
 

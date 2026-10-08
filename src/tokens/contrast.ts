@@ -1,61 +1,62 @@
-// Contrast requirements per token pair (token spec gap 8), checked in every context.
-// Text pairs need 4.5:1 (WCAG 1.4.3); icons, focus rings, input borders and checkmarks
-// need 3:1 (WCAG 1.4.11). Disabled states are exempt, as in WCAG.
+// Contrast rule (token-system-spec.md section 5.4): WCAG 2, checked in light and dark mode
+// and in each brand context, derived states included. Text pairs need 4.5:1; field borders,
+// check marks, feedback icons and the focus ring need 3:1. Disabled states are exempt.
 import { wcagContrast } from 'culori';
 import type { Context } from './drivers.ts';
-import { ELEVATION, ICON_ROLE, PRIORITY, SENTIMENT, SURFACE_STATE, TYPE_ROLE } from './names.ts';
-import type { ThemeMap } from './themeMap.ts';
+import type { Primitives } from './primitives.ts';
+import type { ColorMap, ColorMode } from './theme.ts';
+import { CONTENT_ROLE, LEVEL, PRIORITY, SENTIMENT } from './names.ts';
 
 export interface ContrastFailure {
-  context: Context;
+  mode: ColorMode;
+  context: 'default' | Context;
   fg: string;
   bg: string;
   ratio: number;
   min: number;
 }
 
-export const CONTEXTS: Context[] = ['default', 'on-primary'];
 const REF = /^\{(hds\/prim\/[^}]+)\}$/;
-const GROUNDS = ELEVATION.flatMap((e) => SURFACE_STATE.map((s) => `surface/color/${e}/${s}/bg`));
+const SURFACES = LEVEL.map((lv) => `surface/${lv}/bg`);
 
-export function checkContrast(prims: Record<string, string>, map: ThemeMap): ContrastFailure[] {
+export function checkContrast(prims: Primitives, colors: ColorMap): ContrastFailure[] {
   const failures: ContrastFailure[] = [];
-
-  for (const context of CONTEXTS) {
-    const tokens = { ...map.default, ...map[context] };
-    // Returns null for `transparent`: the pair is then checked against every surface ground.
-    const color = (name: string): string | null => {
-      const value = tokens[`hds/sem/${name}`];
-      if (value === undefined) throw new Error(`contrast: no token hds/sem/${name}`);
-      if (value === 'transparent') return null;
-      const ref = REF.exec(value);
-      if (!ref) throw new Error(`contrast: ${context} hds/sem/${name} must be a single primitive ref, got ${value}`);
-      return prims[ref[1]];
+  for (const mode of ['light', 'dark'] as const) {
+    const values = prims[mode];
+    const prim = (name: string): string => {
+      const v = values[name];
+      const ref = REF.exec(v);
+      return ref ? prim(ref[1]) : v;
     };
-    const check = (fg: string, bg: string, min: number) => {
-      for (const b of color(bg) === null ? GROUNDS : [bg]) {
-        const ratio = wcagContrast(color(fg)!, color(b)!);
-        if (ratio < min) failures.push({ context, fg: `hds/sem/${fg}`, bg: `hds/sem/${b}`, ratio: Number(ratio.toFixed(2)), min });
-      }
-    };
+    for (const [context, picks] of Object.entries(colors[mode]) as ['default' | Context, Record<string, string>][]) {
+      // Returns null for `transparent`: the pair is then checked against every surface level.
+      const color = (token: string) => (picks[token] === 'transparent' ? null : prim(`hds/prim/color/${picks[token]}`));
+      const check = (fg: string, bg: string, min: number) => {
+        for (const b of color(bg) === null ? SURFACES : [bg]) {
+          const ratio = wcagContrast(color(fg)!, color(b)!);
+          if (ratio < min) {
+            failures.push({ mode, context, fg: `hds/sem/color/${fg}`, bg: `hds/sem/color/${b}`, ratio: Number(ratio.toFixed(2)), min });
+          }
+        }
+      };
 
-    for (const ground of GROUNDS) {
-      for (const role of TYPE_ROLE) check(`type/color/${role}/fg`, ground, 4.5);
-      for (const role of ICON_ROLE) check(`icon/color/${role}/fg`, ground, 3);
-      check('focus/color/stroke', ground, 3);
-      check('input/color/default/border', ground, 3);
-    }
-    for (const pr of PRIORITY) {
-      for (const st of ['default', 'hover', 'active', 'focus', 'selected']) {
-        check(`action/color/${pr}/${st}/fg`, `action/color/${pr}/${st}/bg`, 4.5);
+      for (const ground of SURFACES) {
+        for (const role of CONTENT_ROLE) check(`content/${role}/fg`, ground, 4.5);
+        check('content/link/hover/fg', ground, 4.5);
+        check('focus/ring', ground, 3);
       }
-    }
-    for (const st of ['default', 'hover', 'focus', 'error']) check(`input/color/${st}/fg`, `input/color/${st}/bg`, 4.5);
-    check('input/color/default/placeholder-fg', 'input/color/default/bg', 4.5);
-    check('input/color/checked/fg', 'input/color/checked/bg', 3);
-    for (const s of SENTIMENT) {
-      check(`feedback/color/${s}/fg`, `feedback/color/${s}/bg`, 4.5);
-      check(`feedback/color/${s}/icon-fg`, `feedback/color/${s}/bg`, 3);
+      for (const pr of PRIORITY) {
+        for (const st of ['default', 'hover', 'active', 'selected']) check(`action/${pr}/${st}/fg`, `action/${pr}/${st}/bg`, 4.5);
+      }
+      for (const st of ['default', 'hover', 'focus', 'error']) check(`field/${st}/fg`, `field/${st}/bg`, 4.5);
+      check('field/default/placeholder', 'field/default/bg', 4.5);
+      check('field/default/border', 'field/default/bg', 3);
+      check('field/error/border', 'field/error/bg', 3);
+      check('field/checked/fg', 'field/checked/bg', 3);
+      for (const s of SENTIMENT) {
+        check(`feedback/${s}/fg`, `feedback/${s}/bg`, 4.5);
+        check(`feedback/${s}/icon`, `feedback/${s}/bg`, 3);
+      }
     }
   }
   return failures;

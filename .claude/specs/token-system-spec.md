@@ -1,6 +1,6 @@
 # Client Design System — Token System Spec
 
-**Status:** rewritten 2026-10-07 from the token rework interview (`.claude/specs/token-rework-interview.md`). The interview guide holds the reasoning and the rejected options for each decision. The code in `src/tokens/` still implements the previous spec and is not updated yet.
+**Status:** rewritten 2026-10-07 from the token rework interview (`.claude/specs/token-rework-interview.md`). The interview guide holds the reasoning and the rejected options for each decision. `src/tokens/` implements this spec (2026-10-07).
 
 Values marked *tunable* are defaults chosen by Claude. They can change without a new interview. Everything else is a decision.
 
@@ -304,7 +304,7 @@ Any pick can have an optional dark value (`picks.{token}.dark`). Without it, dar
 | `surface/{raised,floating,modal}/bg` | `R/700` |
 | `surface/*/border` | `R/500` |
 | `content/{strong,default,accent,link}/fg` | `neutral/50` |
-| `content/muted/fg`, `content/link/hover/fg` | `R/100` |
+| `content/muted/fg`, `content/link/hover/fg` | `R/50` (`R/100` failed 4.5:1 on `R/600` for most generated hues) |
 | `action/primary` (default) | bg `neutral/50`, fg `R/700`, border `neutral/50` |
 | `action/secondary` (default) | bg `transparent`, fg `neutral/50`, border `neutral/50` |
 | `action/tertiary` (default) | bg `transparent`, fg `neutral/50`, border `transparent` |
@@ -526,4 +526,4 @@ Each component's spec interview records which semantic tokens its parts read: co
 2. Other modes, such as high contrast.
 3. Driver interface location, preview, and output (`driver-interface-spec.md`, open question 8).
 4. Field error text color. It is not a Field token. A component interview decides between `feedback/danger/fg` and a new Content role, and the contrast rule must cover brand contexts.
-5. The code in `src/tokens/` implements the previous spec. It needs a rewrite to this spec, including `checkTokenName()` for the new grammar.
+5. Component CSS reads the new token names through a provisional mapping (old category tokens to the closest new token). Each component re-interview confirms its mapping.

@@ -7,7 +7,7 @@ Read `docs/rules.md` first: it covers setup, theming, contexts and the rules for
 **Three rules that apply to every entry below.**
 
 1. The props listed here are the ones handy-ds adds. Every other prop belongs to the Base UI part underneath. Its types are in `handy-ds/dist/types`, and its behavior is documented in `node_modules/@base-ui/react/docs/react/components/{name}.md`.
-2. Never set `className` to change a component's colors, spacing or radius. Those come from the theme. A visual change is a driver change or a mapping change (`docs/rules.md` sections 2 and 3).
+2. Never set `className` to change a component's colors, spacing or radius. Those come from the theme. A visual change is a driver change: a palette driver or a pick driver (`docs/rules.md` sections 2 and 3).
 3. Every component accepts `render` to swap its tag: `<Text render={<h3 />}>`.
 
 Working examples of all of these on one page: the Overview page of the docs site (`npm run dev`).
@@ -25,7 +25,7 @@ Triggers an action. Renders `<button>`.
 
 | Prop | Values | Default |
 |---|---|---|
-| `priority` | `primary` (the main action, at most one per view), `secondary`, `tertiary` (toolbars, inline) | `primary` |
+| `priority` | `primary` (the main action, at most one per view), `secondary`, `tertiary` (toolbars, inline), `danger` (destructive) | `primary` |
 | `size` | `sm`, `md`, `lg` | `md` |
 
 ```tsx
@@ -46,7 +46,7 @@ A link that looks like a button. Renders `<a>`.
 
 | Prop | Values | Default |
 |---|---|---|
-| `priority` | `primary`, `secondary`, `tertiary` | `primary` |
+| `priority` | `primary`, `secondary`, `tertiary`, `danger` | `primary` |
 | `size` | `sm`, `md`, `lg` | `md` |
 
 ```tsx

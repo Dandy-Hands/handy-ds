@@ -7,7 +7,7 @@
   .hds-fieldset {
     display: flex;
     flex-direction: column;
-    gap: var(--hds-sem-input-measure-lg-padding-x);
+    gap: var(--hds-sem-measure-space-400);
     margin: 0;
     padding: 0;
     border: 0;
@@ -16,18 +16,18 @@
 
   .hds-fieldset__legend {
     padding: 0;
-    margin-bottom: var(--hds-sem-input-measure-sm-padding-x);
-    color: var(--hds-sem-type-color-label-fg);
-    font-family: var(--hds-sem-type-other-label-font-family);
-    font-size: var(--hds-sem-type-measure-label-size);
-    font-weight: var(--hds-sem-type-other-label-weight);
-    line-height: var(--hds-sem-type-measure-label-line-height);
+    margin-bottom: var(--hds-sem-measure-space-200);
+    color: var(--hds-sem-color-content-default-fg);
+    font-family: var(--hds-sem-typography-label-md-family);
+    font-size: var(--hds-sem-typography-label-md-size);
+    font-weight: var(--hds-sem-typography-label-md-weight);
+    line-height: var(--hds-sem-typography-label-md-leading);
   }
 
   .hds-field {
     display: flex;
     flex-direction: column;
-    gap: var(--hds-sem-input-measure-sm-padding-y);
+    gap: var(--hds-sem-measure-space-100);
     min-width: 0; /* lets a field shrink below its input's intrinsic width in flex rows */
   }
 
@@ -35,33 +35,33 @@
   .hds-field__item {
     display: flex;
     align-items: center;
-    gap: var(--hds-sem-input-measure-sm-padding-x);
+    gap: var(--hds-sem-measure-space-200);
   }
 
   .hds-field__label {
-    color: var(--hds-sem-type-color-label-fg);
-    font-family: var(--hds-sem-type-other-label-font-family);
-    font-size: var(--hds-sem-type-measure-label-size);
-    font-weight: var(--hds-sem-type-other-label-weight);
-    line-height: var(--hds-sem-type-measure-label-line-height);
-    letter-spacing: var(--hds-sem-type-measure-label-letter-spacing);
+    color: var(--hds-sem-color-content-default-fg);
+    font-family: var(--hds-sem-typography-label-md-family);
+    font-size: var(--hds-sem-typography-label-md-size);
+    font-weight: var(--hds-sem-typography-label-md-weight);
+    line-height: var(--hds-sem-typography-label-md-leading);
+    letter-spacing: var(--hds-sem-typography-label-md-tracking);
   }
 
   .hds-field__description,
   .hds-field__error {
     margin: 0;
-    font-family: var(--hds-sem-type-other-caption-font-family);
-    font-size: var(--hds-sem-type-measure-caption-size);
-    font-weight: var(--hds-sem-type-other-caption-weight);
-    line-height: var(--hds-sem-type-measure-caption-line-height);
-    letter-spacing: var(--hds-sem-type-measure-caption-letter-spacing);
+    font-family: var(--hds-sem-typography-caption-md-family);
+    font-size: var(--hds-sem-typography-caption-md-size);
+    font-weight: var(--hds-sem-typography-caption-md-weight);
+    line-height: var(--hds-sem-typography-caption-md-leading);
+    letter-spacing: var(--hds-sem-typography-caption-md-tracking);
   }
 
   .hds-field__description {
-    color: var(--hds-sem-type-color-caption-fg);
+    color: var(--hds-sem-color-content-muted-fg);
   }
 
   .hds-field__error {
-    color: var(--hds-sem-feedback-color-danger-fg);
+    color: var(--hds-sem-color-feedback-danger-fg);
   }
 }

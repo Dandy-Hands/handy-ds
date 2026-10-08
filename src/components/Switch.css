@@ -6,26 +6,26 @@
     inline-size: 2.25em;
     block-size: 1.25em;
     padding: 2px;
-    border: var(--hds-sem-action-measure-md-border-width) solid var(--hds-sem-action-color-secondary-default-border);
+    border: var(--hds-sem-border-control) solid var(--hds-sem-color-action-secondary-default-border);
     border-radius: 999px;
-    background: var(--hds-sem-action-color-secondary-default-bg);
+    background: var(--hds-sem-color-action-secondary-default-bg);
     cursor: pointer;
     transition: background-color 150ms;
   }
 
   .hds-switch:hover {
-    background: var(--hds-sem-action-color-secondary-hover-bg);
-    border-color: var(--hds-sem-action-color-secondary-hover-border);
+    background: var(--hds-sem-color-action-secondary-hover-bg);
+    border-color: var(--hds-sem-color-action-secondary-hover-border);
   }
 
   .hds-switch[data-checked] {
-    background: var(--hds-sem-action-color-primary-selected-bg);
-    border-color: var(--hds-sem-action-color-primary-selected-border);
+    background: var(--hds-sem-color-action-primary-selected-bg);
+    border-color: var(--hds-sem-color-action-primary-selected-border);
   }
 
   .hds-switch[data-disabled] {
-    background: var(--hds-sem-action-color-secondary-disabled-bg);
-    border-color: var(--hds-sem-action-color-secondary-disabled-border);
+    background: var(--hds-sem-color-action-secondary-disabled-bg);
+    border-color: var(--hds-sem-color-action-secondary-disabled-border);
     cursor: not-allowed;
   }
 
@@ -33,16 +33,16 @@
     block-size: 100%;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: var(--hds-sem-action-color-secondary-default-fg);
+    background: var(--hds-sem-color-action-secondary-default-fg);
     transition: translate 150ms;
   }
 
   .hds-switch__thumb[data-checked] {
     translate: 1em 0;
-    background: var(--hds-sem-action-color-primary-selected-fg);
+    background: var(--hds-sem-color-action-primary-selected-fg);
   }
 
   .hds-switch__thumb[data-disabled] {
-    background: var(--hds-sem-action-color-secondary-disabled-fg);
+    background: var(--hds-sem-color-action-secondary-disabled-fg);
   }
 }

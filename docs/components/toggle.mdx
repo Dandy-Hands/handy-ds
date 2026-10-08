@@ -102,11 +102,11 @@ A disabled toggle keeps its footprint and takes no input.
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Background, border, text (per priority × state) | `hds/sem/action/color/{priority}/{default,hover,active,focus,disabled,selected}/{bg,border,fg}` |
-| Footprint | `hds/sem/action/measure/md/{padding-x,padding-y,radius,gap,border-width}` |
-| Label type | `hds/sem/type/measure/label/*`, `hds/sem/type/other/label/*` |
-| Group gap | `hds/sem/action/measure/md/gap` |
-| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+| Background, border, text (per priority × state) | `hds/sem/color/action/{priority}/{default,hover,active,disabled,selected}/{bg,border,fg}` |
+| Footprint | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Label type | `hds/sem/typography/label/md/*` |
+| Group gap | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
 
 ## Owner notes
 

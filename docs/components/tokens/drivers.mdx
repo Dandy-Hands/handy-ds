@@ -7,10 +7,11 @@ import { DriversPage } from '../../token-pages.tsx';
 
 # Drivers
 
-The hand-set layer. Everything below is an input a theme author chooses; values here
-are the live docs theme — change them in the **Theme ⚙** flyout and this page follows.
+The only client input. Values here are the live docs theme: change them in the **Theme ⚙**
+flyout and this page follows. The full driver list with defaults is in the token spec, section 3.
 
-The **Feeds** column shows which ref token (`hds/prim/*`) each driver produces or
-selects. This is the only hand-authored layer; every token below it is generated.
+- **Palette drivers** (`color.*`, `typography.family`, `density`, ...) shape the primitives.
+- **Pick drivers** (`picks.*`, `contexts.*`, `roles.*`, `radius.*`, `border.*`, `typography.styles`)
+  choose which primitive each semantic token reads. Each has a default; only overrides show here.
 
 <DriversPage />

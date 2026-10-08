@@ -1,38 +1,39 @@
 /*
- * Surface category: cards, panels, popups. `data-elevation` = 0..3 (default 1).
+ * Surface category: cards, panels, popups. `data-elevation` = 0..3 (default 1) maps to the surface
+ * levels base, raised, floating, modal (token spec 7.3). Provisional until the component re-interviews.
  * Popups (.hds-popup), their positioners, list popups and backdrops live here too.
  */
 @layer hds.theme, hds.base, hds.components;
 
 @layer hds.components {
   .hds-surface {
-    --_bg: var(--hds-sem-surface-color-1-default-bg);
-    --_border: var(--hds-sem-surface-color-1-default-border);
-    --_shadow: var(--hds-sem-surface-color-1-default-shadow);
+    --_bg: var(--hds-sem-color-surface-raised-bg);
+    --_border: var(--hds-sem-color-surface-raised-border);
+    --_shadow: var(--hds-sem-elevation-raised);
 
     background: var(--_bg);
-    color: var(--hds-sem-type-color-body-fg);
-    border: var(--hds-sem-surface-measure-border-width) solid var(--_border);
-    border-radius: var(--hds-sem-surface-measure-radius);
+    color: var(--hds-sem-color-content-default-fg);
+    border: var(--hds-sem-border-container) solid var(--_border);
+    border-radius: var(--hds-sem-radius-container);
     box-shadow: var(--_shadow);
   }
 
   .hds-surface[data-elevation='0'] {
-    --_bg: var(--hds-sem-surface-color-0-default-bg);
-    --_border: var(--hds-sem-surface-color-0-default-border);
-    --_shadow: var(--hds-sem-surface-color-0-default-shadow);
+    --_bg: var(--hds-sem-color-surface-base-bg);
+    --_border: var(--hds-sem-color-surface-base-border);
+    --_shadow: none;
   }
 
   .hds-surface[data-elevation='2'] {
-    --_bg: var(--hds-sem-surface-color-2-default-bg);
-    --_border: var(--hds-sem-surface-color-2-default-border);
-    --_shadow: var(--hds-sem-surface-color-2-default-shadow);
+    --_bg: var(--hds-sem-color-surface-floating-bg);
+    --_border: var(--hds-sem-color-surface-floating-border);
+    --_shadow: var(--hds-sem-elevation-floating);
   }
 
   .hds-surface[data-elevation='3'] {
-    --_bg: var(--hds-sem-surface-color-3-default-bg);
-    --_border: var(--hds-sem-surface-color-3-default-border);
-    --_shadow: var(--hds-sem-surface-color-3-default-shadow);
+    --_bg: var(--hds-sem-color-surface-modal-bg);
+    --_border: var(--hds-sem-color-surface-modal-border);
+    --_shadow: var(--hds-sem-elevation-modal);
   }
 
   .hds-positioner {
@@ -56,7 +57,7 @@
   .hds-list {
     display: flex;
     flex-direction: column;
-    padding: var(--hds-sem-action-measure-md-gap);
+    padding: var(--hds-sem-measure-space-200);
     min-width: var(--anchor-width);
     max-height: var(--available-height);
     overflow-y: auto;
@@ -71,12 +72,12 @@
   .hds-item {
     display: flex;
     align-items: center;
-    gap: var(--hds-sem-action-measure-md-gap);
-    padding: var(--hds-sem-action-measure-md-padding-y) var(--hds-sem-action-measure-md-padding-x);
+    gap: var(--hds-sem-measure-space-200);
+    padding: var(--hds-sem-measure-space-200) var(--hds-sem-measure-space-400);
     border-width: 0;
-    border-radius: var(--hds-sem-action-measure-md-radius);
+    border-radius: var(--hds-sem-radius-control);
     cursor: default;
-    outline-offset: calc(-1 * var(--hds-sem-focus-measure-stroke-width));
+    outline-offset: calc(-1 * var(--hds-sem-border-focus));
   }
 
   .hds-item__indicator {
@@ -85,12 +86,12 @@
   }
 
   .hds-list__label {
-    padding: var(--hds-sem-action-measure-md-padding-y) var(--hds-sem-action-measure-md-padding-x);
-    color: var(--hds-sem-type-color-caption-fg);
-    font-family: var(--hds-sem-type-other-caption-font-family);
-    font-size: var(--hds-sem-type-measure-caption-size);
-    font-weight: var(--hds-sem-type-other-caption-weight);
-    letter-spacing: var(--hds-sem-type-measure-caption-letter-spacing);
+    padding: var(--hds-sem-measure-space-200) var(--hds-sem-measure-space-400);
+    color: var(--hds-sem-color-content-muted-fg);
+    font-family: var(--hds-sem-typography-caption-md-family);
+    font-size: var(--hds-sem-typography-caption-md-size);
+    font-weight: var(--hds-sem-typography-caption-md-weight);
+    letter-spacing: var(--hds-sem-typography-caption-md-tracking);
   }
 
   /* Overlay category: modal scrims. */
@@ -98,7 +99,7 @@
     position: fixed;
     inset: 0;
     z-index: 50;
-    background: var(--hds-sem-overlay-color-bg);
+    background: var(--hds-sem-color-overlay-scrim);
     transition: opacity 150ms;
   }
 

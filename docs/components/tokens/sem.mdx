@@ -7,11 +7,12 @@ import { SemPage } from '../../token-pages.tsx';
 
 # Sem tokens
 
-`hds/sem/{category}/{type}/[axis]/[state]/{property}` — the application layer,
-named by purpose. These are the tokens components read, emitted at `:root`.
+`hds/sem/{type}/[category]/[axis]/[state]/{property}`: the application layer, named by
+purpose. These are the tokens components read, emitted at `:root`.
 
-- **Reads** names the ref token each value comes from — the ref→sym mapping itself.
-- **Literal** rows are hand-set values in the Theme Map (`transparent`, `color-mix(…)`).
+- **Pick** is the primitive each color token reads. Interaction states derive from the default
+  pick (hover +1 stop, active +2) unless a pick driver overrides them.
+- Dark mode uses the same picks on the dark palette, unless a pick has a dark override.
 - Values are the live docs theme; use the **Theme ⚙** flyout to see them move.
 
 <SemPage />

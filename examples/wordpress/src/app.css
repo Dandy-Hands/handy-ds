@@ -5,7 +5,7 @@
   justify-content: space-between;
   gap: 1rem;
   padding: 0.5rem 2rem;
-  border-bottom: 1px solid var(--hds-sem-divider-color-border);
+  border-bottom: 1px solid var(--hds-sem-color-graphic-divider-default);
 }
 
 .hero {
@@ -48,7 +48,7 @@
 }
 
 .card__title {
-  font-size: calc(var(--hds-sem-type-measure-body-size) * 1.35);
+  font-size: calc(var(--hds-sem-typography-body-md-size) * 1.35);
 }
 
 .pager {

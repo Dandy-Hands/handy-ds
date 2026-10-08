@@ -7,7 +7,7 @@ import './action.css';
 import './Button.css';
 
 /** Action category priority axis (token spec section 4). */
-export type Priority = 'primary' | 'secondary' | 'tertiary';
+export type Priority = 'primary' | 'secondary' | 'tertiary' | 'danger';
 
 export interface ButtonProps extends ComponentProps<typeof BaseButton> {
   priority?: Priority;

@@ -25,7 +25,7 @@ When you spot a problem outside the task at hand, tell the user and ask whether 
 
 Read the specs in full before creating any token, category, resolver, or component-file convention. Where implementation and spec disagree, the spec wins unless the user says otherwise. Section 9 of `token-system-spec.md` ("Not Done Yet") lists open gaps — expect to make judgment calls there and flag them.
 
-**Code lags the spec.** `src/tokens/`, `docs/component-conventions.md` and `docs/rules.md` still implement the previous token spec (nine categories, old grammar, Theme Map). Their rewrite is tracked in `.claude/TODO.md`.
+**Provisional component mapping.** Component CSS reads the new token names through a provisional mapping from the previous spec (token spec section 9, item 5). Each component's re-interview confirms its mapping.
 
 ## Tooling
 
@@ -34,9 +34,9 @@ Read the specs in full before creating any token, category, resolver, or compone
 - `npm run build` — runs `npm test`, then Vite library mode (`dist/index.js`, `tokens.js`, `styles.css`, `theme.css`), then `.d.ts` via `tsconfig.build.json`. The build fails if a component references a primitive.
 - `npm run dev` — docs site at `docs-site/` (component docs plus live theming flyout). No `@vitejs/plugin-react` at the root; the docs site uses its own Vite config.
 - No lint config.
-- `bin/hds-theme.js` — client CLI: `hds-theme theme.config.js > theme.css` (contrast failures → stderr, exit 1).
+- `bin/hds-theme.js` — client CLI: `hds-theme theme.config.js > theme.css`. The config's default export is a driver config. Contrast failures → stderr, exit 1.
 - `examples/wordpress`, `examples/pwa` — standalone Vite apps installing the package via `file:../..`; run `npm run build` at the root first.
-- `src/tokens/` — drivers → primitives → Theme Map → CSS (`buildTheme()`), contrast checker, and `checkTokenName()` (validate slash form, never emitted CSS names). Implements the previous token spec; see "Code lags the spec".
+- `src/tokens/` — drivers → primitives (hue wheel, light and dark palettes) → color picks (`picks.ts`) → CSS (`buildTheme()`, with modes, contexts, sections), contrast checker, and `checkTokenName()` (validate slash form, never emitted CSS names).
 
 ## Docs
 

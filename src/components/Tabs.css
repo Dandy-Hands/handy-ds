@@ -11,39 +11,39 @@
   .hds-tabs__list {
     position: relative;
     display: flex;
-    gap: var(--hds-sem-action-measure-md-gap);
-    border-bottom: var(--hds-sem-divider-measure-thin-thickness) solid var(--hds-sem-divider-color-border);
+    gap: var(--hds-sem-measure-space-200);
+    border-bottom: var(--hds-sem-border-divider) solid var(--hds-sem-color-graphic-divider-default);
   }
 
   .hds-tabs__list[data-orientation='vertical'] {
     flex-direction: column;
     border-bottom: 0;
-    border-inline-end: var(--hds-sem-divider-measure-thin-thickness) solid var(--hds-sem-divider-color-border);
+    border-inline-end: var(--hds-sem-border-divider) solid var(--hds-sem-color-graphic-divider-default);
   }
 
   .hds-tabs__tab {
-    padding: var(--hds-sem-action-measure-md-padding-y) var(--hds-sem-action-measure-md-padding-x);
+    padding: var(--hds-sem-measure-space-200) var(--hds-sem-measure-space-400);
     border-width: 0;
-    border-radius: var(--hds-sem-action-measure-md-radius) var(--hds-sem-action-measure-md-radius) 0 0;
-    outline-offset: calc(-1 * var(--hds-sem-focus-measure-stroke-width));
+    border-radius: var(--hds-sem-radius-control) var(--hds-sem-radius-control) 0 0;
+    outline-offset: calc(-1 * var(--hds-sem-border-focus));
   }
 
   .hds-tabs__indicator {
     position: absolute;
     left: var(--active-tab-left);
-    bottom: calc(-1 * var(--hds-sem-divider-measure-thin-thickness));
+    bottom: calc(-1 * var(--hds-sem-border-divider));
     width: var(--active-tab-width);
-    height: var(--hds-sem-divider-measure-medium-thickness);
-    background: var(--hds-sem-action-color-primary-selected-bg);
+    height: var(--hds-sem-measure-space-050);
+    background: var(--hds-sem-color-action-primary-selected-bg);
     transition: left 200ms, width 200ms, top 200ms, height 200ms;
   }
 
   .hds-tabs__indicator[data-orientation='vertical'] {
     top: var(--active-tab-top);
     left: auto;
-    right: calc(-1 * var(--hds-sem-divider-measure-thin-thickness));
+    right: calc(-1 * var(--hds-sem-border-divider));
     bottom: auto;
-    width: var(--hds-sem-divider-measure-medium-thickness);
+    width: var(--hds-sem-measure-space-050);
     height: var(--active-tab-height);
   }
 }

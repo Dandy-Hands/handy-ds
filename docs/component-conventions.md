@@ -4,9 +4,9 @@ How every handy-ds component is built. Button (`src/components/Button.tsx`) is t
 
 ## The one rule
 
-Components read **semantic tokens only**: `var(--hds-sem-*)`. Never `--hds-prim-*`, never a driver value, and never a hard-coded color. `npm test` fails if a component file references a primitive or a `--hds-sem-*` name the theme doesn't define. That check is what guarantees a driver change or a mapping change re-themes every component with zero component edits.
+Components read **semantic tokens only**: `var(--hds-sem-*)`. Never `--hds-prim-*`, never a driver value, and never a hard-coded color. `npm test` fails if a component file references a primitive or a `--hds-sem-*` name the theme doesn't define. That check is what guarantees a driver change re-themes every component with zero component edits.
 
-Literal values are allowed only for structure (the `1.25em` checkbox box, `999px` pill radius, `z-index`, transition timings). Anything a client might want to theme goes through a token.
+Literal values are allowed only for structure (the `1.25em` checkbox box, `z-index`, transition timings). Anything a client might want to theme goes through a token.
 
 ## Files
 
@@ -14,12 +14,12 @@ Literal values are allowed only for structure (the `1.25em` checkbox box, `999px
 src/components/
   Button.tsx        component (one family per file: Checkbox.tsx, Menu.tsx = Menu + ContextMenu + Menubar)
   Button.css        that component's own layout rules
-  action.css        category look shared by every Action part
-  control.css       category look shared by every Input/Field text control
+  action.css        color category look shared by every Action part
+  control.css       color category look shared by every Field text control
   surface.css       Surface look + popups, positioners, list items, backdrop (Overlay)
   Feedback.css      Feedback look shared by Alert and Toast
-  Separator.css     Divider look
-  base.css          body type, context grounds, focus ring
+  Separator.css     divider look (Graphic category)
+  base.css          body type, mode and context grounds, focus ring
   part.ts           part() / cx() helpers
   icons.tsx         built-in glyphs (check, chevron, x...)
 src/index.ts        public exports, grouped by category
@@ -31,10 +31,10 @@ Each `.tsx` imports the CSS it needs in this order: `base.css`, then category CS
 
 - Every rule sits in `@layer hds.components` (base rules in `@layer hds.base`, the generated theme in `@layer hds.theme`). Client CSS is unlayered, so it always wins without specificity fights. Files that can load first repeat the order statement `@layer hds.theme, hds.base, hds.components;`.
 - Class names: `hds-{component}` for the root, `hds-{component}__{part}` for parts, plus category classes (`hds-action`, `hds-control`, `hds-surface`, `hds-feedback`, `hds-item`).
-- Axes are data attributes named after the spec axis: `data-priority` (Action), `data-size` (Input/Field), `data-elevation` (Surface), `data-sentiment` (Feedback), `data-weight` (Divider), `data-variant` (Type/Icon role).
+- Axes are data attributes named after the component's axis prop: `data-priority` (Action), `data-size`, `data-elevation` (Surface level), `data-sentiment` (Feedback), `data-weight` (divider), `data-variant` (Text/Icon role).
 - States come from Base UI's own data attributes (`data-disabled`, `data-pressed`, `data-active`, `data-selected`, `data-highlighted`, `data-checked`, `data-invalid`, `data-popup-open`...). Don't add your own state classes.
 - Category CSS maps an axis to private `--_*` custom properties once, then the state rules read those. Example: `action.css` sets `--_hover-bg` per priority, and `.hds-action:hover` reads `var(--_hover-bg)`.
-- The focus ring comes from `base.css` (`:focus-visible`). Parts inside lists or bars inset it with `outline-offset: calc(-1 * var(--hds-sem-focus-measure-stroke-width))`.
+- The focus ring comes from `base.css` (`:focus-visible`). Parts inside lists or bars inset it with `outline-offset: calc(-1 * var(--hds-sem-border-focus))`.
 
 ## TypeScript
 
@@ -60,7 +60,7 @@ Each `.tsx` imports the CSS it needs in this order: `base.css`, then category CS
 
 - **One prop name = one axis everywhere in the library.** `size` always means the size axis, `priority` always Action priority, `variant` always the component's category role. Never reuse an axis name for a different axis, and never give one axis two names. Where the rule bites, fix the prop, not the rule (e.g. Icon's `size` must become a real size axis or be renamed — decided at Icon's spec interview).
 - An axis prop is named after its spec axis (`priority`, `size`, `elevation`, `sentiment`, `weight`, `variant`) and set as the matching data attribute.
-- **Where possible, a prop's values appear verbatim in the axis slot of the token names the component reads** (`action/measure/md/padding-x` ⇔ `size="md"` on Button). Per-category value sets are fine where the token taxonomy has them (each category has its own role axis). A prop that breaks the slot rule needs a recorded reason in its spec.
+- **Where possible, a prop's values appear verbatim in the axis slot of the token names the component reads** (`color/action/primary/...` ⇔ `priority="primary"`, `typography/body/sm/...` ⇔ `size="sm"` on Text). Measure tokens are step-named and shared, so a `size` prop maps to steps in the component's own CSS. A prop that breaks the slot rule needs a recorded reason in its spec.
 - **Value sets are defined once per axis** and shared across components (table below). A component may only diverge when its semantics genuinely differ; record the divergence and the reason in the component spec.
 - **Named values.** All axis steps are named (`sm/md/lg`, `primary/secondary/tertiary`, `thin/medium/thick`). Numeric values are not used; if a future axis genuinely mirrors a primitive scale numbering, record the reason in its spec.
 - Axis props are **typed unions, never `string`**, exported alongside the component (`export type Size = 'sm' | 'md' | 'lg'`).
@@ -71,12 +71,12 @@ Canonical axis value sets:
 
 | Axis | Values | Definition |
 |---|---|---|
-| `priority` | `primary`, `secondary`, `tertiary` | How strongly an interactive element commands attention (its main action vs a supporting one). Action-category axis; use on any part that renders the Action look. |
+| `priority` | `primary`, `secondary`, `tertiary`, `danger` | How strongly an interactive element commands attention (its main action vs a supporting one). Action-category axis; use on any part that renders the Action look. |
 | `size` | `sm`, `md` (default), `lg` | Physical footprint that scales with context — control height and padding for interactive controls, glyph size for icons, type size for Text. Use wherever a component offers size steps. |
-| `elevation` | `0`, `1`, `2`, `3` | Distance above the page plane (shadow depth). Surface-category axis; use on any part that renders the Surface look — cards, popups, positioners, backdrops. |
+| `elevation` | `0`, `1`, `2`, `3` | Distance above the page plane. Maps to the surface levels `base`, `raised`, `floating`, `modal` (color and `elevation/*` shadow). Use on any part that renders the Surface look. The token spec also has `sunken`; the component re-interviews decide whether the prop moves to the level names. |
 | `sentiment` | `danger`, `warning`, `success`, `info` | Semantic valence of a message or measurement. Feedback-category axis; use on any part that renders the Feedback look. |
-| `weight` | `thin`, `medium`, `thick` | Stroke thickness of a divider line. Divider-category axis; use on any part that renders the Divider look. (Border thickness — not type weight.) |
-| `variant` | per-category role sets: Icon `default`, `secondary`, `accent`; Text `display`, `heading`, `body`, `label`, `caption` | Which role within the component's category value scale (color emphasis for Icon; full typographic role for Text). Use when a part renders in a specific category role. |
+| `weight` | `thin`, `medium`, `thick` | Stroke thickness of a divider line (border thickness, not type weight). `thin` reads `border/divider`; the token spec has no divider widths for `medium` and `thick`, which read measure steps until the Separator re-interview. |
+| `variant` | per-component role sets: Icon `default`, `secondary`, `accent` (read Content `default`, `muted`, `accent`); Text `display`, `heading`, `body`, `label`, `caption` (typography roles) | Which role within the component's value scale. Use when a part renders in a specific role. |
 
 A component uses an axis when its definition matches, decided by the token category the component's spec assigns — not by copying another component's choice.
 
@@ -84,7 +84,9 @@ New axes (e.g. `status` on Progress) get added to this table when their componen
 
 ## Tokens a component may use
 
-Use the category the spec assigns (token spec section 9 tables, decisions in `.claude/decisions.md`). Composites borrow per part: Select trigger is Input/Field, popup is Surface, options are Action. Don't invent a token. If a value can't be expressed with existing tokens, raise it as a spec change: new names must pass `checkTokenName()` and go into the Theme Map.
+Each component's spec interview records which tokens its parts read (token spec section 8). Composites borrow per part: Select trigger is Field, popup is Surface, options are Action. Radius and border come from shape roles (`radius/control`, `border/container`, ...), not from the color category. Don't invent a token. If a value can't be expressed with existing tokens, raise it as a spec change: new names go into `names.ts` (and `picks.ts` for color) and must pass `checkTokenName()`.
+
+Components migrated before their re-interview read the new tokens through a provisional mapping (token spec section 9, item 5).
 
 ## Adding a component
 

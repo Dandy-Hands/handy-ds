@@ -14,11 +14,11 @@ Running list of planned work. Add an item when the user asks for new work. Check
   - [x] Change the token spec to the eight element categories (Action, Field, Surface, Content, Graphic, Feedback, Focus, Overlay). See `.claude/decisions.md`.
   - [x] Add a data-visualization palette (token family for charts). None exists; `.pi/research/current-token-structures.md` lists it as a gap.
 - [x] Simplify the semantic tokens.
-- [ ] Rewrite `src/tokens/` to the new token spec (`token-system-spec.md`), including `checkTokenName()` for the new grammar.
-- [ ] Flatten client customization to drivers only.
-  - [ ] Remove the mapping-level override from `src/tokens/theme.ts` and its test in `src/tokens/tokens.test.ts`.
+- [x] Rewrite `src/tokens/` to the new token spec (`token-system-spec.md`), including `checkTokenName()` for the new grammar.
+- [x] Flatten client customization to drivers only.
+  - [x] Remove the mapping-level override from `src/tokens/theme.ts` and its test in `src/tokens/tokens.test.ts`.
   - [x] Add palette color pick drivers, so a client picks the exact palette color for each use.
-- [ ] After the token rework, update `docs/component-conventions.md` and `docs/rules.md` to match.
+- [x] After the token rework, update `docs/component-conventions.md` and `docs/rules.md` to match.
 - [ ] Decide the order of the token rework and the component re-interviews. Each interview records a token mapping, so a later token change can force parts of every interview to run again.
 
 ## Driver interface

@@ -8,14 +8,16 @@ import { NumberField } from 'handy-ds';
 # NumberField
 
 A number input with decrement and increment steppers. The group renders as one
-Input/Field control: a − button, the value input, and a + button in a shared
+Field control: a − button, the value input, and a + button in a shared
 frame.
 
-<NumberField.Group defaultValue={5}>
-  <NumberField.Decrement />
-  <NumberField.Input />
-  <NumberField.Increment />
-</NumberField.Group>
+<NumberField.Root defaultValue={5}>
+  <NumberField.Group>
+    <NumberField.Decrement />
+    <NumberField.Input />
+    <NumberField.Increment />
+  </NumberField.Group>
+</NumberField.Root>
 
 ## Usage
 
@@ -55,7 +57,7 @@ Every Base UI prop (`value`, `min`, `max`, `step`, `onValueChange`, ...) is pass
 ## Size
 
 The group takes the Input/Field size axis as `data-size`. It sets height,
-padding, radius, and border width from `hds/sem/input/measure/*`. The default
+padding, radius, and border width from `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control`. The default
 is `md`.
 
 ### data-size="sm"
@@ -104,11 +106,11 @@ A disabled group keeps its footprint and takes no input.
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Group background, text, border | `hds/sem/input/color/{default,hover,focus,error,disabled}/*` |
-| Group size (height, padding, radius, border) | `hds/sem/input/measure/{sm,md,lg}/*` |
-| Group focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
-| Stepper hover | `hds/sem/action/color/tertiary/hover/{bg,fg}` |
-| Value text | `hds/sem/type/other/body/*`, `hds/sem/type/measure/body/*` |
+| Group background, text, border | `hds/sem/color/field/{default,hover,error,disabled}/*` |
+| Group size (height, padding, radius, border) | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Group focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+| Stepper hover | `hds/sem/color/action/tertiary/hover/{bg,fg}` |
+| Value text | `hds/sem/typography/body/md/*` |
 
 ## Owner notes
 

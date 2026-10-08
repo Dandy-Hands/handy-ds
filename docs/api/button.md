@@ -8,7 +8,7 @@ Button triggers an action the user takes in place, such as submitting a form, sa
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'primary'` | Visual weight. `primary` — the view's main action. `secondary` — supporting actions next to the main one. `tertiary` — low-weight inline actions. |
+| `priority` | `'primary' \| 'secondary' \| 'tertiary' \| 'danger'` | `'primary'` | Visual weight. `primary` — the view's main action. `secondary` — supporting actions next to the main one. `tertiary` — low-weight inline actions. `danger` — destructive actions. |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense toolbars and compact layouts. `md` — default. `lg` — hero and marketing contexts. |
 | `loading` | `boolean` | `false` | Shows a spinner, sets `aria-busy="true"`, and blocks clicks while the action runs. |
 | `fullWidth` | `boolean` | `false` | Stretches to the full width of its container. |

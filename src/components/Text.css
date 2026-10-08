@@ -5,78 +5,78 @@
   }
 
   .hds-text[data-variant='display'] {
-    --_s1: var(--hds-sem-type-measure-display-1-size);
-    --_l1: var(--hds-sem-type-measure-display-1-line-height);
-    --_t1: var(--hds-sem-type-measure-display-1-letter-spacing);
-    --_s3: var(--hds-sem-type-measure-display-3-size);
-    --_l3: var(--hds-sem-type-measure-display-3-line-height);
-    --_t3: var(--hds-sem-type-measure-display-3-letter-spacing);
-    color: var(--hds-sem-type-color-display-fg);
-    font-family: var(--hds-sem-type-other-display-font-family);
-    font-size: var(--hds-sem-type-measure-display-size);
-    font-weight: var(--hds-sem-type-other-display-weight);
-    line-height: var(--hds-sem-type-measure-display-line-height);
-    letter-spacing: var(--hds-sem-type-measure-display-letter-spacing);
+    --_s1: var(--hds-sem-typography-display-sm-size);
+    --_l1: var(--hds-sem-typography-display-sm-leading);
+    --_t1: var(--hds-sem-typography-display-sm-tracking);
+    --_s3: var(--hds-sem-typography-display-lg-size);
+    --_l3: var(--hds-sem-typography-display-lg-leading);
+    --_t3: var(--hds-sem-typography-display-lg-tracking);
+    color: var(--hds-sem-color-content-strong-fg);
+    font-family: var(--hds-sem-typography-display-md-family);
+    font-size: var(--hds-sem-typography-display-md-size);
+    font-weight: var(--hds-sem-typography-display-md-weight);
+    line-height: var(--hds-sem-typography-display-md-leading);
+    letter-spacing: var(--hds-sem-typography-display-md-tracking);
   }
 
   .hds-text[data-variant='heading'] {
-    --_s1: var(--hds-sem-type-measure-heading-1-size);
-    --_l1: var(--hds-sem-type-measure-heading-1-line-height);
-    --_t1: var(--hds-sem-type-measure-heading-1-letter-spacing);
-    --_s3: var(--hds-sem-type-measure-heading-3-size);
-    --_l3: var(--hds-sem-type-measure-heading-3-line-height);
-    --_t3: var(--hds-sem-type-measure-heading-3-letter-spacing);
-    color: var(--hds-sem-type-color-heading-fg);
-    font-family: var(--hds-sem-type-other-heading-font-family);
-    font-size: var(--hds-sem-type-measure-heading-size);
-    font-weight: var(--hds-sem-type-other-heading-weight);
-    line-height: var(--hds-sem-type-measure-heading-line-height);
-    letter-spacing: var(--hds-sem-type-measure-heading-letter-spacing);
+    --_s1: var(--hds-sem-typography-heading-sm-size);
+    --_l1: var(--hds-sem-typography-heading-sm-leading);
+    --_t1: var(--hds-sem-typography-heading-sm-tracking);
+    --_s3: var(--hds-sem-typography-heading-lg-size);
+    --_l3: var(--hds-sem-typography-heading-lg-leading);
+    --_t3: var(--hds-sem-typography-heading-lg-tracking);
+    color: var(--hds-sem-color-content-strong-fg);
+    font-family: var(--hds-sem-typography-heading-md-family);
+    font-size: var(--hds-sem-typography-heading-md-size);
+    font-weight: var(--hds-sem-typography-heading-md-weight);
+    line-height: var(--hds-sem-typography-heading-md-leading);
+    letter-spacing: var(--hds-sem-typography-heading-md-tracking);
   }
 
   .hds-text[data-variant='body'] {
-    --_s1: var(--hds-sem-type-measure-body-1-size);
-    --_l1: var(--hds-sem-type-measure-body-1-line-height);
-    --_t1: var(--hds-sem-type-measure-body-1-letter-spacing);
-    --_s3: var(--hds-sem-type-measure-body-3-size);
-    --_l3: var(--hds-sem-type-measure-body-3-line-height);
-    --_t3: var(--hds-sem-type-measure-body-3-letter-spacing);
-    color: var(--hds-sem-type-color-body-fg);
-    font-family: var(--hds-sem-type-other-body-font-family);
-    font-size: var(--hds-sem-type-measure-body-size);
-    font-weight: var(--hds-sem-type-other-body-weight);
-    line-height: var(--hds-sem-type-measure-body-line-height);
-    letter-spacing: var(--hds-sem-type-measure-body-letter-spacing);
+    --_s1: var(--hds-sem-typography-body-sm-size);
+    --_l1: var(--hds-sem-typography-body-sm-leading);
+    --_t1: var(--hds-sem-typography-body-sm-tracking);
+    --_s3: var(--hds-sem-typography-body-lg-size);
+    --_l3: var(--hds-sem-typography-body-lg-leading);
+    --_t3: var(--hds-sem-typography-body-lg-tracking);
+    color: var(--hds-sem-color-content-default-fg);
+    font-family: var(--hds-sem-typography-body-md-family);
+    font-size: var(--hds-sem-typography-body-md-size);
+    font-weight: var(--hds-sem-typography-body-md-weight);
+    line-height: var(--hds-sem-typography-body-md-leading);
+    letter-spacing: var(--hds-sem-typography-body-md-tracking);
   }
 
   .hds-text[data-variant='label'] {
-    --_s1: var(--hds-sem-type-measure-label-1-size);
-    --_l1: var(--hds-sem-type-measure-label-1-line-height);
-    --_t1: var(--hds-sem-type-measure-label-1-letter-spacing);
-    --_s3: var(--hds-sem-type-measure-label-3-size);
-    --_l3: var(--hds-sem-type-measure-label-3-line-height);
-    --_t3: var(--hds-sem-type-measure-label-3-letter-spacing);
-    color: var(--hds-sem-type-color-label-fg);
-    font-family: var(--hds-sem-type-other-label-font-family);
-    font-size: var(--hds-sem-type-measure-label-size);
-    font-weight: var(--hds-sem-type-other-label-weight);
-    line-height: var(--hds-sem-type-measure-label-line-height);
-    letter-spacing: var(--hds-sem-type-measure-label-letter-spacing);
+    --_s1: var(--hds-sem-typography-label-sm-size);
+    --_l1: var(--hds-sem-typography-label-sm-leading);
+    --_t1: var(--hds-sem-typography-label-sm-tracking);
+    --_s3: var(--hds-sem-typography-label-lg-size);
+    --_l3: var(--hds-sem-typography-label-lg-leading);
+    --_t3: var(--hds-sem-typography-label-lg-tracking);
+    color: var(--hds-sem-color-content-default-fg);
+    font-family: var(--hds-sem-typography-label-md-family);
+    font-size: var(--hds-sem-typography-label-md-size);
+    font-weight: var(--hds-sem-typography-label-md-weight);
+    line-height: var(--hds-sem-typography-label-md-leading);
+    letter-spacing: var(--hds-sem-typography-label-md-tracking);
   }
 
   .hds-text[data-variant='caption'] {
-    --_s1: var(--hds-sem-type-measure-caption-1-size);
-    --_l1: var(--hds-sem-type-measure-caption-1-line-height);
-    --_t1: var(--hds-sem-type-measure-caption-1-letter-spacing);
-    --_s3: var(--hds-sem-type-measure-caption-3-size);
-    --_l3: var(--hds-sem-type-measure-caption-3-line-height);
-    --_t3: var(--hds-sem-type-measure-caption-3-letter-spacing);
-    color: var(--hds-sem-type-color-caption-fg);
-    font-family: var(--hds-sem-type-other-caption-font-family);
-    font-size: var(--hds-sem-type-measure-caption-size);
-    font-weight: var(--hds-sem-type-other-caption-weight);
-    line-height: var(--hds-sem-type-measure-caption-line-height);
-    letter-spacing: var(--hds-sem-type-measure-caption-letter-spacing);
+    --_s1: var(--hds-sem-typography-caption-sm-size);
+    --_l1: var(--hds-sem-typography-caption-sm-leading);
+    --_t1: var(--hds-sem-typography-caption-sm-tracking);
+    --_s3: var(--hds-sem-typography-caption-lg-size);
+    --_l3: var(--hds-sem-typography-caption-lg-leading);
+    --_t3: var(--hds-sem-typography-caption-lg-tracking);
+    color: var(--hds-sem-color-content-muted-fg);
+    font-family: var(--hds-sem-typography-caption-md-family);
+    font-size: var(--hds-sem-typography-caption-md-size);
+    font-weight: var(--hds-sem-typography-caption-md-weight);
+    line-height: var(--hds-sem-typography-caption-md-leading);
+    letter-spacing: var(--hds-sem-typography-caption-md-tracking);
   }
 
   /* Size steps: 1 = smallest, 3 = largest; unset and 2 keep the role default above. */

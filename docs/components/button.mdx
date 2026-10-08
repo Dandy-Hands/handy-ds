@@ -47,7 +47,7 @@ Standard attributes and the passthrough props in the Base UI API table appear he
 
 ## Priority
 
-The visual weight axis. It picks the `hds/sem/action/color/{priority}/*` set:
+The visual weight axis. It picks the `hds/sem/color/action/{priority}/*` set:
 primary is filled, secondary is outlined, tertiary is borderless.
 
 <Button priority="primary">Save changes</Button>
@@ -57,7 +57,7 @@ primary is filled, secondary is outlined, tertiary is borderless.
 ## Size
 
 The size axis, shared with Input/Field controls so rows of controls line up.
-It sets padding, radius, and gap from `hds/sem/action/measure/*`.
+It sets padding, radius, and gap from `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control`.
 
 <Button size="sm">Small</Button>
 <Button size="md">Medium</Button>
@@ -91,10 +91,10 @@ is involved.
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Background, border, text | `hds/sem/action/color/{priority}/{default,hover,active,focus,disabled,selected}/{bg,border,fg}` |
-| Padding, radius, gap | `hds/sem/action/measure/{sm,md,lg}/...` |
-| Label type | `hds/sem/type/measure/label/*`, `hds/sem/type/other/label/*` |
-| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+| Background, border, text | `hds/sem/color/action/{priority}/{default,hover,active,disabled,selected}/{bg,border,fg}` |
+| Padding, radius, gap | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Label type | `hds/sem/typography/label/md/*` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
 | Spinner | reuses the state fg token via `currentColor` |
 
 ## Owner notes

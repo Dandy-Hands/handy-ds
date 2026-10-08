@@ -12,7 +12,7 @@ Drivers → Primitives → Semantic Tokens → Components
 
 - **Drivers**: the hand-set inputs per client (brand colors, fonts, density, radius, and so on).
 - **Primitives**: generated from drivers, never hand-set (`hds/prim/color/primary/600`).
-- **Semantic tokens**: named by purpose, pointing at primitives (`hds/sem/action/color/primary/hover/bg`).
+- **Semantic tokens**: named by purpose, pointing at primitives (`hds/sem/color/action/primary/hover/bg`).
 - **Components**: read semantic tokens only. Swapping a theme needs no component changes. The build fails if a component references a primitive.
 
 ## Use it in a client app
@@ -24,12 +24,10 @@ npm install handy-ds react react-dom
 ```js
 // theme.config.js
 export default {
-  drivers: {
-    color: { primary: '#0f766e', accent: '#be185d' },
-    typography: { headingFamily: '"Fraunces", Georgia, serif', bodyFamily: 'Inter, system-ui, sans-serif' },
-    density: 1,
-    radius: 6,
-  },
+  color: { primary: '#0f766e', secondary: '#be185d' },
+  typography: { family: { heading: '"Fraunces", Georgia, serif', body: 'Inter, system-ui, sans-serif' } },
+  density: 1,
+  radius: { control: '100' },
 };
 ```
 
@@ -45,7 +43,7 @@ import './theme.css';          // client tokens (or 'handy-ds/theme.css' for the
 import { Button } from 'handy-ds';
 ```
 
-The full rules (drivers, mapping, contexts, which component to use) are in [`docs/rules.md`](docs/rules.md).
+The full rules (drivers, picks, modes, contexts, which component to use) are in [`docs/rules.md`](docs/rules.md).
 
 ## Package exports
 

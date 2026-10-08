@@ -71,7 +71,7 @@ through unchanged, styled via `part()`.
 ## Size
 
 The size axis on `Input` and `Field.Control`. It sets height, padding, radius,
-and border width from `hds/sem/input/measure/*`. `Field.Control` defaults to
+and border width from `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control`. `Field.Control` defaults to
 `md`; give it `data-size` to match a neighbouring `Input`.
 
 ### size="sm"
@@ -128,13 +128,13 @@ scale with density.
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Control background, text, border | `hds/sem/input/color/{default,hover,focus,error,disabled}/*` |
-| Control size (height, padding, radius, border) | `hds/sem/input/measure/{sm,md,lg}/*` |
-| Group focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
-| Label | `hds/sem/type/color/label/fg`, `hds/sem/type/measure/label/*`, `hds/sem/type/other/label/*` |
-| Description | `hds/sem/type/color/caption/fg`, `hds/sem/type/measure/caption/*`, `hds/sem/type/other/caption/*` |
-| Error text | `hds/sem/feedback/color/danger/fg` |
-| Field gap / Form gap | `hds/sem/input/measure/sm/padding-y`, `hds/sem/input/measure/lg/padding-x` |
+| Control background, text, border | `hds/sem/color/field/{default,hover,error,disabled}/*` |
+| Control size (height, padding, radius, border) | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Group focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+| Label | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/md/*` |
+| Description | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/md/*` |
+| Error text | `hds/sem/color/feedback/danger/fg` |
+| Field gap / Form gap | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
 
 ## Owner notes
 

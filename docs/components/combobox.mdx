@@ -257,15 +257,15 @@ value does not have to come from the list. No chips parts, no item indicator.
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Input group (Input/Field) | `hds/sem/input/color/{state}/*`, `hds/sem/input/measure/{sm,md,lg}/*` |
-| Popup (Surface elevation 2) | `hds/sem/surface/color/2/*`, `hds/sem/surface/measure/*` |
-| Options (Action tertiary) | `hds/sem/action/color/tertiary/{state}/*`, `hds/sem/action/measure/md/*` |
-| Chips (Action secondary) | `hds/sem/action/color/secondary/*`; radius `hds/sem/action/measure/md/radius`, padding/gap `hds/sem/input/measure/sm/padding-*` |
-| Empty / status text | `hds/sem/type/color/caption/fg`, `hds/sem/type/measure/caption/size` |
-| Group labels | `hds/sem/type/color/label/fg`, `hds/sem/type/measure/label/*` |
-| Separator | `hds/sem/divider/*` |
-| Backdrop | `hds/sem/overlay/color/bg` |
-| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
+| Input group (Field) | `hds/sem/color/field/{state}/*`, `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Popup (Surface elevation 2) | `hds/sem/color/surface/floating/*`, `hds/sem/elevation/floating`, `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` |
+| Options (Action tertiary) | `hds/sem/color/action/tertiary/{state}/*`, `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Chips (Action secondary) | `hds/sem/color/action/secondary/*`; radius `hds/sem/radius/control`; padding/gap `hds/sem/measure/space/*` |
+| Empty / status text | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/md/*` |
+| Group labels | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/md/*` |
+| Separator | `hds/sem/color/graphic/divider/*`, `hds/sem/border/divider` |
+| Backdrop | `hds/sem/color/overlay/scrim` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
 
 ## Owner notes
 

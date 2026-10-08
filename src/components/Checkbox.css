@@ -10,14 +10,14 @@
     block-size: 1.25em;
     padding: 0;
     /* 1px floor: a borderless unchecked box would be invisible. */
-    border: max(1px, var(--hds-sem-input-measure-md-border-width)) solid var(--hds-sem-input-color-default-border);
-    background: var(--hds-sem-input-color-default-bg);
-    color: var(--hds-sem-input-color-checked-fg);
+    border: max(1px, var(--hds-sem-border-control)) solid var(--hds-sem-color-field-default-border);
+    background: var(--hds-sem-color-field-default-bg);
+    color: var(--hds-sem-color-field-checked-fg);
     cursor: pointer;
   }
 
   .hds-checkbox {
-    border-radius: calc(var(--hds-sem-input-measure-md-radius) / 2);
+    border-radius: calc(var(--hds-sem-radius-control) / 2);
   }
 
   .hds-radio {
@@ -26,25 +26,25 @@
 
   .hds-checkbox:hover,
   .hds-radio:hover {
-    border-color: var(--hds-sem-input-color-hover-border);
+    border-color: var(--hds-sem-color-field-hover-border);
   }
 
   .hds-checkbox[data-checked],
   .hds-checkbox[data-indeterminate],
   .hds-radio[data-checked] {
-    background: var(--hds-sem-input-color-checked-bg);
-    border-color: var(--hds-sem-input-color-checked-border);
+    background: var(--hds-sem-color-field-checked-bg);
+    border-color: var(--hds-sem-color-field-checked-border);
   }
 
   .hds-checkbox[data-invalid],
   .hds-radio[data-invalid] {
-    border-color: var(--hds-sem-input-color-error-border);
+    border-color: var(--hds-sem-color-field-error-border);
   }
 
   .hds-checkbox[data-disabled],
   .hds-radio[data-disabled] {
-    background: var(--hds-sem-input-color-disabled-bg);
-    border-color: var(--hds-sem-input-color-disabled-border);
+    background: var(--hds-sem-color-field-disabled-bg);
+    border-color: var(--hds-sem-color-field-disabled-border);
     cursor: not-allowed;
   }
 
@@ -52,9 +52,9 @@
   .hds-checkbox[data-disabled][data-checked],
   .hds-checkbox[data-disabled][data-indeterminate],
   .hds-radio[data-disabled][data-checked] {
-    background: var(--hds-sem-input-color-disabled-fg);
-    border-color: var(--hds-sem-input-color-disabled-fg);
-    color: var(--hds-sem-input-color-disabled-bg);
+    background: var(--hds-sem-color-field-disabled-fg);
+    border-color: var(--hds-sem-color-field-disabled-fg);
+    color: var(--hds-sem-color-field-disabled-bg);
   }
 
   .hds-checkbox__indicator {
@@ -81,6 +81,6 @@
   .hds-choice-group {
     display: flex;
     flex-direction: column;
-    gap: var(--hds-sem-input-measure-sm-padding-x);
+    gap: var(--hds-sem-measure-space-200);
   }
 }

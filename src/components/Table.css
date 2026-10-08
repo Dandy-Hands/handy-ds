@@ -3,61 +3,61 @@
   .hds-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: var(--hds-sem-type-measure-body-size);
+    font-size: var(--hds-sem-typography-body-md-size);
   }
 
   .hds-table th,
   .hds-table td {
-    padding: var(--hds-sem-input-measure-md-padding-y) var(--hds-sem-input-measure-md-padding-x);
-    border-bottom: var(--hds-sem-divider-measure-thin-thickness) solid var(--hds-sem-divider-color-border);
+    padding: var(--hds-sem-measure-space-200) var(--hds-sem-measure-space-300);
+    border-bottom: var(--hds-sem-border-divider) solid var(--hds-sem-color-graphic-divider-default);
     text-align: start;
   }
 
   .hds-table th {
-    color: var(--hds-sem-type-color-label-fg);
-    font-family: var(--hds-sem-type-other-label-font-family);
-    font-weight: var(--hds-sem-type-other-label-weight);
+    color: var(--hds-sem-color-content-default-fg);
+    font-family: var(--hds-sem-typography-label-md-family);
+    font-weight: var(--hds-sem-typography-label-md-weight);
   }
 
   .hds-table thead th {
-    border-bottom-width: var(--hds-sem-divider-measure-medium-thickness);
+    border-bottom-width: var(--hds-sem-measure-space-050);
   }
 
   .hds-table td {
-    color: var(--hds-sem-type-color-body-fg);
+    color: var(--hds-sem-color-content-default-fg);
   }
 
   .hds-table tbody tr {
-    background: var(--hds-sem-surface-color-0-default-bg);
+    background: var(--hds-sem-color-surface-base-bg);
   }
 
   .hds-table[data-striped] tbody tr:nth-child(even) {
-    background: var(--hds-sem-surface-color-0-striped-bg);
+    background: var(--hds-sem-color-surface-sunken-bg);
   }
 
   .hds-table tbody tr:hover {
-    background: var(--hds-sem-action-color-tertiary-hover-bg);
+    background: var(--hds-sem-color-action-tertiary-hover-bg);
   }
 
   .hds-table th button {
     display: inline-flex;
     align-items: center;
-    gap: var(--hds-sem-action-measure-md-gap);
-    margin: calc(-1 * var(--hds-sem-input-measure-md-padding-y)) calc(-1 * var(--hds-sem-input-measure-md-padding-x));
-    padding: var(--hds-sem-input-measure-md-padding-y) var(--hds-sem-input-measure-md-padding-x);
+    gap: var(--hds-sem-measure-space-200);
+    margin: calc(-1 * var(--hds-sem-measure-space-200)) calc(-1 * var(--hds-sem-measure-space-300));
+    padding: var(--hds-sem-measure-space-200) var(--hds-sem-measure-space-300);
     border: 0;
-    background: var(--hds-sem-action-color-tertiary-default-bg);
+    background: var(--hds-sem-color-action-tertiary-default-bg);
     color: inherit;
     font: inherit;
     cursor: pointer;
   }
 
   .hds-table th button:hover {
-    background: var(--hds-sem-action-color-tertiary-hover-bg);
+    background: var(--hds-sem-color-action-tertiary-hover-bg);
   }
 
   .hds-table th button:active {
-    background: var(--hds-sem-action-color-tertiary-active-bg);
+    background: var(--hds-sem-color-action-tertiary-active-bg);
   }
 
   .hds-table th[aria-sort='ascending'] button::after {

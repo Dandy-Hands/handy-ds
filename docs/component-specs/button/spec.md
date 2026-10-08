@@ -34,7 +34,7 @@ Wrapped component: `Button` from `@base-ui/react/button`. Surface decisions:
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'primary'` | Visual weight; set as `data-priority`. |
+| `priority` | `'primary' \| 'secondary' \| 'tertiary' \| 'danger'` | `'primary'` | Visual weight; set as `data-priority`. `danger` added 2026-10-07 by the token rework (token spec 7.1). |
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size axis, shared with Input/Field; set as `data-size`. Only Button exposes it among Action parts (decisions.md "Button size axis"). |
 | `loading` | `boolean` | `false` | Shows a spinner and sets `aria-busy="true"`. Blocks clicks by disabling the button while loading. `disabled` styling applies during loading; spinner color reuses the fg token of the current state. |
 | `fullWidth` | `boolean` | `false` | Stretches to the container width (structural, no token). |

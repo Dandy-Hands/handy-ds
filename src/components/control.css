@@ -12,88 +12,88 @@
 
 @layer hds.components {
   .hds-control {
-    --_height: var(--hds-sem-input-measure-md-height);
-    --_padding-x: var(--hds-sem-input-measure-md-padding-x);
-    --_padding-y: var(--hds-sem-input-measure-md-padding-y);
-    --_radius: var(--hds-sem-input-measure-md-radius);
-    --_border-width: var(--hds-sem-input-measure-md-border-width);
+    --_height: var(--hds-sem-measure-size-1000);
+    --_padding-x: var(--hds-sem-measure-space-300);
+    --_padding-y: var(--hds-sem-measure-space-200);
+    --_radius: var(--hds-sem-radius-control);
+    --_border-width: var(--hds-sem-border-control);
 
     display: inline-flex;
     align-items: center;
     gap: var(--_padding-y);
     min-height: var(--_height);
     padding: var(--_padding-y) var(--_padding-x);
-    border: var(--_border-width) solid var(--hds-sem-input-color-default-border);
+    border: var(--_border-width) solid var(--hds-sem-color-field-default-border);
     border-radius: var(--_radius);
-    background: var(--hds-sem-input-color-default-bg);
-    color: var(--hds-sem-input-color-default-fg);
-    font-family: var(--hds-sem-type-other-body-font-family);
-    font-size: var(--hds-sem-type-measure-body-size);
-    font-weight: var(--hds-sem-type-other-body-weight);
-    line-height: var(--hds-sem-type-measure-label-line-height);
-    letter-spacing: var(--hds-sem-type-measure-body-letter-spacing);
+    background: var(--hds-sem-color-field-default-bg);
+    color: var(--hds-sem-color-field-default-fg);
+    font-family: var(--hds-sem-typography-body-md-family);
+    font-size: var(--hds-sem-typography-body-md-size);
+    font-weight: var(--hds-sem-typography-body-md-weight);
+    line-height: var(--hds-sem-typography-label-md-leading);
+    letter-spacing: var(--hds-sem-typography-body-md-tracking);
     text-align: start;
   }
 
   .hds-control[data-size='sm'] {
-    --_height: var(--hds-sem-input-measure-sm-height);
-    --_padding-x: var(--hds-sem-input-measure-sm-padding-x);
-    --_padding-y: var(--hds-sem-input-measure-sm-padding-y);
-    --_radius: var(--hds-sem-input-measure-sm-radius);
-    --_border-width: var(--hds-sem-input-measure-sm-border-width);
+    --_height: var(--hds-sem-measure-size-800);
+    --_padding-x: var(--hds-sem-measure-space-200);
+    --_padding-y: var(--hds-sem-measure-space-100);
+    --_radius: var(--hds-sem-radius-control);
+    --_border-width: var(--hds-sem-border-control);
   }
 
   .hds-control[data-size='lg'] {
-    --_height: var(--hds-sem-input-measure-lg-height);
-    --_padding-x: var(--hds-sem-input-measure-lg-padding-x);
-    --_padding-y: var(--hds-sem-input-measure-lg-padding-y);
-    --_radius: var(--hds-sem-input-measure-lg-radius);
-    --_border-width: var(--hds-sem-input-measure-lg-border-width);
+    --_height: var(--hds-sem-measure-size-1200);
+    --_padding-x: var(--hds-sem-measure-space-400);
+    --_padding-y: var(--hds-sem-measure-space-300);
+    --_radius: var(--hds-sem-radius-control);
+    --_border-width: var(--hds-sem-border-control);
   }
 
   .hds-control::placeholder,
   .hds-control .hds-control__input::placeholder,
   .hds-control[data-placeholder] {
-    color: var(--hds-sem-input-color-default-placeholder-fg);
+    color: var(--hds-sem-color-field-default-placeholder);
   }
 
   .hds-control:hover {
-    background: var(--hds-sem-input-color-hover-bg);
-    color: var(--hds-sem-input-color-hover-fg);
-    border-color: var(--hds-sem-input-color-hover-border);
+    background: var(--hds-sem-color-field-hover-bg);
+    color: var(--hds-sem-color-field-hover-fg);
+    border-color: var(--hds-sem-color-field-hover-border);
   }
 
   .hds-control:focus-within,
   .hds-control[data-popup-open] {
-    background: var(--hds-sem-input-color-focus-bg);
-    color: var(--hds-sem-input-color-focus-fg);
-    border-color: var(--hds-sem-input-color-focus-border);
+    background: var(--hds-sem-color-field-focus-bg);
+    color: var(--hds-sem-color-field-focus-fg);
+    border-color: var(--hds-sem-color-field-focus-border);
   }
 
   /* Groups show the ring on the frame, not on the inner input. */
   .hds-control:has(:focus-visible) {
-    outline: var(--hds-sem-focus-measure-stroke-width) solid var(--hds-sem-focus-color-stroke);
+    outline: var(--hds-sem-border-focus) solid var(--hds-sem-color-focus-ring);
     outline-offset: 2px;
   }
 
   .hds-control[data-invalid],
   .hds-control[aria-invalid='true'] {
-    background: var(--hds-sem-input-color-error-bg);
-    color: var(--hds-sem-input-color-error-fg);
-    border-color: var(--hds-sem-input-color-error-border);
+    background: var(--hds-sem-color-field-error-bg);
+    color: var(--hds-sem-color-field-error-fg);
+    border-color: var(--hds-sem-color-field-error-border);
   }
 
   .hds-control[data-disabled],
   .hds-control:disabled {
-    background: var(--hds-sem-input-color-disabled-bg);
-    color: var(--hds-sem-input-color-disabled-fg);
-    border-color: var(--hds-sem-input-color-disabled-border);
+    background: var(--hds-sem-color-field-disabled-bg);
+    color: var(--hds-sem-color-field-disabled-fg);
+    border-color: var(--hds-sem-color-field-disabled-border);
     cursor: not-allowed;
   }
 
   .hds-control:disabled::placeholder,
   .hds-control[data-disabled] .hds-control__input::placeholder {
-    color: var(--hds-sem-input-color-disabled-placeholder-fg);
+    color: var(--hds-sem-color-field-disabled-placeholder);
   }
 
   .hds-control__input {
@@ -121,7 +121,7 @@
   }
 
   .hds-control__button:hover {
-    background: var(--hds-sem-action-color-tertiary-hover-bg);
-    color: var(--hds-sem-action-color-tertiary-hover-fg);
+    background: var(--hds-sem-color-action-tertiary-hover-bg);
+    color: var(--hds-sem-color-action-tertiary-hover-fg);
   }
 }

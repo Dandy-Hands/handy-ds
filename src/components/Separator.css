@@ -3,20 +3,20 @@
 
 @layer hds.components {
   .hds-separator {
-    --_thickness: var(--hds-sem-divider-measure-thin-thickness);
+    --_thickness: var(--hds-sem-border-divider);
     flex-shrink: 0;
     margin: 0;
     border: 0;
-    background: var(--hds-sem-divider-color-border);
+    background: var(--hds-sem-color-graphic-divider-default);
     block-size: var(--_thickness);
   }
 
   .hds-separator[data-weight='medium'] {
-    --_thickness: var(--hds-sem-divider-measure-medium-thickness);
+    --_thickness: var(--hds-sem-measure-space-050);
   }
 
   .hds-separator[data-weight='thick'] {
-    --_thickness: var(--hds-sem-divider-measure-thick-thickness);
+    --_thickness: var(--hds-sem-measure-space-100);
   }
 
   .hds-separator[data-orientation='vertical'] {

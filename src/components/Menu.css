@@ -1,7 +1,7 @@
 @layer hds.components {
   .hds-menubar {
     display: flex;
-    gap: var(--hds-sem-action-measure-md-gap);
+    gap: var(--hds-sem-measure-space-200);
   }
 
   .hds-menu__submenu::after {
