@@ -14,6 +14,7 @@ Running list of planned work. Add an item when the user asks for new work. Check
   - [x] Change the token spec to the eight element categories (Action, Field, Surface, Content, Graphic, Feedback, Focus, Overlay). See `.claude/decisions.md`.
   - [x] Add a data-visualization palette (token family for charts). None exists; `.pi/research/current-token-structures.md` lists it as a gap.
 - [x] Simplify the semantic tokens.
+- [ ] Rewrite `src/tokens/` to the new token spec (`token-system-spec.md`), including `checkTokenName()` for the new grammar.
 - [ ] Flatten client customization to drivers only.
   - [ ] Remove the mapping-level override from `src/tokens/theme.ts` and its test in `src/tokens/tokens.test.ts`.
   - [x] Add palette color pick drivers, so a client picks the exact palette color for each use.
@@ -24,7 +25,7 @@ Running list of planned work. Add an item when the user asks for new work. Check
 
 - [ ] Build out the driver interface: the UI where a user sets each driver.
   - [ ] Custom input controls per driver type, e.g. swatch selectors for color drivers.
-  - [ ] Finish the design in `.claude/specs/driver-interface-spec.md`: the application part for each token type, and its open questions.
+  - [ ] Decide the interface location, preview, and output (`.claude/specs/driver-interface-spec.md`, open question 8).
 
 ## Components
 

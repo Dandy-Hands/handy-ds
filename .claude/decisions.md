@@ -100,11 +100,11 @@ Judgment calls made while building the phased plan (waves 2–6), with the reaso
 - **Graphic = Divider + data visualization.** Non-text, non-interactive marks. Gives the data-visualization palette a home.
 - **Field** is Input/Field renamed; the slash does not fit a token path.
 - **Focus and Overlay stay separate** as effects that apply across categories, even though each is only one or two tokens.
-- **Not done yet:** `token-system-spec.md` still lists the nine categories. Tracked in `.claude/TODO.md`.
+- **Spec done (2026-10-07):** `token-system-spec.md` section 7.1 uses the eight categories. `src/tokens/` still uses the nine. Tracked in `.claude/TODO.md`.
 
 ## Drivers-only theming
 
 - **Clients theme through drivers only. The mapping level is removed.** Vision spec sections 5 and 11 rewritten on 2026-10-04. The mapping-operations proposal (`.claude/specs/theming-rework-mapping-operations.md`, deleted 2026-10-04; see git history) is rejected.
 - **Why:** one level of control is simpler to learn, to document, and to build a driver interface for. A mapping change made for one client helps no other client; a new driver helps all of them.
 - **What replaces it:** more detailed drivers. Color drivers generate the palette, and pick drivers choose the exact palette color for each use (e.g. primary action background), instead of the Theme Map pre-selecting a hue and shade. This also answers the Wave 3 "light brand color" review note: the client picks their exact color for buttons with a driver, not a mapping.
-- **Not done yet:** the driver rework itself. `token-system-spec.md` and `src/tokens/` still use the fixed recipe in `themeMap.ts`. Tracked in `.claude/TODO.md`.
+- **Spec done (2026-10-07):** `token-system-spec.md` section 3 lists the drivers, including the pick drivers. `src/tokens/` still uses the fixed recipe in `themeMap.ts`. Tracked in `.claude/TODO.md`.

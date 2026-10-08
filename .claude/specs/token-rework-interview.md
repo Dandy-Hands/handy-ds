@@ -334,7 +334,7 @@ Prototype findings (2026-10-06, semantic section of https://claude.ai/artifact/1
 
 #### C2 Structure check against PDS (2026-10-06)
 
-- Reviewed the PDS token set (`.claude/research/*.css`): color organized by property (background, content, border, graphic, effect) and role, with `on-` pairs and sparse states. Estimated size for our set in that shape: about 81 color tokens, against 144.
+- Reviewed the PDS token set (reference CSS files, deleted 2026-10-07): color organized by property (background, content, border, graphic, effect) and role, with `on-` pairs and sparse states. Estimated size for our set in that shape: about 81 color tokens, against 144.
 - Decision (user): keep the category matrices as drafted (144 tokens, full per-category control). C1 and the 8 categories stand.
 - PDS stays a reference for section D: step-named dimension tokens on one 4px grid (`space-400`, `size-1200`, `border-radius-100`, `border-width-025`), composite elevation tokens with shadow colors in the color set, and alpha variants for shadows and the scrim.
 - Cards in brand sections (user decision): context surfaces. `on-primary` and `on-secondary` also override `surface/sunken|raised|overlay` (bg `R/800`, `R/700`, `R/700`; border `R/500`). A card in a hero is a darker brand panel. `data-context="default"` (B6) still resets one card to the light look.

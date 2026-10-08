@@ -1,6 +1,6 @@
 # Driver Interface Spec
 
-**Status: draft.** Built from the user's notes of 2026-10-04 (original text in the appendix). Many parts are not decided yet; see "Open questions".
+**Status: draft.** Built from the user's notes of 2026-10-04 (original text in the appendix). The token rework interview of 2026-10-07 answered open questions 1–7. The drivers and their defaults are in `token-system-spec.md` section 3. The decisions and their reasons are in `token-rework-interview.md`. Open question 8 is not decided.
 
 The driver interface is the visual tool where a person builds a client theme by setting drivers. Its working name is "role based token selection" or "theme building". See the vision spec, section 7.
 
@@ -15,75 +15,74 @@ The palette part is better defined than the application part. Except for a few c
 
 ## 2. Steps
 
-The interface takes the person through the token types in this order.
+The interface takes the person through the token types in this order. Each step uses only what earlier steps produce (interview decision E1).
 
 ### Step 1: Brand colors (color palette part)
 
-The brand colors drive the palettes.
+The person sets the primary color, the optional secondary color, the neutral tint or an exact neutral color, the chroma floor, the contrast setting, and the dark-mode contrast and chroma. Color inputs accept any CSS color format. A live 11 × 11 grid shows the generated palette: 11 hue slots of 11 stops each. Token spec sections 3.1 and 4.1.
 
-- **Primary color.** A color picker lets the person pick the primary color or type in a value.
-- **Secondary color.** By default, the secondary color is derived from the primary color. The person can pick a different one.
-- **Neutral colors.** The person can set the neutral colors. The notes do not say how.
-- **System colors.** System colors, such as danger, warning, success, and info, have default values. The person can tune them.
-- **Graph colors.** The data-visualization palette is derived from the primary color.
-- **Contrast slider (possible).** The slider changes the lightness of the OKLCH stops for all swatches. OKLCH is a color space where lightness, chroma, and hue are separate values.
+### Step 2: Role map
 
-The result shows as a visual color palette.
+The person picks the slot for each system color: danger, warning, success, and info. Each has a default from hue proximity. Primary, secondary, and neutral are locked to their anchors. Token spec section 4.1.4.
 
-### Step 2: Color application (color application part)
+### Step 3: Color application (color application part)
 
-- Colors apply to tokens, which are grouped by element category: action, field, surface, content, graphic, and others. Most applications have a default value, and the person can override it.
-- The color picker for an application shows the primary, secondary, and neutral palettes.
-- A chosen color disables inaccessible colors in the other selections. For example, after the person picks an action background, the picker for the action text disables the colors that fail contrast against it.
-- Semantic color assignment is predetermined. For example, the danger color always comes from the danger system palette. The person does not assign it.
-- Surfaces have an elevation or priority axis. That axis sets both the elevation and the background color of each surface.
-- **Modes.** Dark mode is derived from the light theme, and the person can tune it. The rest of the design for modes is not decided.
+The person sets the pick for each color token, by category. A pick is a primitive name, such as `primary/600`. Each pick has a default. Other inputs in this step:
 
-### Step 3: Typography
+- Interaction state offsets and optional state overrides (token spec section 5.2).
+- Dark-mode overrides per pick (section 5.3).
+- The brand context overrides for `on-primary` and `on-secondary`, the default mode, and section rules (section 6).
+- The data-visualization picks (section 7.4).
 
-Typography has its own step. The palette part sets the type primitives, for example the font families and the type scale. The application part assigns them to text roles. The details are not designed yet.
+The picker shows the full palette. It blocks a pick that fails WCAG 2 AA against its pair: 4.5:1 for text and 3:1 for non-text (section 5.4).
 
-### Step 4: Measures
+### Step 4: Typography
 
-Not designed yet.
+Font families, base size, scale ratio, and picks for 5 roles × 3 sizes. Token spec sections 4.6 and 7.7.
 
-### Step 5: Borders
+### Step 5: Measure
 
-Not designed yet.
+The density driver scales one 4px grid. Token spec sections 4.2 and 7.5.
 
-### Step 6: Roundness
+### Step 6: Radius
 
-Not designed yet.
+One radius step per shape role: control, container, indicator, round. Token spec sections 4.3 and 7.5.
 
-### Step 7: Shadow
+### Step 7: Border
 
-Not designed yet.
+One border width per role: control, container, divider, focus. Token spec sections 4.4 and 7.5.
+
+### Step 8: Elevation
+
+The shadow strength driver. Token spec sections 4.5 and 7.6.
 
 ## 3. Element categories
 
-Decided 2026-10-04. The color application part groups tokens into these eight categories. They replace the nine categories of the token spec.
+Decided 2026-10-04. The color application part groups tokens into these eight categories. Token spec section 7.1 defines them.
 
 | Category | Comes from | What it holds |
 |---|---|---|
 | Action | Action | Buttons, triggers, switches. |
 | Field | Input/Field | Text inputs, selects, checkboxes, radios. |
-| Surface | Surface | Cards and popups, with an elevation axis that sets elevation and background color. |
-| Content | Type + Icon | Text and icons: the foreground on a surface. Color only; typography is step 3. |
+| Surface | Surface | Page, cards, and popups, on 5 levels: sunken, base, raised, floating, modal. |
+| Content | Type + Icon | Text and icons: the foreground on a surface. Color only; typography is step 4. |
 | Graphic | Divider + data visualization | Divider lines and chart colors. |
-| Feedback | Feedback | Alerts and toasts. Their colors come from the system colors and are predetermined. |
+| Feedback | Feedback | Alerts and toasts. Their colors come from the system colors. |
 | Focus | Focus | The focus ring. A separate effect that applies across categories. |
 | Overlay | Overlay | The modal scrim. A separate effect, like Focus. |
 
 ## 4. Open questions
 
-1. **Application part for non-color types.** What does the person assign for typography, measures, borders, roundness, and shadow, and at what level of detail?
-2. **Neutral colors.** Are the neutral colors derived from the primary color, picked, or both? The current code tints them from the primary hue by default.
-3. **Graph colors.** How many graph colors are there, and how does the system derive them from the primary color? Can the person override them?
-4. **Contrast slider.** Is the slider in scope? Does it apply to all palettes or to each palette?
-5. **Accessibility rule.** Which contrast level disables a color: WCAG AA (4.5:1 for text) or a different level? Does the rule apply to non-text pairs, such as borders?
-6. **Modes.** How does the system derive dark mode, and which values can the person tune? Are there other modes, such as high contrast?
-7. **Step order.** Typography is step 3, after color application. Is that the correct place?
-8. **Location, preview, and output.** Where does the interface run, what does the preview show, and what does the interface produce? The vision spec says the output is a driver config.
+Questions 1–7 have answers from the token rework interview (2026-10-07). The token spec section is given for each answer.
+
+1. **Application part for non-color types.** Answered. Typography has picks per role and size. Radius and border have one step per shape role. Measure and shadow have one scale driver each. Section 3.3.
+2. **Neutral colors.** Answered. By default, a tint of the primary hue. An optional neutral color replaces it. Section 4.1.5.
+3. **Graph colors.** Answered. Categorical, sequential, and diverging palettes. Each color is a pick from the full palette, with a default. Section 7.4.
+4. **Contrast slider.** Answered. In scope. One global setting for light mode and one for dark mode. Section 4.1.2.
+5. **Accessibility rule.** Answered. WCAG 2 AA: 4.5:1 for text, 3:1 for non-text. A failing pick is blocked. Disabled states are exempt. Section 5.4.
+6. **Modes.** Answered. Dark mode is a derived, inverted palette with the same picks, plus dark tuning drivers and optional dark overrides per pick. High contrast is not done yet (section 9). Sections 4.1.6 and 5.3.
+7. **Step order.** Answered. See section 2.
+8. **Location, preview, and output.** Not decided. Where does the interface run, what does the preview show, and what does the interface produce? The vision spec says the output is a driver config.
 
 ## Appendix: original notes (2026-10-04)
 
