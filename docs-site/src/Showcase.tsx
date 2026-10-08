@@ -25,7 +25,7 @@ function ToastButton() {
   );
 }
 
-function ShowcaseBody() {
+export function ShowcaseBody() {
   return (
     <>
       <section data-section="hero" className="hero">

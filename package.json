@@ -34,7 +34,7 @@
   ],
   "scripts": {
     "dev": "cd docs-site && npm run dev",
-    "test": "tsc && node --test 'src/**/*.test.ts'",
+    "test": "tsc && node --test 'src/**/*.test.ts' 'docs-site/src/**/*.test.ts'",
     "build": "npm test && vite build && tsc -p tsconfig.build.json && node scripts/strip-css-imports.js",
     "docs:build": "cd docs-site && npm run build",
     "docs:preview": "cd docs-site && npm run preview"

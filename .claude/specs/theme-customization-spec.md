@@ -190,8 +190,12 @@ The prototype in section 8 shows a first version of the color preview: text role
 
 ## 7. Current state
 
-- The docs site has a "Theme ⚙" flyout (`docs-site/src/ThemePanel.tsx`). It sets a few drivers (primary, secondary, floor, contrast, mode, density, shadow, control radius, heading font, one pick) and injects the theme CSS site-wide. It is a demo, not the tool this spec defines.
-- `buildTheme()` in `src/tokens/` already does what the tool needs at run time: it takes a driver config and returns the primitives, the resolved picks per mode and context, the CSS, and the contrast failures.
+- The tool v1 is built: the `/theme` route of the docs site (`docs-site/src/theme-tool/`). It replaces the "Theme ⚙" flyout, which is removed.
+- `buildTheme()` in `src/tokens/` does all palette and pick math. The swatch selectors and the contrast checker share one pair list (`PAIRS` in `src/tokens/contrast.ts`).
+- Known limits of v1:
+  - Brand-context views list only the tokens a context overrides. A failure on another token in a context has no row to open.
+  - A default section (`hero`) can change its target but cannot be removed, because the config merges over the defaults.
+  - Base UI popups portal to `<body>`. They follow the preview mode, but not a brand context of the section that opened them.
 
 ## 8. Prototypes
 

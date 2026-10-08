@@ -31,9 +31,9 @@ Read the specs in full before creating any token, category, resolver, or compone
 ## Tooling
 
 - TypeScript, ESM (`"type": "module"`). Node runs `.ts` directly (type stripping), so imports use `.ts` extensions and only erasable TS syntax (`erasableSyntaxOnly`).
-- `npm test` — `tsc` typecheck, then `node --test 'src/**/*.test.ts'`. No test framework; add one only when a real need appears. Component render tests run through Vite's `ssrLoadModule` (node can't import `.tsx`/`.css`).
+- `npm test` — `tsc` typecheck, then `node --test` on `src/**/*.test.ts` and `docs-site/src/**/*.test.ts`. No test framework; add one only when a real need appears. Component render tests run through Vite's `ssrLoadModule` (node can't import `.tsx`/`.css`).
 - `npm run build` — runs `npm test`, then Vite library mode (`dist/index.js`, `tokens.js`, `styles.css`, `theme.css`), then `.d.ts` via `tsconfig.build.json`. The build fails if a component references a primitive.
-- `npm run dev` — docs site at `docs-site/` (component docs plus live theming flyout). No `@vitejs/plugin-react` at the root; the docs site uses its own Vite config.
+- `npm run dev` — docs site at `docs-site/` (component docs plus the theme builder at `/theme`). No `@vitejs/plugin-react` at the root; the docs site uses its own Vite config.
 - No lint config.
 - `bin/hds-theme.js` — client CLI: `hds-theme theme.config.js > theme.css`. The config's default export is a driver config. Contrast failures → stderr, exit 1.
 - `examples/wordpress`, `examples/pwa` — standalone Vite apps installing the package via `file:../..`; run `npm run build` at the root first.

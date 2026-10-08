@@ -1,22 +1,18 @@
-import { useMemo, useState } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { buildTheme, defaultDrivers, type DriverInput } from '../../src/tokens/index.ts';
-import { Popover, Button } from 'handy-ds';
-import { ThemeControls } from './ThemePanel.tsx';
+import { buildTheme } from '../../src/tokens/index.ts';
 import { setDocTheme } from '../../docs/token-pages.tsx';
+
+// The docs show the default theme. The theme builder (/theme) edits themes.
+const theme = buildTheme();
 
 interface Page {
   path: string;
   title: string;
 }
 
-// Theme state lives here (never unmounts across routes) so the injected <style>
-// persists site-wide, whether or not the panel is open.
 export function Layout({ pages }: { pages: Page[] }) {
   const location = useLocation();
   const current = location.pathname.replace(/^\//, '');
-  const [drivers, setDrivers] = useState<DriverInput>(defaultDrivers);
-  const theme = useMemo(() => buildTheme(drivers), [drivers]);
   setDocTheme(theme);
 
   // Sidebar sections: tokens get their own area, everything else is components.
@@ -27,22 +23,11 @@ export function Layout({ pages }: { pages: Page[] }) {
 
   return (
     <div className="docs-layout">
-      <style>{theme.css}</style>
       <aside className="docs-sidebar">
         <h1>
           <Link to="/">handy-ds</Link>
         </h1>
-        <Popover.Root>
-          <Popover.Trigger className="theme-trigger">Theme ⚙</Popover.Trigger>
-          <Popover.Portal>
-            <Popover.Positioner side="right" align="start" sideOffset={8}>
-              <Popover.Popup className="theme-flyout">
-                <Popover.Title>Live theming</Popover.Title>
-                <ThemeControls drivers={drivers} setDrivers={setDrivers} failures={theme.contrast} />
-              </Popover.Popup>
-            </Popover.Positioner>
-          </Popover.Portal>
-        </Popover.Root>
+        <Link to="/theme" className="theme-trigger">Theme builder</Link>
         <nav>
           {sections.map((section) => (
             <div key={section.title}>

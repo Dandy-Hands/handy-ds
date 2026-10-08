@@ -11,6 +11,7 @@
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "erasableSyntaxOnly": true,
+    "resolveJsonModule": true,
     "paths": {
       "handy-ds": ["../src/index.ts"]
     },

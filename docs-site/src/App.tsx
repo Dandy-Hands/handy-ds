@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, useParams, Navigate } from 'react-router-dom';
 import { Layout } from './Layout.tsx';
 import { Showcase } from './Showcase.tsx';
+import { ThemeTool } from './theme-tool/ThemeTool.tsx';
 
 interface Page {
   path: string;
@@ -61,6 +62,7 @@ export function App() {
   return (
     <BrowserRouter basename="/handy-ds">
       <Routes>
+        <Route path="/theme" element={<ThemeTool />} />
         <Route path="/" element={<Layout pages={pages} />}>
           <Route index element={<Page />} />
           <Route path="*" element={<Page />} />
