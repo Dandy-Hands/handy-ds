@@ -115,7 +115,13 @@ export const defaultDrivers: Drivers = {
 };
 
 type DeepPartial<T> = { [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K] };
-export type DriverInput = DeepPartial<Drivers>;
+/** Config metadata (spec 3.4). Not a driver: buildTheme() ignores it. */
+export interface ThemeMeta {
+  client?: string;
+  /** The handy-ds version the theme was built with. */
+  version?: string;
+}
+export type DriverInput = DeepPartial<Drivers> & { meta?: ThemeMeta };
 
 /** Deep-merges a partial driver config over the defaults. */
 export function withDefaults(input: DriverInput = {}): Drivers {

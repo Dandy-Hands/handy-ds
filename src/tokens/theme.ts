@@ -92,7 +92,7 @@ function colorMap(d: Drivers, prims: Primitives): ColorMap {
   return map;
 }
 
-export function buildTheme(input: DriverInput = {}) {
+export function buildTheme({ meta: _meta, ...input }: DriverInput = {}) {
   const drivers = withDefaults(input);
   for (const [name, target] of Object.entries(drivers.sections)) {
     if (!SECTION_NAME.test(name)) throw new Error(`sections: bad section name "${name}"`);

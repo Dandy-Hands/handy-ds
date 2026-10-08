@@ -154,3 +154,9 @@ test('contrast: a bad pick is caught', () => {
   const t = buildTheme({ picks: { 'content/default/fg': 'neutral/300' } });
   assert.ok(t.contrast.some((f) => f.fg === 'hds/sem/color/content/default/fg' && f.mode === 'light'));
 });
+
+test('meta is not a driver: buildTheme ignores it', () => {
+  const t = buildTheme({ meta: { client: 'Acme', version: '0.0.1' } });
+  assert.equal(t.css, buildTheme().css);
+  assert.equal('meta' in t.drivers, false);
+});

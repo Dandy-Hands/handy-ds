@@ -1,88 +1,208 @@
-# Driver Interface Spec
+# Theme Customization Spec
 
-**Status: draft.** Built from the user's notes of 2026-10-04 (original text in the appendix). The token rework interview of 2026-10-07 answered open questions 1–7. The drivers and their defaults are in `token-system-spec.md` section 3. The decisions and their reasons are in `token-rework-interview.md`. Open question 8 is not decided.
+**Status: draft.** This spec defines the theme customization tool: the visual tool where a person builds a client theme by setting drivers. It replaces `driver-interface-spec.md` (renamed 2026-10-07). The sources are the user's notes of 2026-10-04 (appendix), the token rework interview of 2026-10-06 and 2026-10-07 (`token-rework-interview.md`), and the theme customization interview of 2026-10-08 (`theme-customization-interview.md`). Section 9 lists the open questions.
 
-The driver interface is the visual tool where a person builds a client theme by setting drivers. Its working name is "role based token selection" or "theme building". See the vision spec, section 7.
+The drivers, their defaults, and the rules that turn drivers into tokens are in `token-system-spec.md`. This spec covers only how a person sets the drivers. Where the two disagree, the token spec wins.
 
-## 1. Model: two parts per token type
+## 1. Purpose
 
-Each token type (color, measure, border, roundness, shadow, type, and others) has two parts in the interface.
+- The team uses the tool to build a theme for each client. Clients do not use it directly.
+- A theme is a set of driver values and nothing else (vision spec section 5). The tool sets drivers only. It never edits semantic tokens or component code.
+- The tool replaces hand-editing of `theme.config.js`. Vision spec success criterion: "A person can set every driver through the driver interface, without editing a config file by hand."
+- The tool also serves as a theme-building aid: it shows how the palette is generated, so a person can tune the brand colors before picking uses. (User, 2026-10-06: the hue wheel prototype "could be a useful tool in theme building.")
 
-1. **Palette part.** This part shapes the primitive (reference) palette for the token type. The shape of each palette is known in advance: the number of scales, the number of stops, and their names. Only the values change.
-2. **Application part.** This part assigns palette values to specific uses, by element category. Most applications have a default value. A person can override a default value.
+### 1.1 Platform
 
-The palette part is better defined than the application part. Except for a few color applications, the application part is not designed yet.
+- **Location.** The tool is a page in `docs-site/`. It replaces the "Theme ⚙" flyout demo (interview F1).
+- **Tool UI.** The tool's own UI (side list, panels, controls) uses handy-ds components with the default theme. The theme under edit applies only inside the preview (F2).
+- **Users.** One person at a time, on one machine. There is no server (F3).
+- **Code.** The tool is new code. It uses `buildTheme()` for all palette and pick math. The prototypes (section 8) are a visual reference only (L2).
 
-## 2. Steps
+## 2. Model: two parts per token type
 
-The interface takes the person through the token types in this order. Each step uses only what earlier steps produce (interview decision E1).
+Each token type has two parts in the tool.
+
+1. **Palette part.** Drivers that shape the primitives. The shape of each primitive set is known in advance: the number of scales, the number of stops, and their names. Only the values change.
+2. **Application part.** Pick drivers that choose which primitive each semantic token uses. Every pick has a library default. A person sets only the picks that matter for the client.
+
+A pick stores a reference to a primitive name, such as `primary/600`, not a color value. When a palette driver changes, every pick that points at the changed primitive follows it. The person does not pick again.
+
+## 3. Steps
+
+The tool shows the token types in this order (token rework interview E1). Each step uses only what earlier steps produce.
+
+A side list shows the 8 steps in order. A person can open any step at any time. Later steps update live (interview H1). The tool is not a fixed wizard.
+
+1. Brand colors.
+2. Role map.
+3. Color application.
+4. Typography.
+5. Measure.
+6. Radius.
+7. Border.
+8. Elevation.
 
 ### Step 1: Brand colors (color palette part)
 
-The person sets the primary color, the optional secondary color, the neutral tint or an exact neutral color, the chroma floor, the contrast setting, and the dark-mode contrast and chroma. Color inputs accept any CSS color format. A live 11 × 11 grid shows the generated palette: 11 hue slots of 11 stops each. Token spec sections 3.1 and 4.1.
+Drivers: `color.primary`, `color.secondary`, `color.neutral` or `color.neutralTint`, `color.floor`, `color.contrast`, `color.darkContrast`, `color.darkChroma` (token spec section 3.1).
+
+**Color inputs.**
+
+- Primary, secondary, and neutral each have a text field and an OKLCH color picker (lightness, chroma, hue) (interview I1).
+- The text field accepts a hex code and every other CSS color format: `rgb()`, `hsl()`, `oklch()`, and named colors. People often paste values from a brand guide (user decision).
+- A color outside sRGB shows a gamut warning. The palette maps it into sRGB, so the anchor cell is the mapped color.
+- A value that does not parse shows as an error on the field. The palette keeps its last valid value.
+- Secondary is optional. A "use default" option shows where the default secondary lands: primary + 163.6°.
+- Neutral is optional. Without it, a tint slider sets the neutral tint at the primary hue.
+
+**Sliders.**
+
+- Chroma floor (0–1): the lowest relative chroma of the 9 generated slots. It keeps a near-gray brand's palette clearly colored.
+- Contrast (−1 to +1): bends the lightness stops of every ramp.
+- Dark contrast and dark chroma: tune the dark palette. They apply when the preview is in dark mode.
+
+**Live palette grid.** The 11 × 11 primitive grid is always visible and updates live as any driver changes (user decision).
+
+- Rows: the 11 hue slots (`hue-0` to `hue-10`), then the neutral row. White and black show beside the grid.
+- Columns: the 11 stops, `50` to `950`, with each stop's lightness value.
+- Each row label shows the slot hue in degrees and its relative chroma.
+- The anchor cells (the exact primary, secondary, and neutral colors) are marked. The exact brand color is always in the palette.
+- Role badges (primary, secondary, danger, ...) show on their rows.
+- A light/dark switch shows the light palette or the dark palette.
+- Each cell shows its CSS value on hover.
+
+**Hue wheel view.** A circle view shows the slots on the OKLCH hue circle, the two anchors, and the two arcs between them. It shows how the gaps split in proportion to the arc lengths. Reference: the hue wheel prototype (section 8).
+
+The wheel is view only. The anchors change only through the color inputs (interview I2).
 
 ### Step 2: Role map
 
-The person picks the slot for each system color: danger, warning, success, and info. Each has a default from hue proximity. Primary, secondary, and neutral are locked to their anchors. Token spec section 4.1.4.
+Drivers: `roles.danger`, `roles.warning`, `roles.success`, `roles.info` (token spec section 4.1.4).
+
+- One row per role. Primary, secondary, and neutral show as locked rows.
+- Each system role has a row picker: a list of the 11 slots, each with its swatch. The first option is "auto (hue-n)", the proximity default.
+- No two system roles can share a slot. The picker disables the slots that other system roles use. A system role can share a slot with an anchor.
+- A changed role updates the grid badges and every semantic token that reads the role.
 
 ### Step 3: Color application (color application part)
 
-The person sets the pick for each color token, by category. A pick is a primitive name, such as `primary/600`. Each pick has a default. Other inputs in this step:
+Drivers: `picks.*`, `contexts.*`, `states.step`, `overlay.opacity`, `mode`, `sections` (token spec section 3.2).
 
-- Interaction state offsets and optional state overrides (token spec section 5.2).
-- Dark-mode overrides per pick (section 5.3).
-- The brand context overrides for `on-primary` and `on-secondary`, the default mode, and section rules (section 6).
-- The data-visualization picks (section 7.4).
+**Pick controls.**
 
-The picker shows the full palette. It blocks a pick that fails WCAG 2 AA against its pair: 4.5:1 for text and 3:1 for non-text (section 5.4).
+- Picks are grouped by element category: Action, Field, Surface, Content, Graphic, Feedback, Focus, Overlay.
+- Each category shows its key picks first. A "show all" control opens the rest of the category (interview H2). The key-pick list is *tunable*.
+- A color pick uses a swatch selector. The selector shows the role scales (primary, secondary, neutral, danger, warning, success, info), white, black, and `transparent` where the token allows it.
+- Data-visualization picks also show the 11 hue slots, because they point at slots on purpose.
+- Each pick shows its library default. A "reset" control returns a pick to its default.
+- Feedback roles are fixed per sentiment. The person sets four stop picks (bg, border, fg, icon) that all sentiments share, and changes the hue through the role map (step 2).
+- Action has one disabled pair for all priorities. Field has its own disabled pair.
+
+**Interaction states.**
+
+- A person picks the default state only. Hover, active, and selected derive from it (+1 stop, +2 stops). The tool shows each derived state next to its default.
+- Each derived state has an optional override pick.
+- The `states.step` control changes the hover and active offsets for every category.
+
+**Accessibility (blocking).** The rule is WCAG 2 AA (token spec section 5.4).
+
+- After the person picks one color of a pair, the selector for the other color disables every swatch that fails against it. Example: after an action background is picked, the action text picker disables the colors that fail 4.5:1 on it.
+- Text pairs need 4.5:1. Non-text pairs (field borders, icons, focus ring, check marks) need 3:1. Disabled states are exempt.
+- Pairs are checked in light mode, in dark mode, and in each brand context.
+- A derived value that fails (a state offset or a dark palette color) shows as an error on its token. The contrast report (section 4) lists it too, and each report row links to its token (interview J2). The fix is an override pick.
+- A `transparent` background is checked against the surfaces behind it.
+- When a change to the first color of a pair makes the second pick fail, the second pick stays and shows an error. The tool never changes a pick on its own (interview J1).
+- A step 1 or step 2 change (brand colors, role map) applies live, even when it makes picks fail. A failure count shows on the step 3 entry in the side list and in the contrast report. Undo reverts the change (interview J3).
+
+**Dark mode.**
+
+- Dark mode is derived: the same picks resolve against the dark palette. Most themes need no dark picks.
+- Each pick has an optional dark override. The tool shows it only when the person opens it, or when a dark-mode pair fails.
+
+**Contexts and sections.**
+
+- A context switch shows the picks for the root, `on-primary`, and `on-secondary`. Context picks show only the tokens a context overrides (token spec section 6.3).
+- The `mode` control sets the page default: light, dark, or system.
+- A sections list maps a section name (such as `hero` or `footer`) to a mode or a brand context.
+
+**Data visualization.** A preview shows the categorical, sequential, and diverging palettes as swatch strips and as a sample chart.
 
 ### Step 4: Typography
 
-Font families, base size, scale ratio, and picks for 5 roles × 3 sizes. Token spec sections 4.6 and 7.7.
+Drivers: `typography.family.*`, `typography.baseSize`, `typography.ratio`, `typography.styles` (token spec sections 3.3, 4.6, 7.7).
+
+- Palette part: the heading, body, and mono font stacks, the base size, and the scale ratio. The tool shows the 9 scale steps.
+- Application part: a table of the 5 text roles × 3 sizes. Each cell shows a text sample and its picks: family, scale step, weight, leading, and tracking.
+- The table shows the `md` size of each role first. The `sm` and `lg` sizes open on demand (interview H3).
+- **Web fonts.** A person can type a Google Fonts family name. The tool loads the font for the preview. The config holds only the CSS font stack, and the client app loads the font itself. When the tool loads a config, it tries the first family of each stack on Google Fonts (interview I3).
+- The ratio control and the base size range are *tunable*.
 
 ### Step 5: Measure
 
-The density driver scales one 4px grid. Token spec sections 4.2 and 7.5.
+Driver: `density`. One control scales the 4px grid. The preview shows spacing and control heights at the current density.
 
 ### Step 6: Radius
 
-One radius step per shape role: control, container, indicator, round. Token spec sections 4.3 and 7.5.
+Drivers: `radius.control`, `radius.container`, `radius.indicator`, `radius.round`. One step selector per shape role, with a sample shape for each step.
 
 ### Step 7: Border
 
-One border width per role: control, container, divider, focus. Token spec sections 4.4 and 7.5.
+Drivers: `border.control`, `border.container`, `border.divider`, `border.focus`. One step selector per role.
 
 ### Step 8: Elevation
 
-The shadow strength driver. Token spec sections 4.5 and 7.6.
+Driver: `shadow.strength`. One slider. The preview shows the raised, floating, and modal levels.
 
-## 3. Element categories
+## 4. Preview
 
-Decided 2026-10-04. The color application part groups tokens into these eight categories. Token spec section 7.1 defines them.
+- The tool shows a live preview of the components with the current driver values (vision spec section 7).
+- **Layout.** One preview pane shows beside every step. Each step also shows a small inline sample of what it changes, such as the palette grid, the type scale, or the radius shapes (interview K3).
+- **Content.** A tab switch selects one of these (interview K1):
+  - A component sheet: every component in every state.
+  - Sample pages: a marketing page with `hero` and `footer` sections, a form, and a dashboard. The page list is *tunable*.
+- The preview does not load a client's own site. The client checks the theme in its own dev server with the exported config and the CLI (interview K2).
+- The preview has a light/dark switch.
+- The preview can show the root, `on-primary`, and `on-secondary` side by side. A card inside a brand section shows as a darker brand panel.
+- A contrast report lists every failing pair with its mode, context, and ratio.
 
-| Category | Comes from | What it holds |
-|---|---|---|
-| Action | Action | Buttons, triggers, switches. |
-| Field | Input/Field | Text inputs, selects, checkboxes, radios. |
-| Surface | Surface | Page, cards, and popups, on 5 levels: sunken, base, raised, floating, modal. |
-| Content | Type + Icon | Text and icons: the foreground on a surface. Color only; typography is step 4. |
-| Graphic | Divider + data visualization | Divider lines and chart colors. |
-| Feedback | Feedback | Alerts and toasts. Their colors come from the system colors. |
-| Focus | Focus | The focus ring. A separate effect that applies across categories. |
-| Overlay | Overlay | The modal scrim. A separate effect, like Focus. |
+The prototype in section 8 shows a first version of the color preview: text roles, action states, field states, surfaces, feedback, dividers, data visualization, and the scrim.
 
-## 4. Open questions
+## 5. Output
 
-Questions 1–7 have answers from the token rework interview (2026-10-07). The token spec section is given for each answer.
+- The tool produces a driver config: the default export of `theme.config.js`, a partial of `defaultDrivers` (token spec section 3).
+- The config holds only the values that differ from the defaults.
+- The config also holds a `meta` key: `{ client, version }`. `client` is the client name. `version` is the handy-ds version the theme was built with. `meta` is not a driver, and `buildTheme()` ignores it (interview G4).
+- **Save.** The person downloads `theme.config.js`, or copies its text to the clipboard (interview G2).
+- **Load.** The person opens a `theme.config.js` file, or pastes its text (interview G1). The tool has no access to a client repo.
+- **Draft.** The tool saves the current theme to browser storage on each change. It keeps one draft only. The exported file is the real record (interview G3).
+- **Contrast failures.** Export works when the config has contrast failures. A warning lists the failures before the export (interview G5).
+- A client project turns the config into CSS with the `hds-theme` CLI. A config that fails a contrast rule makes the CLI exit with code 1. When `meta.version` differs from the installed handy-ds version, the CLI prints a warning, because a library default can change under the theme.
 
-1. **Application part for non-color types.** Answered. Typography has picks per role and size. Radius and border have one step per shape role. Measure and shadow have one scale driver each. Section 3.3.
-2. **Neutral colors.** Answered. By default, a tint of the primary hue. An optional neutral color replaces it. Section 4.1.5.
-3. **Graph colors.** Answered. Categorical, sequential, and diverging palettes. Each color is a pick from the full palette, with a default. Section 7.4.
-4. **Contrast slider.** Answered. In scope. One global setting for light mode and one for dark mode. Section 4.1.2.
-5. **Accessibility rule.** Answered. WCAG 2 AA: 4.5:1 for text, 3:1 for non-text. A failing pick is blocked. Disabled states are exempt. Section 5.4.
-6. **Modes.** Answered. Dark mode is a derived, inverted palette with the same picks, plus dark tuning drivers and optional dark overrides per pick. High contrast is not done yet (section 9). Sections 4.1.6 and 5.3.
-7. **Step order.** Answered. See section 2.
-8. **Location, preview, and output.** Not decided. Where does the interface run, what does the preview show, and what does the interface produce? The vision spec says the output is a driver config.
+## 6. Interface rules
+
+- One control per driver type, fitted to its input: a color field for a color, a swatch selector for a pick, a slider for a number range, a step selector for a named step.
+- Every control shows its default and can reset to it.
+- Every change updates the grid and the preview live.
+- The tool never offers a value that the token spec does not allow. Example: a non-data-visualization pick cannot select a hue slot.
+- Undo and redo apply to every driver change (interview H4).
+- A changes panel lists every driver that differs from its default, each with a reset control. The list is the same as the export content (interview H4).
+- Slider ranges and steps (density, base size, shadow strength) are *tunable* (interview I5).
+
+## 7. Current state
+
+- The docs site has a "Theme ⚙" flyout (`docs-site/src/ThemePanel.tsx`). It sets a few drivers (primary, secondary, floor, contrast, mode, density, shadow, control radius, heading font, one pick) and injects the theme CSS site-wide. It is a demo, not the tool this spec defines.
+- `buildTheme()` in `src/tokens/` already does what the tool needs at run time: it takes a driver config and returns the primitives, the resolved picks per mode and context, the CSS, and the contrast failures.
+
+## 8. Prototypes
+
+- Hue wheel: https://claude.ai/artifact/Hczt1umkUmec3qcqjsvt3J. Compares the palette models on the hue circle.
+- Palette grid: https://claude.ai/artifact/1PycWfx6fNhyGQYVRtumNK. The live 11 × 11 grid, color inputs, chroma modes, floor and contrast sliders, neutral controls, role pickers, dark mode, data-visualization preview, semantic preview per context, contrast check, and token list. It still shows 4 surface levels, not 5.
+
+## 9. Open questions
+
+1. **High contrast mode.** Deferred. The tool adds it when the token spec defines it (token spec section 9.2; interview L1).
+
+The other questions of the first draft closed in the theme customization interview of 2026-10-08.
 
 ## Appendix: original notes (2026-10-04)
 

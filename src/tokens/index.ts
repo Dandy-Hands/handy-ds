@@ -1,7 +1,7 @@
 export { buildTheme, cssVar, CONTEXTS, type ColorMap, type ColorMode } from './theme.ts';
 export {
   defaultDrivers, withDefaults,
-  type Drivers, type DriverInput, type Mode, type Context, type Pick, type TextStyle,
+  type Drivers, type DriverInput, type Mode, type Context, type Pick, type TextStyle, type ThemeMeta,
   type RadiusStep, type BorderStep, type WeightStep, type LeadingStep, type TrackingStep, type FamilyStep,
 } from './drivers.ts';
 export { breakpoints } from './primitives.ts';

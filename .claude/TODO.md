@@ -25,7 +25,7 @@ Running list of planned work. Add an item when the user asks for new work. Check
 
 - [ ] Build out the driver interface: the UI where a user sets each driver.
   - [ ] Custom input controls per driver type, e.g. swatch selectors for color drivers.
-  - [ ] Decide the interface location, preview, and output (`.claude/specs/driver-interface-spec.md`, open question 8).
+  - [x] Answer the open questions in `.claude/specs/theme-customization-spec.md` (section 9): location, saving and loading, navigation, preview content, and others.
 
 ## Components
 

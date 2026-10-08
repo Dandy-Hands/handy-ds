@@ -16,7 +16,7 @@ Drivers → Primitives → Semantic Tokens → Components
 - **Semantic tokens.** Named values that point at primitives. Components read semantic tokens only, as CSS custom properties.
 - **Components.** A full theme change requires no change to component code.
 
-Each token type has two parts in the driver interface (`driver-interface-spec.md`):
+Each token type has two parts in the driver interface (`theme-customization-spec.md`):
 
 1. **Palette part.** Drivers that shape the primitives.
 2. **Application part.** **Pick drivers** that choose which primitive each semantic token uses.
@@ -79,10 +79,10 @@ The complete driver list. Section 4 defines how the palette drivers build primit
 | Driver | Input | Default |
 |---|---|---|
 | `roles.danger`, `roles.warning`, `roles.success`, `roles.info` | a slot (`hue-0` to `hue-10`) | proximity pick (4.1.4) |
-| `picks.{token}` | a pick value (5.1) | section 7 tables |
-| `picks.{token}.dark` | a pick value, optional | none (dark mode uses the light pick on the dark palette) |
+| `picks.{token}` (`{token}` = a color token without `hds/sem/color/`) | a pick value (5.1), or `{ light, dark }` to add a dark override (5.3) | section 7 tables |
+| `picks.action/disabled/{bg,fg}` | a pick value: the Action disabled pair for every priority | `neutral/100`, `neutral/400` |
 | `states.step` | hover and active offsets in stops | hover 1, active 2 |
-| `contexts.on-primary.{token}`, `contexts.on-secondary.{token}` | a pick value | section 6.3 |
+| `contexts.on-primary.{token}`, `contexts.on-secondary.{token}` | a pick value, or `{ light, dark }` | section 6.3 |
 | `overlay.opacity` | 0–1 | 0.5 *tunable* |
 | `mode` | `light`, `dark`, `system` | `light` *tunable* |
 | `sections.{name}` | a mode or a brand context | none |
@@ -99,6 +99,10 @@ The complete driver list. Section 4 defines how the palette drivers build primit
 | `radius.control`, `.container`, `.indicator`, `.round` | a radius step | `200`, `300`, `100`, `round` *tunable* |
 | `border.control`, `.container`, `.divider`, `.focus` | a border step | `025`, `025`, `025`, `050` *tunable* |
 | `shadow.strength` | number, 0 = flat | 1 |
+
+### 3.4 Config metadata
+
+A driver config can hold a `meta` key: `{ client, version }`. `client` is the client name. `version` is the handy-ds version the theme was built with. `meta` is not a driver and makes no tokens. `buildTheme()` ignores it. The `hds-theme` CLI prints a warning when `meta.version` differs from the installed version (`theme-customization-spec.md` section 5).
 
 ---
 
@@ -214,7 +218,15 @@ Fixed values: 0, 1, 2, 4px. Density does not change them. Solid only; there is n
 hds/prim/shadow/{raised|floating|modal}/{umbra|penumbra|ambient}/{x|y|blur|spread}
 ```
 
-- Each level has three layers. The geometry is fixed *tunable*.
+- Each level has three layers. The geometry is fixed *tunable*, in px as `x y blur spread`:
+
+  | Level | umbra | penumbra | ambient |
+  |---|---|---|---|
+  | `raised` | 0 1 2 0 | 0 2 4 0 | 0 0 1 0 |
+  | `floating` | 0 4 8 −2 | 0 8 16 0 | 0 0 2 0 |
+  | `modal` | 0 12 24 −4 | 0 24 48 0 | 0 0 4 0 |
+
+- Layer alphas *tunable*: umbra 0.14, penumbra 0.10, ambient 0.08.
 - The color of each layer is `black` with an alpha *tunable* per layer × `shadow.strength`. At strength 0 every shadow is `none`.
 - Black is pure in both modes. A neutral shadow color would turn light in the dark palette.
 
@@ -264,7 +276,7 @@ In dark mode the same offsets go lighter, because the dark ladder is inverted. E
 
 ### 5.3 Dark overrides
 
-Any pick can have an optional dark value (`picks.{token}.dark`). Without it, dark mode resolves the light pick against the dark palette. Default picks never point at white, so dark mode works with no overrides. A person who picks white sets a dark override where contrast needs it.
+Any pick can have an optional dark value: `picks: { "{token}": { light, dark } }`. Without it, dark mode resolves the light pick against the dark palette. Default picks never point at white, so dark mode works with no overrides. A person who picks white sets a dark override where contrast needs it.
 
 ### 5.4 Accessibility rule
 
@@ -283,6 +295,8 @@ Any pick can have an optional dark value (`picks.{token}.dark`). Without it, dar
 
 - The `mode` driver sets the page default: `light`, `dark`, or `system` (follows `prefers-color-scheme`).
 - `data-mode="dark"` or `data-mode="light"` on any element switches its subtree to that palette. A dark band on a light page needs no new picks.
+- A mode element re-declares every color token with the root picks, so it resets any brand context above it. Put `data-context` inside a mode element, not around it.
+- Known limit: a dark override inside a brand context is scoped by descendant selectors (`[data-mode="dark"] [data-context="on-primary"]`). A light subtree nested inside a dark one still matches those rules.
 
 ### 6.2 Contexts
 
@@ -524,6 +538,6 @@ Each component's spec interview records which semantic tokens its parts read: co
 
 1. Token change and deprecation plan for tokens in use on client sites (carried over).
 2. Other modes, such as high contrast.
-3. Driver interface location, preview, and output (`driver-interface-spec.md`, open question 8).
+3. Driver interface: closed in `theme-customization-spec.md` (interview of 2026-10-08), except high contrast (item 2).
 4. Field error text color. It is not a Field token. A component interview decides between `feedback/danger/fg` and a new Content role, and the contrast rule must cover brand contexts.
 5. Component CSS reads the new token names through a provisional mapping (old category tokens to the closest new token). Each component re-interview confirms its mapping.
