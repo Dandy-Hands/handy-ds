@@ -8,7 +8,7 @@
 
 ## Description
 
-Radio is one choice out of two to five options that should all stay visible. It renders a circular Input/Field box with a CSS dot as the selected mark. `RadioGroup` owns the selection state and stacks the options. Use Radio for two to five visible choices; use Select beyond that and Checkbox when more than one can be picked.
+Radio is one choice out of two to five options that should all stay visible. It renders a circular Field box with a CSS dot as the selected mark. `RadioGroup` owns the selection state and stacks the options. Use Radio for two to five visible choices; use Select beyond that and Checkbox when more than one can be picked.
 
 ## Usage
 
@@ -39,17 +39,19 @@ Wrapped components: `Radio` from `@base-ui/react/radio`, `RadioGroup` from `@bas
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Circle default | `hds/sem/input/color/default/{bg,border}`; border width `max(1px, hds/sem/input/measure/md/border-width)` (floor) |
-| Checked | `hds/sem/input/color/checked/{bg,fg,border}` (gap 12) |
-| Hover | `hds/sem/input/color/hover/border` |
-| Invalid | `hds/sem/input/color/error/border` |
-| Disabled | `hds/sem/input/color/disabled/{bg,border}`; disabled + checked inverted (`disabled-fg` ground, `disabled-bg` mark) |
+| Circle default | `hds/sem/color/field/default/{bg,border}`; border width `max(1px, hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control)` (floor) |
+| Checked | `hds/sem/color/field/checked/{bg,fg,border}` (gap 12) |
+| Hover | `hds/sem/color/field/hover/border` |
+| Invalid | `hds/sem/color/field/error/border` |
+| Disabled | `hds/sem/color/field/disabled/{bg,border}`; disabled + checked inverted (`disabled-fg` ground, `disabled-bg` mark) |
 | Shape | `border-radius: 50%` (structural); dot at `0.45em` of `currentColor` |
-| Group gap | `hds/sem/input/measure/sm/padding-x` (borrowed, gap 13) |
+| Group gap | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (borrowed, gap 13) |
 
 Notes:
 
-- No primitive or driver references; Radio reads only Input/Field tokens (gap 12) and shares `Checkbox.css` with Checkbox.
+- No primitive or driver references; Radio reads only Field tokens (gap 12) and shares `Checkbox.css` with Checkbox.
 - The selected mark is structural CSS, not a token — its color is `currentColor` (= `checked-fg`).

@@ -24,7 +24,7 @@ Styled parts:
 
 | Part | Look |
 | --- | --- |
-| `InputGroup` | Input/Field control (`hds-control`), `data-size="md"` default |
+| `InputGroup` | Field control (`hds-control`), `data-size="md"` default |
 | `Input` | Inner text input (`hds-control__input`) |
 | `Trigger` | Inner chevron button (`hds-control__button`), built-in `ChevronDownIcon` |
 | `Clear` | Inner clear button (`hds-control__button`), built-in `XIcon`, `aria-label="Clear"` |
@@ -46,19 +46,21 @@ None. Combobox adds no props. Visual overrides happen by passing props to parts 
 
 ## Token mapping
 
-Borrows per part, per token spec section 9 ("Combobox: Input group: Input/Field. Options: Action tertiary (`hover` = highlighted, `selected` = chosen). Chips: Action secondary. Empty/status text: Type caption"):
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
+Borrows per part, per the previous token spec, section 9, now withdrawn ("Combobox: Input group: Field. Options: Action tertiary (`hover` = highlighted, `selected` = chosen). Chips: Action secondary. Empty/status text: Type caption"):
 
 | Part | Tokens |
 | --- | --- |
-| Input group | `hds/sem/input/color/{default,hover,focus,error,disabled}/{bg,fg,border,placeholder-fg}`, `hds/sem/input/measure/{sm,md,lg}/{padding-x,padding-y,height,radius,border-width}` — `data-popup-open` styles like focus |
-| Popup (Surface elevation 2) | `hds/sem/surface/color/2/{default,striped}/{bg,border,shadow}`, `hds/sem/surface/measure/*` |
-| Items (Action tertiary) | `hds/sem/action/color/tertiary/{default,hover,active,focus,selected,disabled}/{bg,fg,border}`; item measure reads `hds/sem/action/measure/md/*` |
-| Chips (Action secondary) | `hds/sem/action/color/secondary/*` via the no-priority Action default; chip radius reads `hds/sem/action/measure/md/radius`, chip padding/gap read `hds/sem/input/measure/sm/padding-*` (cross-borrow, flagged in guide Q11) |
-| Empty / Status text | `hds/sem/type/color/caption/fg`, `hds/sem/type/measure/caption/size`; padding borrows `hds/sem/action/measure/md/padding-*` |
-| Label / Group label | `hds/sem/type/color/label/fg`, `hds/sem/type/measure/label/*` |
-| Separator | `hds/sem/divider/color/border`, `hds/sem/divider/measure/{weight}/thickness` |
-| Backdrop | `hds/sem/overlay/color/bg` |
-| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` (from `base.css`) |
+| Input group | `hds/sem/color/field/{default,hover,error,disabled}/{bg,fg,border,placeholder}`, `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` — `data-popup-open` styles like focus |
+| Popup (Surface elevation 2) | `hds/sem/color/surface/floating/*`, `hds/sem/elevation/floating`, `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` |
+| Items (Action tertiary) | `hds/sem/color/action/tertiary/{default,hover,active,selected,disabled}/{bg,fg,border}`; item measure reads `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Chips (Action secondary) | `hds/sem/color/action/secondary/*` via the no-priority Action default; chip radius reads `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control`, chip padding/gap read `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (cross-borrow, flagged in guide Q11) |
+| Empty / Status text | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/md/*`; padding borrows `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Label / Group label | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/md/*` |
+| Separator | `hds/sem/color/graphic/divider/default`, `hds/sem/border/divider` |
+| Backdrop | `hds/sem/color/overlay/scrim` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (from `base.css`) |
 
 Notes:
 

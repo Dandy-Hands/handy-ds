@@ -33,16 +33,18 @@ No Base UI primitive. Alert is a single-part `useRender` component (`useRender.C
 | --- | --- | --- | --- |
 | `sentiment` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | Existing axis. Sets `data-sentiment`; picks the Feedback color set. |
 | `heading` | `ReactNode` | — | Renders a styled `<p>` above the body. Not a heading level — the caller controls document structure around the alert. |
-| `icon` | `ReactNode` | — | Renders inside a span colored with the sentiment's `icon-fg` token. |
+| `icon` | `ReactNode` | — | Renders inside a span colored with the sentiment's `icon` token. |
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Block (per sentiment) | `hds/sem/feedback/color/{info,success,warning,danger}/{bg,fg,border}` |
-| Icon span (per sentiment) | `hds/sem/feedback/color/{info,success,warning,danger}/icon-fg` |
-| Measure | `hds/sem/feedback/measure/{padding,radius,gap,border-width}` |
-| Heading weight | `hds/sem/type/other/label/weight` |
+| Block (per sentiment) | `hds/sem/color/feedback/{info,success,warning,danger}/{bg,fg,border}` |
+| Icon span (per sentiment) | `hds/sem/color/feedback/{info,success,warning,danger}/icon` |
+| Measure | `hds/sem/measure/space/*`, `hds/sem/radius/container`, `hds/sem/border/container` |
+| Heading weight | `hds/sem/typography/label/md/*` |
 
 Notes:
 

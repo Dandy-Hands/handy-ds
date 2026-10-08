@@ -37,11 +37,13 @@ Wrapped component: `Switch` from `@base-ui/react/switch`. Surface decisions:
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Track off (default, hover, disabled) | `hds/sem/action/color/secondary/{default,hover,disabled}/{bg,border}` |
-| Track on | `hds/sem/action/color/primary/selected/{bg,border}` |
-| Thumb off / on / disabled | `hds/sem/action/color/secondary/default/fg`, `hds/sem/action/color/primary/selected/fg`, `hds/sem/action/color/secondary/disabled/fg` |
+| Track off (default, hover, disabled) | `hds/sem/color/action/secondary/{default,hover,disabled}/{bg,border}` |
+| Track on | `hds/sem/color/action/primary/selected/{bg,border}` |
+| Thumb off / on / disabled | `hds/sem/color/action/secondary/default/fg`, `hds/sem/color/action/primary/selected/fg`, `hds/sem/color/action/secondary/disabled/fg` |
 
 Notes:
 

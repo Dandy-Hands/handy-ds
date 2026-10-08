@@ -8,7 +8,7 @@
 
 ## Description
 
-NumberField is a number input with decrement and increment steppers. The group renders as an Input/Field control: one frame with a − button, the value input, and a + button. Use it for quantities the user nudges up and down; do not use it for a range with no exact number in mind. Base UI supplies the value behavior (stepping, scrubbing, clamping, formatting); the family only styles it.
+NumberField is a number input with decrement and increment steppers. The group renders as an Field control: one frame with a − button, the value input, and a + button. Use it for quantities the user nudges up and down; do not use it for a range with no exact number in mind. Base UI supplies the value behavior (stepping, scrubbing, clamping, formatting); the family only styles it.
 
 ## Usage
 
@@ -33,18 +33,20 @@ Wrapped component: `NumberField` from `@base-ui/react/number-field`. Surface dec
 
 | Prop | Where | Type | Default | Decision |
 | --- | --- | --- | --- | --- |
-| `data-size` | `NumberField.Group` | `'sm' \| 'md' \| 'lg'` | `'md'` | Existing Input/Field axis, applied as a data attribute (same shape as `Field.Control`). No other extension props. |
+| `data-size` | `NumberField.Group` | `'sm' \| 'md' \| 'lg'` | `'md'` | Existing Field axis, applied as a data attribute (same shape as `Field.Control`). No other extension props. |
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Group (any size) | `hds/sem/input/color/{default,hover,focus,error,disabled}/{bg,fg,border,placeholder-fg}` and `hds/sem/input/measure/{sm,md,lg}/{padding-x,padding-y,height,radius,border-width}` (`control.css`) |
-| Group focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` (frame, via `:has(:focus-visible)`) |
-| Stepper button hover | `hds/sem/action/color/tertiary/hover/{bg,fg}` (cross-category borrow) |
-| Value text | inherits the control's `hds/sem/type/other/body/*` + `hds/sem/type/measure/body/*` typography |
+| Group (any size) | `hds/sem/color/field/{default,hover,error,disabled}/{bg,fg,border,placeholder}`, `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (`control.css`) |
+| Group focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (frame, via `:has(:focus-visible)`) |
+| Stepper button hover | `hds/sem/color/action/tertiary/hover/{bg,fg}` (cross-category borrow) |
+| Value text | inherits the control's `hds/sem/typography/body/md/*` + `hds/sem/typography/body/md/*` typography |
 
 Notes:
 
 - No primitive or driver references; no new tokens introduced.
-- `NumberField.Group` pins the Input/Field `data-size` axis; `Root` and the unstyled parts are context-passive.
+- `NumberField.Group` pins the Field `data-size` axis; `Root` and the unstyled parts are context-passive.

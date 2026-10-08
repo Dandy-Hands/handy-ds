@@ -40,12 +40,14 @@ Wrapped component: `Toast` from `@base-ui/react/toast`. Surface decisions:
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Toast block (per sentiment) | `hds/sem/feedback/color/{info,success,warning,danger}/{bg,fg,border}` (via `Feedback.css`) |
-| Depth | `hds/sem/surface/color/2/default/shadow` (cross-category borrow) |
-| Measure | `hds/sem/feedback/measure/{padding,radius,gap,border-width}` |
-| Action | `hds/sem/action/color/secondary/*` + `hds/sem/action/measure/md/*` (via `action.css`) |
+| Toast block (per sentiment) | `hds/sem/color/feedback/{info,success,warning,danger}/{bg,fg,border}` (via `Feedback.css`) |
+| Depth | `hds/sem/color/surface/floating/*`, `hds/sem/elevation/floating` (cross-category borrow) |
+| Measure | `hds/sem/measure/space/*`, `hds/sem/radius/container`, `hds/sem/border/container` |
+| Action | `hds/sem/color/action/secondary/*` + `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` (via `action.css`) |
 | Viewport | structural: fixed corner, `min(22rem, calc(100vw - 2rem))` width, feedback gap |
 
 Notes:

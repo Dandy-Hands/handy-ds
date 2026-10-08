@@ -37,15 +37,17 @@ Sortable columns: put a `<button>` inside the `th` and set `aria-sort="ascending
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Row ground | `hds/sem/surface/color/0/default/bg`; striped even rows `hds/sem/surface/color/0/striped/bg` |
-| Row hover | `hds/sem/action/color/tertiary/hover/bg` (borrowed) |
-| Cell borders | `hds/sem/divider/color/border` + `hds/sem/divider/measure/thin-thickness`; header underline `.../medium-thickness` |
-| Header text | `hds/sem/type/color/label/fg`, `hds/sem/type/other/label/{font-family,weight}` |
-| Body text | `hds/sem/type/color/body/fg`; base size `hds/sem/type/measure/body/size` |
-| Cell padding | `hds/sem/input/measure/md/{padding-x,padding-y}` (borrowed, gap 13) |
-| Sort button | `hds/sem/action/color/tertiary/{default,hover,active}/bg` + `hds/sem/action/measure/md/{gap,padding-*}` |
+| Row ground | `hds/sem/color/surface/base/*`; striped even rows `hds/sem/color/surface/base/*` |
+| Row hover | `hds/sem/color/action/tertiary/hover/bg` (borrowed) |
+| Cell borders | `hds/sem/color/graphic/divider/default` + `hds/sem/border/divider`; header underline `.../medium-thickness` |
+| Header text | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/md/*` |
+| Body text | `hds/sem/color/content/default/fg`; base size `hds/sem/typography/body/md/*` |
+| Cell padding | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (borrowed, gap 13) |
+| Sort button | `hds/sem/color/action/tertiary/{default,hover,active}/bg` + `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
 
 Notes:
 

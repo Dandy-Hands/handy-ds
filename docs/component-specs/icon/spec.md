@@ -37,11 +37,13 @@ No Base UI primitive. Icon is a plain function component over `ComponentProps<'s
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| `variant="default"` | `hds/sem/icon/color/default/fg` |
-| `variant="secondary"` | `hds/sem/icon/color/secondary/fg` |
-| `variant="accent"` | `hds/sem/icon/color/accent/fg` |
+| `variant="default"` | `hds/sem/color/content/default/fg` |
+| `variant="secondary"` | `hds/sem/color/content/muted/fg` |
+| `variant="accent"` | `hds/sem/color/content/accent/fg` |
 | Unset variant | inherits `currentColor` (no token read) |
 | Size | structural `--_size` (default `1em`); baseline nudge `-0.125em` structural |
 

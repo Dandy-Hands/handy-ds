@@ -39,16 +39,18 @@ Explicitly rejected: a `variant`/`priority` prop on the namespace (priority is s
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Popup background / border / shadow | `hds/sem/surface/color/2/*` (elevation 2) |
-| Popup padding, item gap | `hds/sem/action/measure/md/gap` |
-| Item colors | `hds/sem/action/color/tertiary/*` (default/hover/active/focus/disabled) |
-| Item padding, radius | `hds/sem/action/measure/md/padding-y`, `.../padding-x`, `.../radius` |
-| Trigger | `hds/sem/action/color/secondary/*` (or `tertiary/*` when `data-priority="tertiary"`) |
-| Group label | `hds/sem/type/color/caption-fg`, `hds/sem/type/other/caption/*`, `hds/sem/type/measure/caption/size` |
-| Backdrop | `hds/sem/overlay/color/bg` |
-| Menubar gap | `hds/sem/action/measure/md/gap` |
+| Popup background / border / shadow | `hds/sem/color/surface/floating/*`, `hds/sem/elevation/floating` (elevation 2) |
+| Popup padding, item gap | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Item colors | `hds/sem/color/action/tertiary/*` (default/hover/active/focus/disabled) |
+| Item padding, radius | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control`, `.../padding-x`, `.../radius` |
+| Trigger | `hds/sem/color/action/secondary/*` (or `tertiary/*` when `data-priority="tertiary"`) |
+| Group label | `hds/sem/color/content/{role}/fg`, `hds/sem/typography/caption/md/*` |
+| Backdrop | `hds/sem/color/overlay/scrim` |
+| Menubar gap | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
 
 Notes:
 

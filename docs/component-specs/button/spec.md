@@ -35,7 +35,7 @@ Wrapped component: `Button` from `@base-ui/react/button`. Surface decisions:
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `priority` | `'primary' \| 'secondary' \| 'tertiary' \| 'danger'` | `'primary'` | Visual weight; set as `data-priority`. `danger` added 2026-10-07 by the token rework (token spec 7.1). |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size axis, shared with Input/Field; set as `data-size`. Only Button exposes it among Action parts (decisions.md "Button size axis"). |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size axis, shared with Field; set as `data-size`. Only Button exposes it among Action parts (decisions.md "Button size axis"). |
 | `loading` | `boolean` | `false` | Shows a spinner and sets `aria-busy="true"`. Blocks clicks by disabling the button while loading. `disabled` styling applies during loading; spinner color reuses the fg token of the current state. |
 | `fullWidth` | `boolean` | `false` | Stretches to the container width (structural, no token). |
 
@@ -43,12 +43,14 @@ Icons are injected as children (pair with the `Icon` component or inline SVG); t
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 Button consumes only these semantic tokens:
 
-- `hds/sem/action/color/{priority}/{default,hover,active,focus,disabled,selected}/{bg,border,fg}` for all three priorities — look and states (`action.css`).
-- `hds/sem/action/measure/{sm,md,lg}/{padding-x,padding-y,radius,gap}` and `hds/sem/action/measure/md/border-width` — size axis (`Button.css`, `action.css`).
-- `hds/sem/type/measure/label/{size,line-height,letter-spacing}` and `hds/sem/type/other/label/{font-family,weight}` — label typography (`action.css`).
-- Focus ring from `base.css`: `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width`.
+- `hds/sem/color/action/{priority}/{default,hover,active,disabled,selected}/{bg,border,fg}` for all four priorities — look and states (`action.css`).
+- `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` — size axis (`Button.css`, `action.css`).
+- `hds/sem/typography/label/md/*` — label typography (`action.css`).
+- Focus ring from `base.css`: `hds/sem/color/focus/ring`, `hds/sem/border/focus`.
 
 No primitive or driver references. Spinner animation timing is structural (allowed literal) with a `prefers-reduced-motion` fallback. No token gaps found in review.
 

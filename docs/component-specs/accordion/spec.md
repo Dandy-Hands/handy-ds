@@ -37,13 +37,15 @@ Wrapped component: `Accordion` from `@base-ui/react/accordion`. Surface decision
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Trigger look and states | `hds/sem/action/color/tertiary/{default,hover,active,focus,disabled,selected}/{bg,border,fg}` (via `action.css`) |
-| Trigger measure | `hds/sem/action/measure/md/{padding-x,padding-y,gap}` — radius flattened to 0 structurally |
-| Item edge | `hds/sem/divider/color/border` + `hds/sem/divider/measure/thin-thickness` |
-| Panel ground | `hds/sem/surface/color/0/default/bg` + `hds/sem/surface/measure/padding` |
-| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` (inset on the trigger) |
+| Trigger look and states | `hds/sem/color/action/tertiary/{default,hover,active,disabled,selected}/{bg,border,fg}` (via `action.css`) |
+| Trigger measure | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` — radius flattened to 0 structurally |
+| Item edge | `hds/sem/color/graphic/divider/default` + `hds/sem/border/divider` |
+| Panel ground | `hds/sem/color/surface/base/*` + `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (inset on the trigger) |
 
 Notes:
 

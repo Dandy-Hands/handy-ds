@@ -8,7 +8,7 @@
 
 ## Description
 
-Field is one labelled form value: label, control, description, and error, wired to each other so assistive tech announces them together. `Fieldset` groups related fields; `Form` validates and submits. Bare `Input` is a text input without a Field wrapper, for the rare control with no visible label. The family is the Input/Field category's text-control reference: every text-entry surface (including Select and Combobox triggers) reuses its look through `control.css`.
+Field is one labelled form value: label, control, description, and error, wired to each other so assistive tech announces them together. `Fieldset` groups related fields; `Form` validates and submits. Bare `Input` is a text input without a Field wrapper, for the rare control with no visible label. The family is the Field category's text-control reference: every text-entry surface (including Select and Combobox triggers) reuses its look through `control.css`.
 
 ## Usage
 
@@ -42,16 +42,18 @@ Wrapped components: `Field` from `@base-ui/react/field`, `Fieldset` from `@base-
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Control (any size) | `hds/sem/input/color/{default,hover,focus,error,disabled}/{bg,fg,border,placeholder-fg}` and `hds/sem/input/measure/{sm,md,lg}/{padding-x,padding-y,height,radius,border-width}` (`control.css`) |
-| Group focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` (frame drawn with `:has(:focus-visible)`) |
-| `Field.Label` | `hds/sem/type/color/label/fg`, `hds/sem/type/measure/label/*`, `hds/sem/type/other/label/*` |
-| `Field.Description` | `hds/sem/type/color/caption/fg`, `hds/sem/type/measure/caption/*`, `hds/sem/type/other/caption/*` |
-| `Field.Error` | `hds/sem/feedback/color/danger/fg` on the page ground (gap 14, needs review) |
-| `Fieldset.Legend` | `hds/sem/type/color/label/fg` + label measure/other tokens |
-| `Field` gap | `hds/sem/input/measure/sm/padding-y` (borrowed, gap 13) |
-| `Form` / `Fieldset` gap | `hds/sem/input/measure/lg/padding-x` (borrowed, gap 13) |
+| Control (any size) | `hds/sem/color/field/{default,hover,error,disabled}/{bg,fg,border,placeholder}`, `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (`control.css`) |
+| Group focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (frame drawn with `:has(:focus-visible)`) |
+| `Field.Label` | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/md/*` |
+| `Field.Description` | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/md/*` |
+| `Field.Error` | `hds/sem/color/feedback/danger/fg` on the page ground (gap 14, needs review) |
+| `Fieldset.Legend` | `hds/sem/color/content/default/fg` + label measure/other tokens |
+| `Field` gap | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (borrowed, gap 13) |
+| `Form` / `Fieldset` gap | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (borrowed, gap 13) |
 
 Notes:
 

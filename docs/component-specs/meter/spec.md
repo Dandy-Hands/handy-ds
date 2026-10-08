@@ -38,13 +38,15 @@ Wrapped components: `Meter` from `@base-ui/react/meter`, `Progress` from `@base-
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Track | `hds/sem/surface/color/0/striped/bg` |
-| Meter fill (per sentiment) | `hds/sem/feedback/color/{info,success,warning,danger}/icon-fg` |
-| Progress fill | `hds/sem/action/color/primary/default/bg` |
-| Label | `hds/sem/type/color/label/fg`, `hds/sem/type/measure/label/size`, `hds/sem/type/other/label/*` |
-| Value | `hds/sem/type/color/caption/fg`, `hds/sem/type/measure/caption/size` |
+| Track | `hds/sem/color/surface/base/*` |
+| Meter fill (per sentiment) | `hds/sem/color/feedback/{info,success,warning,danger}/icon` |
+| Progress fill | `hds/sem/color/action/primary/default/bg` |
+| Label | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/md/*` |
+| Value | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/md/*` |
 | Track height / radius | structural literals (`0.5rem`, `999px`) |
 
 Notes:

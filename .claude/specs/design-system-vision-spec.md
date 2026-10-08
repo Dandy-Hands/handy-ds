@@ -65,9 +65,9 @@ The drivers, grouped by token type. Each driver has a default, so a person sets 
 
 The full list with defaults is in `.claude/specs/token-system-spec.md`, section 3.
 
-## 7. Driver Interface
+## 7. Driver Interface (Theme Customization Tool)
 
-The system includes a driver interface: a visual tool where a person sets each driver for a client. Each token type has two parts in the interface. The palette part shapes the primitive palette. The application part assigns palette values to specific uses. Each driver type has a control that fits it. For example, a color pick uses a swatch selector that shows the generated palette. The tool shows a live preview of the components with the current driver values. Its output is a driver config that a client project uses directly. The detailed design is in `.claude/specs/driver-interface-spec.md`.
+The system includes a driver interface, also called the theme customization tool: a visual tool where a person sets each driver for a client. Each token type has two parts in the interface. The palette part shapes the primitive palette. The application part assigns palette values to specific uses. Each driver type has a control that fits it. For example, a color pick uses a swatch selector that shows the generated palette. The tool shows a live preview of the components with the current driver values. Its output is a driver config that a client project uses directly. The detailed design is in `.claude/specs/theme-customization-spec.md`.
 
 ## 8. Component Layer
 

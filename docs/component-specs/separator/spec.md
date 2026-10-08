@@ -35,10 +35,12 @@ Wrapped component: `Separator` from `@base-ui/react/separator`. Surface decision
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Line color | `hds/sem/divider/color/border` |
-| Thickness | `hds/sem/divider/measure/{thin,medium,thick}/thickness` |
+| Line color | `hds/sem/color/graphic/divider/default` |
+| Thickness | `hds/sem/border/divider` |
 
 Notes:
 

@@ -8,7 +8,7 @@
 
 ## Description
 
-Checkbox is a yes/no control, or one of several picked from a few options. It renders a square Input/Field box with a built-in check (or dash when indeterminate). `CheckboxGroup` stacks several with shared spacing. Use Checkbox when the value is submitted with a form or several options can be picked at once; use Switch when the change applies immediately.
+Checkbox is a yes/no control, or one of several picked from a few options. It renders a square Field box with a built-in check (or dash when indeterminate). `CheckboxGroup` stacks several with shared spacing. Use Checkbox when the value is submitted with a form or several options can be picked at once; use Switch when the change applies immediately.
 
 ## Usage
 
@@ -39,18 +39,20 @@ Wrapped components: `Checkbox` from `@base-ui/react/checkbox`, `CheckboxGroup` f
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Box default | `hds/sem/input/color/default/{bg,border}`; border width `max(1px, hds/sem/input/measure/md/border-width)` (floor) |
-| Checked | `hds/sem/input/color/checked/{bg,fg,border}` (gap 12) |
-| Hover | `hds/sem/input/color/hover/border` |
-| Invalid | `hds/sem/input/color/error/border` |
-| Disabled | `hds/sem/input/color/disabled/{bg,border}`; disabled + checked inverted (`disabled-fg` ground, `disabled-bg` mark) |
-| Box radius | `hds/sem/input/measure/md/radius` ÷ 2 |
-| Group gap | `hds/sem/input/measure/sm/padding-x` (borrowed, gap 13) |
+| Box default | `hds/sem/color/field/default/{bg,border}`; border width `max(1px, hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control)` (floor) |
+| Checked | `hds/sem/color/field/checked/{bg,fg,border}` (gap 12) |
+| Hover | `hds/sem/color/field/hover/border` |
+| Invalid | `hds/sem/color/field/error/border` |
+| Disabled | `hds/sem/color/field/disabled/{bg,border}`; disabled + checked inverted (`disabled-fg` ground, `disabled-bg` mark) |
+| Box radius | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` ÷ 2 |
+| Group gap | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (borrowed, gap 13) |
 | Mark glyphs | inherit `currentColor` (= `checked-fg` / inverted disabled colors) |
 
 Notes:
 
 - No primitive or driver references; box size (`1.25em`), the 1px border floor, and the mark glyph geometry are structural literals.
-- Checkbox and Radio share `Checkbox.css` and the `checked` Input/Field state.
+- Checkbox and Radio share `Checkbox.css` and the `checked` Field state.

@@ -37,15 +37,17 @@ Wrapped component: `Tabs` from `@base-ui/react/tabs`. Surface decisions:
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Tab look and states | `hds/sem/action/color/tertiary/{default,hover,active,focus,selected,disabled}/{bg,border,fg}` (via `action.css`) |
-| Tab measure | `hds/sem/action/measure/md/{padding-x,padding-y,radius,gap}` — border-width removed structurally; top-corner radius only |
-| List edge | `hds/sem/divider/color/border` + `hds/sem/divider/measure/thin-thickness` |
-| Indicator fill | `hds/sem/action/color/primary/selected/bg` (gap 5) |
-| Indicator thickness | `hds/sem/divider/measure/medium-thickness` |
+| Tab look and states | `hds/sem/color/action/tertiary/{default,hover,active,selected,disabled}/{bg,border,fg}` (via `action.css`) |
+| Tab measure | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` — border-width removed structurally; top-corner radius only |
+| List edge | `hds/sem/color/graphic/divider/default` + `hds/sem/border/divider` |
+| Indicator fill | `hds/sem/color/action/primary/selected/bg` (gap 5) |
+| Indicator thickness | `hds/sem/border/divider` |
 | Panel | none — no tokens (gap 5 decision) |
-| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` (inset by the stroke width on tabs) |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (inset by the stroke width on tabs) |
 
 Notes:
 

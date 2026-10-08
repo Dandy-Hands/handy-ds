@@ -34,18 +34,20 @@ Explicitly rejected: a `weight` prop (Q3/Q8 — weights stay fixed per role; inl
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 Per role (`role` ∈ display/heading/body/label/caption):
 
 | Prop | Tokens |
 | --- | --- |
-| `variant` (color) | `hds/sem/type/color/{role}/fg` |
-| `variant` (rhythm) | `hds/sem/type/measure/{role}/size`, `.../line-height`, `.../letter-spacing` |
-| `variant` (face) | `hds/sem/type/other/{role}/font-family`, `.../weight` |
-| `size` (new) | `hds/sem/type/measure/{role}/{step}/size`, `.../line-height`, `.../letter-spacing` for step ∈ {1, 2, 3} — all three emitted; step 2 duplicates the role-level values |
+| `variant` (color) | `hds/sem/color/content/{strong\|default\|muted}/fg`: display and heading read `strong`, body and label read `default`, caption reads `muted` |
+| `variant` (face and rhythm) | `hds/sem/typography/{role}/md/{family,size,weight,leading,tracking}` |
+| `size` | `1` reads `hds/sem/typography/{role}/sm/{size,leading,tracking}`, `3` reads `.../lg/...`; unset and `2` read `.../md/...` |
 
 Notes:
 
-- The emitted CSS flattens grammar slashes to dashes: `hds/sem/type/measure/heading/1/size` → `--hds-sem-type-measure-heading-1-size`. Property stays `size` (Q9) — no `font-size` rename.
-- Weights are role-level only; no step-weight tokens.
-- Text is context-passive: type `fg` tokens re-resolve automatically via ancestor `data-context`; the component adds no context handling.
-- **Spec change flagged**: the `{step}` segment is new grammar. `checkTokenName()` and the Theme Map need a step-segment extension (`token-system-spec.md` open-gap item).
+- Text color is no longer a typography token. It comes from the Content color roles (token spec section 7.7).
+- The token spec names the steps `sm`, `md`, `lg`; the `size` prop still uses `1`, `2`, `3`. This breaks the slot rule in `docs/component-conventions.md`. The re-interview decides whether the prop moves to `sm | md | lg`.
+- Family and weight come from the `md` style for every size step. The token spec also emits `sm` and `lg` family and weight tokens.
+- Text is context-passive: Content `fg` tokens re-resolve automatically via ancestor `data-context` or `data-mode`; the component adds no context handling.
+- The step-segment grammar change flagged here before is resolved: the token spec has `typography/{role}/{sm|md|lg}/{property}`.

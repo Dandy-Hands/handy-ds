@@ -39,13 +39,15 @@ Explicitly rejected: a `variant` prop, a built-in logo/home slot, and any color 
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Trigger / link colors | `hds/sem/action/color/tertiary/*` (default/hover/active/focus/disabled/selected) |
-| List gap | `hds/sem/action/measure/md/gap` |
-| Popup background / border / shadow | `hds/sem/surface/color/2/*` (elevation 2) |
-| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` |
-| Backdrop | `hds/sem/overlay/color/bg` |
+| Trigger / link colors | `hds/sem/color/action/tertiary/*` (default/hover/active/focus/disabled/selected) |
+| List gap | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Popup background / border / shadow | `hds/sem/color/surface/floating/*`, `hds/sem/elevation/floating` (elevation 2) |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+| Backdrop | `hds/sem/color/overlay/scrim` |
 
 Notes:
 

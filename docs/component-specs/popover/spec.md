@@ -41,14 +41,16 @@ Wrapped component: `Popover` from `@base-ui/react/popover`. Surface decisions:
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Popup ground | `hds/sem/surface/color/2/default/{bg,border,shadow}` + `hds/sem/surface/measure/{padding,radius,border-width}` (via `surface.css`) |
-| Backdrop | `hds/sem/overlay/color/bg` (only when a backdrop is rendered) |
-| Trigger / Close | `hds/sem/action/color/{secondary,tertiary}/*` (all states, via `action.css`) + `hds/sem/action/measure/md/*` |
-| Title | `hds/sem/type/color/label/fg`, `hds/sem/type/measure/label/*`, `hds/sem/type/other/label/*` |
-| Description | `hds/sem/type/color/body/fg` |
-| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` (from `base.css`) |
+| Popup ground | `hds/sem/color/surface/floating/*`, `hds/sem/elevation/floating` + `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` (via `surface.css`) |
+| Backdrop | `hds/sem/color/overlay/scrim` (only when a backdrop is rendered) |
+| Trigger / Close | `hds/sem/color/action/{secondary,tertiary}/*` (all states, via `action.css`) + `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Title | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/md/*` |
+| Description | `hds/sem/color/content/default/fg` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (from `base.css`) |
 
 Notes:
 

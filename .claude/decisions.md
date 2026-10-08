@@ -95,7 +95,7 @@ Judgment calls made while building the phased plan (waves 2–6), with the reaso
 
 ## Element categories (token rework)
 
-- **Eight categories replace the nine of the token spec:** Action, Field, Surface, Content, Graphic, Feedback, Focus, Overlay. Decided 2026-10-04; table in `.claude/specs/driver-interface-spec.md` section 3.
+- **Eight categories replace the nine of the token spec:** Action, Field, Surface, Content, Graphic, Feedback, Focus, Overlay. Decided 2026-10-04; table in `.claude/specs/token-system-spec.md` section 7.1.
 - **Content = Type + Icon.** Text and icons share the foreground color roles, so a person picks them once. Typography (family, size, weight) is not part of Content; it has its own driver-interface step.
 - **Graphic = Divider + data visualization.** Non-text, non-interactive marks. Gives the data-visualization palette a home.
 - **Field** is Input/Field renamed; the slash does not fit a token path.

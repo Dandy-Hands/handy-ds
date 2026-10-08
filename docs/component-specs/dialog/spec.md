@@ -43,15 +43,17 @@ Wrapped components: `Dialog` from `@base-ui/react/dialog`, `AlertDialog` from `@
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Popup ground | `hds/sem/surface/color/3/default/{bg,border,shadow}` + `hds/sem/surface/measure/{padding,radius,border-width}` (via `surface.css`) |
-| Backdrop | `hds/sem/overlay/color/bg` |
-| Trigger / Close | `hds/sem/action/color/secondary/*` (all states, via `action.css`) + `hds/sem/action/measure/md/*` |
-| Title | `hds/sem/type/color/heading/fg`, `hds/sem/type/measure/heading/*`, `hds/sem/type/other/heading/*` |
-| Description | `hds/sem/type/color/body/fg` |
-| Description margins | `hds/sem/action/measure/md/gap`, `hds/sem/surface/measure/padding` (structural spacing via tokens) |
-| Focus ring | `hds/sem/focus/color/stroke`, `hds/sem/focus/measure/stroke-width` (from `base.css`) |
+| Popup ground | `hds/sem/color/surface/modal/*`, `hds/sem/elevation/modal` + `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` (via `surface.css`) |
+| Backdrop | `hds/sem/color/overlay/scrim` |
+| Trigger / Close | `hds/sem/color/action/secondary/*` (all states, via `action.css`) + `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Title | `hds/sem/color/content/strong/fg`, `hds/sem/typography/heading/md/*` |
+| Description | `hds/sem/color/content/default/fg` |
+| Description margins | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control`, `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` (structural spacing via tokens) |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (from `base.css`) |
 
 Notes:
 

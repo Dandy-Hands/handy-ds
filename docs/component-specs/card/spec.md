@@ -35,11 +35,13 @@ No Base UI primitive. Card is a single-part `useRender` component (`useRender.Co
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Ground (per elevation) | `hds/sem/surface/color/{0,1,2,3}/default/{bg,border,shadow}` |
-| Measure | `hds/sem/surface/measure/{padding,radius,border-width}` |
-| Content text color | `hds/sem/type/color/body/fg` (children pick their own roles with `Text`) |
+| Ground (per elevation) | `hds/sem/color/surface/{base,raised,floating,modal}/{bg,border}` and `hds/sem/elevation/{raised,floating,modal}` |
+| Measure | `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` |
+| Content text color | `hds/sem/color/content/default/fg` (children pick their own roles with `Text`) |
 
 Notes:
 

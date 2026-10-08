@@ -8,7 +8,7 @@
 
 ## Description
 
-Toolbar is a bar of controls for a region — buttons, links, a small input, and separators — with arrow-key navigation between them. Each part borrows its own category's look: buttons and links are Action tertiary, the input is Input/Field at size `sm`, the separator is a Divider. Use it for an editor bar or a control strip over the content it acts on; use NavigationMenu when the bar is site navigation.
+Toolbar is a bar of controls for a region — buttons, links, a small input, and separators — with arrow-key navigation between them. Each part borrows its own category's look: buttons and links are Action tertiary, the input is Field at size `sm`, the separator is a Divider. Use it for an editor bar or a control strip over the content it acts on; use NavigationMenu when the bar is site navigation.
 
 ## Usage
 
@@ -29,20 +29,22 @@ No handy-ds props. Documented per-part looks:
 | --- | --- |
 | `Root`, `Group` | Shared toggle-group layout (flex row with gap) — `Toolbar.tsx:10-11`. |
 | `Button`, `Link` | Action tertiary (`Toolbar.tsx:7,12-13`); size stays the Action default. |
-| `Input` | Input/Field control pinned to `data-size="sm"` (`Toolbar.tsx:14`). |
+| `Input` | Field control pinned to `data-size="sm"` (`Toolbar.tsx:14`). |
 | `Separator` | Divider look (`Toolbar.tsx:15`). |
 
 Explicitly rejected: a `size` prop for the bar (the input's `sm` is the only pinned size), a `variant` prop, and a toolbar-specific color set — the bar composes existing category tokens per part (spec section 9).
 
 ## Token mapping
 
+> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+
 | Part | Tokens |
 | --- | --- |
-| Button / Link colors | `hds/sem/action/color/tertiary/*` (default/hover/active/focus/disabled) |
-| Button / Link measure | `hds/sem/action/measure/md/*` (Action default) |
-| Input | `hds/sem/input/color/*`, `hds/sem/input/measure/sm/*` |
-| Separator | `hds/sem/divider/color/border`, `hds/sem/divider/measure/{weight}/thickness` |
-| Bar gap / layout | shared toggle-group layout gap from `hds/sem/action/measure/*` |
+| Button / Link colors | `hds/sem/color/action/tertiary/*` (default/hover/active/focus/disabled) |
+| Button / Link measure | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` (Action default) |
+| Input | `hds/sem/color/field/*`, `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Separator | `hds/sem/color/graphic/divider/default`, `hds/sem/border/divider` |
+| Bar gap / layout | shared toggle-group layout gap from `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
 
 Notes:
 
