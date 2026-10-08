@@ -1,335 +1,529 @@
 # Client Design System — Token System Spec
 
+**Status:** rewritten 2026-10-07 from the token rework interview (`.claude/specs/token-rework-interview.md`). The interview guide holds the reasoning and the rejected options for each decision. The code in `src/tokens/` still implements the previous spec and is not updated yet.
+
+Values marked *tunable* are defaults chosen by Claude. They can change without a new interview. Everything else is a decision.
+
 ## 1. Layers
 
 ```
 Drivers → Primitives → Semantic Tokens → Components
+            (palette part)  (application part)
 ```
 
-- **Drivers.** Values from which primitives are derived at build time. Brand color, density, type scale, etc.
-- **Primitives.** Raw scales and value sets built from drivers. Color ramps, spacing scale, type scale, elevation levels. Not read by components directly.
-- **Semantic tokens.** Named values that point at primitives. Grouped by category, type, axis, and state. Read by components.
-- **Components.** Read semantic tokens as CSS custom properties. Never read a driver or a primitive directly.
+- **Drivers.** The only inputs a client sets. Every driver has a default, so a client sets only the drivers that matter. There is no mapping level and no second level of control.
+- **Primitives.** Value sets generated from drivers: the color palette, the dimension grid, radius and border steps, shadows, and type scales. The shape of each set is fixed. Only the values change. Components never read primitives.
+- **Semantic tokens.** Named values that point at primitives. Components read semantic tokens only, as CSS custom properties.
+- **Components.** A full theme change requires no change to component code.
 
-Changing a driver regenerates the primitive values under it. Semantic tokens and components stay unchanged.
+Each token type has two parts in the driver interface (`driver-interface-spec.md`):
 
-### Theme Map
-The rule set that maps semantic tokens to primitive tokens.
+1. **Palette part.** Drivers that shape the primitives.
+2. **Application part.** **Pick drivers** that choose which primitive each semantic token uses.
 
-Per-category style drivers (e.g. action radius) don't create primitives. They select a step on a shared primitive scale (`action.radius: lg` → `hds/prim/radius/lg`), and the Theme Map reads that choice.
+### Pick drivers
 
-Implementation: `src/tokens/drivers.ts` (driver config: the authoring method), `primitives.ts` (drivers → primitives), `themeMap.ts` (Theme Map), `contrast.ts` (contrast rules), `theme.ts` (config → CSS). Reasoning for each call: `.claude/decisions.md`.
+A pick driver sets which primitive one semantic token reads. Example: the background of a primary action = `primary/600`. Each pick has a library default. A person overrides it in the driver interface.
+
+A pick stores a reference, not a value. When a driver changes a primitive value, every semantic token that points at it follows.
+
+The pick defaults and the rules that derive states from picks are library code. A client does not change them. If a client needs a result that drivers cannot produce, the team adds or extends a driver for every client.
 
 ---
 
-## 2. Namespace and Primitive Structure
+## 2. Naming
 
-Namespace: `hds`.
+Namespace: `hds`. Token names use slash form (`hds/sem/color/action/primary/hover/bg`). CSS custom properties replace `/` with `-` (`--hds-sem-color-action-primary-hover-bg`).
 
 **Primitives:**
-```
-hds/prim/{type}/{property}
-```
-No category segment.
 
 ```
-hds/prim/color/primary/600
-hds/prim/color/neutral/50
-hds/prim/space/4
-hds/prim/radius/base
-hds/prim/type/scale/3
-hds/prim/shadow/level-2
+hds/prim/{type}/{scale}/[{step}]
 ```
-
-Full primitive list (frozen: names never depend on driver values):
-
-| Type | Names | Source |
-|---|---|---|
-| color | `color/{primary,accent,neutral,danger,warning,success,info}/{50,100,200,300,400,500,600,700,800,900,950}`, `color/white`, `color/black` | Color drivers → 11-step OKLCH ramp (fixed lightness per step; the driver color lands on its nearest step) |
-| space | `space/{0,1,2,3,4,5,6,8,10,12,16,20,24}` | n × 4px × density |
-| radius | `radius/{none,sm,base,lg,xl,full}` | Radius driver (base); sm ×0.5, lg ×1.5, xl ×2 |
-| border | `border/{none,thin,medium,thick}` | Spine constant: 0/1/2/4px |
-| type | `type/scale/{1..8}` (3 = body), `type/leading/{tight,snug,normal,relaxed}`, `type/tracking/{tight,normal,wide}`, `type/weight/{regular,medium,semibold,bold}`, `type/family/{heading,body}` | Typography drivers |
-| shadow | `shadow/level-{0,1,2,3}` | Shadow strength driver |
-
-Breakpoints are build-time values (`breakpoints` export of `handy-ds/tokens`), not tokens: custom properties don't work inside `@media`.
 
 **Semantic tokens:**
-```
-hds/sem/{category}/{type}/[axis]/[state]/{property}
-```
 
 ```
-hds/sem/action/color/primary/hover/bg
-hds/sem/action/measure/md/padding-x
-hds/sem/input/color/error/border
-hds/sem/type/color/heading/fg
-hds/sem/surface/color/0/striped/bg
+hds/sem/{type}/[category]/[axis]/[state]/{property}
 ```
 
-- `category` and `type`: always present.
-- `axis`, `state`: present only where the value varies by them.
-- `property`: bg, fg, border, padding-x, radius, font-family, etc.
-- Context is not part of the token name. See section 3.
+- `type` is always the first segment after `sem`: `color`, `measure`, `radius`, `border`, `elevation`, `typography`.
+- `category` is present for `color` only. The other types are shared across categories.
+- `axis` and `state` are present only where the value varies by them.
+- `property` is last.
+- Context and mode are never part of a token name (section 6).
+
+The typography token type is named `typography`, so the word "type" always means the token type.
 
 ---
 
-## 3. Context
+## 3. Drivers
 
-- Tokens set at `:root`.
-- `data-context="on-primary"` on an element redefines a subset of token names within that element's subtree.
-- Children inherit the redefined values via CSS inheritance.
-- Contexts nest; each `data-context` boundary resets independently.
-- Only tokens that change under a context are redefined in that context block.
-- `data-context="default"` inside another context restores the `:root` values for its subtree.
+The complete driver list. Section 4 defines how the palette drivers build primitives. Section 5 defines the pick rules.
 
-Contexts at launch: `default`, `on-primary`.
+### 3.1 Color palette part
 
-Section color rules driver: `sections: { hero: 'on-primary' }` adds `[data-section="hero"]` to that context's selector, so page code marks sections by name and each client decides their context.
-
----
-
-## 4. Categories
-
-| Category | Covers | Axis | States |
+| Driver | Input | Default | Effect |
 |---|---|---|---|
-| Action | Buttons, clickable triggers, switches | priority (primary/secondary/tertiary), size (sm/md/lg) | default/hover/active/focus/disabled/selected |
-| Input/Field | Text inputs, selects, textareas, checkboxes, radios | size (sm/md/lg) | default/hover/focus/error/disabled/checked |
-| Surface | Cards, panels, containers | elevation (0–3) | default/striped |
-| Type | All text styles | role (display/heading/body/label/caption) | none |
-| Icon | Standalone and paired icons | role (default/secondary/accent) | none |
-| Divider | Borders, separators | weight (thin/medium/thick) | none |
-| Feedback | Alerts, banners, toasts | sentiment (danger/warning/success/info) | none |
-| Overlay | Modal scrims | none | none |
-| Focus | Focus ring | none | none |
+| `color.primary` | any CSS color (hex, `rgb()`, `hsl()`, `oklch()`, named) | required | Anchor 1 of the hue wheel (4.1). |
+| `color.secondary` | any CSS color, optional | hue = primary + `floor(N / 2) × 360 / N` (163.6°) | Anchor 2 of the hue wheel. |
+| `color.floor` | 0–1 | 0.5 *tunable* | Lowest relative chroma of the 9 generated slots. |
+| `color.neutralTint` | 0–0.3 | 0.06 *tunable* | Relative chroma of the neutral scale, at the primary hue. |
+| `color.neutral` | any CSS color, optional | none | Replaces the neutral hue and tint. Lands exactly on its stop. |
+| `color.contrast` | −1 to +1 | 0 | Bends the light lightness ladder. |
+| `color.darkContrast` | −1 to +1 | 0 | Bends the dark lightness ladder. |
+| `color.darkChroma` | 0.4–1 | 0.85 *tunable* | Scales relative chroma in the dark palette. |
 
-Composite components are not categories. See section 9.
+### 3.2 Color application part
 
----
-
-## 5. Token Type
-
-| Type | Examples | Source |
+| Driver | Input | Default |
 |---|---|---|
-| Color | bg, fg, border, shadow | Color ramps; `shadow` holds a full box-shadow from `hds/prim/shadow/*` |
-| Measure | padding, gap, radius, height, thickness, border-width | Spacing scale × density; radius and border steps |
-| Other | font-family, font-weight | Font pairing list |
+| `roles.danger`, `roles.warning`, `roles.success`, `roles.info` | a slot (`hue-0` to `hue-10`) | proximity pick (4.1.4) |
+| `picks.{token}` | a pick value (5.1) | section 7 tables |
+| `picks.{token}.dark` | a pick value, optional | none (dark mode uses the light pick on the dark palette) |
+| `states.step` | hover and active offsets in stops | hover 1, active 2 |
+| `contexts.on-primary.{token}`, `contexts.on-secondary.{token}` | a pick value | section 6.3 |
+| `overlay.opacity` | 0–1 | 0.5 *tunable* |
+| `mode` | `light`, `dark`, `system` | `light` *tunable* |
+| `sections.{name}` | a mode or a brand context | none |
+
+### 3.3 Other types
+
+| Driver | Input | Default |
+|---|---|---|
+| `typography.family.heading`, `.body`, `.mono` | CSS font stack | *tunable* system stacks |
+| `typography.baseSize` | px | 16 |
+| `typography.ratio` | number | 1.25 |
+| `typography.{role}.{size}.{property}` | a typography pick (7.7) | section 7.7 |
+| `density` | number, multiplies the grid | 1 |
+| `radius.control`, `.container`, `.indicator`, `.round` | a radius step | `200`, `300`, `100`, `round` *tunable* |
+| `border.control`, `.container`, `.divider`, `.focus` | a border step | `025`, `025`, `025`, `050` *tunable* |
+| `shadow.strength` | number, 0 = flat | 1 |
 
 ---
 
-## 6. Category Scope by Token Type
+## 4. Primitives
 
-| Type | Varies by category |
-|---|---|
-| Color | Yes |
-| Measure | Yes |
-| Other (typography) | No — sourced from Type/Icon categories only |
+### 4.1 Color
 
-A category's `other` list is empty unless that category has a value not covered by Type or Icon.
+#### 4.1.1 Hue wheel
 
-Axis applies to a type only where it produces a distinct value for that type:
-- Color: varies by priority, sentiment, elevation, role, state.
-- Measure: varies by sizing axes only (Action's and Input's size, Type's optional size step).
-- Drop unused axis/state segments.
+The palette has 11 hue ramps (slots) on the OKLCH hue circle, plus neutral, white, and black.
 
----
+1. The primary and the secondary are anchors. Each anchor slot uses the exact anchor hue.
+2. The two anchors cut the circle into two arcs. The 11 slots give 11 gaps.
+3. Each arc gets gaps in proportion to its length:
+   - `g1 = clamp(round(11 × arc / 360), 1, 10)`, where `arc` is the clockwise distance from primary to secondary.
+   - `g2 = 11 − g1`.
+4. The gaps are equal inside each arc.
+5. Slots are numbered clockwise from the primary: `hue-0` is the primary, and `hue-{g1}` is the secondary.
 
-## 7. Category Definitions
+If `color.secondary` is not set, the secondary hue is primary + 163.6°. The wheel then has 11 equal gaps of 32.7°.
 
-**Action**
-- Color: `hds/sem/action/color/{priority}/{state}/{property}` — bg, fg, border
-- Measure: `hds/sem/action/measure/{size}/{property}` — padding-x, padding-y, radius, gap, border-width. Only Button exposes the size; every other Action part reads `md`.
-- Other: none
+#### 4.1.2 Stops and lightness
 
-**Input/Field**
-- Color: `hds/sem/input/color/{state}/{property}` — bg, fg, border, placeholder-fg. `checked` is a state on the same `color` token (Checkbox/Radio checked appearance); compose with `disabled` as the Theme Map requires.
-- Measure: `hds/sem/input/measure/{size}/{property}` — padding-x, padding-y, height, radius, border-width
+Each ramp has 11 stops: `50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950`.
 
-**Surface**
-- Color: `hds/sem/surface/color/{elevation}/{state}/{property}` — bg, border, shadow
-- Measure: `hds/sem/surface/measure/{property}` — padding, radius, border-width
+- Every ramp uses the same OKLCH lightness ladder, so a stop has the same contrast in every hue.
+- Base ladder *tunable*: `0.975, 0.94, 0.88, 0.80, 0.71, 0.62, 0.53, 0.45, 0.38, 0.30, 0.23`.
+- `color.contrast` (k) bends the ladder: `L' = clamp(0.6 + (L − 0.6) × (1 + 0.3 × k), 0.12, 0.99)`. The formula is *tunable*.
+- Each anchor color replaces the stop nearest to its own lightness, exactly. The exact brand color is always in the palette. The anchor can move to a different stop when the ladder changes.
 
-**Type**
-- Color: `hds/sem/type/color/{role}/{property}` — fg
-- Measure: `hds/sem/type/measure/{role}/[{step}]/{property}` — size, line-height, letter-spacing. `{step}` (1–3) is optional: unset and 2 read the role-level tokens (the role default); 1 is the role's smallest size, 3 its largest. All three steps are emitted; step numbers pair across roles by theme design. Step weights stay role-level.
-- Other: `hds/sem/type/other/{role}/{property}` — font-family, weight
+#### 4.1.3 Chroma
 
-**Icon**
-- Color: `hds/sem/icon/color/{role}/{property}` — fg
-- No measure token. Size inherits from adjacent text/action, overridable via component prop.
+Chroma is relative: the chroma ÷ the strongest chroma that fits sRGB at that lightness and hue.
 
-**Divider**
-- Color: `hds/sem/divider/color/{property}` — border
-- Measure: `hds/sem/divider/measure/{weight}/{property}` — thickness (thin/medium/thick)
+- Each anchor ramp keeps its anchor's relative chroma on every stop.
+- Each of the 9 generated slots blends between the anchors by its position on its arc (`t` = 0 at primary, 1 at secondary): `rc = max(floor, rcP + (rcS − rcP) × t)`.
+- If `color.secondary` is not set, the secondary copies the primary relative chroma.
+- The floor keeps every generated slot clearly colored, so a near-gray brand still gets usable system colors.
 
-**Feedback**
-- Color: `hds/sem/feedback/color/{sentiment}/{property}` — bg, fg, border, icon-fg
-- Measure: `hds/sem/feedback/measure/{property}` — padding, radius, gap, border-width
+#### 4.1.4 Role map
 
-**Overlay**
-- Color: `hds/sem/overlay/color/bg`
+A role map gives meaning to slots. Each role points at one whole scale.
 
-**Focus**
-- Color: `hds/sem/focus/color/stroke`
-- Measure: `hds/sem/focus/measure/stroke-width`
+| Role | Scale | Set by |
+|---|---|---|
+| `primary` | the primary anchor slot | locked |
+| `secondary` | the secondary anchor slot | locked |
+| `neutral` | the neutral scale | locked |
+| `danger`, `warning`, `success`, `info` | one slot each | `roles.*` driver |
 
----
+Default for the system roles (proximity pick):
 
-## 8. Demo Token Tree
+1. Each role has a target hue *tunable*: danger 25°, warning 70°, success 145°, info 240°.
+2. The default is the slot with the smallest circular hue distance to the target.
+3. No two system roles share a slot. Assignment order: danger, success, warning, info. A later role takes its next-nearest free slot.
+4. A system role can share a slot with an anchor. Example: a red brand gets a danger color on the primary slot.
 
-```css
-:root {
-  /* ACTION */
-  --hds-sem-action-color-primary-default-bg: oklch(52% 0.18 250);
-  --hds-sem-action-color-primary-hover-bg: oklch(46% 0.18 250);
-  --hds-sem-action-color-primary-active-bg: oklch(40% 0.18 250);
-  --hds-sem-action-color-primary-default-fg: oklch(98% 0.01 250);
-  --hds-sem-action-color-primary-default-border: transparent;
-  --hds-sem-action-color-secondary-default-bg: oklch(94% 0.03 250);
-  --hds-sem-action-color-secondary-hover-bg: oklch(90% 0.03 250);
-  --hds-sem-action-color-secondary-default-fg: oklch(52% 0.18 250);
-  --hds-sem-action-color-secondary-default-border: oklch(80% 0.05 250);
-  --hds-sem-action-color-tertiary-default-bg: transparent;
-  --hds-sem-action-color-tertiary-hover-bg: oklch(94% 0.03 250);
-  --hds-sem-action-color-tertiary-default-fg: oklch(52% 0.18 250);
-  --hds-sem-action-color-tertiary-hover-fg: oklch(40% 0.18 250);
-  --hds-sem-action-measure-md-padding-x: 16px;
-  --hds-sem-action-measure-md-padding-y: 10px;
-  --hds-sem-action-measure-md-radius: 8px;
-  --hds-sem-action-measure-md-gap: 8px;
+#### 4.1.5 Neutral, white, black
 
-  /* INPUT */
-  --hds-sem-input-color-default-bg: oklch(98% 0.01 250);
-  --hds-sem-input-color-default-border: oklch(80% 0.02 250);
-  --hds-sem-input-color-default-fg: oklch(20% 0.02 250);
-  --hds-sem-input-color-default-placeholder-fg: oklch(60% 0.02 250);
-  --hds-sem-input-color-focus-border: oklch(52% 0.18 250);
-  --hds-sem-input-color-error-border: oklch(55% 0.20 25);
-  --hds-sem-input-color-checked-bg: oklch(52% 0.18 250);
-  --hds-sem-input-color-checked-fg: oklch(98% 0.01 250);
-  --hds-sem-input-color-checked-border: transparent;
-  --hds-sem-input-measure-md-padding-x: 12px;
-  --hds-sem-input-measure-md-padding-y: 8px;
-  --hds-sem-input-measure-md-height: 40px;
-  --hds-sem-input-measure-md-radius: 6px;
-  --hds-sem-input-measure-sm-height: 32px;
+- **Neutral:** 11 stops on the same ladder, at the primary hue with relative chroma `color.neutralTint`. If `color.neutral` is set, its hue and relative chroma replace the tint, and the color lands exactly on its nearest stop.
+- **White and black:** fixed values. They are not derived from drivers. They do not invert in dark mode.
 
-  /* SURFACE */
-  --hds-sem-surface-color-0-default-bg: oklch(98% 0.01 250);
-  --hds-sem-surface-color-0-default-border: oklch(90% 0.02 250);
-  --hds-sem-surface-color-0-default-shadow: 0 1px 2px oklch(0% 0 0 / 0.06);
-  --hds-sem-surface-color-0-striped-bg: oklch(95% 0.01 250);
-  --hds-sem-surface-color-1-default-bg: oklch(100% 0 0);
-  --hds-sem-surface-measure-padding: 24px;
-  --hds-sem-surface-measure-radius: 12px;
+#### 4.1.6 Dark palette
 
-  /* TYPE */
-  --hds-sem-type-color-heading-fg: oklch(20% 0.02 250);
-  --hds-sem-type-color-body-fg: oklch(30% 0.02 250);
-  --hds-sem-type-color-label-fg: oklch(40% 0.02 250);
-  --hds-sem-type-measure-heading-size: 28px;
-  --hds-sem-type-measure-heading-line-height: 1.2;
-  --hds-sem-type-measure-body-size: 16px;
-  --hds-sem-type-measure-body-line-height: 1.6;
-  --hds-sem-type-other-heading-font-family: "Source Serif 4", serif;
-  --hds-sem-type-other-heading-weight: 700;
-  --hds-sem-type-other-body-font-family: "Inter", sans-serif;
-  --hds-sem-type-other-body-weight: 400;
+The dark palette has the same shape and the same names.
 
-  /* ICON */
-  --hds-sem-icon-color-default-fg: oklch(30% 0.02 250);
-  --hds-sem-icon-color-secondary-fg: oklch(55% 0.02 250);
-  --hds-sem-icon-color-accent-fg: oklch(52% 0.18 250);
+- The ladder is inverted: stop 50 is the darkest and stop 950 is the lightest.
+- `color.darkContrast` bends the dark ladder with the same formula.
+- `color.darkChroma` multiplies the relative chroma of every cell except the anchor cells.
+- The exact anchor colors are in the dark palette too, at their nearest dark stop.
 
-  /* DIVIDER */
-  --hds-sem-divider-color-border: oklch(90% 0.02 250);
-  --hds-sem-divider-measure-thin-thickness: 1px;
-  --hds-sem-divider-measure-medium-thickness: 2px;
-  --hds-sem-divider-measure-thick-thickness: 4px;
+Picks stay the same in both modes. A pick of `neutral/50` is light in light mode and dark in dark mode.
 
-  /* FEEDBACK */
-  --hds-sem-feedback-color-danger-bg: oklch(95% 0.05 25);
-  --hds-sem-feedback-color-danger-fg: oklch(40% 0.15 25);
-  --hds-sem-feedback-color-danger-border: oklch(80% 0.10 25);
-  --hds-sem-feedback-color-danger-icon-fg: oklch(50% 0.18 25);
-  --hds-sem-feedback-measure-padding: 16px;
-  --hds-sem-feedback-measure-radius: 8px;
-  --hds-sem-feedback-measure-gap: 8px;
+#### 4.1.7 Color primitive names
 
-  /* OVERLAY */
-  --hds-sem-overlay-color-bg: oklch(0% 0 0 / 0.5);
-
-  /* FOCUS */
-  --hds-sem-focus-color-stroke: oklch(52% 0.18 250);
-  --hds-sem-focus-measure-stroke-width: 2px;
-}
-
-[data-context="on-primary"] {
-  --hds-sem-type-color-heading-fg: oklch(98% 0.01 250);
-  --hds-sem-type-color-body-fg: oklch(95% 0.01 250);
-  --hds-sem-icon-color-default-fg: oklch(98% 0.01 250);
-  --hds-sem-divider-color-border: oklch(98% 0.01 250 / 0.3);
-  --hds-sem-action-color-primary-default-bg: oklch(98% 0.01 250);
-  --hds-sem-action-color-primary-default-fg: oklch(52% 0.18 250);
-  --hds-sem-focus-color-stroke: oklch(98% 0.01 250);
-  --hds-sem-surface-color-0-default-bg: oklch(46% 0.18 250);
-  --hds-sem-surface-color-0-default-border: oklch(98% 0.01 250 / 0.15);
-}
+```
+hds/prim/color/hue-{0…10}/{50…950}     121 slot colors
+hds/prim/color/neutral/{50…950}        11
+hds/prim/color/white
+hds/prim/color/black
+hds/prim/color/{role}/{50…950}         role aliases
 ```
 
+Role aliases point at slot values: `--hds-prim-color-danger-600: var(--hds-prim-color-hue-3-600)`. Semantic tokens point at role aliases, white, and black, never at slots. The exception is data visualization (7.4.2), which points at slots on purpose. Because of the role map, no semantic token drifts to an unrelated hue when the brand colors change.
+
+### 4.2 Dimension
+
+```
+hds/prim/dimension/{step}  =  step ÷ 100 × 4px × density
+```
+
+Steps *tunable*: `025, 050, 100, 200, 300, 400, 500, 600, 800, 1000, 1200, 1600, 2400, 3200`. Examples at density 1: `025` = 1px, `100` = 4px, `400` = 16px.
+
+### 4.3 Radius
+
+```
+hds/prim/radius/{none|050|100|200|300|400|600|round}
+```
+
+Fixed values *tunable*: 0, 2, 4, 8, 12, 16, 24px, 9999px. Density does not change them.
+
+### 4.4 Border
+
+```
+hds/prim/border/{none|025|050|100}
+```
+
+Fixed values: 0, 1, 2, 4px. Density does not change them. Solid only; there is no border-style token.
+
+### 4.5 Shadow
+
+```
+hds/prim/shadow/{raised|floating|modal}/{umbra|penumbra|ambient}/{x|y|blur|spread}
+```
+
+- Each level has three layers. The geometry is fixed *tunable*.
+- The color of each layer is `black` with an alpha *tunable* per layer × `shadow.strength`. At strength 0 every shadow is `none`.
+- Black is pure in both modes. A neutral shadow color would turn light in the dark palette.
+
+### 4.6 Typography
+
+```
+hds/prim/typography/family/{heading|body|mono}
+hds/prim/typography/scale/{1…9}          baseSize × ratio^(step − 3), in rem; step 3 = body size
+hds/prim/typography/weight/{regular|medium|semibold|bold}      400, 500, 600, 700
+hds/prim/typography/leading/{tight|snug|normal|relaxed}        1.1, 1.25, 1.5, 1.65
+hds/prim/typography/tracking/{tight|normal|wide}               −0.02em, 0, 0.02em
+```
+
+The families come from the family drivers. Weight, leading, and tracking are fixed *tunable*.
+
+Breakpoints are build-time values, not tokens, because CSS custom properties do not work inside `@media`.
+
 ---
 
-## 9. Composite Components
+## 5. Pick rules
 
-**Data Table:**
+### 5.1 Pick values
 
-| Table part | Token |
-|---|---|
-| Row background | `hds/sem/surface/color/0/default/bg` |
-| Striped row background | `hds/sem/surface/color/0/striped/bg` |
-| Row/column borders | `hds/sem/divider/color/border` + `hds/sem/divider/measure/{weight}/thickness` |
-| Header/cell text | `hds/sem/type/color/label/fg`, `hds/sem/type/color/body/fg` |
-| Sortable header, row hover | `hds/sem/action/color/tertiary/{state}/bg` |
+A color pick is one of:
 
-**Base UI Component Mapping:**
+- `{role}/{stop}`: for example `primary/600`, `neutral/50`, `danger/700`.
+- `white` or `black`.
+- `transparent`.
+- `hue-{n}/{stop}`: data-visualization picks only.
 
-| Category | Base UI components |
-|---|---|
-| Action | Button, Toggle, Toggle Group, Toolbar, Switch (`selected` when on), Tabs (tab triggers), Menu/Menubar/Context Menu items |
-| Input/Field | Input, Checkbox, Checkbox Group, Radio, Select, Combobox, Autocomplete, Number Field, OTP Field, Slider, Field, Fieldset, Form |
-| Surface | Dialog, Alert Dialog, Drawer, Popover, Preview Card, Accordion panel, Collapsible panel |
-| Divider | Separator |
-| Feedback | Toast |
-| Overlay | Dialog/Drawer/Popover backdrop |
+### 5.2 Interaction states
 
-**Composite mapping tables required:**
+A person picks the default state only. The other states derive from it:
 
-| Component | Parts and token source |
-|---|---|
-| Select, Combobox, Autocomplete | Trigger: Input. Popup: Surface. Options: Action. |
-| Menu, Context Menu, Navigation Menu, Menubar | Items: Action. Popup/panel: Surface. |
-| Tabs | Tab triggers: Action tertiary (`selected` state). Indicator: `hds/sem/action/color/primary/selected/bg`. Tab panel: no category — no tokens; transparent, inherits type and ground from its context. |
-| Navigation Menu | Trigger, Link: Action tertiary (current page link = `selected`). Popup: Surface elevation 2. Content: no color tokens. |
-| Combobox, Autocomplete | Input group: Input/Field. Options: Action tertiary (`hover` = highlighted, `selected` = chosen). Chips: Action secondary. Empty/status text: Type caption. |
-| Switch | Track: Action secondary (off), Action primary `selected` (on). Thumb: matching `fg`. |
-| Meter | Track: `hds/sem/surface/color/0/striped/bg`. Fill: `hds/sem/feedback/color/{sentiment}/icon-fg`. |
-| Progress | Track: `hds/sem/surface/color/0/striped/bg`. Fill: `hds/sem/action/color/primary/default/bg`. |
+- **Hover** = the default pick + `states.step.hover` stops (default 1) on the same scale.
+- **Active** = + `states.step.active` stops (default 2).
+- **Selected** = the active colors, unless the category has a selected override.
+- **Disabled** = the category's disabled pick pair (from neutral). It is not an offset.
+
+Edge rules:
+
+1. An offset that goes past stop 950 goes the other direction instead.
+2. A base pick of `white` offsets onto neutral (`neutral/50`, then `neutral/100`). A base pick of `black` offsets onto `neutral/950`, then `neutral/900`.
+3. A `transparent` base offsets onto the role scale of its paired foreground pick, at stops 50 and 100. Inside a brand context it offsets onto the context role at stops 700 and 800.
+
+In dark mode the same offsets go lighter, because the dark ladder is inverted. Every derived state can have an optional override pick.
+
+### 5.3 Dark overrides
+
+Any pick can have an optional dark value (`picks.{token}.dark`). Without it, dark mode resolves the light pick against the dark palette. Default picks never point at white, so dark mode works with no overrides. A person who picks white sets a dark override where contrast needs it.
+
+### 5.4 Accessibility rule
+
+- Standard: WCAG 2 contrast ratio.
+- Text pairs: 4.5:1. Non-text pairs (field borders, icons, focus ring, check marks): 3:1 (WCAG 1.4.11). Disabled states are exempt.
+- The driver interface disables the colors that fail against the paired color.
+- Pairs are checked in light mode, in dark mode, and in each brand context.
+- Derived values (state offsets, the dark palette) are checked too. A derived value that fails is an error in the interface and in the build output. The fix is an override pick.
+- A `transparent` background is checked against the surface behind it.
 
 ---
 
-## 10. Not Done Yet
+## 6. Modes and contexts
 
-1. ~~Rules for how each driver becomes a primitive value.~~ Resolved: section 2 table, `src/tokens/primitives.ts`.
-2. ~~Full primitive token list (`hds/prim/*`).~~ Resolved: section 2.
-3. ~~Spine constants: base spacing scale, base radius, shadow levels, breakpoints.~~ Resolved: section 2.
-4. ~~Full property list per category, checked against a real Button, Input, and Card build.~~ Resolved: added `border-width` (section 7); every component in `src/components/` reads only these names.
-5. ~~Mapping tables for Select, Combobox, Menu, Navigation Menu, Tabs.~~ Resolved in section 9.
-6. ~~Token source for Meter and Progress.~~ Resolved in section 9.
-7. ~~Naming validation.~~ Resolved: `checkTokenName()` in `src/tokens/names.ts`.
-8. ~~Contrast requirements per token pair, and whether they hold across contexts.~~ Resolved: `src/tokens/contrast.ts` (text 4.5:1; icons, focus, input border, checkmark 3:1; disabled exempt; both contexts, every surface ground).
-9. ~~Agent-facing doc.~~ Resolved: `docs/rules.md`.
-10. ~~Driver authoring method.~~ Resolved: config file (`ThemeConfig`, `hds-theme` CLI). No slider tool in v1.
-11. Token change/deprecation plan for tokens already in use on client sites.
-12. ~~Checked state for Checkbox and Radio — Input/Field has no `checked` state.~~ Resolved: `checked` is an Input/Field state on the `color` token (`hds/sem/input/color/checked/{fg,bg,border}`).
-13. Layout spacing: no tokens for gaps between fields/form rows or table cell padding. Components borrow Input/Field measure tokens for now.
-14. Field error text (`hds/sem/feedback/color/danger/fg` on the page ground) is not contrast-checked and fails on on-primary grounds. Forms in colored sections go in a `data-context="default"` card.
+### 6.1 Modes
+
+- The `mode` driver sets the page default: `light`, `dark`, or `system` (follows `prefers-color-scheme`).
+- `data-mode="dark"` or `data-mode="light"` on any element switches its subtree to that palette. A dark band on a light page needs no new picks.
+
+### 6.2 Contexts
+
+- Tokens are set at `:root`.
+- `data-context="on-primary"` or `data-context="on-secondary"` on an element redefines a subset of semantic tokens for its subtree. Children inherit the redefined values.
+- Contexts nest. `data-context="default"` inside another context restores the root picks.
+- Only the tokens that a context changes are redefined in its block.
+- A brand context resolves in the active mode's palette. Its picks can have dark overrides like any pick.
+- The section driver maps a section name to a mode or a brand context, for example `sections: { hero: 'on-primary', footer: 'dark' }`. Page code writes `data-section="hero"`.
+
+### 6.3 Brand context overrides
+
+`R` is the context role (`primary` or `secondary`). Default picks *tunable*:
+
+| Tokens | Pick |
+|---|---|
+| `surface/base/bg` | `R/600` |
+| `surface/sunken/bg` | `R/800` |
+| `surface/{raised,floating,modal}/bg` | `R/700` |
+| `surface/*/border` | `R/500` |
+| `content/{strong,default,accent,link}/fg` | `neutral/50` |
+| `content/muted/fg`, `content/link/hover/fg` | `R/100` |
+| `action/primary` (default) | bg `neutral/50`, fg `R/700`, border `neutral/50` |
+| `action/secondary` (default) | bg `transparent`, fg `neutral/50`, border `neutral/50` |
+| `action/tertiary` (default) | bg `transparent`, fg `neutral/50`, border `transparent` |
+| `graphic/divider/default`, `/strong` | `R/400`, `R/300` |
+| `focus/ring` | `neutral/50` |
+
+Cards in a brand section are darker brand panels. `data-context="default"` on a card restores the light look.
+
+---
+
+## 7. Semantic Token Set
+
+### 7.1 Categories
+
+The `color` type has eight element categories:
+
+| Category | Holds | Axis | States |
+|---|---|---|---|
+| Action | buttons, triggers, toggles, tabs, menu items | priority: `primary`, `secondary`, `tertiary`, `danger` | `default`, `hover`, `active`, `disabled`, `selected` |
+| Field | text inputs, selects, checkboxes, radios | none | `default`, `hover`, `focus`, `error`, `disabled`, `checked` |
+| Surface | the page, wells, cards, popovers, dialogs | level: `sunken`, `base`, `raised`, `floating`, `modal` | none |
+| Content | text and icons: the foreground on a surface | role: `strong`, `default`, `muted`, `accent`, `link` | `hover` (link only) |
+| Graphic | dividers and data visualization | group: `divider`, `categorical`, `sequential`, `diverging` | none |
+| Feedback | alerts, toasts | sentiment: `danger`, `warning`, `success`, `info` | none |
+| Focus | the focus ring, on every interactive part | none | none |
+| Overlay | the modal scrim | none | none |
+
+Notes:
+
+- The Action priority names `primary` and `secondary` also exist as color role names. The collision is accepted.
+- Action has no `focus` color state. The Focus category draws the ring.
+- Field keeps a `focus` state: a focused field changes its border color and shows the Focus ring.
+
+### 7.2 Color tokens
+
+```
+hds/sem/color/
+├─ action/{primary|secondary|tertiary|danger}/{default|hover|active|disabled|selected}/{bg|fg|border}  60
+├─ field/{default|hover|focus|error|disabled|checked}/{bg|fg|border|placeholder}                    24
+├─ surface/{sunken|base|raised|floating|modal}/{bg|border}                                          10
+├─ content/{strong|default|muted|accent|link}/fg  +  content/link/hover/fg                            6
+├─ graphic/divider/{default|strong}                                                                  2
+├─ graphic/categorical/{1…8}                                                                         8
+├─ graphic/sequential/{1…9}                                                                          9
+├─ graphic/diverging/{1…9}                                                                           9
+├─ feedback/{danger|warning|success|info}/{bg|fg|border|icon}                                       16
+├─ focus/ring                                                                                        1
+└─ overlay/scrim                                                                                     1
+                                                                                          total  146
+```
+
+Every token in a matrix is emitted. Components read one token per cell and need no `var()` fallbacks.
+
+### 7.3 Color picks and defaults
+
+All default picks are *tunable*.
+
+**Action.** A person sets the default state of each priority and one disabled pair. Hover, active, and selected derive by 5.2. `selected` has an optional override per priority.
+
+| Priority | bg | fg | border |
+|---|---|---|---|
+| `primary` | `primary/600` | `neutral/50` | `primary/600` |
+| `secondary` | `transparent` | `primary/700` | `primary/600` |
+| `tertiary` | `transparent` | `primary/700` | `transparent` |
+| `danger` | `danger/600` | `neutral/50` | `danger/600` |
+| disabled (all priorities) | `neutral/100` | `neutral/400` | `neutral/100` |
+
+**Field.** Eight picks. Hover border derives by 5.2. Disabled uses the pair `neutral/100` / `neutral/400`. The checked border equals the checked bg.
+
+| Pick | Default |
+|---|---|
+| `bg` | `neutral/50` |
+| `fg` | `neutral/900` |
+| `border` | `neutral/500` |
+| `placeholder` | `neutral/600` |
+| focus `border` | `primary/600` |
+| error `border` | `danger/600` |
+| checked `bg` | `primary/600` |
+| checked `fg` | `neutral/50` |
+
+**Surface.** One bg pick and one border pick per level. Default picks use neutral stops only, never white, so the inverted dark ladder gives dark surfaces with no extra rule.
+
+| Level | Used for | bg | border |
+|---|---|---|---|
+| `sunken` | wells, table stripes, input groups | `neutral/200` | `neutral/200` |
+| `base` | the page | `neutral/100` | `neutral/200` |
+| `raised` | cards, panels | `neutral/50` | `neutral/200` |
+| `floating` | menus, popovers, dropdowns, tooltips | `neutral/50` | `neutral/200` |
+| `modal` | dialogs, drawers | `neutral/50` | `neutral/200` |
+
+In dark mode the inverted ladder makes `raised`, `floating`, and `modal` darker than `base`. Shadows and borders still separate them. A client that wants lighter cards in dark mode sets dark overrides.
+
+**Content.** One pick per role, shared by text and icons.
+
+| Role | Used for | Default |
+|---|---|---|
+| `strong` | headings, display text | `neutral/950` |
+| `default` | body text, icons | `neutral/900` |
+| `muted` | captions, helper text, secondary icons | `neutral/700` |
+| `accent` | brand-colored text and icons | `primary/700` |
+| `link` | inline links (hover derives by 5.2) | `primary/700` |
+
+**Graphic.** Dividers: `default` = `neutral/200`, `strong` = `neutral/400`. Data visualization: 7.4.
+
+**Feedback.** The role is fixed per sentiment. Four stop picks are shared by all sentiments: `bg` 50, `border` 200, `fg` 900, `icon` 600. Example: `feedback/warning/fg` = `warning/900`.
+
+**Focus.** `ring` = `primary/600`. Ring width: `border/focus` (7.5).
+
+**Overlay.** `scrim` = `black` at `overlay.opacity`. The scrim belongs to the modal level: it sits between the page and a `modal` surface.
+
+### 7.4 Data visualization
+
+Data-visualization colors are semantic tokens in the Graphic category. Each one is a pick from the primitive palette. There are no data-visualization primitives.
+
+#### 7.4.1 Types
+
+- **Categorical** (`graphic/categorical/{1…8}`): one distinct color per data series.
+- **Sequential** (`graphic/sequential/{1…9}`): one hue from light to dark, for low-to-high values.
+- **Diverging** (`graphic/diverging/{1…9}`): two hues that meet at a light neutral middle.
+
+#### 7.4.2 Default picks
+
+All *tunable*:
+
+- **Categorical.** Series 1 is `hue-0` (the primary slot). Each next series is the slot farthest in hue from every slot already chosen. All series use one stop pick (default 500). Categorical colors may use slots that system roles also use. Each series has an optional override pick.
+- **Sequential.** One scale pick (default `primary`) at stops 100–900.
+- **Diverging.** Two slot picks (default: `hue-0` and the slot farthest from it). Order: first slot 900, 700, 500, 300; `neutral/100`; second slot 300, 500, 700, 900.
+
+### 7.5 Measure, radius, border
+
+```
+hds/sem/measure/space/{step}     padding, gaps, layout spacing
+hds/sem/measure/size/{step}      heights, icon and control sizes
+hds/sem/radius/{role}
+hds/sem/border/{role}
+```
+
+**Measure.** Each token points at the dimension primitive with the same step. Names are grid steps. Each group exposes a subset *tunable*:
+
+- `space`: `050, 100, 200, 300, 400, 600, 800, 1000, 1200, 1600, 2400`.
+- `size`: `400, 500, 600, 800, 1000, 1200, 1600, 2400, 3200`.
+
+Form gaps, field gaps, and table cell padding read `space` steps.
+
+**Radius.** Four shape roles. Each role is a driver that picks a radius step (3.3).
+
+| Role | Used for |
+|---|---|
+| `control` | buttons, inputs, selects |
+| `container` | cards, dialogs, popovers |
+| `indicator` | checkboxes, small chips |
+| `round` | toggles, switch tracks, avatars, pills |
+
+Radius is not tied to a color category. A toggle and a button are both Action, but each component spec assigns a shape role to each part. A client gets pill buttons by setting `radius.control` to `round`.
+
+**Border.** Four width roles. Each role is a driver that picks a border step (3.3).
+
+| Role | Used for |
+|---|---|
+| `control` | inputs, outlined buttons |
+| `container` | cards, dialogs, popovers |
+| `divider` | separators, table lines |
+| `focus` | the focus ring width |
+
+### 7.6 Elevation
+
+```
+hds/sem/elevation/{raised|floating|modal}
+```
+
+Each token is one composite `box-shadow` value with three layers (4.5). The elevation levels share their names with the surface levels. `sunken` and `base` have no shadow.
+
+### 7.7 Typography
+
+```
+hds/sem/typography/{role}/{size}/{family|size|weight|leading|tracking}
+```
+
+- Roles: `display`, `heading`, `body`, `label`, `caption`.
+- Sizes: `sm`, `md`, `lg`.
+- 15 text styles, 75 tokens.
+- Each property of each text style is a pick with a default. The family pick is `heading`, `body`, or `mono`. The size pick is a scale step. Weight, leading, and tracking picks are steps on their scales.
+
+Default `md` picks *tunable*. The `sm` and `lg` sizes move the scale step one step down or up.
+
+| Role | Family | Scale step | Weight | Leading | Tracking |
+|---|---|---|---|---|---|
+| `display` | heading | 7 | bold | tight | tight |
+| `heading` | heading | 5 | bold | snug | normal |
+| `body` | body | 3 | regular | normal | normal |
+| `label` | body | 3 | medium | snug | normal |
+| `caption` | body | 2 | regular | normal | normal |
+
+Text color is not part of typography. It comes from the Content color roles.
+
+### 7.8 Token count
+
+| Type | Tokens |
+|---|---|
+| color | 146 |
+| measure | 20 |
+| radius | 4 |
+| border | 4 |
+| elevation | 3 |
+| typography | 75 |
+| **total** | **252** |
+
+---
+
+## 8. Component mapping
+
+Each component's spec interview records which semantic tokens its parts read: color category and axis values, measure steps, radius and border roles, elevation level, and typography style. This spec does not fix part-level mappings. The composite tables of the previous spec (Data Table, Select, Tabs, Switch, Meter, and others) are withdrawn. The component interviews replace them.
+
+---
+
+## 9. Not Done Yet
+
+1. Token change and deprecation plan for tokens in use on client sites (carried over).
+2. Other modes, such as high contrast.
+3. Driver interface location, preview, and output (`driver-interface-spec.md`, open question 8).
+4. Field error text color. It is not a Field token. A component interview decides between `feedback/danger/fg` and a new Content role, and the contrast rule must cover brand contexts.
+5. The code in `src/tokens/` implements the previous spec. It needs a rewrite to this spec, including `checkTokenName()` for the new grammar.

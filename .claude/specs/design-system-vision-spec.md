@@ -51,19 +51,19 @@ How the drivers become semantic tokens is library code. A client does not change
 
 ## 6. Driver List
 
-The starting set of drivers:
+The drivers, grouped by token type. Each driver has a default, so a person sets only the drivers that matter for the client.
 
-- Primary brand color.
-- Accent color.
-- Palette color picks for each use, such as action backgrounds.
-- Typography set and type scale.
-- Density (how compact or roomy the layout is).
-- Style settings per element category (actions, inputs, surfaces), including border style and border radius.
-- Shadow settings.
-- Color rules for specific sections, such as hero sections.
-- Data-visualization palette settings.
+- **Color palette.** Primary color and an optional secondary color (any CSS color format). The two colors anchor a wheel of 11 harmonious hue ramps of 11 stops each. Other palette drivers: the chroma floor of the generated ramps, the neutral tint or an exact neutral color, a contrast setting that shifts the lightness stops, and dark-mode contrast and chroma.
+- **Color roles.** The ramp used for each system color: danger, warning, success, and info. Each has a default from hue proximity.
+- **Color picks.** The exact palette color for each use, such as the background of primary actions. Interaction states derive from the picks, with optional overrides. Each pick can also have a dark-mode override.
+- **Modes and contexts.** The default mode (light, dark, or system), the override picks for the on-primary and on-secondary contexts, and the color rules for specific sections, such as hero sections.
+- **Data visualization.** Picks for the categorical, sequential, and diverging chart palettes. The chart colors come from the same color palette.
+- **Typography.** Heading, body, and mono font families, a base size and a scale ratio, and picks for each text style.
+- **Density.** How compact or roomy the layout is.
+- **Shape.** Border radius and border width per shape role (for example controls, containers, dividers), not per element category.
+- **Shadow.** Shadow strength.
 
-This list is under rework. It will be expanded as the team identifies more tunable properties.
+The full list with defaults is in `.claude/specs/token-system-spec.md`, section 3.
 
 ## 7. Driver Interface
 
