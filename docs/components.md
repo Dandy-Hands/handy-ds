@@ -398,18 +398,19 @@ Each variant has a default tag (`display` → `h1`, `heading` → `h2`, `body` �
 
 ### Icon
 
-Wraps an SVG so it takes an Icon color and size.
+Shows an SVG or a Material Symbols glyph name (client loads the font) with a tone color and size.
 
 - **Use when:** any icon. The SVG must use `currentColor` for its stroke or fill.
 - **Don't use when:** the image is content, not an icon. Use `<img>`.
 
 | Prop | Values | Default |
 |---|---|---|
-| `variant` | `default`, `secondary`, `accent` | inherits the surrounding text color |
-| `size` | any CSS length | the surrounding font size |
+| `tone` | `strong`, `default`, `muted`, `accent`, `danger`, `warning`, `success`, `info` | inherits the surrounding text color |
+| `size` | `400` to `3200` (measure steps) | the surrounding font size |
+| `fill` | boolean, glyph names only | `false` |
 | `label` | string | none — the icon is hidden from assistive tech |
 
-Give `label` to an icon that carries meaning on its own. Omit `variant` inside a Button or Alert so the icon matches the text around it.
+Give `label` to an icon that carries meaning on its own. Omit `tone` inside a Button or Alert so the icon matches the text around it.
 
 ```tsx
 <Icon label="Search"><SearchSvg /></Icon>

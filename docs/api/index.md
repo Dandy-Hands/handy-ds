@@ -26,6 +26,6 @@ Every public component: name, purpose, when to use it, and its API page.
 | Alert | A static, sentiment-colored page message | The message must stay readable on the page; Toast is transient | [alert.md](alert.md) |
 | Toast | A short-lived confirmation in a stacked viewport | Confirming something that needs no user action | [toast.md](toast.md) |
 | Meter | A value inside a known range | The number itself matters; Progress is for running tasks | [meter.md](meter.md) |
-| Icon | Wraps an SVG in an icon role color and size | Any drawn icon that follows text color | [icon.md](icon.md) |
+| Icon | Shows an SVG or glyph name in a text or status color and size | Any standalone icon; not for content images | [icon.md](icon.md) |
 | Separator | A divider line in three weights | Separating groups that spacing alone cannot | [separator.md](separator.md) |
 | Table | A styled data table with themed rows and sort buttons | Real columns compared across rows; not for lists | [table.md](table.md) |

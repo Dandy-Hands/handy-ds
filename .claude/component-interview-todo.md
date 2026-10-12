@@ -18,7 +18,7 @@ planned, no Base UI primitive.
 
 ## Tier 1 — Display primitives (no interaction)
 
-- [ ] icon `[lib]`
+- [x] icon `[lib]`
 - [ ] text `[lib]`
 - [ ] separator `[re]`
 - [ ] meter `[re]`

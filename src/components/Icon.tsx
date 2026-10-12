@@ -1,29 +1,39 @@
-import type { ComponentProps, CSSProperties } from 'react';
+// Base UI @base-ui/react 1.8.0 — no icon primitive; plain span wrapper.
+import type { ComponentProps, ReactElement } from 'react';
 import './Icon.css';
 
-/** Icon category role axis. */
-export type IconRole = 'default' | 'secondary' | 'accent';
+/** Content tones plus Feedback tones. Unset inherits the surrounding text color. */
+export type IconTone = 'strong' | 'default' | 'muted' | 'accent' | 'danger' | 'warning' | 'success' | 'info';
 
-export interface IconProps extends ComponentProps<'span'> {
-  /** Omit to inherit the surrounding text color (icons inside Buttons, Alerts...). */
-  variant?: IconRole;
-  /** CSS length. Defaults to the surrounding font size (token spec section 7). */
-  size?: string;
-  /** Accessible name. Omit for decorative icons (hidden from assistive tech). */
+/** measure/size steps. Unset uses the surrounding font size. */
+export type IconSize = '400' | '500' | '600' | '800' | '1000' | '1200' | '1600' | '2400' | '3200';
+
+export interface IconProps extends Omit<ComponentProps<'span'>, 'style' | 'children'> {
+  tone?: IconTone;
+  size?: IconSize;
+  /** Glyph names only: draw filled instead of outlined. Ignored for SVG children. */
+  fill?: boolean;
+  /** Accessible name. Omit for a decorative icon (hidden from assistive tech). */
   label?: string;
+  /** An SVG element (stroke/fill = currentColor) or a Material Symbols glyph name. The client loads the font. */
+  children: ReactElement | string;
 }
 
-/** Wraps any SVG icon (stroke/fill = currentColor) with an Icon role color and size. */
-export function Icon({ variant, size, label, style, className, ...props }: IconProps) {
+export function Icon({ tone, size, fill = false, label, className, children, ...props }: IconProps) {
+  const glyph = typeof children === 'string';
   return (
     <span
       role={label ? 'img' : undefined}
       aria-label={label}
       aria-hidden={label ? undefined : true}
-      data-variant={variant}
-      style={size ? ({ ...style, '--_size': size } as CSSProperties) : style}
+      data-tone={tone}
+      data-size={size}
+      data-glyph={glyph ? '' : undefined}
+      data-fill={glyph && fill ? '' : undefined}
       {...props}
       className={className ? `hds-icon ${className}` : 'hds-icon'}
-    />
+    >
+      {children}
+    </span>
   );
 }

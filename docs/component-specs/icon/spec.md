@@ -1,20 +1,26 @@
 # Internal Spec: Icon
 
-- Status: docs-built
-- Date: 2026-09-23
-- Interview: `interview-guide-2026-09-23.md` (retroactive)
+Status:
+- spec: reviewed
+- code: built
+- figma: built
+- docs: pending
+
+- Date: 2026-10-11
+- Interview: `interview-guide-2026-10-10.md`
 - Base UI version documented from: `@base-ui/react` 1.8.0 (no icon primitive — plain span wrapper)
-- Code: `src/components/Icon.tsx` + `Icon.css`
+- Code: `src/components/Icon.tsx` + `Icon.css` (pre-rework: `variant` and CSS-length `size`; rebuild per this spec)
 
 ## Description
 
-Icon wraps an SVG so it takes an Icon role color and a size. The SVG must use `currentColor` for its stroke or fill; Icon supplies the color from the Icon category (or the surrounding text when no variant is set) and the box from the surrounding font size. It has no Base UI primitive — a plain span wrapper.
+Icon shows one icon, either an SVG or a Material Symbols glyph name, with a Content or Feedback tone color and a size. An SVG must use `currentColor` for its stroke or fill. Icon supplies the color from a tone, or from the surrounding text when no tone is set. The box comes from the surrounding font size, or from a `size` step. It has no Base UI primitive — a plain span wrapper.
 
 ## Usage
 
-- Do use Icon for every standalone icon; the SVG must draw with `currentColor`.
+- Do use Icon for every standalone icon.
+- Do pass either an SVG element or a glyph name string as children.
 - Don't use it for content images — use `<img>`.
-- Do omit `variant` inside a Button or Alert so the icon matches the text.
+- Do leave `tone` unset inside a Button or Alert so the icon matches the text.
 - Do give `label` to an icon that carries meaning on its own.
 
 ## Base UI API
@@ -23,31 +29,43 @@ No Base UI primitive. Icon is a plain function component over `ComponentProps<'s
 
 | Surface | Decision |
 | --- | --- |
-| Native `span` props (`id`, `className`, `style`, ...) | Exposed — full passthrough. |
+| Native `span` props (`id`, `className`, ...) | Exposed — full passthrough. `style` is removed from the type (API conventions section 1). |
 | `aria-*` handling | Managed by the component from `label`: `role="img"` + `aria-label` when labeled, `aria-hidden` otherwise. |
-| Callback-form `className` / `style` | Available via passthrough, not documented. |
+| `render` | Not offered. Plain span. |
 
 ## Extension API
 
-| Prop | Type | Default | Decision |
-| --- | --- | --- | --- |
-| `variant` | `'default' \| 'secondary' \| 'accent'` | unset (inherits surrounding text color) | Existing axis. Sets `data-variant`; unset keeps `currentColor`. |
-| `size` | `string` (CSS length) | surrounding font size (`1em`) | Existing prop. Applied as the private `--_size` custom property; no measure token exists (spec section 7). |
-| `label` | `string` | none | Accessibility name. Omit for decorative icons. |
+| Prop | Category | Type | Default | Decision |
+| --- | --- | --- | --- | --- |
+| `tone` | Axis | `'strong' \| 'default' \| 'muted' \| 'accent' \| 'danger' \| 'warning' \| 'success' \| 'info'` | unset (inherits surrounding text color) | Sets `data-tone`. Unset keeps `currentColor`. `link` is omitted by decision. |
+| `size` | Measure | `'400' \| '500' \| '600' \| '800' \| '1000' \| '1200' \| '1600' \| '2400' \| '3200'` | unset (surrounding font size, `1em`) | Sets `data-size`. Single value only. Recorded exception: values are measure step numbers, not sm/md/lg. |
+| `fill` | State | `boolean` | `false` | Glyph names only. Sets `data-fill`. Ignored for SVG children. |
+| `label` | Content | `string` | none | Accessible name. Recorded exception to the "no content shortcut props" rule: it is not visible content, and one prop sets `role` and `aria-label` together. |
+
+Children: an SVG element (any `ReactElement`) or a glyph name `string`. A string child renders as a Material Symbols ligature.
+
+Fixed, not props: weight, grade and optical size of the glyph font. Optical size follows `size`.
 
 ## Token mapping
 
-> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
-
 | Part | Tokens |
 | --- | --- |
-| `variant="default"` | `hds/sem/color/content/default/fg` |
-| `variant="secondary"` | `hds/sem/color/content/muted/fg` |
-| `variant="accent"` | `hds/sem/color/content/accent/fg` |
-| Unset variant | inherits `currentColor` (no token read) |
-| Size | structural `--_size` (default `1em`); baseline nudge `-0.125em` structural |
+| `tone="strong"`, `"default"`, `"muted"`, `"accent"` | `hds/sem/color/content/{tone}/fg` |
+| `tone="danger"`, `"warning"`, `"success"`, `"info"` | `hds/sem/color/feedback/{tone}/icon` |
+| Unset tone | inherits `currentColor` (no token read) |
+| `size="{step}"` | `hds/sem/measure/size/{step}` for the box width and height |
+| Unset size | structural `1em` |
+| Glyph font size | equals the box size (structural) |
+| Baseline nudge | `-0.125em` structural |
+| Glyph family | structural: Material Symbols Outlined |
 
 Notes:
 
-- No primitive or driver references; the Icon category has no measure tokens by design.
-- Context-passive: on-primary grounds override the icon fg tokens and unset variants follow the surrounding text.
+- No primitive or driver references.
+- Context-passive: tone tokens re-resolve under `data-context` and `data-section`. Unset tone follows the surrounding text.
+- Contrast: Content and Feedback tones meet the 3:1 non-text rule through the token system.
+
+## Open items
+
+- Icon style (Outlined, Rounded, Sharp) and font loading. This spec assumes Outlined and a font that the client loads. The owner decides before the code skill runs.
+- The dev-time `variant` prop is removed with no backwards compatibility (project memory).

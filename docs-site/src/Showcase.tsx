@@ -35,7 +35,7 @@ export function ShowcaseBody() {
           <Button>Primary</Button>
           <Button priority="secondary">Secondary</Button>
           <Button priority="tertiary">Tertiary</Button>
-          <Icon variant="accent" size="1.5em" label="Accent icon"><Star /></Icon>
+          <Icon tone="accent" size="800" label="Accent icon"><Star /></Icon>
         </div>
         <div className="row">
           <Input placeholder="Email in a hero" />
@@ -288,9 +288,9 @@ export function ShowcaseBody() {
           <Text variant="label">Label</Text> <Text variant="caption">Caption</Text>
           <Separator weight="medium" />
           <div className="row">
-            <Icon variant="default" size="1.5em" label="Default"><Star /></Icon>
-            <Icon variant="secondary" size="1.5em" label="Secondary"><Star /></Icon>
-            <Icon variant="accent" size="1.5em" label="Accent"><Star /></Icon>
+            <Icon tone="default" size="800" label="Default"><Star /></Icon>
+            <Icon tone="muted" size="800" label="Secondary"><Star /></Icon>
+            <Icon tone="accent" size="800" label="Accent"><Star /></Icon>
           </div>
         </Card>
       </main>

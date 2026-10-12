@@ -60,7 +60,7 @@ test('every component renders with its hds classes', () => {
     ['Progress', h(H.Progress.Root, { value: null }, h(H.Progress.Track, null, h(H.Progress.Indicator))), [/hds-meter hds-progress/, /data-indeterminate/]],
     ['Text', h(H.Text, { variant: 'heading', render: h('h3') }, 'T'), [/<h3[^>]*hds-text/, /data-variant="heading"/]],
     ['Text default tag', h(H.Text, { variant: 'caption' }, 'T'), [/<small[^>]*hds-text/]],
-    ['Icon', h(H.Icon, { variant: 'accent', label: 'Star' }, h('svg')), [/hds-icon/, /role="img"/, /aria-label="Star"/, /data-variant="accent"/]],
+    ['Icon', h(H.Icon, { tone: 'accent', label: 'Star' }, h('svg')), [/hds-icon/, /role="img"/, /aria-label="Star"/, /data-tone="accent"/]],
     ['Separator', h(H.Separator, { weight: 'thick' }), [/hds-separator/, /data-weight="thick"/]],
     ['Table', h(H.Table, { striped: true }, h('tbody', null, h('tr', null, h('td', null, '1')))), [/<table[^>]*hds-table/, /data-striped/]],
   ];

@@ -1,12 +1,12 @@
-/* Icon category. No measure token: size inherits from text (token spec section 7). */
+/* Icon. Tone reads Content/Feedback tokens, size reads measure/size. Glyph font is loaded by the client. */
 @layer hds.theme, hds.base, hds.components;
 
 @layer hds.components {
   .hds-icon {
     display: inline-flex;
     flex-shrink: 0;
-    inline-size: var(--_size, 1em);
-    block-size: var(--_size, 1em);
+    inline-size: 1em;
+    block-size: 1em;
     vertical-align: -0.125em;
   }
 
@@ -15,7 +15,61 @@
     block-size: 100%;
   }
 
-  .hds-icon[data-variant='default'] { color: var(--hds-sem-color-content-default-fg); }
-  .hds-icon[data-variant='secondary'] { color: var(--hds-sem-color-content-muted-fg); }
-  .hds-icon[data-variant='accent'] { color: var(--hds-sem-color-content-accent-fg); }
+  /* Material Symbols Outlined ligature. Weight, grade fixed; optical size follows size. */
+  .hds-icon[data-glyph] {
+    font-family: 'Material Symbols Outlined';
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: nowrap;
+    direction: ltr;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    font-optical-sizing: auto;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .hds-icon[data-glyph][data-fill] { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0; }
+
+  .hds-icon[data-tone='strong'] { color: var(--hds-sem-color-content-strong-fg); }
+  .hds-icon[data-tone='default'] { color: var(--hds-sem-color-content-default-fg); }
+  .hds-icon[data-tone='muted'] { color: var(--hds-sem-color-content-muted-fg); }
+  .hds-icon[data-tone='accent'] { color: var(--hds-sem-color-content-accent-fg); }
+  .hds-icon[data-tone='danger'] { color: var(--hds-sem-color-feedback-danger-icon); }
+  .hds-icon[data-tone='warning'] { color: var(--hds-sem-color-feedback-warning-icon); }
+  .hds-icon[data-tone='success'] { color: var(--hds-sem-color-feedback-success-icon); }
+  .hds-icon[data-tone='info'] { color: var(--hds-sem-color-feedback-info-icon); }
+
+  .hds-icon[data-size='400'] { inline-size: var(--hds-sem-measure-size-400); block-size: var(--hds-sem-measure-size-400); font-size: var(--hds-sem-measure-size-400); }
+  .hds-icon[data-size='500'] { inline-size: var(--hds-sem-measure-size-500); block-size: var(--hds-sem-measure-size-500); font-size: var(--hds-sem-measure-size-500); }
+  .hds-icon[data-size='600'] { inline-size: var(--hds-sem-measure-size-600); block-size: var(--hds-sem-measure-size-600); font-size: var(--hds-sem-measure-size-600); }
+  .hds-icon[data-size='800'] { inline-size: var(--hds-sem-measure-size-800); block-size: var(--hds-sem-measure-size-800); font-size: var(--hds-sem-measure-size-800); }
+  .hds-icon[data-size='1000'] { inline-size: var(--hds-sem-measure-size-1000); block-size: var(--hds-sem-measure-size-1000); font-size: var(--hds-sem-measure-size-1000); }
+  .hds-icon[data-size='1200'] { inline-size: var(--hds-sem-measure-size-1200); block-size: var(--hds-sem-measure-size-1200); font-size: var(--hds-sem-measure-size-1200); }
+  .hds-icon[data-size='1600'] { inline-size: var(--hds-sem-measure-size-1600); block-size: var(--hds-sem-measure-size-1600); font-size: var(--hds-sem-measure-size-1600); }
+  .hds-icon[data-size='2400'] { inline-size: var(--hds-sem-measure-size-2400); block-size: var(--hds-sem-measure-size-2400); font-size: var(--hds-sem-measure-size-2400); }
+  .hds-icon[data-size='3200'] { inline-size: var(--hds-sem-measure-size-3200); block-size: var(--hds-sem-measure-size-3200); font-size: var(--hds-sem-measure-size-3200); }
+
+  .hds-icon[data-glyph][data-size='400'] { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+  .hds-icon[data-glyph][data-size='400'][data-fill] { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+  .hds-icon[data-glyph][data-size='500'] { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+  .hds-icon[data-glyph][data-size='500'][data-fill] { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20; }
+  .hds-icon[data-glyph][data-size='600'] { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .hds-icon[data-glyph][data-size='600'][data-fill] { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .hds-icon[data-glyph][data-size='800'] { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .hds-icon[data-glyph][data-size='800'][data-fill] { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .hds-icon[data-glyph][data-size='1000'] { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 32; }
+  .hds-icon[data-glyph][data-size='1000'][data-fill] { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 32; }
+  .hds-icon[data-glyph][data-size='1200'] { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 40; }
+  .hds-icon[data-glyph][data-size='1200'][data-fill] { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 40; }
+  .hds-icon[data-glyph][data-size='1600'] { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48; }
+  .hds-icon[data-glyph][data-size='1600'][data-fill] { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48; }
+  .hds-icon[data-glyph][data-size='2400'] { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48; }
+  .hds-icon[data-glyph][data-size='2400'][data-fill] { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48; }
+  .hds-icon[data-glyph][data-size='3200'] { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48; }
+  .hds-icon[data-glyph][data-size='3200'][data-fill] { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48; }
 }

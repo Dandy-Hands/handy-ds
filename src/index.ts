@@ -25,7 +25,7 @@ export { Toast, Toaster } from './components/Toast.tsx';
 export { Meter, Progress, type MeterRootProps } from './components/Meter.tsx';
 // Type, Icon, Divider
 export { Text, type TextProps, type TypeRole } from './components/Text.tsx';
-export { Icon, type IconProps, type IconRole } from './components/Icon.tsx';
+export { Icon, type IconProps, type IconTone, type IconSize } from './components/Icon.tsx';
 export { Separator, type SeparatorProps, type Weight } from './components/Separator.tsx';
 // Composite
 export { Table, type TableProps } from './components/Table.tsx';
