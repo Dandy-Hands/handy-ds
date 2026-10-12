@@ -93,6 +93,7 @@ export function contextPicks(context: Context): ColorPicks {
     primary: ['neutral/50', `${R}/700`, 'neutral/50'],
     secondary: ['transparent', 'neutral/50', 'neutral/50'],
     tertiary: ['transparent', 'neutral/50', 'transparent'],
+    danger: ['neutral/50', 'danger/700', 'neutral/50'],
   };
   for (const [pr, vals] of Object.entries(action)) ACTION_PROP.forEach((prop, i) => (p[`action/${pr}/default/${prop}`] = vals[i]));
   return p;

@@ -19,7 +19,10 @@ export interface ContrastFailure {
 const REF = /^\{(hds\/prim\/[^}]+)\}$/;
 const SURFACES = LEVEL.map((lv) => `surface/${lv}/bg`);
 
-/** Every checked pair: [fg token, bg token, minimum ratio]. Tokens are without `hds/sem/color/`. */
+/**
+ * Every checked pair: [fg token, bg token, minimum ratio]. Tokens are without `hds/sem/color/`.
+ * A transparent first token is exempt; a transparent second token is checked against every surface.
+ */
 export const PAIRS: [fg: string, bg: string, min: number][] = [
   ...SURFACES.flatMap((ground): [string, string, number][] => [
     ...CONTENT_ROLE.map((role): [string, string, number] => [`content/${role}/fg`, ground, 4.5]),
@@ -28,6 +31,12 @@ export const PAIRS: [fg: string, bg: string, min: number][] = [
   ]),
   ...PRIORITY.flatMap((pr) =>
     ['default', 'hover', 'active', 'selected'].map((st): [string, string, number] => [`action/${pr}/${st}/fg`, `action/${pr}/${st}/bg`, 4.5]),
+  ),
+  // A filled action must stand out from the page (WCAG 1.4.11). A transparent bg is exempt.
+  // Default state only: the derived states of a filled bg move away from the surfaces.
+  // Not sunken: buttons sit on base and the raised levels, not in wells (interview J4).
+  ...PRIORITY.flatMap((pr) =>
+    SURFACES.filter((g) => g !== 'surface/sunken/bg').map((g): [string, string, number] => [`action/${pr}/default/bg`, g, 3]),
   ),
   ...['default', 'hover', 'focus', 'error'].map((st): [string, string, number] => [`field/${st}/fg`, `field/${st}/bg`, 4.5]),
   ['field/default/placeholder', 'field/default/bg', 4.5],
@@ -53,6 +62,7 @@ export function checkContrast(prims: Primitives, colors: ColorMap): ContrastFail
       // Returns null for `transparent`: the pair is then checked against every surface level.
       const color = (token: string) => (picks[token] === 'transparent' ? null : prim(`hds/prim/color/${picks[token]}`));
       const check = (fg: string, bg: string, min: number) => {
+        if (color(fg) === null) return;
         for (const b of color(bg) === null ? SURFACES : [bg]) {
           const ratio = wcagContrast(color(fg)!, color(b)!);
           if (ratio < min) {

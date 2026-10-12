@@ -3,7 +3,7 @@
 import { wcagContrast } from 'culori';
 import { defaultDrivers, type DriverInput, type Pick } from '../../../src/tokens/drivers.ts';
 import { PAIRS } from '../../../src/tokens/contrast.ts';
-import { LEVEL } from '../../../src/tokens/names.ts';
+import { LEVEL, STOPS } from '../../../src/tokens/names.ts';
 import type { buildTheme } from '../../../src/tokens/theme.ts';
 
 export type Theme = ReturnType<typeof buildTheme>;
@@ -118,6 +118,9 @@ export function pickColor(theme: Theme, mode: 'light' | 'dark', pick: string): s
   return v ?? null;
 }
 
+/** An action bg leads its fg: the bg selector is not limited by the fg (the fg follows, see bestFg). */
+const followsBg = (fg: string, token: string) => token.startsWith('action/') && token.endsWith('/bg') && fg === token.replace(/bg$/, 'fg');
+
 /**
  * Checks a candidate pick for `token` against every paired token (contrast PAIRS), in the
  * given modes and context. Returns the worst failing ratio, or null when every pair passes.
@@ -131,16 +134,18 @@ export function pairFailure(
 ): number | null {
   let worst: number | null = null;
   for (const [fg, bg, min] of PAIRS) {
-    if (fg !== token && bg !== token) continue;
-    const other = fg === token ? bg : fg;
+    if ((fg !== token && bg !== token) || followsBg(fg, token)) continue;
     for (const mode of modes) {
       const picks = theme.colors[mode][context];
-      const a = pickColor(theme, mode, candidate);
-      const b = pickColor(theme, mode, picks[other]);
-      // A transparent side shows the surfaces behind it (spec 5.4).
-      const grounds = (a === null || b === null) ? SURFACES.map((s) => pickColor(theme, mode, picks[s])) : [null];
+      const c = pickColor(theme, mode, candidate);
+      const a = fg === token ? c : pickColor(theme, mode, picks[fg]);
+      const b = bg === token ? c : pickColor(theme, mode, picks[bg]);
+      // As in the checker: a transparent first side is exempt; a transparent second side
+      // shows the surfaces behind it (spec 5.4).
+      if (a === null) continue;
+      const grounds = b === null ? SURFACES.map((s) => pickColor(theme, mode, picks[s])) : [null];
       for (const g of grounds) {
-        const x = a ?? g;
+        const x = a;
         const y = b ?? g;
         if (!x || !y) continue;
         const ratio = wcagContrast(x, y);
@@ -149,4 +154,22 @@ export function pairFailure(
     }
   }
   return worst;
+}
+
+/**
+ * The neutral stop with the most contrast on an action bg, in light and dark mode. Used when
+ * a new bg makes a default (unset) fg fail 4.5:1 (interview J4).
+ */
+export function bestFg(theme: Theme, context: 'default' | 'on-primary' | 'on-secondary', bgToken: string): string {
+  let best = 'neutral/50';
+  let bestRatio = -1;
+  for (const stop of STOPS) {
+    const ratio = Math.min(...(['light', 'dark'] as const).map((m) => {
+      const fg = pickColor(theme, m, `neutral/${stop}`);
+      const bg = pickColor(theme, m, theme.colors[m][context][bgToken]);
+      return fg && bg ? wcagContrast(fg, bg) : 0;
+    }));
+    if (ratio > bestRatio) [best, bestRatio] = [`neutral/${stop}`, ratio];
+  }
+  return best;
 }

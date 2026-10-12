@@ -54,6 +54,7 @@ Status: `open`, `decided`, `deferred`, or `Claude call`.
 | J1 | Pair order: a swatch selector disables colors that fail against the paired color. When the person changes the first color of a pair and the second now fails, what happens: show an error, or auto-move the second pick to the nearest passing stop? | decided |
 | J2 | Failing derived value: show inline on the token, in the report, or both. (spec 9.6) | decided |
 | J3 | Upstream change: a palette or role-map change (steps 1–2) can make existing picks fail. Does the tool warn before the change is applied, or after? | decided |
+| J4 | Action color application: what limits the bg selector, and does the tool auto-pick the fg on a bg change? (added 2026-10-10) | decided |
 
 ### K. Preview
 
@@ -196,6 +197,17 @@ Recorded in order as each question closes.
 ### L1. High contrast: deferred
 
 - The token spec does not define it yet (token spec section 9.2). The tool adds it when the token spec does.
+
+### J4. Action bg leads, fg follows (2026-10-10)
+
+- The user did not like the first build: the action bg selector was limited by 4.5:1 against the current fg.
+- The action bg selector is limited by 3:1 against the `base`, `raised`, `floating`, and `modal` surfaces (WCAG 1.4.11). The fg does not limit it. A `transparent` bg is exempt.
+- Revised the same day: the first version checked all 5 levels. The `sunken` surface (`neutral/200`) blocked `primary/500` (2.58:1) although it passed on base (3.10:1) and raised (3.44:1). Buttons do not sit in wells, so `sunken` is not checked. Rejected then: base only; bg or border passes; keep all 5 levels.
+- The fg selector is limited by 4.5:1 against the bg.
+- The rule is part of the token spec contrast check (5.4), so the report and `hds-theme` enforce it too. It checks the default state only; derived states of a filled bg move away from the surfaces.
+- When a new bg makes the fg fail 4.5:1 and the fg is not set by the person, the tool picks the neutral stop with the most contrast in light and dark mode, in the same undo step. An fg the person set stays and shows an error. This narrows J1 for unset action fg picks.
+- Consequence (Claude call): the new rule found that the danger button was invisible in brand contexts (`danger/600` on `R/600`, 1.1:1). Context default for `action/danger`: bg `neutral/50`, fg `danger/700`, border `neutral/50`.
+- Rejected: 3:1 against the fg; always auto-pick; never auto-pick; selector-only rule without the checker.
 
 ## Interview complete (2026-10-08)
 

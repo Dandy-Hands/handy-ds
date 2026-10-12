@@ -282,6 +282,7 @@ Any pick can have an optional dark value: `picks: { "{token}": { light, dark } }
 
 - Standard: WCAG 2 contrast ratio.
 - Text pairs: 4.5:1. Non-text pairs (field borders, icons, focus ring, check marks): 3:1 (WCAG 1.4.11). Disabled states are exempt.
+- A filled Action background (the default state) needs 3:1 against the `base`, `raised`, `floating`, and `modal` surfaces (WCAG 1.4.11). `sunken` is not checked. A `transparent` background is exempt.
 - The driver interface disables the colors that fail against the paired color.
 - Pairs are checked in light mode, in dark mode, and in each brand context.
 - Derived values (state offsets, the dark palette) are checked too. A derived value that fails is an error in the interface and in the build output. The fix is an override pick.
@@ -322,6 +323,7 @@ Any pick can have an optional dark value: `picks: { "{token}": { light, dark } }
 | `action/primary` (default) | bg `neutral/50`, fg `R/700`, border `neutral/50` |
 | `action/secondary` (default) | bg `transparent`, fg `neutral/50`, border `neutral/50` |
 | `action/tertiary` (default) | bg `transparent`, fg `neutral/50`, border `transparent` |
+| `action/danger` (default) | bg `neutral/50`, fg `danger/700`, border `neutral/50` (`danger/600` was 1.1:1 on `R/600`) |
 | `graphic/divider/default`, `/strong` | `R/400`, `R/300` |
 | `focus/ring` | `neutral/50` |
 

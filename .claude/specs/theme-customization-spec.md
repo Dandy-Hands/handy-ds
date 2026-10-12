@@ -108,6 +108,8 @@ Drivers: `picks.*`, `contexts.*`, `states.step`, `overlay.opacity`, `mode`, `sec
 
 - After the person picks one color of a pair, the selector for the other color disables every swatch that fails against it. Example: after an action background is picked, the action text picker disables the colors that fail 4.5:1 on it.
 - Text pairs need 4.5:1. Non-text pairs (field borders, icons, focus ring, check marks) need 3:1. Disabled states are exempt.
+- **Action backgrounds lead.** An action bg selector is limited by 3:1 against the base and raised surface levels (not sunken), not by its fg. The fg selector is limited by 4.5:1 against the bg (interview J4).
+- When a new action bg makes the fg fail 4.5:1, and the person has not set that fg, the tool picks the neutral fg with the most contrast in the same undo step. A notice names the new fg. An fg the person set stays and shows an error (J1).
 - Pairs are checked in light mode, in dark mode, and in each brand context.
 - A derived value that fails (a state offset or a dark palette color) shows as an error on its token. The contrast report (section 4) lists it too, and each report row links to its token (interview J2). The fix is an override pick.
 - A `transparent` background is checked against the surfaces behind it.

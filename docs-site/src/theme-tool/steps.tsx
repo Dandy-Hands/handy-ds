@@ -7,9 +7,9 @@ import { defaultDrivers, withDefaults, type DriverInput, type Drivers, type Pick
 import { contextPicks, defaultPicks } from '../../../src/tokens/picks.ts';
 import { ladder, wheel } from '../../../src/tokens/primitives.ts';
 import { BORDER_ROLE, COLOR_TOKENS, ELEVATION, SHAPE_ROLE, SPACE, SYSTEM_ROLES, TEXT_PROP, TEXT_ROLE, TEXT_SIZE } from '../../../src/tokens/names.ts';
-import { cssVar } from '../../../src/tokens/theme.ts';
+import { buildTheme, cssVar } from '../../../src/tokens/theme.ts';
 import { ColorField, Reset, Slider, Steps, SwatchGrid, SLOTS, STOP_LIST } from './controls.tsx';
-import { getIn, pairFailure, pickColor, setIn, withPickPart, type Path, type Theme } from './model.ts';
+import { bestFg, getIn, pairFailure, pickColor, setIn, withPickPart, type Path, type Theme } from './model.ts';
 
 export type Ctx = 'default' | 'on-primary' | 'on-secondary';
 export interface StepProps {
@@ -249,10 +249,17 @@ const baseOf = (key: string) => {
 const resolved = (theme: Theme, mode: 'light' | 'dark', ctx: Ctx, key: string) =>
   theme.colors[mode][ctx][key.startsWith('action/disabled/') ? key.replace('action/', 'action/primary/') : key];
 
+/**
+ * Fg picks the tool set on its own in this session. They keep following their bg until the
+ * person picks the fg (interview J4). ponytail: session memory only; a reload treats them as set.
+ */
+const autoFg = new Set<string>();
+
 export function ColorApplication(p: StepProps) {
   const { state, d, theme, set, mode, setMode, focus } = p;
   const [ctx, setCtx] = useState<Ctx>(focus?.ctx ?? 'default');
   const [open, setOpen] = useState<string | null>(focus?.token ?? null);
+  const [note, setNote] = useState('');
   const [all, setAll] = useState<Record<string, boolean>>(focus ? { [focus.token.split('/')[0]]: true } : {});
   useEffect(() => {
     if (focus) document.getElementById(`pick-${focus.ctx}-${focus.token}`)?.scrollIntoView({ block: 'center' });
@@ -267,6 +274,30 @@ export function ColorApplication(p: StepProps) {
   const fails = theme.contrast.filter((f) => f.context === ctx);
   const failsOf = (key: string) => fails.filter((f) => f.fg.endsWith(`/color/${key}`) || f.bg.endsWith(`/color/${key}`));
 
+  // An action bg leads its fg. When a new bg makes an unset (or auto-set) fg fail 4.5:1, the
+  // tool picks the neutral fg with the most contrast, in the same undo step (interview J4).
+  const setPick = (key: string, path: Path, explicit: Pick | undefined, part: 'light' | 'dark', val: string | undefined) => {
+    autoFg.delete(path.join('/'));
+    const next = setIn(state, path, withPickPart(explicit, part, val));
+    const fgKey = key.replace(/bg$/, 'fg');
+    const fgPath = pathOf(fgKey);
+    if (/^action\/[a-z]+\/default\/bg$/.test(key) && val !== 'transparent' && (getIn(state, fgPath) === undefined || autoFg.has(fgPath.join('/')))) {
+      try {
+        const t = buildTheme(next);
+        if (t.contrast.some((f) => f.context === ctx && f.fg.endsWith(`/color/${fgKey}`) && f.bg.endsWith(`/color/${key}`))) {
+          const fg = bestFg(t, ctx, key);
+          const parent = fgPath.slice(0, -1);
+          autoFg.add(fgPath.join('/'));
+          set(parent, getIn(setIn(next, fgPath, fg), parent));
+          setNote(`${fgKey} changed to ${fg} to keep 4.5:1 on the new background.`);
+          return;
+        }
+      } catch { /* a bad value: set it as is and let the theme error show */ }
+    }
+    setNote('');
+    set(path, withPickPart(explicit, part, val));
+  };
+
   const row = (key: string) => {
     const path = pathOf(key);
     const explicit = getIn(state, path) as Pick | undefined;
@@ -276,7 +307,7 @@ export function ColorApplication(p: StepProps) {
     return (
       <PickRow key={key} id={`pick-${ctx}-${key}`} label={key} value={resolved(theme, mode, ctx, key)} explicit={explicit}
         libDefault={libDefault} theme={theme} mode={mode} ctx={ctx} failures={f} open={open} setOpen={setOpen}
-        set={(part, val) => set(path, withPickPart(explicit, part, val))} reset={() => set(path, undefined)}
+        set={(part, val) => setPick(key, path, explicit, part, val)} reset={() => { autoFg.delete(path.join('/')); set(path, undefined); }}
         chips={kids.length > 0 && (
           <span className="tt-derived" aria-label="Derived states">
             {kids.map((k) => {
@@ -300,7 +331,7 @@ export function ColorApplication(p: StepProps) {
             <PickRow key={k} id={`pick-${ctx}-${k}`} label={`${k} (derived state override)`} value={resolved(theme, mode, ctx, k)}
               explicit={kExplicit} libDefault="derived" theme={theme} mode={mode} ctx={ctx} failures={failsOf(k)}
               open={k} setOpen={() => setOpen(key)} token={k}
-              set={(part, val) => set(kp, withPickPart(kExplicit, part, val))} reset={() => set(kp, undefined)} />
+              set={(part, val) => setPick(k, kp, kExplicit, part, val)} reset={() => set(kp, undefined)} />
           );
         })}
       />
@@ -328,6 +359,7 @@ export function ColorApplication(p: StepProps) {
         return (
           <section key={cat} className="tt-cat">
             <h3>{cat}{count > 0 && <span className="tt-badge tt-bad">{count} failing</span>}</h3>
+            {cat === 'action' && note && <p className="tt-hint" role="status">{note}</p>}
             {cat === 'feedback' && ctx === 'default' && <FeedbackStops {...p} />}
             {cat === 'overlay' && ctx === 'default' && (
               <>

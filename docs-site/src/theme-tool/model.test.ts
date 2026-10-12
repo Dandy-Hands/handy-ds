@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { buildTheme } from '../../../src/tokens/theme.ts';
-import { configText, leaves, pairFailure, reduce, setIn, withPickPart, type History } from './model.ts';
+import { bestFg, configText, leaves, pairFailure, reduce, setIn, withPickPart, type History } from './model.ts';
 
 test('setIn keeps the state a diff from the defaults', () => {
   let s = setIn({}, ['color', 'floor'], 0.7);
@@ -39,4 +39,21 @@ test('pairFailure blocks a text color that fails on its background', () => {
   // neutral/50 text passes on the primary/600 default button; primary/600 text on it fails.
   assert.equal(pairFailure(theme, 'action/primary/default/fg', 'neutral/50', ['light'], 'default'), null);
   assert.notEqual(pairFailure(theme, 'action/primary/default/fg', 'primary/600', ['light'], 'default'), null);
+});
+
+test('action bg: limited by 3:1 against the surfaces, not by its fg', () => {
+  const theme = buildTheme();
+  // neutral/900 bg fails 4.5:1 with the neutral/50 fg, but it stands out from the surfaces.
+  assert.equal(pairFailure(theme, 'action/primary/default/bg', 'neutral/900', ['light'], 'default'), null);
+  // neutral/100 bg disappears into the light surfaces.
+  assert.notEqual(pairFailure(theme, 'action/primary/default/bg', 'neutral/100', ['light'], 'default'), null);
+  // A transparent bg is exempt.
+  assert.equal(pairFailure(theme, 'action/primary/default/bg', 'transparent', ['light', 'dark'], 'default'), null);
+});
+
+test('bestFg picks a fg that passes 4.5:1 on a light bg', () => {
+  const theme = buildTheme({ picks: { 'action/primary/default/bg': 'primary/200' } });
+  const fg = bestFg(theme, 'default', 'action/primary/default/bg');
+  const after = buildTheme({ picks: { 'action/primary/default/bg': 'primary/200', 'action/primary/default/fg': fg } });
+  assert.equal(after.contrast.filter((f) => f.fg.endsWith('action/primary/default/fg')).length, 0);
 });
