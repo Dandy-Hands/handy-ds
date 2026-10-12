@@ -18,7 +18,7 @@ All standard attributes (`id`, `aria-*`, `className`, ...) are also accepted.
 
 ```tsx
 <Card elevation={2}>
-  <Text variant="heading" render={<h3 />}>Plan</Text>
+  <Text variant="headline" render={<h3 />}>Plan</Text>
   <Text>Everything in Free, plus…</Text>
 </Card>
 ```

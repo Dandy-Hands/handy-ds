@@ -499,7 +499,7 @@ Each token is one composite `box-shadow` value with three layers (4.5). The elev
 hds/sem/typography/{role}/{size}/{family|size|weight|leading|tracking}
 ```
 
-- Roles: `display`, `heading`, `body`, `label`, `caption`.
+- Roles: `display`, `headline`, `body`, `label`, `caption`.
 - Sizes: `sm`, `md`, `lg`.
 - 15 text styles, 75 tokens.
 - Each property of each text style is a pick with a default. The family pick is `heading`, `body`, or `mono`. The size pick is a scale step. Weight, leading, and tracking picks are steps on their scales.
@@ -509,7 +509,7 @@ Default `md` picks *tunable*. The `sm` and `lg` sizes move the scale step one st
 | Role | Family | Scale step | Weight | Leading | Tracking |
 |---|---|---|---|---|---|
 | `display` | heading | 7 | bold | tight | tight |
-| `heading` | heading | 5 | bold | snug | normal |
+| `headline` | heading | 5 | bold | snug | normal |
 | `body` | body | 3 | regular | normal | normal |
 | `label` | body | 3 | medium | snug | normal |
 | `caption` | body | 2 | regular | normal | normal |

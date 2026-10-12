@@ -71,7 +71,7 @@ export interface Drivers {
     baseSize: number;
     /** Each type scale step multiplies the previous one by this. */
     ratio: number;
-    /** Text style overrides, e.g. `{ heading: { md: { weight: 'semibold' } } }`. */
+    /** Text style overrides, e.g. `{ headline: { md: { weight: 'semibold' } } }`. */
     styles: TextPicks;
   };
   /** Multiplies the 4px grid. 1 = default, ~0.85 compact, ~1.15 roomy. */

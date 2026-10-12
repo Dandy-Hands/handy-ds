@@ -7,7 +7,7 @@ import { Text } from 'handy-ds';
 
 # Text
 
-Applies a typography role — display, heading, body, label, or caption — to a run
+Applies a typography role — display, headline, body, label, or caption — to a run
 of text and renders the right element by default. Roles decide intent (color,
 family, weight, rhythm); an optional per-role `size` step picks within the
 role's band.
@@ -30,14 +30,14 @@ No Base UI primitive — a single-part `useRender` component with the same
 | Element | Notes |
 | ------- | ----- |
 | `render` | Replaces the rendered element without changing the look. |
-| Default element per variant | display → `h1`, heading → `h2`, body → `p`, label → `span`, caption → `small`. |
+| Default element per variant | display → `h1`, headline → `h2`, body → `p`, label → `span`, caption → `small`. |
 | `id`, `aria-*`, `className`, ... | All standard attributes pass through. |
 
 ## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `variant` | `'display' \| 'heading' \| 'body' \| 'label' \| 'caption'` | `'body'` | Typography role. `display` — hero and marketing statements. `heading` — section and card titles. `body` — default reading text. `label` — short UI text such as field labels and meta. `caption` — small supporting text below body weight. |
+| `variant` | `'display' \| 'headline' \| 'body' \| 'label' \| 'caption'` | `'body'` | Typography role. `display` — hero and marketing statements. `headline` — section and card titles. `body` — default reading text. `label` — short UI text such as field labels and meta. `caption` — small supporting text below body weight. |
 | `size` | `1 \| 2 \| 3` | — | Size step within the role's band. `1` — the role's smallest. `2` — the role's default. `3` — the role's largest. Unset renders the role default. Steps pair across roles: Display 1 with Body 1 is a designed pairing. |
 | `children` | `ReactNode` | — | Text content. Inline emphasis uses `<strong>` and `<em>`; animated spans take client CSS. |
 
@@ -46,7 +46,7 @@ Standard attributes and `render` appear here only — never get their own sectio
 ## Variant
 
 The role decides intent — color, family, weight, leading, and tracking. The
-element defaults by role (display `h1`, heading `h2`, body `p`, label `span`,
+element defaults by role (display `h1`, headline `h2`, body `p`, label `span`,
 caption `small`).
 
 ### display
@@ -55,11 +55,11 @@ Hero and marketing statements. Renders `h1`.
 
 <Text variant="display">Ship faster with zero rewrites</Text>
 
-### heading
+### headline
 
 Section and card titles. Renders `h2`.
 
-<Text variant="heading">Plan overview</Text>
+<Text variant="headline">Plan overview</Text>
 
 ### body
 

@@ -22,7 +22,7 @@ const colorRef = (pick: string) => (pick === 'transparent' ? 'transparent' : `{h
 // Default md text styles (spec 7.7). sm and lg move the scale step one down or up.
 const TEXT: Record<string, TextStyle> = {
   display: { family: 'heading', size: 7, weight: 'bold', leading: 'tight', tracking: 'tight' },
-  heading: { family: 'heading', size: 5, weight: 'bold', leading: 'snug', tracking: 'normal' },
+  headline: { family: 'heading', size: 5, weight: 'bold', leading: 'snug', tracking: 'normal' },
   body: { family: 'body', size: 3, weight: 'regular', leading: 'normal', tracking: 'normal' },
   label: { family: 'body', size: 3, weight: 'medium', leading: 'snug', tracking: 'normal' },
   caption: { family: 'body', size: 2, weight: 'regular', leading: 'normal', tracking: 'normal' },

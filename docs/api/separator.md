@@ -18,7 +18,7 @@ All standard attributes (`id`, `aria-*`, `className`, ...) are also accepted.
 
 ```tsx
 <Card>
-  <Text variant="heading" render={<h3 />}>Billing</Text>
+  <Text variant="headline" render={<h3 />}>Billing</Text>
   <Separator />
   <Text>Invoiced monthly.</Text>
 </Card>

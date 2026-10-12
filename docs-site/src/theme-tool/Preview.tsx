@@ -52,7 +52,7 @@ function Marketing() {
       <main className="grid">
         {['Fast', 'Accessible', 'Themeable'].map((t) => (
           <Card key={t}>
-            <Text variant="heading" render={<h2 />}>{t}</Text>
+            <Text variant="headline" render={<h2 />}>{t}</Text>
             <Text>Short supporting copy for the {t.toLowerCase()} feature. <a href="#">Learn more</a></Text>
             <Button priority="tertiary">Details</Button>
           </Card>
@@ -70,7 +70,7 @@ function FormPage() {
   return (
     <main className="grid">
       <Card className="wide">
-        <Text variant="heading" render={<h1 />}>Request a quote</Text>
+        <Text variant="headline" render={<h1 />}>Request a quote</Text>
         <Form onSubmit={(e) => e.preventDefault()}>
           <Field.Root><Field.Label>Company</Field.Label><Field.Control placeholder="Acme Inc." /></Field.Root>
           <Field.Root invalid><Field.Label>Email</Field.Label><Field.Control defaultValue="jane@" /><Field.Error match>Enter a valid email.</Field.Error></Field.Root>
@@ -110,7 +110,7 @@ function Dashboard() {
         </svg>
       </Card>
       <Card className="wide">
-        <Text variant="heading" render={<h2 />}>Recent orders</Text>
+        <Text variant="headline" render={<h2 />}>Recent orders</Text>
         <Table striped>
           <thead><tr><th>Order</th><th>Client</th><th>Status</th></tr></thead>
           <tbody>
@@ -133,7 +133,7 @@ function Contexts() {
       {(['default', 'on-primary', 'on-secondary'] as const).map((c) => (
         <section key={c} data-context={c} className="tt-context">
           <Text variant="label">{c === 'default' ? 'root' : c}</Text>
-          <Text variant="heading" render={<h2 />}>Heading</Text>
+          <Text variant="headline" render={<h2 />}>Heading</Text>
           <Text>Body text with a <a href="#">link</a>.</Text>
           <Text variant="caption">Muted caption</Text>
           <div className="row"><Button>Primary</Button><Button priority="secondary">Secondary</Button><Button priority="tertiary">Tertiary</Button></div>

@@ -100,7 +100,7 @@ function App() {
           {result?.posts.map((post) => (
             <Card key={post.id} render={<article />} className="card">
               <Text variant="caption">{formatDate(post.date)}</Text>
-              <Text variant="heading" render={<h2 />} className="card__title">{text(post.title)}</Text>
+              <Text variant="headline" render={<h2 />} className="card__title">{text(post.title)}</Text>
               <Text>{text(post.excerpt)}</Text>
               <Button priority="secondary" onClick={() => setOpen(post.slug)}>Read</Button>
             </Card>

@@ -60,7 +60,7 @@ function App() {
   return (
     <div className="app">
       <header data-section="hero" className="top">
-        <Text variant="heading" render={<h1 />}>Tasks</Text>
+        <Text variant="headline" render={<h1 />}>Tasks</Text>
         <Text variant="caption">{online ? 'Online' : 'Offline: changes are saved on this device'}</Text>
       </header>
 

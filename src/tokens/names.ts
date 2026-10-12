@@ -25,7 +25,7 @@ export const SIZE = ['400', '500', '600', '800', '1000', '1200', '1600', '2400',
 export const SHAPE_ROLE = ['control', 'container', 'indicator', 'round'] as const;
 export const BORDER_ROLE = ['control', 'container', 'divider', 'focus'] as const;
 export const ELEVATION = ['raised', 'floating', 'modal'] as const;
-export const TEXT_ROLE = ['display', 'heading', 'body', 'label', 'caption'] as const;
+export const TEXT_ROLE = ['display', 'headline', 'body', 'label', 'caption'] as const;
 export const TEXT_SIZE = ['sm', 'md', 'lg'] as const;
 export const TEXT_PROP = ['family', 'size', 'weight', 'leading', 'tracking'] as const;
 

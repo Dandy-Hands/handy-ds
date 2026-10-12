@@ -1,4 +1,4 @@
-/* Type category. `data-variant` = display | heading | body | label | caption. */
+/* Type category. `data-variant` = display | headline | body | label | caption. */
 @layer hds.components {
   .hds-text {
     margin: 0;
@@ -19,19 +19,19 @@
     letter-spacing: var(--hds-sem-typography-display-md-tracking);
   }
 
-  .hds-text[data-variant='heading'] {
-    --_s1: var(--hds-sem-typography-heading-sm-size);
-    --_l1: var(--hds-sem-typography-heading-sm-leading);
-    --_t1: var(--hds-sem-typography-heading-sm-tracking);
-    --_s3: var(--hds-sem-typography-heading-lg-size);
-    --_l3: var(--hds-sem-typography-heading-lg-leading);
-    --_t3: var(--hds-sem-typography-heading-lg-tracking);
+  .hds-text[data-variant='headline'] {
+    --_s1: var(--hds-sem-typography-headline-sm-size);
+    --_l1: var(--hds-sem-typography-headline-sm-leading);
+    --_t1: var(--hds-sem-typography-headline-sm-tracking);
+    --_s3: var(--hds-sem-typography-headline-lg-size);
+    --_l3: var(--hds-sem-typography-headline-lg-leading);
+    --_t3: var(--hds-sem-typography-headline-lg-tracking);
     color: var(--hds-sem-color-content-strong-fg);
-    font-family: var(--hds-sem-typography-heading-md-family);
-    font-size: var(--hds-sem-typography-heading-md-size);
-    font-weight: var(--hds-sem-typography-heading-md-weight);
-    line-height: var(--hds-sem-typography-heading-md-leading);
-    letter-spacing: var(--hds-sem-typography-heading-md-tracking);
+    font-family: var(--hds-sem-typography-headline-md-family);
+    font-size: var(--hds-sem-typography-headline-md-size);
+    font-weight: var(--hds-sem-typography-headline-md-weight);
+    line-height: var(--hds-sem-typography-headline-md-leading);
+    letter-spacing: var(--hds-sem-typography-headline-md-tracking);
   }
 
   .hds-text[data-variant='body'] {

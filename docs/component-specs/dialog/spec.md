@@ -27,7 +27,7 @@ Wrapped components: `Dialog` from `@base-ui/react/dialog`, `AlertDialog` from `@
 | `Trigger`, `Close` | Styled with `part()`: `hds-button hds-action` (secondary look; `data-priority` overrides). **Flag:** decisions.md "Triggers carry no styling" says these should be unstyled; the shipped code still styles them — code wins, reconcile at review. |
 | `Portal`, `Backdrop` | Portal passthrough; Backdrop gets `hds-backdrop` (Overlay tokens). |
 | `Popup` | `hds-surface hds-popup hds-dialog` with `data-elevation: '3'` — Surface elevation 3 + popup transitions + centered modal layout. |
-| `Title`, `Description` | `hds-dialog__title` (heading type), `hds-dialog__description` (body color). |
+| `Title`, `Description` | `hds-dialog__title` (headline type), `hds-dialog__description` (body color). |
 | `initialFocus` / `finalFocus` (Popup) | Exposed — passthrough. |
 | `render` on every part | Exposed — passthrough via `part()`. |
 | `data-open`, `data-starting-style`, `data-ending-style` | Consumed by CSS for popup/backdrop transitions. |
@@ -50,7 +50,7 @@ Wrapped components: `Dialog` from `@base-ui/react/dialog`, `AlertDialog` from `@
 | Popup ground | `hds/sem/color/surface/modal/*`, `hds/sem/elevation/modal` + `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` (via `surface.css`) |
 | Backdrop | `hds/sem/color/overlay/scrim` |
 | Trigger / Close | `hds/sem/color/action/secondary/*` (all states, via `action.css`) + `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
-| Title | `hds/sem/color/content/strong/fg`, `hds/sem/typography/heading/md/*` |
+| Title | `hds/sem/color/content/strong/fg`, `hds/sem/typography/headline/md/*` |
 | Description | `hds/sem/color/content/default/fg` |
 | Description margins | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control`, `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` (structural spacing via tokens) |
 | Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (from `base.css`) |

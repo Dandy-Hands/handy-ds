@@ -50,7 +50,7 @@ export function ShowcaseBody() {
 
       <main className="grid">
         <Card>
-          <Text variant="heading" render={<h2 />}>Actions</Text>
+          <Text variant="headline" render={<h2 />}>Actions</Text>
           <div className="row">
             <Button>Primary</Button>
             <Button priority="secondary">Secondary</Button>
@@ -73,7 +73,7 @@ export function ShowcaseBody() {
         </Card>
 
         <Card>
-          <Text variant="heading" render={<h2 />}>Form</Text>
+          <Text variant="headline" render={<h2 />}>Form</Text>
           <Form onSubmit={(e) => e.preventDefault()}>
             <Field.Root>
               <Field.Label>Name</Field.Label>
@@ -109,7 +109,7 @@ export function ShowcaseBody() {
         </Card>
 
         <Card>
-          <Text variant="heading" render={<h2 />}>Pickers</Text>
+          <Text variant="headline" render={<h2 />}>Pickers</Text>
           <Select.Root items={fruits.map((f) => ({ label: f, value: f }))} defaultValue="Banana">
             <Select.Label>Select</Select.Label>
             <Select.Trigger><Select.Value /><Select.Icon /></Select.Trigger>
@@ -158,7 +158,7 @@ export function ShowcaseBody() {
         </Card>
 
         <Card>
-          <Text variant="heading" render={<h2 />}>Navigation</Text>
+          <Text variant="headline" render={<h2 />}>Navigation</Text>
           <NavigationMenu.Root>
             <NavigationMenu.List>
               <NavigationMenu.Item><NavigationMenu.Link href="#" active>Home</NavigationMenu.Link></NavigationMenu.Item>
@@ -220,7 +220,7 @@ export function ShowcaseBody() {
         </Card>
 
         <Card>
-          <Text variant="heading" render={<h2 />}>Overlays</Text>
+          <Text variant="headline" render={<h2 />}>Overlays</Text>
           <div className="row">
             <Dialog.Root>
               <Dialog.Trigger data-priority="primary">Open dialog</Dialog.Trigger>
@@ -256,7 +256,7 @@ export function ShowcaseBody() {
         </Card>
 
         <Card>
-          <Text variant="heading" render={<h2 />}>Feedback</Text>
+          <Text variant="headline" render={<h2 />}>Feedback</Text>
           {(['info', 'success', 'warning', 'danger'] as const).map((s) => (
             <Alert key={s} sentiment={s} heading={`${s[0].toUpperCase()}${s.slice(1)}`} icon={<Icon><Star /></Icon>}>A {s} message.</Alert>
           ))}
@@ -267,7 +267,7 @@ export function ShowcaseBody() {
         </Card>
 
         <Card className="wide">
-          <Text variant="heading" render={<h2 />}>Data Table</Text>
+          <Text variant="headline" render={<h2 />}>Data Table</Text>
           <Table striped>
             <thead>
               <tr><th aria-sort="ascending"><button type="button">Name</button></th><th>Role</th><th>Status</th></tr>
@@ -281,9 +281,9 @@ export function ShowcaseBody() {
         </Card>
 
         <Card className="wide">
-          <Text variant="heading" render={<h2 />}>Type and Icon</Text>
+          <Text variant="headline" render={<h2 />}>Type and Icon</Text>
           <Text variant="display">Display</Text>
-          <Text variant="heading" render={<h3 />}>Heading</Text>
+          <Text variant="headline" render={<h3 />}>Heading</Text>
           <Text>Body text. The quick brown fox jumps over the lazy dog.</Text>
           <Text variant="label">Label</Text> <Text variant="caption">Caption</Text>
           <Separator weight="medium" />

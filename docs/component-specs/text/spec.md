@@ -8,7 +8,7 @@
 
 ## Description
 
-Text applies one Type role — display, heading, body, label, or caption — to a run of text, and renders it as the right element by default. Roles decide intent (color, family, weight, rhythm); an optional per-role `size` step picks within the role's band. Use Text for every free-standing text run in a client app; do not use it inside interactive controls, which already carry their own type tokens, and do not use it as a heading-level picker — level and look are independent axes.
+Text applies one Type role — display, headline, body, label, or caption — to a run of text, and renders it as the right element by default. Roles decide intent (color, family, weight, rhythm); an optional per-role `size` step picks within the role's band. Use Text for every free-standing text run in a client app; do not use it inside interactive controls, which already carry their own type tokens, and do not use it as a heading-level picker — level and look are independent axes.
 
 ## Usage
 
@@ -21,13 +21,13 @@ Text applies one Type role — display, heading, body, label, or caption — to 
 
 Text has no Base UI primitive. It is a single-part `useRender` component (`useRender.ComponentProps<'p'>` + `mergeProps`), so it takes the same `render` prop as Base UI parts and passes all standard attributes through.
 
-Default element per variant: display → `h1`, heading → `h2`, body → `p`, label → `span`, caption → `small`. Override the element with `render` without changing the look.
+Default element per variant: display → `h1`, headline → `h2`, body → `p`, label → `span`, caption → `small`. Override the element with `render` without changing the look.
 
 ## Extension API
 
 | Prop | Type | Default | Decision |
 | --- | --- | --- | --- |
-| `variant` | `'display' \| 'heading' \| 'body' \| 'label' \| 'caption'` | `'body'` | Existing axis, unchanged. Sets `data-variant`. |
+| `variant` | `'display' \| 'headline' \| 'body' \| 'label' \| 'caption'` | `'body'` | Existing axis, unchanged. Sets `data-variant`. |
 | `size` | `1 \| 2 \| 3` | unset | New. Sets `data-size`. Three steps per role; `1` is the role's smallest, `3` its largest. Unset and `size={2}` render the role's default tokens. Step numbers are per-role bands of different absolute sizes that pair across roles by theme design (Display 1 pairs with Body 1). |
 
 Explicitly rejected: a `weight` prop (Q3/Q8 — weights stay fixed per role; inline emphasis is plain HTML with browser-default styling); tokenized emphasis; role-relative naming s/m/l (Q1/Q2 — numeric steps chosen).
@@ -36,11 +36,11 @@ Explicitly rejected: a `weight` prop (Q3/Q8 — weights stay fixed per role; inl
 
 > **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
 
-Per role (`role` ∈ display/heading/body/label/caption):
+Per role (`role` ∈ display/headline/body/label/caption):
 
 | Prop | Tokens |
 | --- | --- |
-| `variant` (color) | `hds/sem/color/content/{strong\|default\|muted}/fg`: display and heading read `strong`, body and label read `default`, caption reads `muted` |
+| `variant` (color) | `hds/sem/color/content/{strong\|default\|muted}/fg`: display and headline read `strong`, body and label read `default`, caption reads `muted` |
 | `variant` (face and rhythm) | `hds/sem/typography/{role}/md/{family,size,weight,leading,tracking}` |
 | `size` | `1` reads `hds/sem/typography/{role}/sm/{size,leading,tracking}`, `3` reads `.../lg/...`; unset and `2` read `.../md/...` |
 

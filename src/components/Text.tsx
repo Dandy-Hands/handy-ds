@@ -4,12 +4,12 @@ import './base.css';
 import './Text.css';
 
 /** Type category role axis. */
-export type TypeRole = 'display' | 'heading' | 'body' | 'label' | 'caption';
+export type TypeRole = 'display' | 'headline' | 'body' | 'label' | 'caption';
 
 /** Per-role size step: 1 = smallest, 2 = role default (same as unset), 3 = largest. */
 export type TextSize = 1 | 2 | 3;
 
-const TAG = { display: 'h1', heading: 'h2', body: 'p', label: 'span', caption: 'small' } as const;
+const TAG = { display: 'h1', headline: 'h2', body: 'p', label: 'span', caption: 'small' } as const;
 
 export interface TextProps extends useRender.ComponentProps<'p'> {
   variant?: TypeRole;
@@ -17,7 +17,7 @@ export interface TextProps extends useRender.ComponentProps<'p'> {
 }
 
 /**
- * Applies one Type role. The element defaults by role (display h1, heading h2, body p,
+ * Applies one Type role. The element defaults by role (display h1, headline h2, body p,
  * label span, caption small); pick the right heading level with `render={<h3 />}`.
  * `size` picks a step inside the role's band; steps pair across roles by theme design.
  */

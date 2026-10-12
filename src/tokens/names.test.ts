@@ -20,7 +20,7 @@ test('every spec example name is valid', () => {
     'hds/sem/radius/round',
     'hds/sem/border/focus',
     'hds/sem/elevation/modal',
-    'hds/sem/typography/heading/lg/tracking',
+    'hds/sem/typography/headline/lg/tracking',
     'hds/prim/color/hue-3/600',
     'hds/prim/color/danger/600',
     'hds/prim/color/neutral/50',

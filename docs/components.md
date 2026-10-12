@@ -266,7 +266,7 @@ A box of related content.
 | `elevation` | `0`, `1`, `2`, `3` | `1` |
 
 ```tsx
-<Card elevation={2}><Text variant="heading">Plan</Text><Text>…</Text></Card>
+<Card elevation={2}><Text variant="headline">Plan</Text><Text>…</Text></Card>
 ```
 
 A `Card` is also how you restore normal colors inside a colored section: give it `data-context="default"`.
@@ -388,12 +388,12 @@ Any text with a type role.
 
 | Prop | Values | Default |
 |---|---|---|
-| `variant` | `display`, `heading`, `body`, `label`, `caption` | `body` |
+| `variant` | `display`, `headline`, `body`, `label`, `caption` | `body` |
 
-Each variant has a default tag (`display` → `h1`, `heading` → `h2`, `body` → `p`, `label` → `span`, `caption` → `small`). Pick the correct heading level with `render`, which changes the tag and not the look.
+Each variant has a default tag (`display` → `h1`, `headline` → `h2`, `body` → `p`, `label` → `span`, `caption` → `small`). Pick the correct heading level with `render`, which changes the tag and not the look.
 
 ```tsx
-<Text variant="heading" render={<h3 />}>Billing</Text>
+<Text variant="headline" render={<h3 />}>Billing</Text>
 ```
 
 ### Icon
