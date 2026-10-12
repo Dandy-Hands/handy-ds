@@ -21,7 +21,7 @@ export const SEQUENTIAL = 9;
 export const DIVERGING = 9;
 
 export const SPACE = ['050', '100', '200', '300', '400', '600', '800', '1000', '1200', '1600', '2400'] as const;
-export const SIZE = ['400', '500', '600', '800', '1000', '1200', '1600', '2400', '3200'] as const;
+export const SIZE = ['200', '300', '400', '500', '600', '800', '1000', '1200', '1600', '2400', '3200'] as const;
 export const SHAPE_ROLE = ['control', 'container', 'indicator', 'round'] as const;
 export const BORDER_ROLE = ['control', 'container', 'divider', 'focus'] as const;
 export const ELEVATION = ['raised', 'floating', 'modal'] as const;
@@ -49,7 +49,7 @@ export const COLOR_TOKENS: string[] = [
   'overlay/scrim',
 ];
 
-/** Every semantic token in slash form (spec 7.8, 212 names). */
+/** Every semantic token in slash form (spec 7.8, 214 names). */
 export const SEM_TOKENS: string[] = [
   ...COLOR_TOKENS.map((n) => `color/${n}`),
   ...cross('measure/space', SPACE),

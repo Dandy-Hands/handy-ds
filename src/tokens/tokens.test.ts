@@ -25,9 +25,9 @@ test('primitive names are frozen: independent of driver values, all valid', () =
   for (const name of allPrims(base)) assert.equal(checkTokenName(name), null, name);
 });
 
-test('every semantic token is emitted once, and the set matches spec 7.8 (212)', () => {
-  assert.equal(SEM_TOKENS.length, 212);
-  assert.equal(new Set(SEM_TOKENS).size, 212);
+test('every semantic token is emitted once, and the set matches spec 7.8 (214)', () => {
+  assert.equal(SEM_TOKENS.length, 214);
+  assert.equal(new Set(SEM_TOKENS).size, 214);
   for (const name of SEM_TOKENS) assert.match(base.css, new RegExp(`${name.replaceAll('/', '-')}:`), name);
   const colorCount = SEM_TOKENS.filter((n) => n.startsWith('hds/sem/color/')).length;
   assert.equal(colorCount, 146);

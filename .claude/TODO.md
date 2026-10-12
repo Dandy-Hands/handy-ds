@@ -22,7 +22,7 @@ Running list of planned work. Add an item when the user asks for new work. Check
 - [x] Build the tokens as Figma variables in the Handy DS file (`ZC2dMDma0HioGL8CXxzq9W`).
 - [x] Rename the typography role `heading` to `headline` (token spec 7.7, `src/tokens/`, Text, tests). The font family pick `typography.family.heading` keeps its name. Decided in `docs/api-conventions.md`.
 - [x] Change the typography tokens to 35 (Text spec interview, 2026-10-12): per role `typography/{role}/{family|weight|leading|tracking}`, per role and step `typography/{role}/size/{sm|md|lg}`. Update token spec 7.7 (record the "property last" exception), `src/tokens/`, the driver interface, and the Figma variables and text styles. Do before the Text code.
-- [ ] Add `measure/size` steps `200` and `300` (8, 12px) for the Meter track height (Meter spec interview, 2026-10-12). Update token spec 7.5, API conventions 5.2, `src/tokens/`, and the Figma variables. Do before the Meter code.
+- [x] Add `measure/size` steps `200` and `300` (8, 12px) for the Meter track height (Meter spec interview, 2026-10-12). Update token spec 7.5, API conventions 5.2, `src/tokens/`, and the Figma variables. Do before the Meter code.
 - [ ] Add a contrast check for Feedback `fg` on page surfaces (`surface/base`, `surface/raised`, both modes). Text `tone` uses Feedback `fg` as text color.
 - [ ] Decide the order of the token rework and the component re-interviews. Each interview records a token mapping, so a later token change can force parts of every interview to run again.
 

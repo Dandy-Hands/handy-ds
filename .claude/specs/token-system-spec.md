@@ -462,7 +462,7 @@ hds/sem/border/{role}
 **Measure.** Each token points at the dimension primitive with the same step. Names are grid steps. Each group exposes a subset *tunable*:
 
 - `space`: `050, 100, 200, 300, 400, 600, 800, 1000, 1200, 1600, 2400`.
-- `size`: `400, 500, 600, 800, 1000, 1200, 1600, 2400, 3200`.
+- `size`: `200, 300, 400, 500, 600, 800, 1000, 1200, 1600, 2400, 3200`.
 
 Form gaps, field gaps, and table cell padding read `space` steps.
 
@@ -524,12 +524,12 @@ Text color is not part of typography. It comes from the Content color roles.
 | Type | Tokens |
 |---|---|
 | color | 146 |
-| measure | 20 |
+| measure | 22 |
 | radius | 4 |
 | border | 4 |
 | elevation | 3 |
 | typography | 35 |
-| **total** | **212** |
+| **total** | **214** |
 
 ---
 

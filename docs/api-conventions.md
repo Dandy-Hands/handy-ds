@@ -69,7 +69,7 @@ Axis values appear verbatim in the axis slot of the token names the component re
 
 Measure values are the token step names, verbatim:
 
-- `size` takes `measure/size` steps: `"400"`, `"500"`, `"600"`, `"800"`, `"1000"`, `"1200"`, `"1600"`, `"2400"`, `"3200"`.
+- `size` takes `measure/size` steps: `"200"`, `"300"`, `"400"`, `"500"`, `"600"`, `"800"`, `"1000"`, `"1200"`, `"1600"`, `"2400"`, `"3200"`.
 - Space props (`gap`, `padding`, `paddingInline`, ...) take `measure/space` steps: `"050"`, `"100"`, `"200"`, `"300"`, `"400"`, `"600"`, `"800"`, `"1000"`, `"1200"`, `"1600"`, `"2400"`.
 - **Each component allows a subset.** Its spec lists the allowed steps and the union type rejects the rest (for example, Button `size`: `"800" | "1000" | "1200"`). For a control, `size` sets the height from `measure/size/{step}`; the component spec defines padding and type size for each allowed step.
 
