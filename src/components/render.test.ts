@@ -59,6 +59,7 @@ test('every component renders with its hds classes', () => {
     ['Meter', h(H.Meter.Root, { value: 50, sentiment: 'success' }, h(H.Meter.Track, null, h(H.Meter.Indicator))), [/hds-meter"/, /data-sentiment="success"/, /hds-meter__indicator/]],
     ['Progress', h(H.Progress.Root, { value: null }, h(H.Progress.Track, null, h(H.Progress.Indicator))), [/hds-meter hds-progress/, /data-indeterminate/]],
     ['Text', h(H.Text, { variant: 'headline', render: h('h3') }, 'T'), [/<h3[^>]*hds-text/, /data-variant="headline"/]],
+    ['Text axes', h(H.Text, { size: 'lg', tone: 'danger', maxLines: 2 }, 'T'), [/<p[^>]*data-size="lg"/, /data-tone="danger"/, /data-max-lines="2"/, /--_max-lines:\s*2/]],
     ['Text default tag', h(H.Text, { variant: 'caption' }, 'T'), [/<small[^>]*hds-text/]],
     ['Icon', h(H.Icon, { tone: 'accent', label: 'Star' }, h('svg')), [/hds-icon/, /role="img"/, /aria-label="Star"/, /data-tone="accent"/]],
     ['Separator', h(H.Separator, { weight: 'thick' }), [/hds-separator/, /data-weight="thick"/]],

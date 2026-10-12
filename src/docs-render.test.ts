@@ -16,6 +16,9 @@ const server = await createServer({
   logLevel: 'silent',
   server: { middlewareMode: true, hmr: false, ws: false },
   optimizeDeps: { noDiscovery: true },
+  // The docs-site config dedupes React to docs-site/node_modules. Here that splits React in two:
+  // renderToString and Base UI use the root copy, so hooks in src components would hit the other one.
+  plugins: [{ name: 'root-react', config: (c) => void (c.resolve!.dedupe = []) }],
 });
 after(() => server.close());
 

@@ -1,70 +1,87 @@
-/* Type category. `data-variant` = display | headline | body | label | caption. */
+/* Typography role (`data-variant`), font size step (`data-size`), tone (`data-tone`), line clamp (`data-max-lines`). */
 @layer hds.components {
   .hds-text {
     margin: 0;
+    color: var(--_color);
+    font-family: var(--_family);
+    font-size: var(--_size-md);
+    font-weight: var(--_weight);
+    line-height: var(--_leading);
+    letter-spacing: var(--_tracking);
   }
 
   .hds-text[data-variant='display'] {
-    --_s1: var(--hds-sem-typography-display-size-sm);
-    --_s3: var(--hds-sem-typography-display-size-lg);
-    color: var(--hds-sem-color-content-strong-fg);
-    font-family: var(--hds-sem-typography-display-family);
-    font-size: var(--hds-sem-typography-display-size-md);
-    font-weight: var(--hds-sem-typography-display-weight);
-    line-height: var(--hds-sem-typography-display-leading);
-    letter-spacing: var(--hds-sem-typography-display-tracking);
+    --_color: var(--hds-sem-color-content-strong-fg);
+    --_family: var(--hds-sem-typography-display-family);
+    --_weight: var(--hds-sem-typography-display-weight);
+    --_leading: var(--hds-sem-typography-display-leading);
+    --_tracking: var(--hds-sem-typography-display-tracking);
+    --_size-sm: var(--hds-sem-typography-display-size-sm);
+    --_size-md: var(--hds-sem-typography-display-size-md);
+    --_size-lg: var(--hds-sem-typography-display-size-lg);
   }
 
   .hds-text[data-variant='headline'] {
-    --_s1: var(--hds-sem-typography-headline-size-sm);
-    --_s3: var(--hds-sem-typography-headline-size-lg);
-    color: var(--hds-sem-color-content-strong-fg);
-    font-family: var(--hds-sem-typography-headline-family);
-    font-size: var(--hds-sem-typography-headline-size-md);
-    font-weight: var(--hds-sem-typography-headline-weight);
-    line-height: var(--hds-sem-typography-headline-leading);
-    letter-spacing: var(--hds-sem-typography-headline-tracking);
+    --_color: var(--hds-sem-color-content-strong-fg);
+    --_family: var(--hds-sem-typography-headline-family);
+    --_weight: var(--hds-sem-typography-headline-weight);
+    --_leading: var(--hds-sem-typography-headline-leading);
+    --_tracking: var(--hds-sem-typography-headline-tracking);
+    --_size-sm: var(--hds-sem-typography-headline-size-sm);
+    --_size-md: var(--hds-sem-typography-headline-size-md);
+    --_size-lg: var(--hds-sem-typography-headline-size-lg);
   }
 
   .hds-text[data-variant='body'] {
-    --_s1: var(--hds-sem-typography-body-size-sm);
-    --_s3: var(--hds-sem-typography-body-size-lg);
-    color: var(--hds-sem-color-content-default-fg);
-    font-family: var(--hds-sem-typography-body-family);
-    font-size: var(--hds-sem-typography-body-size-md);
-    font-weight: var(--hds-sem-typography-body-weight);
-    line-height: var(--hds-sem-typography-body-leading);
-    letter-spacing: var(--hds-sem-typography-body-tracking);
+    --_color: var(--hds-sem-color-content-default-fg);
+    --_family: var(--hds-sem-typography-body-family);
+    --_weight: var(--hds-sem-typography-body-weight);
+    --_leading: var(--hds-sem-typography-body-leading);
+    --_tracking: var(--hds-sem-typography-body-tracking);
+    --_size-sm: var(--hds-sem-typography-body-size-sm);
+    --_size-md: var(--hds-sem-typography-body-size-md);
+    --_size-lg: var(--hds-sem-typography-body-size-lg);
   }
 
   .hds-text[data-variant='label'] {
-    --_s1: var(--hds-sem-typography-label-size-sm);
-    --_s3: var(--hds-sem-typography-label-size-lg);
-    color: var(--hds-sem-color-content-default-fg);
-    font-family: var(--hds-sem-typography-label-family);
-    font-size: var(--hds-sem-typography-label-size-md);
-    font-weight: var(--hds-sem-typography-label-weight);
-    line-height: var(--hds-sem-typography-label-leading);
-    letter-spacing: var(--hds-sem-typography-label-tracking);
+    --_color: var(--hds-sem-color-content-default-fg);
+    --_family: var(--hds-sem-typography-label-family);
+    --_weight: var(--hds-sem-typography-label-weight);
+    --_leading: var(--hds-sem-typography-label-leading);
+    --_tracking: var(--hds-sem-typography-label-tracking);
+    --_size-sm: var(--hds-sem-typography-label-size-sm);
+    --_size-md: var(--hds-sem-typography-label-size-md);
+    --_size-lg: var(--hds-sem-typography-label-size-lg);
   }
 
   .hds-text[data-variant='caption'] {
-    --_s1: var(--hds-sem-typography-caption-size-sm);
-    --_s3: var(--hds-sem-typography-caption-size-lg);
-    color: var(--hds-sem-color-content-muted-fg);
-    font-family: var(--hds-sem-typography-caption-family);
-    font-size: var(--hds-sem-typography-caption-size-md);
-    font-weight: var(--hds-sem-typography-caption-weight);
-    line-height: var(--hds-sem-typography-caption-leading);
-    letter-spacing: var(--hds-sem-typography-caption-tracking);
+    --_color: var(--hds-sem-color-content-muted-fg);
+    --_family: var(--hds-sem-typography-caption-family);
+    --_weight: var(--hds-sem-typography-caption-weight);
+    --_leading: var(--hds-sem-typography-caption-leading);
+    --_tracking: var(--hds-sem-typography-caption-tracking);
+    --_size-sm: var(--hds-sem-typography-caption-size-sm);
+    --_size-md: var(--hds-sem-typography-caption-size-md);
+    --_size-lg: var(--hds-sem-typography-caption-size-lg);
   }
 
-  /* Size steps: 1 = smallest, 3 = largest; unset and 2 keep the role default above. */
-  .hds-text[data-size='1'] {
-    font-size: var(--_s1);
-  }
+  .hds-text[data-size='sm'] { font-size: var(--_size-sm); }
+  .hds-text[data-size='lg'] { font-size: var(--_size-lg); }
 
-  .hds-text[data-size='3'] {
-    font-size: var(--_s3);
+  .hds-text[data-tone='strong'] { color: var(--hds-sem-color-content-strong-fg); }
+  .hds-text[data-tone='default'] { color: var(--hds-sem-color-content-default-fg); }
+  .hds-text[data-tone='muted'] { color: var(--hds-sem-color-content-muted-fg); }
+  .hds-text[data-tone='accent'] { color: var(--hds-sem-color-content-accent-fg); }
+  .hds-text[data-tone='danger'] { color: var(--hds-sem-color-feedback-danger-fg); }
+  .hds-text[data-tone='warning'] { color: var(--hds-sem-color-feedback-warning-fg); }
+  .hds-text[data-tone='success'] { color: var(--hds-sem-color-feedback-success-fg); }
+  .hds-text[data-tone='info'] { color: var(--hds-sem-color-feedback-info-fg); }
+
+  .hds-text[data-max-lines] {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--_max-lines);
+    line-clamp: var(--_max-lines);
+    overflow: hidden;
   }
 }

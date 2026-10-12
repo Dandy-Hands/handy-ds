@@ -2,14 +2,14 @@
 
 Status:
 - spec: reviewed
-- code: pending
+- code: built
 - figma: pending
 - docs: pending
 
 - Date: 2026-10-12
 - Interview: `interview-guide-2026-10-12.md` (dry run: `interview-guide-2026-09-22.md`)
 - Base UI version documented from: `@base-ui/react` 1.8.0 (no text primitive — `useRender` + `mergeProps`)
-- Code: `src/components/Text.tsx` + `Text.css` (pre-interview: `size={1|2|3}`, no `tone`, no `maxLines`; rebuild per this spec)
+- Code: `src/components/Text.tsx` + `Text.css`
 - Depends on: the typography token change (35 tokens, see Token mapping). It runs before the code skill.
 
 ## Description
