@@ -21,7 +21,7 @@ planned, no Base UI primitive.
 - [x] icon `[lib]`
 - [x] text `[lib]`
 - [x] separator `[re]`
-- [ ] meter `[re]`
+- [x] meter `[re]`
 - [ ] progress `[new]`
 - [ ] avatar `[new]`
 

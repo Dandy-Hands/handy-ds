@@ -1,55 +1,75 @@
+Status:
+- spec: reviewed
+- code: pending
+- figma: pending
+- docs: pending
+
 # Internal Spec: Meter
 
-- Status: docs-built
-- Date: 2026-09-23
-- Interview: `interview-guide-2026-09-23.md` (retroactive)
-- Base UI version documented from: `@base-ui/react` 1.8.0 (`@base-ui/react/meter`, `@base-ui/react/progress`)
-- Code: `src/components/Meter.tsx` + `Meter.css`
+- Date: 2026-10-12
+- Interview: `interview-guide-2026-10-12.md` (dry run: `interview-guide-2026-09-23.md`)
+- Base UI version documented from: `@base-ui/react` 1.8.0 (`@base-ui/react/meter`)
 
 ## Description
 
-Meter shows a value in a known range — storage used, a score — with a label, a track, a fill, and an optional formatted value. `Progress` is the task-completion sibling: same parts, primary-colored fill, and an indeterminate state when `value={null}`. Both compose from Base UI primitives; the family adds no behavior.
+Meter shows a static measurement inside a known range, such as storage used or a score. It wraps Base UI's meter: a label, a track, a fill, and an optional formatted value. Screen readers announce it as `role="meter"`. Progress (task completion) has its own spec.
 
 ## Usage
 
 - Do use Meter when the number means something on its own and has a known range.
-- Don't use Meter for a running task — use `Progress`.
-- Do pass `value={null}` to Progress when the duration is unknown.
-- Don't add your own track styling — sentiment and fill colors are theme-owned.
+- Don't use Meter for a running task. Use Progress.
+- Do set `tone` to show status (`warning` near a limit, `danger` over it). The caller picks the tone; Meter does not compute it from the value.
 
 ## Base UI API
 
-Wrapped components: `Meter` from `@base-ui/react/meter`, `Progress` from `@base-ui/react/progress`. Surface decisions:
+Wrapped component: `Meter` from `@base-ui/react/meter`. Minimal surface, as for Separator.
 
-| Base UI surface | Decision |
+| Base UI member | Decision |
 | --- | --- |
-| `Meter.Root` props (`value`, `min`, `max`, `format`, `locale`, `aria-valuetext`, `getAriaValueText`, ...) | Exposed — full passthrough. |
-| `Progress.Root` props (`value` (`number \| null`), `min`, `max`, ...) | Exposed — full passthrough; `null` drives `data-indeterminate`. |
-| `Root`, `Label`, `Track`, `Indicator`, `Value` | Styled with `part()`: `hds-meter`, `hds-meter__label`, `hds-meter__track`, `hds-meter__indicator`, `hds-meter__value` (shared by both). |
-| `render` on every part | Exposed — passthrough via `part()`. |
-| `data-indeterminate` (Progress), `data-sentiment` (Meter.Root) | Consumed by CSS. |
-| Callback-form `className` / `style` | Available via passthrough, not documented. |
+| `Root`: `value` (required), `min` (default 0), `max` (default 100) | Exposed. |
+| `Root`: `format` (`Intl.NumberFormatOptions`), `locale` | Exposed. |
+| `Root`: `aria-valuetext`, `getAriaValueText` | Exposed. |
+| `Root`: `children` | Exposed. The parts. |
+| `Label`, `Track`, `Value`: `children` | Exposed. `Label` takes `ReactNode`. `Track` takes `Meter.Indicator`. |
+| `Value`: `children` as `(formattedValue, value) => ReactNode` | Exposed. Content: for example "72 GB of 100 GB". |
+| `Indicator` | Exposed, no props. |
+| `render`, `className`, `ref` on every part | Omitted. Recorded break of the escape hatch in API conventions section 1: the user wants Meter minimal, as for Separator. |
+| `style` on every part | Omitted. `Indicator` still writes its own inline width. |
+| Native props (`id`, `aria-*` other than `aria-valuetext`, `data-*`, events, ...) | Omitted. |
+
+Part prop types are written out (`{ children? }`, `{ value, min?, ... }`), not extensions of the Base UI props. Callers do not need `id`: `Label` is wired to `Root` by Base UI.
 
 ## Extension API
 
-| Prop | Where | Type | Default | Decision |
-| --- | --- | --- | --- | --- |
-| `sentiment` | `Meter.Root` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | Existing axis. Sets `data-sentiment`; picks the fill color. `Progress` has no sentiment. |
+All on `Meter.Root`. Both are set as data attributes on the root.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `tone` | `MeterTone = 'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | Fill color, Feedback axis (API conventions section 6). `info`: a neutral reading. `success`: a good level. `warning`: near a limit. `danger`: over a limit. Set as `data-tone`. |
+| `size` | `MeterSize = '200' \| '300' \| '400'` | `'300'` | Track height, a `measure/size` step (8, 12, 16px at density 1). Set as `data-size`. Does not change the text size. Not responsive. |
+
+Removed from the dry run: `sentiment` (renamed to `tone`) and the import of `Sentiment` from Alert.
+
+**Token change needed before the code.** `measure/size` has no steps `200` and `300`. Add them to token spec 7.5, API conventions 5.2, `src/tokens/`, and the Figma variables (`.claude/TODO.md`).
 
 ## Token mapping
 
-> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
-
-| Part | Tokens |
-| --- | --- |
-| Track | `hds/sem/color/surface/base/*` |
-| Meter fill (per sentiment) | `hds/sem/color/feedback/{info,success,warning,danger}/icon` |
-| Progress fill | `hds/sem/color/action/primary/default/bg` |
-| Label | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/*` |
-| Value | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/*` |
-| Track height / radius | structural literals (`0.5rem`, `999px`) |
+| Part | Property | Token |
+| --- | --- | --- |
+| Root | row gap / column gap | `hds/sem/measure/space/100` / `hds/sem/measure/space/200` |
+| Track | `background` | `hds/sem/color/surface/sunken/bg` |
+| Track | `block-size` | `hds/sem/measure/size/{size}` |
+| Track | `border-radius` | `hds/sem/radius/round` |
+| Indicator | `background` | `hds/sem/color/feedback/{tone}/icon` |
+| Label | color | `hds/sem/color/content/default/fg` |
+| Label | font | `hds/sem/typography/label/{family\|weight\|leading\|tracking}`, `hds/sem/typography/label/size/md` |
+| Value | color | `hds/sem/color/content/muted/fg` |
+| Value | font | `hds/sem/typography/caption/{family\|weight\|leading\|tracking}`, `hds/sem/typography/caption/size/md` |
 
 Notes:
 
-- No primitive or driver references; no new tokens (token-system-spec section 9 Meter/Progress rows).
-- Fill transition (`width 300ms`) and the indeterminate slide are structural, with a `prefers-reduced-motion` fallback.
+- Layout is structural: a grid with Label in column 1, Value in column 2, and Track across both columns.
+- Track has `overflow: hidden`, so the Indicator takes the track radius.
+- `font-variant-numeric: tabular-nums` on Value, structural.
+- Fill motion: `transition: width 300ms`, structural. None under `prefers-reduced-motion: reduce`.
+- Context-passive: all colors re-resolve from ancestor `data-context` and `data-section` overrides.
