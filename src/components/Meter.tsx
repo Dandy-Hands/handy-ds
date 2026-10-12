@@ -1,8 +1,6 @@
-// Base UI @base-ui/react 1.8.0 — wraps @base-ui/react/meter and @base-ui/react/progress.
+// Base UI @base-ui/react 1.8.0 — wraps @base-ui/react/meter.
 import { Meter as BaseMeter } from '@base-ui/react/meter';
-import { Progress as BaseProgress } from '@base-ui/react/progress';
 import type { ReactNode } from 'react';
-import { part } from './part.ts';
 import './base.css';
 import './Meter.css';
 
@@ -52,14 +50,4 @@ export const Meter = {
   Value: MeterValue,
   Track: MeterTrack,
   Indicator: MeterIndicator,
-};
-
-/** Task progress (`value={null}` = indeterminate). Dry-run surface until its own interview. Fill: Action primary. */
-export const Progress = {
-  ...BaseProgress,
-  Root: part(BaseProgress.Root, 'hds-meter hds-progress'),
-  Label: part(BaseProgress.Label, 'hds-meter__label'),
-  Track: part(BaseProgress.Track, 'hds-meter__track'),
-  Indicator: part(BaseProgress.Indicator, 'hds-meter__indicator'),
-  Value: part(BaseProgress.Value, 'hds-meter__value'),
 };

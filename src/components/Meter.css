@@ -1,4 +1,4 @@
-/* Meter (spec 2026-10-12). Progress shares these rules until its own interview. */
+/* Meter and Progress (specs 2026-10-12). Progress shares the Meter look; only the fill differs. */
 @layer hds.components {
   .hds-meter {
     --_fill: var(--hds-sem-color-feedback-info-icon);
@@ -15,10 +15,7 @@
   .hds-meter[data-size='200'] { --_height: var(--hds-sem-measure-size-200); }
   .hds-meter[data-size='400'] { --_height: var(--hds-sem-measure-size-400); }
 
-  .hds-progress {
-    --_fill: var(--hds-sem-color-action-primary-default-bg);
-    --_height: var(--hds-sem-measure-size-200);
-  }
+  .hds-progress { --_fill: var(--hds-sem-color-action-primary-default-bg); }
 
   .hds-meter__label {
     color: var(--hds-sem-color-content-default-fg);

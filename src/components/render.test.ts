@@ -57,7 +57,7 @@ test('every component renders with its hds classes', () => {
     ['Alert', h(H.Alert, { sentiment: 'danger', heading: 'Oops' }, 'Body'), [/hds-feedback hds-alert/, /data-sentiment="danger"/, /hds-feedback__heading[^>]*>Oops/]],
     ['Toaster', h(H.Toast.Provider, null, h(H.Toaster)), [/^/]],
     ['Meter', h(H.Meter.Root, { value: 50, tone: 'success', size: '400' }, h(H.Meter.Track, null, h(H.Meter.Indicator))), [/hds-meter"/, /data-tone="success"/, /data-size="400"/, /hds-meter__indicator/]],
-    ['Progress', h(H.Progress.Root, { value: null }, h(H.Progress.Track, null, h(H.Progress.Indicator))), [/hds-meter hds-progress/, /data-indeterminate/]],
+    ['Progress', h(H.Progress.Root, { value: null }, h(H.Progress.Track, null, h(H.Progress.Indicator))), [/hds-meter hds-progress/, /data-indeterminate/, /data-size="300"/, /role="progressbar"/]],
     ['Text', h(H.Text, { variant: 'headline', render: h('h3') }, 'T'), [/<h3[^>]*hds-text/, /data-variant="headline"/]],
     ['Text axes', h(H.Text, { size: 'lg', tone: 'danger', maxLines: 2 }, 'T'), [/<p[^>]*data-size="lg"/, /data-tone="danger"/, /data-max-lines="2"/, /--_max-lines:\s*2/]],
     ['Text default tag', h(H.Text, { variant: 'caption' }, 'T'), [/<small[^>]*hds-text/]],

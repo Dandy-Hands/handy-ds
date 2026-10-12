@@ -1,6 +1,6 @@
 Status:
 - spec: reviewed
-- code: pending
+- code: built
 - figma: pending
 - docs: pending
 
