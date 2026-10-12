@@ -1,7 +1,7 @@
 Status:
 - spec: reviewed
 - code: built
-- figma: pending
+- figma: built
 - docs: pending
 
 # Internal Spec: Avatar
