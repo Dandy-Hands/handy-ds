@@ -8,106 +8,154 @@ import { Text } from 'handy-ds';
 # Text
 
 Applies a typography role — display, headline, body, label, or caption — to a run
-of text and renders the right element by default. Roles decide intent (color,
-family, weight, rhythm); an optional per-role `size` step picks within the
-role's band.
+of text and renders the right element by default. The role sets the family,
+weight, line height, letter spacing, and default color. `size` picks one of three
+font sizes inside the role, `tone` changes the color, and `maxLines` cuts long
+text with an ellipsis.
 
-<Text>The goal of typography is to make reading effortless.</Text>
+<Text variant="headline" render={<h2 />}>Plan overview</Text>
+<Text maxLines={2}>The goal of typography is to make reading effortless. Each role carries one family, one weight, and one rhythm, so a page reads as one voice from the hero to the smallest caption. Long excerpts stop after two lines.</Text>
 
 ## Usage
 
 Use Text for any free-standing text run in a client app: hero copy, headings,
-body copy, labels, captions — on both web pages and app screens.
-Do not use it inside interactive controls, which already style their own text;
-and do not treat it as a heading-level picker — pick the role by purpose and the
-heading level by document structure (`render={<h2 />}`).
+body copy, labels, captions. Pick the role by purpose and the heading level by
+document structure (`render={<h3 />}`).
+Do not use it inside interactive controls, which style their own text. Do not
+add a weight or a raw font size — use `<strong>` and `<em>` in children.
 
 ## Base UI API
 
 No Base UI primitive — a single-part `useRender` component with the same
-`render` semantics as Base UI parts, passing all standard attributes through.
+`render` semantics as Base UI parts.
 
 | Element | Notes |
 | ------- | ----- |
 | `render` | Replaces the rendered element without changing the look. |
 | Default element per variant | display → `h1`, headline → `h2`, body → `p`, label → `span`, caption → `small`. |
-| `id`, `aria-*`, `className`, ... | All standard attributes pass through. |
+| `id`, `aria-*`, `className`, `title`, ... | All standard attributes pass through. `style` is removed from the type. |
 
 ## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `variant` | `'display' \| 'headline' \| 'body' \| 'label' \| 'caption'` | `'body'` | Typography role. `display` — hero and marketing statements. `headline` — section and card titles. `body` — default reading text. `label` — short UI text such as field labels and meta. `caption` — small supporting text below body weight. |
-| `size` | `1 \| 2 \| 3` | — | Size step within the role's band. `1` — the role's smallest. `2` — the role's default. `3` — the role's largest. Unset renders the role default. Steps pair across roles: Display 1 with Body 1 is a designed pairing. |
-| `children` | `ReactNode` | — | Text content. Inline emphasis uses `<strong>` and `<em>`; animated spans take client CSS. |
-
-Standard attributes and `render` appear here only — never get their own section.
+| `variant` | `'display' \| 'headline' \| 'body' \| 'label' \| 'caption'` | `'body'` | Typography role. `display` — hero and marketing statements. `headline` — section and card titles. `body` — default reading text. `label` — short UI text such as field labels and meta. `caption` — small supporting text. |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Font size inside the role. `sm` — the role's smallest. `md` — the role's default. `lg` — the role's largest. |
+| `tone` | `'strong' \| 'default' \| 'muted' \| 'accent' \| 'danger' \| 'warning' \| 'success' \| 'info'` | — | Text color. Unset uses the role's color. `strong` — highest emphasis. `default` — normal reading text. `muted` — secondary text. `accent` — brand emphasis. `danger`, `warning`, `success`, `info` — status text. |
+| `maxLines` | `number` | — | Cuts the text after this many lines with an ellipsis. Cut text shows the full text on hover. |
+| `children` | `ReactNode` | — | Text content. Use `<strong>` and `<em>` for inline emphasis. |
 
 ## Variant
 
-The role decides intent — color, family, weight, leading, and tracking. The
-element defaults by role (display `h1`, headline `h2`, body `p`, label `span`,
-caption `small`).
+The role sets the family, weight, line height, letter spacing, and default
+color. The element defaults by role.
 
 ### display
 
-Hero and marketing statements. Renders `h1`.
+Hero and marketing statements. Renders `h1`. Color `strong`.
 
 <Text variant="display">Ship faster with zero rewrites</Text>
 
 ### headline
 
-Section and card titles. Renders `h2`.
+Section and card titles. Renders `h2`. Color `strong`.
 
 <Text variant="headline">Plan overview</Text>
 
 ### body
 
-Default reading text. Renders `p`.
+Default reading text. Renders `p`. Color `default`.
 
 <Text>The goal of typography is to make reading effortless.</Text>
 
 ### label
 
-Short UI text such as field labels and meta. Renders `span`.
+Short UI text such as field labels and meta. Renders `span`. Color `default`.
 
 <Text variant="label">Drivers</Text>
 
 ### caption
 
-Small supporting text below body weight. Renders `small`.
+Small supporting text. Renders `small`. Color `muted`.
 
-<Text variant="caption">Last updated 2026-09-22</Text>
+<Text variant="caption">Last updated 2026-10-12</Text>
 
 ## Size
 
-The `size` axis picks a step inside the role's band. `1` is the role's smallest,
-`3` its largest; unset and `2` render the role default. Step numbers pair across
-roles by theme design — Display 1 with Body 1 is a designed pairing. Leading and
-tracking stay the role's own; only font size moves within a band.
+`size` changes only the font size. Family, weight, line height, and letter
+spacing stay the role's own; line height and letter spacing scale with the font
+size.
 
-### size={1}
+### sm
 
-<Text variant="display" size={1}>Display one</Text>
-<Text variant="body" size={1}>Body one pairs with Display one.</Text>
+<Text variant="headline" size="sm">Headline sm</Text>
+<Text size="sm">Body sm</Text>
 
-### size={2}
+### md
 
-Same as unset — the role default.
+The default.
 
-<Text variant="display" size={2}>Display default (2)</Text>
-<Text variant="body" size={2}>Body default (2)</Text>
+<Text variant="headline" size="md">Headline md</Text>
+<Text size="md">Body md</Text>
 
-### size={3}
+### lg
 
-<Text variant="display" size={3}>Display three</Text>
-<Text variant="body" size={3}>Body three.</Text>
+<Text variant="headline" size="lg">Headline lg</Text>
+<Text size="lg">Body lg</Text>
+
+## Tone
+
+`tone` replaces the role's color. Leave it unset for normal text.
+
+### strong
+
+<Text tone="strong">Highest emphasis text.</Text>
+
+### default
+
+<Text variant="caption" tone="default">A caption in the default reading color.</Text>
+
+### muted
+
+<Text tone="muted">Secondary text.</Text>
+
+### accent
+
+<Text tone="accent">Brand emphasis.</Text>
+
+### danger
+
+<Text variant="caption" tone="danger">Payment failed.</Text>
+
+### warning
+
+<Text variant="caption" tone="warning">Your trial ends in 3 days.</Text>
+
+### success
+
+<Text variant="caption" tone="success">Saved.</Text>
+
+### info
+
+<Text variant="caption" tone="info">Read-only on Sunday.</Text>
+
+## Max lines
+
+`maxLines` cuts the text after that many lines and adds an ellipsis. When the
+text is cut, hovering shows the full text.
+
+### maxLines=1
+
+<Text maxLines={1}>One line only: the rest of this sentence is cut with an ellipsis when the column is narrower than the text.</Text>
+
+### maxLines=3
+
+<Text maxLines={3}>Three lines: Each role carries one family, one weight, and one rhythm, so a page reads as one voice from the hero to the smallest caption. Size changes only the font size. Tone changes only the color. When an excerpt is longer than three lines, the text stops and an ellipsis shows where it was cut.</Text>
 
 ## Inline emphasis
 
-No `weight` prop — emphasize words with plain `<strong>`, `<em>`, or `<span>`
-inside `children`. Browser defaults handle emphasis; animated spans take client
-CSS.
+No `weight` prop — emphasize words with plain `<strong>` and `<em>` inside
+`children`.
 
 <Text variant="display">
   Ship <strong>faster</strong> with <em>zero</em> rewrites
@@ -117,14 +165,16 @@ CSS.
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Role color | `hds/sem/color/content/{role}/fg` |
-| Role size / rhythm | `hds/sem/typography/{role}/{size}/*`, `.../line-height`, `.../letter-spacing` |
-| Size steps (`size` set) | `hds/sem/typography/{role}/{size}/*`, `.../line-height`, `.../letter-spacing` (step ∈ 1–3, all emitted; step 2 duplicates the role-level values) |
-| Role face | `hds/sem/typography/{role}/{size}/*`, `.../weight` |
+| Family, weight | `hds/sem/typography/{role}/family`, `.../weight` |
+| Line height, letter spacing | `hds/sem/typography/{role}/leading`, `.../tracking` |
+| Font size | `hds/sem/typography/{role}/size/{sm\|md\|lg}` |
+| Role color (tone unset) | `hds/sem/color/content/{strong\|default\|muted}/fg` |
+| Content tones | `hds/sem/color/content/{tone}/fg` |
+| Feedback tones | `hds/sem/color/feedback/{tone}/fg` |
 
 ## Owner notes
 
 - Base UI mapping: no Base UI primitive — single-part `useRender` component with the same `render` semantics as Base UI parts.
-- Extension decisions: `size` (1–3 per role) is new; steps pair across roles by theme design; `weight` was explicitly rejected — inline emphasis is plain HTML with browser defaults.
-- Known constraints: the size-step segment required a `checkTokenName()` extension (`OPTIONAL_SEGMENT`, only for `type/measure`) and a Theme Map band table (`TYPE_BANDS`, scale steps 1–9). Per-step leading/tracking are constant per role — if a display-3 headline reads too tight, add per-step leading values to the band emission.
-- Accessibility: context-passive — type fg tokens re-resolve from an ancestor's `data-context="on-primary"` or `data-section` overrides, so contrast holds wherever the component lands; the component itself adds no handling. Keep heading levels in document order via `render`.
+- Extension decisions: `size` takes `sm`/`md`/`lg` to match the token slot (a recorded exception: on other components `size` is a measure step). `tone` covers Content and Feedback colors; `link` is left out. `maxLines` takes a number. `weight` is rejected.
+- Known constraints: cut text gets a native `title`, so keyboard and touch users cannot see the full text; it changes to Tooltip after the Tooltip spec. Feedback `fg` colors are contrast-checked on Feedback backgrounds only, not on page surfaces (TODO item).
+- Accessibility: context-passive — color tokens re-resolve under an ancestor's `data-context` or `data-section`. Keep heading levels in document order with `render`.

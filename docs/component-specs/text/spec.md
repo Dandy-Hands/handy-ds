@@ -4,7 +4,7 @@ Status:
 - spec: reviewed
 - code: built
 - figma: built
-- docs: pending
+- docs: built
 
 - Date: 2026-10-12
 - Interview: `interview-guide-2026-10-12.md` (dry run: `interview-guide-2026-09-22.md`)
