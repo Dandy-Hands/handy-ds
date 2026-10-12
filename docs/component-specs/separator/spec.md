@@ -1,48 +1,58 @@
+Status:
+- spec: reviewed
+- code: built
+- figma: built
+- docs: built
+
 # Internal Spec: Separator
 
-- Status: docs-built
-- Date: 2026-09-23
-- Interview: `interview-guide-2026-09-23.md` (retroactive)
+- Date: 2026-10-12
+- Interview: `interview-guide-2026-10-12.md`
 - Base UI version documented from: `@base-ui/react` 1.8.0 (`@base-ui/react/separator`)
-- Code: `src/components/Separator.tsx` + `Separator.css`
 
 ## Description
 
-Separator is a dividing line between groups that spacing alone does not separate. It wraps Base UI's separator primitive and reads the Divider category: one color, three thicknesses. `orientation="vertical"` turns the rule upright for inline separators.
+Separator is a line that marks a boundary between two groups of content. It wraps Base UI's separator and reads the Graphic category: one width, two tones. Screen readers announce it as a separator, like an HTML `<hr>`.
 
 ## Usage
 
-- Do use Separator between groups of content, inside toolbars and menus.
-- Don't use it when spacing is enough — a line is noise.
-- Do keep weights consistent within one surface (mostly `thin`; `medium`/`thick` for emphasis).
+- Do use Separator where spacing alone does not show that one group stops and the next starts.
+- Don't use it for decoration. Use spacing, or a border on the container.
+- Do use `tone="strong"` only where a boundary needs more contrast than the default line.
 
 ## Base UI API
 
-Wrapped component: `Separator` from `@base-ui/react/separator`. Surface decisions:
+Wrapped component: `Separator` from `@base-ui/react/separator`.
 
-| Base UI surface | Decision |
+| Base UI member | Decision |
 | --- | --- |
-| Props (`orientation`, `role` presentation defaults, native `div` props, ...) | Exposed — full passthrough. |
-| `orientation` | Base UI's prop, consumed by the CSS (`data-orientation='vertical'`). |
-| `render` | Exposed — passthrough. |
-| Callback-form `className` / `style` | Available via passthrough, not documented. |
+| `orientation` | Exposed. `'horizontal' \| 'vertical'`, default `'horizontal'`. Base UI sets `aria-orientation` and `data-orientation`. |
+| `role="separator"` (set by Base UI) | Kept, always. No prop changes it. |
+| `render` | Omitted. |
+| `className` | Omitted. Recorded break of the escape hatch in API conventions section 1: Separator stays minimal, and spacing comes from the parent layout. |
+| `style` | Omitted. |
+| `ref` | Omitted. |
+| Native `div` props (`id`, `aria-*`, `data-*`, `hidden`, events, `children`, ...) | Omitted. |
+
+Props type: `{ orientation?, tone? }` only, not an extension of the Base UI props.
 
 ## Extension API
 
-| Prop | Type | Default | Decision |
+| Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `weight` | `'thin' \| 'medium' \| 'thick'` | `'thin'` | Existing axis. Sets `data-weight`; picks the Divider thickness step. |
+| `tone` | `SeparatorTone = 'default' \| 'strong'` | `'default'` | Line color. `default`: the standard divider. `strong`: more contrast, for a boundary that must stand out. Set as `data-tone`. |
+
+Removed from the dry run: `weight` (`thin` / `medium` / `thick`) and the `Weight` type. Its `medium` and `thick` steps read space tokens as line widths.
 
 ## Token mapping
 
-> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
-
-| Part | Tokens |
-| --- | --- |
-| Line color | `hds/sem/color/graphic/divider/default` |
-| Thickness | `hds/sem/border/divider` |
+| Part | Property | Token |
+| --- | --- | --- |
+| Line | color (`background`) | `hds/sem/color/graphic/divider/{tone}` |
+| Line | width: `block-size` when horizontal, `inline-size` when vertical | `hds/sem/border/divider` |
 
 Notes:
 
-- No primitive or driver references; margins and `flex-shrink: 0` are structural.
-- Context-passive: the divider color re-resolves from ancestor `data-context` / `data-section` overrides.
+- Structural values only otherwise: `margin: 0`, `border: 0`, `flex-shrink: 0`, `align-self: stretch` when vertical.
+- The Separator parts of Menu, ContextMenu, Select, Combobox, Autocomplete, and Toolbar share the `hds-separator` CSS. They render at tone `default`.
+- Context-passive: the divider color re-resolves from ancestor `data-context` and `data-section` overrides.

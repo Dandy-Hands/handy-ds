@@ -3,84 +3,86 @@ title: Separator
 order: 24
 ---
 
-import { Separator } from 'handy-ds';
+import { Separator, Text } from 'handy-ds';
 
 # Separator
 
-A dividing line between groups that spacing alone does not separate. Reads the
-Divider category: one color, three thicknesses.
+A line that marks a boundary between two groups of content. It reads the Graphic
+category: one width, two tones. Screen readers announce it as a separator, like
+an HTML `<hr>`.
 
-<Separator />
-<Separator weight="medium" />
+<div style={{ display: 'grid', gap: 12 }}>
+  <Text variant="headline" render={<h3 />}>Billing</Text>
+  <Separator />
+  <Text>Invoiced monthly.</Text>
+</div>
 
 ## Usage
 
-Use Separator between groups of content, and inside toolbars and menus. Do not
-use it when spacing is enough — a line is noise. Keep weights consistent within
-one surface.
+Use Separator where spacing alone does not show that one group stops and the
+next starts. Do not use it for decoration: screen readers announce every
+Separator. Use spacing, or a border on the container, instead. Use
+`tone="strong"` only where a boundary needs more contrast than the default line.
 
 ## Base UI API
 
-Wraps Base UI's `Separator`; full passthrough.
+Wraps Base UI's `Separator`. Only `orientation` passes through.
 
 | Element | Notes |
 | ------- | ----- |
-| Props (`orientation`, `role` presentation defaults, native `div` props, ...) | Exposed — full passthrough. |
-| `orientation` | Base UI's prop, consumed by the CSS (`data-orientation='vertical'`). |
-| `render` | Exposed — passthrough. |
-| Callback-form `className`/`style` | Available via passthrough, not documented. |
+| `orientation` | Exposed. Sets `aria-orientation` and `data-orientation`. |
+| `role="separator"` | Always set. No prop changes it. |
+| `render`, `className`, `style`, `ref`, native `div` props | Removed. Separator accepts no other props; the parent layout `gap` sets the space around it. |
 
 ## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `weight` | `'thin' \| 'medium' \| 'thick'` | `'thin'` | Line thickness. `thin` — default hairline. `medium` — heavier, e.g. under a table header. `thick` — strongest emphasis. |
-| `children` | `ReactNode` | — | Content inside the divider, if any. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Line direction. `horizontal`: a line across the width, between stacked groups. `vertical`: an upright line that fills the row height, between groups in a row. |
+| `tone` | `'default' \| 'strong'` | `'default'` | Line color. `default`: the standard divider. `strong`: more contrast, for a boundary that must stand out. |
 
-`render`, `orientation`, and standard attributes are passthrough — they appear here only, never get their own section (`orientation` is covered under its own axis section).
+## Tone
 
-## Weight
+The tone picks the divider color. The width stays the same.
 
-The weight axis picks the Divider thickness step; the color stays the same.
+### tone="default"
 
-### weight="thin"
+<Separator tone="default" />
 
-<Separator weight="thin" />
+### tone="strong"
 
-### weight="medium"
-
-<Separator weight="medium" />
-
-### weight="thick"
-
-<Separator weight="thick" />
+<Separator tone="strong" />
 
 ## Orientation
 
-`orientation="vertical"` turns the rule upright and stretches it to the row
-height.
+The orientation sets the line direction. A vertical line fills the row height.
 
-<div style={{ display: 'flex', alignItems: 'stretch', gap: 16, minHeight: 64 }}>
-  <span>Left</span>
+### orientation="horizontal"
+
+<Separator orientation="horizontal" />
+
+### orientation="vertical"
+
+<div style={{ display: 'flex', alignItems: 'center', gap: 16, minHeight: 32 }}>
+  <Text variant="caption">12 items</Text>
   <Separator orientation="vertical" />
-  <span>Right</span>
+  <Text variant="caption">Updated today</Text>
 </div>
 
 ## Anatomy
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Line color | `hds/sem/color/graphic/divider/default` |
-| Thickness | `hds/sem/border/divider` |
+| Line color | `hds/sem/color/graphic/divider/{tone}` |
+| Line width (both orientations) | `hds/sem/border/divider` |
 
 ## Owner notes
 
-- Base UI mapping: wraps `@base-ui/react/separator`; every prop passes through,
-  including `orientation` and `render`.
-- Extension decisions: `weight` (default `thin`) is the only wrapper prop; it
-  sets `data-weight`. Vertical orientation is structural — no extra tokens.
-- Known constraints: none. The line is context-passive; on-primary grounds
-  automatically get the overridden divider color.
-- Accessibility: renders with the separator role and correct semantics through
-  the underlying behavior; decorative use is hidden from assistive tech by
-  default.
+- Base UI mapping: wraps `@base-ui/react/separator`. Only `orientation` passes through.
+- Extension decisions: `tone` (default `default`) replaces the old `weight` axis. The old
+  `medium` and `thick` steps read space tokens as line widths. The removal of `render` and
+  `className` is a recorded break of the escape-hatch rule: Separator stays minimal.
+- Known constraints: one line width only, set by the `border.divider` driver. The Separator
+  parts of Menu, Select, Combobox, and Toolbar share this CSS at tone `default`. The line
+  color follows `data-context` and `data-section` overrides.
+- Accessibility: always `role="separator"` with `aria-orientation`. It is not focusable.

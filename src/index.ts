@@ -26,6 +26,6 @@ export { Meter, Progress, type MeterRootProps } from './components/Meter.tsx';
 // Type, Icon, Divider
 export { Text, type TextProps, type TextSize, type TextTone, type TextVariant } from './components/Text.tsx';
 export { Icon, type IconProps, type IconTone, type IconSize } from './components/Icon.tsx';
-export { Separator, type SeparatorProps, type Weight } from './components/Separator.tsx';
+export { Separator, type SeparatorProps, type SeparatorTone } from './components/Separator.tsx';
 // Composite
 export { Table, type TableProps } from './components/Table.tsx';

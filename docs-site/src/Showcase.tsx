@@ -286,7 +286,7 @@ export function ShowcaseBody() {
           <Text variant="headline" render={<h3 />}>Heading</Text>
           <Text>Body text. The quick brown fox jumps over the lazy dog.</Text>
           <Text variant="label">Label</Text> <Text variant="caption">Caption</Text>
-          <Separator weight="medium" />
+          <Separator tone="strong" />
           <div className="row">
             <Icon tone="default" size="800" label="Default"><Star /></Icon>
             <Icon tone="muted" size="800" label="Secondary"><Star /></Icon>

@@ -27,5 +27,5 @@ Every public component: name, purpose, when to use it, and its API page.
 | Toast | A short-lived confirmation in a stacked viewport | Confirming something that needs no user action | [toast.md](toast.md) |
 | Meter | A value inside a known range | The number itself matters; Progress is for running tasks | [meter.md](meter.md) |
 | Icon | Shows an SVG or glyph name in a text or status color and size | Any standalone icon; not for content images | [icon.md](icon.md) |
-| Separator | A divider line in three weights | Separating groups that spacing alone cannot | [separator.md](separator.md) |
+| Separator | A line that marks a boundary between content groups | Use where spacing alone does not show the boundary; not for decoration | [separator.md](separator.md) |
 | Table | A styled data table with themed rows and sort buttons | Real columns compared across rows; not for lists | [table.md](table.md) |

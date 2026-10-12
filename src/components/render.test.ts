@@ -62,7 +62,7 @@ test('every component renders with its hds classes', () => {
     ['Text axes', h(H.Text, { size: 'lg', tone: 'danger', maxLines: 2 }, 'T'), [/<p[^>]*data-size="lg"/, /data-tone="danger"/, /data-max-lines="2"/, /--_max-lines:\s*2/]],
     ['Text default tag', h(H.Text, { variant: 'caption' }, 'T'), [/<small[^>]*hds-text/]],
     ['Icon', h(H.Icon, { tone: 'accent', label: 'Star' }, h('svg')), [/hds-icon/, /role="img"/, /aria-label="Star"/, /data-tone="accent"/]],
-    ['Separator', h(H.Separator, { weight: 'thick' }), [/hds-separator/, /data-weight="thick"/]],
+    ['Separator', h(H.Separator, { tone: 'strong', orientation: 'vertical' }), [/hds-separator/, /role="separator"/, /data-tone="strong"/, /aria-orientation="vertical"/]],
     ['Table', h(H.Table, { striped: true }, h('tbody', null, h('tr', null, h('td', null, '1')))), [/<table[^>]*hds-table/, /data-striped/]],
   ];
   for (const [name, el, patterns] of cases) {

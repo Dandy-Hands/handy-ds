@@ -1,16 +1,18 @@
+// Base UI @base-ui/react 1.8.0 — wraps @base-ui/react/separator.
 import { Separator as BaseSeparator } from '@base-ui/react/separator';
-import type { ComponentProps } from 'react';
-import { cx } from './part.ts';
+import './base.css';
 import './Separator.css';
 
-/** Divider category weight axis. */
-export type Weight = 'thin' | 'medium' | 'thick';
+/** Graphic divider tone: color/graphic/divider/{tone}. */
+export type SeparatorTone = 'default' | 'strong';
 
-export interface SeparatorProps extends ComponentProps<typeof BaseSeparator> {
-  weight?: Weight;
+/** Minimal by spec: no className, render, style, ref, or native props. */
+export interface SeparatorProps {
+  orientation?: 'horizontal' | 'vertical';
+  tone?: SeparatorTone;
 }
 
-/** Divider category. `orientation="vertical"` for inline separators. */
-export function Separator({ weight = 'thin', className, ...props }: SeparatorProps) {
-  return <BaseSeparator data-weight={weight} {...props} className={cx('hds-separator', className)} />;
+/** Group boundary line. Always role="separator". */
+export function Separator({ orientation = 'horizontal', tone = 'default' }: SeparatorProps) {
+  return <BaseSeparator orientation={orientation} data-tone={tone} className="hds-separator" />;
 }

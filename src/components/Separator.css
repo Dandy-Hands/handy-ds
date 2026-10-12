@@ -1,27 +1,22 @@
-/* Divider category. `data-weight` = thin | medium | thick (default thin). */
+/* Graphic divider. `data-tone` = default | strong (default default). */
 @layer hds.theme, hds.base, hds.components;
 
 @layer hds.components {
   .hds-separator {
-    --_thickness: var(--hds-sem-border-divider);
     flex-shrink: 0;
     margin: 0;
     border: 0;
     background: var(--hds-sem-color-graphic-divider-default);
-    block-size: var(--_thickness);
+    block-size: var(--hds-sem-border-divider);
   }
 
-  .hds-separator[data-weight='medium'] {
-    --_thickness: var(--hds-sem-measure-space-050);
-  }
-
-  .hds-separator[data-weight='thick'] {
-    --_thickness: var(--hds-sem-measure-space-100);
+  .hds-separator[data-tone='strong'] {
+    background: var(--hds-sem-color-graphic-divider-strong);
   }
 
   .hds-separator[data-orientation='vertical'] {
     align-self: stretch;
     block-size: auto;
-    inline-size: var(--_thickness);
+    inline-size: var(--hds-sem-border-divider);
   }
 }

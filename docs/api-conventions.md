@@ -25,7 +25,7 @@ Do not add:
 
 | Category | What it does | Examples |
 |---|---|---|
-| Axis | Selects a role on a token category axis | `variant`, `tone`, `elevation`, `weight` |
+| Axis | Selects a role on a token category axis | `variant`, `tone`, `elevation` |
 | Measure | Selects a `measure/size` or `measure/space` step, or a keyword | `size`, `gap`, `padding`, `paddingInline`, `width` |
 | State | Holds component state, Base UI pattern | `open` / `defaultOpen` / `onOpenChange`, `disabled` |
 | Content | Places content | `children` only; named content is a part, not a prop |
@@ -101,9 +101,8 @@ A measure prop takes one value or an object keyed by breakpoint:
 | Axis | Values | Definition |
 |---|---|---|
 | `variant` | per component. Button and other Action parts: `primary`, `secondary`, `tertiary`, `danger`. Text: `display`, `headline`, `body`, `label`, `caption` | The component's role or priority. Values match the token slot (`color/action/primary/...`, `typography/display/...`). |
-| `tone` | per category. Feedback: `danger`, `warning`, `success`, `info`. Content (Icon, Text color): `default`, `muted`, `accent` | Semantic color. Values match the token slot (`color/feedback/danger/...`, `color/content/muted/...`). |
+| `tone` | per category. Feedback: `danger`, `warning`, `success`, `info`. Content (Icon, Text color): `default`, `muted`, `accent`. Graphic divider (Separator): `default`, `strong` | Semantic color. Values match the token slot (`color/feedback/danger/...`, `color/content/muted/...`). |
 | `elevation` | `base`, `raised`, `floating`, `modal` (`sunken` where a spec needs it) | Surface level: distance above the page plane. Reads Surface color and `elevation/*` shadow. |
-| `weight` | `thin`, `medium`, `thick` | Stroke thickness of a divider line (not type weight). |
 | `size` on Text | `sm`, `md`, `lg` | Font size step inside a typography role. Text reads `typography/{role}/size/{size}`, so the slot rule gives `sm`/`md`/`lg`, not measure steps. Recorded exception to "one name, one meaning" (section 3), decided in Text's spec interview (2026-10-12). |
 
 A component uses an axis when its definition matches, decided by the token category the component's spec assigns — not by copying another component's choice.
