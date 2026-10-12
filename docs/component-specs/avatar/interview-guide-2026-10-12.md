@@ -42,6 +42,6 @@ Token spec facts: `radius/round` lists avatars (7.5). No Avatar color tokens.
 
 ## Open items
 
-- Contrast of `content/muted/fg` on `surface/sunken/bg` is not in the checker. Estimate
-  in light mode: about 5:1. `hds-component-code` confirms it in both modes.
+- Contrast of `content/muted/fg` on `surface/sunken/bg`: found in the code phase that the
+  checker already covers it (`src/tokens/contrast.ts`, every content role on every surface).
 - Avatar is not in `docs/api/index.md` yet. This interview adds it.

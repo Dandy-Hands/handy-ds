@@ -430,6 +430,25 @@ Give `label` to an icon that carries meaning on its own. Omit `tone` inside a Bu
 <Icon label="Search"><SearchSvg /></Icon>
 ```
 
+### Avatar
+
+A person's photo in a round frame, with initials or an icon when there is no photo.
+
+- **Use when:** identifying a person or account next to a name, in lists, headers, comments.
+- **Don't use when:** the image is content or a logo. Use `<img>`.
+
+| Prop | Values | Default |
+|---|---|---|
+| `size` (on `Avatar.Root`) | `800`, `1000`, `1200`, `1600` (width and height) | `1000` |
+
+Always include `Avatar.Fallback`. Use `alt=""` when the name shows next to the avatar.
+
+```tsx
+<Avatar.Root>
+  <Avatar.Image src={user.photoUrl} alt="" /><Avatar.Fallback delay={300}>RL</Avatar.Fallback>
+</Avatar.Root>
+```
+
 ### Separator
 
 A dividing line.

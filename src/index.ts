@@ -27,6 +27,7 @@ export { Progress, type ProgressRootProps, type ProgressSize } from './component
 // Type, Icon, Divider
 export { Text, type TextProps, type TextSize, type TextTone, type TextVariant } from './components/Text.tsx';
 export { Icon, type IconProps, type IconTone, type IconSize } from './components/Icon.tsx';
+export { Avatar, type AvatarRootProps, type AvatarImageProps, type AvatarFallbackProps, type AvatarSize } from './components/Avatar.tsx';
 export { Separator, type SeparatorProps, type SeparatorTone } from './components/Separator.tsx';
 // Composite
 export { Table, type TableProps } from './components/Table.tsx';

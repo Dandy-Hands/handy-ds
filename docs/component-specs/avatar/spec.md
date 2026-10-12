@@ -1,6 +1,6 @@
 Status:
 - spec: reviewed
-- code: pending
+- code: built
 - figma: pending
 - docs: pending
 
@@ -66,5 +66,5 @@ Notes:
 - Layout (structural): Root is `inline-flex`, centered, `overflow: hidden`, `flex-shrink: 0`, `vertical-align: middle`. Image is `100%` wide and high, `object-fit: cover`. Fallback is `user-select: none`.
 - The Root background shows behind a transparent image too.
 - An `Icon` without `size` in the Fallback follows the Fallback font size.
-- Contrast: `content/muted/fg` on `surface/sunken/bg` is a text pair (4.5:1). The checker does not cover it. The code phase confirms it in light mode, dark mode, and both brand contexts.
+- Contrast: `content/muted/fg` on `surface/sunken/bg` is a text pair (4.5:1). The contrast checker already covers it: every content role on every surface level, in both modes and both brand contexts.
 - Context-passive: all colors re-resolve from ancestor `data-context` and `data-section` overrides.

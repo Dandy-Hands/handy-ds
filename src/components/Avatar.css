@@ -1,0 +1,46 @@
+/* Avatar (spec 2026-10-12). Round, neutral sunken ground; initials use the label role. */
+@layer hds.components {
+  .hds-avatar {
+    --_size: var(--hds-sem-measure-size-1000);
+    --_font-size: var(--hds-sem-typography-label-size-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    vertical-align: middle;
+    inline-size: var(--_size);
+    block-size: var(--_size);
+    overflow: hidden;
+    border-radius: var(--hds-sem-radius-round);
+    background: var(--hds-sem-color-surface-sunken-bg);
+  }
+
+  .hds-avatar[data-size='800'] {
+    --_size: var(--hds-sem-measure-size-800);
+    --_font-size: var(--hds-sem-typography-label-size-sm);
+  }
+  .hds-avatar[data-size='1200'] {
+    --_size: var(--hds-sem-measure-size-1200);
+    --_font-size: var(--hds-sem-typography-label-size-lg);
+  }
+  .hds-avatar[data-size='1600'] {
+    --_size: var(--hds-sem-measure-size-1600);
+    --_font-size: var(--hds-sem-typography-label-size-lg);
+  }
+
+  .hds-avatar__image {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .hds-avatar__fallback {
+    color: var(--hds-sem-color-content-muted-fg);
+    font-family: var(--hds-sem-typography-label-family);
+    font-size: var(--_font-size);
+    font-weight: var(--hds-sem-typography-label-weight);
+    line-height: var(--hds-sem-typography-label-leading);
+    letter-spacing: var(--hds-sem-typography-label-tracking);
+    user-select: none;
+  }
+}
