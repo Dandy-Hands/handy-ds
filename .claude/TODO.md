@@ -19,6 +19,7 @@ Running list of planned work. Add an item when the user asks for new work. Check
   - [x] Remove the mapping-level override from `src/tokens/theme.ts` and its test in `src/tokens/tokens.test.ts`.
   - [x] Add palette color pick drivers, so a client picks the exact palette color for each use.
 - [x] After the token rework, update `docs/component-conventions.md` and `docs/rules.md` to match.
+- [x] Build the tokens as Figma variables in the Handy DS file (`ZC2dMDma0HioGL8CXxzq9W`).
 - [ ] Rename the typography role `heading` to `headline` (token spec 7.7, `src/tokens/`, Text, tests). The font family pick `typography.family.heading` keeps its name. Decided in `docs/api-conventions.md`.
 - [ ] Decide the order of the token rework and the component re-interviews. Each interview records a token mapping, so a later token change can force parts of every interview to run again.
 
