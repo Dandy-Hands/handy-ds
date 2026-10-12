@@ -3,7 +3,7 @@
 Status:
 - spec: reviewed
 - code: built
-- figma: pending
+- figma: built
 - docs: pending
 
 - Date: 2026-10-12
