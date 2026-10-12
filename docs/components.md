@@ -389,6 +389,9 @@ Any text with a type role.
 | Prop | Values | Default |
 |---|---|---|
 | `variant` | `display`, `headline`, `body`, `label`, `caption` | `body` |
+| `size` | `sm`, `md`, `lg` | `md` |
+| `tone` | `strong`, `default`, `muted`, `accent`, `danger`, `warning`, `success`, `info` | role color |
+| `maxLines` | whole number ≥ 1 | no limit |
 
 Each variant has a default tag (`display` → `h1`, `headline` → `h2`, `body` → `p`, `label` → `span`, `caption` → `small`). Pick the correct heading level with `render`, which changes the tag and not the look.
 
