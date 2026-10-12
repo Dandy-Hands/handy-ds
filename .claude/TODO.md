@@ -21,6 +21,8 @@ Running list of planned work. Add an item when the user asks for new work. Check
 - [x] After the token rework, update `docs/component-conventions.md` and `docs/rules.md` to match.
 - [x] Build the tokens as Figma variables in the Handy DS file (`ZC2dMDma0HioGL8CXxzq9W`).
 - [x] Rename the typography role `heading` to `headline` (token spec 7.7, `src/tokens/`, Text, tests). The font family pick `typography.family.heading` keeps its name. Decided in `docs/api-conventions.md`.
+- [ ] Change the typography tokens to 35 (Text spec interview, 2026-10-12): per role `typography/{role}/{family|weight|leading|tracking}`, per role and step `typography/{role}/size/{sm|md|lg}`. Update token spec 7.7 (record the "property last" exception), `src/tokens/`, the driver interface, and the Figma variables and text styles. Do before the Text code.
+- [ ] Add a contrast check for Feedback `fg` on page surfaces (`surface/base`, `surface/raised`, both modes). Text `tone` uses Feedback `fg` as text color.
 - [ ] Decide the order of the token rework and the component re-interviews. Each interview records a token mapping, so a later token change can force parts of every interview to run again.
 
 ## Driver interface
@@ -39,5 +41,6 @@ Running list of planned work. Add an item when the user asks for new work. Check
 
 ## Docs
 
+- [ ] Rewrite the no-raw-numbers rule in `docs/api-conventions.md` section 4 with the user: say where numbers are allowed (counts such as Text `maxLines`) and where they are forbidden.
 - [x] Write the component API conventions: what is and is not an API member, member categories, member names, value types, and value names. Size and space props take measure token steps (`"400"`, `"500"`, ...) plus other values.
 - [ ] Rework the component documentation template (`docs/templates/component.mdx`).

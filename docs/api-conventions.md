@@ -104,6 +104,6 @@ A measure prop takes one value or an object keyed by breakpoint:
 | `tone` | per category. Feedback: `danger`, `warning`, `success`, `info`. Content (Icon, Text color): `default`, `muted`, `accent` | Semantic color. Values match the token slot (`color/feedback/danger/...`, `color/content/muted/...`). |
 | `elevation` | `base`, `raised`, `floating`, `modal` (`sunken` where a spec needs it) | Surface level: distance above the page plane. Reads Surface color and `elevation/*` shadow. |
 | `weight` | `thin`, `medium`, `thick` | Stroke thickness of a divider line (not type weight). |
-| `size` on Text | `sm`, `md`, `lg` | Typography size. Text reads `typography/{role}/{size}/*`, so the slot rule gives `sm`/`md`/`lg`, not measure steps. **Open:** this breaks "one name, one meaning" (section 3). Text's re-interview renames the prop or records the divergence. |
+| `size` on Text | `sm`, `md`, `lg` | Font size step inside a typography role. Text reads `typography/{role}/size/{size}`, so the slot rule gives `sm`/`md`/`lg`, not measure steps. Recorded exception to "one name, one meaning" (section 3), decided in Text's spec interview (2026-10-12). |
 
 A component uses an axis when its definition matches, decided by the token category the component's spec assigns — not by copying another component's choice.

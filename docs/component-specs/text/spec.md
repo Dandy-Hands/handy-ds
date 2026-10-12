@@ -1,53 +1,83 @@
 # Internal Spec: Text
 
-- Status: docs-built
-- Date: 2026-09-22
-- Interview: `interview-guide-2026-09-22.md`
-- Base UI version documented from: `@base-ui/react` 1.8.0
-- Code status: component exists (`src/components/Text.tsx`); `size` axis pending build
+Status:
+- spec: reviewed
+- code: pending
+- figma: pending
+- docs: pending
+
+- Date: 2026-10-12
+- Interview: `interview-guide-2026-10-12.md` (dry run: `interview-guide-2026-09-22.md`)
+- Base UI version documented from: `@base-ui/react` 1.8.0 (no text primitive — `useRender` + `mergeProps`)
+- Code: `src/components/Text.tsx` + `Text.css` (pre-interview: `size={1|2|3}`, no `tone`, no `maxLines`; rebuild per this spec)
+- Depends on: the typography token change (35 tokens, see Token mapping). It runs before the code skill.
 
 ## Description
 
-Text applies one Type role — display, headline, body, label, or caption — to a run of text, and renders it as the right element by default. Roles decide intent (color, family, weight, rhythm); an optional per-role `size` step picks within the role's band. Use Text for every free-standing text run in a client app; do not use it inside interactive controls, which already carry their own type tokens, and do not use it as a heading-level picker — level and look are independent axes.
+Text applies one typography role — display, headline, body, label, or caption — to a run of text, and renders the right element by default. The role sets the family, weight, line height, letter spacing, and default color; `size` picks one of three font sizes inside the role. `tone` changes the color, and `maxLines` cuts long text with an ellipsis.
 
 ## Usage
 
-- Do use Text for hero copy, headings, body copy, labels, and captions across web and app surfaces.
-- Do pick the role by purpose and the heading level by document structure (`render={<h2 />}` etc.).
-- Don't reach for a `weight` prop — inline emphasis is plain `<strong>` / `<em>` in children, and animation is a plain `<span>` with client CSS.
-- Don't reach for raw font sizes — the role × size grid is the whole legal space.
+- Do use Text for every free-standing text run: hero copy, headings, body copy, labels, captions.
+- Do pick the role by purpose and the heading level by document structure (`render={<h3 />}`).
+- Don't use it inside interactive controls; they style their own text.
+- Don't add a weight or a raw font size — use `<strong>` and `<em>` in children for emphasis.
 
 ## Base UI API
 
-Text has no Base UI primitive. It is a single-part `useRender` component (`useRender.ComponentProps<'p'>` + `mergeProps`), so it takes the same `render` prop as Base UI parts and passes all standard attributes through.
+No Base UI primitive. Text is a single-part `useRender` component over `useRender.ComponentProps<'p'>`:
 
-Default element per variant: display → `h1`, headline → `h2`, body → `p`, label → `span`, caption → `small`. Override the element with `render` without changing the look.
+| Surface | Decision |
+| --- | --- |
+| `render` | Exposed. Replaces the element without changing the look. |
+| Default element | By role: display `h1`, headline `h2`, body `p`, label `span`, caption `small`. |
+| Native props (`id`, `className`, `aria-*`, `title`, ...) | Exposed — full passthrough. `style` is removed from the type (API conventions section 1). |
 
 ## Extension API
 
-| Prop | Type | Default | Decision |
-| --- | --- | --- | --- |
-| `variant` | `'display' \| 'headline' \| 'body' \| 'label' \| 'caption'` | `'body'` | Existing axis, unchanged. Sets `data-variant`. |
-| `size` | `1 \| 2 \| 3` | unset | New. Sets `data-size`. Three steps per role; `1` is the role's smallest, `3` its largest. Unset and `size={2}` render the role's default tokens. Step numbers are per-role bands of different absolute sizes that pair across roles by theme design (Display 1 pairs with Body 1). |
+| Prop | Category | Type | Default | Decision |
+| --- | --- | --- | --- | --- |
+| `variant` | Axis | `'display' \| 'headline' \| 'body' \| 'label' \| 'caption'` | `'body'` | Sets `data-variant`. |
+| `size` | Axis | `'sm' \| 'md' \| 'lg'` | `'md'` | Sets `data-size`. Font size step inside the role. Recorded exception: on Text, `size` picks a typography step, not a `measure/size` step, because the values must match the token slot. |
+| `tone` | Axis | `'strong' \| 'default' \| 'muted' \| 'accent' \| 'danger' \| 'warning' \| 'success' \| 'info'` | unset (role color) | Sets `data-tone`. `link` is left out; it belongs to a link component. |
+| `maxLines` | Behavior | `number` (whole, ≥ 1) | unset (no limit) | Clamps to that many lines with an ellipsis. Written as private custom property `--_max-lines` and `data-max-lines`. When the text is cut, sets `title` to the full text content, unless the caller passes `title`. Recorded exception to the no-raw-numbers rule (user decision; the rule is being rewritten). |
 
-Explicitly rejected: a `weight` prop (Q3/Q8 — weights stay fixed per role; inline emphasis is plain HTML with browser-default styling); tokenized emphasis; role-relative naming s/m/l (Q1/Q2 — numeric steps chosen).
+Role colors when `tone` is unset: display and headline `strong`, body and label `default`, caption `muted`.
+
+Cut detection: compare `scrollHeight` to `clientHeight` after layout and on resize. Only when `maxLines` is set.
+
+Rejected: `weight` (emphasis is `<strong>`/`<em>`), `align`, `truncate` (covered by `maxLines={1}`), `size` as a measure step that sets line height (px line height overlaps lines when the reader enlarges browser text).
 
 ## Token mapping
 
-> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+Token names below are after the typography token change.
 
-Per role (`role` ∈ display/headline/body/label/caption):
-
-| Prop | Tokens |
+| Part | Tokens |
 | --- | --- |
-| `variant` (color) | `hds/sem/color/content/{strong\|default\|muted}/fg`: display and headline read `strong`, body and label read `default`, caption reads `muted` |
-| `variant` (face and rhythm) | `hds/sem/typography/{role}/md/{family,size,weight,leading,tracking}` |
-| `size` | `1` reads `hds/sem/typography/{role}/sm/{size,leading,tracking}`, `3` reads `.../lg/...`; unset and `2` read `.../md/...` |
+| `variant` (face and rhythm) | `hds/sem/typography/{role}/family`, `/weight`, `/leading`, `/tracking` |
+| `size` | `hds/sem/typography/{role}/size/{sm\|md\|lg}` for font size |
+| Line height | `hds/sem/typography/{role}/leading` (unitless, so it follows each font size) |
+| Letter spacing | `hds/sem/typography/{role}/tracking` (in `em`, so it follows each font size) |
+| Unset `tone` | `hds/sem/color/content/{strong\|default\|muted}/fg` per role (see above) |
+| `tone="strong"`, `"default"`, `"muted"`, `"accent"` | `hds/sem/color/content/{tone}/fg` |
+| `tone="danger"`, `"warning"`, `"success"`, `"info"` | `hds/sem/color/feedback/{tone}/fg` |
+| `maxLines` | structural: `display: -webkit-box`, `-webkit-line-clamp: var(--_max-lines)`, `overflow: hidden` |
+| Margin | structural `0` |
+
+Typography token change (token spec 7.7, runs before the code skill):
+
+- Per role: `hds/sem/typography/{role}/{family|weight|leading|tracking}`.
+- Per role and step: `hds/sem/typography/{role}/size/{sm|md|lg}`. The step is the last segment; this breaks "property last" in the naming grammar, and the token spec records the exception.
+- 5 roles × 4 + 5 roles × 3 = 35 tokens (was 75).
 
 Notes:
 
-- Text color is no longer a typography token. It comes from the Content color roles (token spec section 7.7).
-- The token spec names the steps `sm`, `md`, `lg`; the `size` prop still uses `1`, `2`, `3`. This breaks the slot rule in `docs/component-conventions.md`. The re-interview decides whether the prop moves to `sm | md | lg`.
-- Family and weight come from the `md` style for every size step. The token spec also emits `sm` and `lg` family and weight tokens.
-- Text is context-passive: Content `fg` tokens re-resolve automatically via ancestor `data-context` or `data-mode`; the component adds no context handling.
-- The step-segment grammar change flagged here before is resolved: the token spec has `typography/{role}/{sm|md|lg}/{property}`.
+- No primitive or driver references.
+- Context-passive: Content and Feedback `fg` tokens re-resolve under `data-context`, `data-section`, and modes.
+- Contrast gap: Feedback `fg` is checked against Feedback `bg` only, not page surfaces (TODO item).
+
+## Open items
+
+- Swap the native `title` on cut text for Tooltip after the Tooltip interview.
+- Feedback `fg` contrast check on page surfaces.
+- `docs/api-conventions.md` section 4 (no raw numbers) is rewritten with the user.
