@@ -56,7 +56,7 @@ test('every component renders with its hds classes', () => {
       [/hds-accordion"/, /hds-accordion__item/, /hds-action hds-accordion__trigger/]],
     ['Alert', h(H.Alert, { sentiment: 'danger', heading: 'Oops' }, 'Body'), [/hds-feedback hds-alert/, /data-sentiment="danger"/, /hds-feedback__heading[^>]*>Oops/]],
     ['Toaster', h(H.Toast.Provider, null, h(H.Toaster)), [/^/]],
-    ['Meter', h(H.Meter.Root, { value: 50, sentiment: 'success' }, h(H.Meter.Track, null, h(H.Meter.Indicator))), [/hds-meter"/, /data-sentiment="success"/, /hds-meter__indicator/]],
+    ['Meter', h(H.Meter.Root, { value: 50, tone: 'success', size: '400' }, h(H.Meter.Track, null, h(H.Meter.Indicator))), [/hds-meter"/, /data-tone="success"/, /data-size="400"/, /hds-meter__indicator/]],
     ['Progress', h(H.Progress.Root, { value: null }, h(H.Progress.Track, null, h(H.Progress.Indicator))), [/hds-meter hds-progress/, /data-indeterminate/]],
     ['Text', h(H.Text, { variant: 'headline', render: h('h3') }, 'T'), [/<h3[^>]*hds-text/, /data-variant="headline"/]],
     ['Text axes', h(H.Text, { size: 'lg', tone: 'danger', maxLines: 2 }, 'T'), [/<p[^>]*data-size="lg"/, /data-tone="danger"/, /data-max-lines="2"/, /--_max-lines:\s*2/]],

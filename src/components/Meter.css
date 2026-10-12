@@ -1,38 +1,51 @@
-/* Meter and Progress (token spec section 9). */
+/* Meter (spec 2026-10-12). Progress shares these rules until its own interview. */
 @layer hds.components {
   .hds-meter {
     --_fill: var(--hds-sem-color-feedback-info-icon);
+    --_height: var(--hds-sem-measure-size-300);
     display: grid;
     grid-template-columns: 1fr auto;
-    align-items: center;
+    align-items: baseline;
     gap: var(--hds-sem-measure-space-100) var(--hds-sem-measure-space-200);
   }
 
-  .hds-meter[data-sentiment='success'] { --_fill: var(--hds-sem-color-feedback-success-icon); }
-  .hds-meter[data-sentiment='warning'] { --_fill: var(--hds-sem-color-feedback-warning-icon); }
-  .hds-meter[data-sentiment='danger'] { --_fill: var(--hds-sem-color-feedback-danger-icon); }
-  .hds-progress { --_fill: var(--hds-sem-color-action-primary-default-bg); }
+  .hds-meter[data-tone='success'] { --_fill: var(--hds-sem-color-feedback-success-icon); }
+  .hds-meter[data-tone='warning'] { --_fill: var(--hds-sem-color-feedback-warning-icon); }
+  .hds-meter[data-tone='danger'] { --_fill: var(--hds-sem-color-feedback-danger-icon); }
+  .hds-meter[data-size='200'] { --_height: var(--hds-sem-measure-size-200); }
+  .hds-meter[data-size='400'] { --_height: var(--hds-sem-measure-size-400); }
+
+  .hds-progress {
+    --_fill: var(--hds-sem-color-action-primary-default-bg);
+    --_height: var(--hds-sem-measure-size-200);
+  }
 
   .hds-meter__label {
     color: var(--hds-sem-color-content-default-fg);
     font-family: var(--hds-sem-typography-label-family);
     font-size: var(--hds-sem-typography-label-size-md);
     font-weight: var(--hds-sem-typography-label-weight);
+    line-height: var(--hds-sem-typography-label-leading);
+    letter-spacing: var(--hds-sem-typography-label-tracking);
   }
 
   .hds-meter__value {
     grid-column: 2;
     color: var(--hds-sem-color-content-muted-fg);
+    font-family: var(--hds-sem-typography-caption-family);
     font-size: var(--hds-sem-typography-caption-size-md);
+    font-weight: var(--hds-sem-typography-caption-weight);
+    line-height: var(--hds-sem-typography-caption-leading);
+    letter-spacing: var(--hds-sem-typography-caption-tracking);
     font-variant-numeric: tabular-nums;
   }
 
   .hds-meter__track {
     grid-column: 1 / -1;
     position: relative;
-    block-size: 0.5rem;
+    block-size: var(--_height);
     overflow: hidden;
-    border-radius: 999px;
+    border-radius: var(--hds-sem-radius-round);
     background: var(--hds-sem-color-surface-sunken-bg);
   }
 
@@ -53,6 +66,8 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .hds-meter__indicator { transition: none; }
+
     .hds-progress[data-indeterminate] .hds-meter__indicator {
       animation: none;
       inline-size: 100%;

@@ -261,7 +261,7 @@ export function ShowcaseBody() {
             <Alert key={s} sentiment={s} heading={`${s[0].toUpperCase()}${s.slice(1)}`} icon={<Icon><Star /></Icon>}>A {s} message.</Alert>
           ))}
           <ToastButton />
-          <Meter.Root value={72} sentiment="success"><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+          <Meter.Root value={72} tone="success"><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
           <Progress.Root value={40}><Progress.Label>Upload</Progress.Label><Progress.Value /><Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root>
           <Progress.Root value={null}><Progress.Label>Working…</Progress.Label><Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root>
         </Card>

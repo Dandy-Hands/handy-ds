@@ -99,7 +99,7 @@ function Dashboard() {
       <Card>
         <Text variant="label">Revenue</Text>
         <Text variant="display">$48.2k</Text>
-        <Meter.Root value={72} sentiment="success"><Meter.Label>Goal</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+        <Meter.Root value={72} tone="success"><Meter.Label>Goal</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
       </Card>
       <Card>
         <Text variant="label">Visits by day</Text>

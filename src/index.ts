@@ -22,7 +22,7 @@ export { Accordion } from './components/Accordion.tsx';
 // Feedback
 export { Alert, type AlertProps, type Sentiment } from './components/Alert.tsx';
 export { Toast, Toaster } from './components/Toast.tsx';
-export { Meter, Progress, type MeterRootProps } from './components/Meter.tsx';
+export { Meter, Progress, type MeterRootProps, type MeterTone, type MeterSize } from './components/Meter.tsx';
 // Type, Icon, Divider
 export { Text, type TextProps, type TextSize, type TextTone, type TextVariant } from './components/Text.tsx';
 export { Icon, type IconProps, type IconTone, type IconSize } from './components/Icon.tsx';
