@@ -3,7 +3,7 @@
   .hds-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: var(--hds-sem-typography-body-md-size);
+    font-size: var(--hds-sem-typography-body-size-md);
   }
 
   .hds-table th,
@@ -15,8 +15,8 @@
 
   .hds-table th {
     color: var(--hds-sem-color-content-default-fg);
-    font-family: var(--hds-sem-typography-label-md-family);
-    font-weight: var(--hds-sem-typography-label-md-weight);
+    font-family: var(--hds-sem-typography-label-family);
+    font-weight: var(--hds-sem-typography-label-weight);
   }
 
   .hds-table thead th {

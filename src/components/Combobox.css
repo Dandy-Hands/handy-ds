@@ -13,12 +13,12 @@
     gap: var(--hds-sem-measure-space-100);
     padding: 0 var(--hds-sem-measure-space-200);
     border-radius: var(--hds-sem-radius-control);
-    font-size: var(--hds-sem-typography-caption-md-size);
+    font-size: var(--hds-sem-typography-caption-size-md);
   }
 
   .hds-combobox__status:not(:empty) {
     padding: var(--hds-sem-measure-space-200) var(--hds-sem-measure-space-400);
     color: var(--hds-sem-color-content-muted-fg);
-    font-size: var(--hds-sem-typography-caption-md-size);
+    font-size: var(--hds-sem-typography-caption-size-md);
   }
 }

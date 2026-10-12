@@ -25,9 +25,9 @@ test('primitive names are frozen: independent of driver values, all valid', () =
   for (const name of allPrims(base)) assert.equal(checkTokenName(name), null, name);
 });
 
-test('every semantic token is emitted once, and the set matches spec 7.8 (252)', () => {
-  assert.equal(SEM_TOKENS.length, 252);
-  assert.equal(new Set(SEM_TOKENS).size, 252);
+test('every semantic token is emitted once, and the set matches spec 7.8 (212)', () => {
+  assert.equal(SEM_TOKENS.length, 212);
+  assert.equal(new Set(SEM_TOKENS).size, 212);
   for (const name of SEM_TOKENS) assert.match(base.css, new RegExp(`${name.replaceAll('/', '-')}:`), name);
   const colorCount = SEM_TOKENS.filter((n) => n.startsWith('hds/sem/color/')).length;
   assert.equal(colorCount, 146);
@@ -109,8 +109,8 @@ test('driver change regenerates primitives; picks are unchanged', () => {
   assert.equal(other.primitives.shared['hds/prim/dimension/400'], '13.6px');
   assert.equal(other.other['hds/sem/radius/control'], '{hds/prim/radius/round}');
   assert.equal(other.other['hds/sem/elevation/raised'], 'none');
-  assert.equal(other.other['hds/sem/typography/body/md/size'], '{hds/prim/typography/scale/3}');
-  assert.equal(other.other['hds/sem/typography/body/lg/size'], '{hds/prim/typography/scale/4}');
+  assert.equal(other.other['hds/sem/typography/body/size/md'], '{hds/prim/typography/scale/3}');
+  assert.equal(other.other['hds/sem/typography/body/size/lg'], '{hds/prim/typography/scale/4}');
   assert.equal(other.colors.light.default['action/primary/default/bg'], base.colors.light.default['action/primary/default/bg']);
 });
 
@@ -133,7 +133,7 @@ test('css: var() refs, modes, contexts, sections and reset emitted', () => {
 test('bad sections and text styles are rejected', () => {
   assert.throws(() => buildTheme({ sections: { 'x"]{}': 'on-primary' } }), /bad section/);
   assert.throws(() => buildTheme({ sections: { hero: 'sepia' as never } }), /unknown target/);
-  assert.throws(() => buildTheme({ typography: { styles: { caption: { md: { size: 1 } } } } }), /scale step/);
+  assert.throws(() => buildTheme({ typography: { styles: { caption: { size: { sm: 0 } } } } }), /scale step/);
 });
 
 test('contrast: default drivers pass every pair, both modes, every context', () => {

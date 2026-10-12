@@ -556,25 +556,32 @@ const RATIOS: [number, string][] = [[1.067, 'minor second'], [1.125, 'major seco
   [1.333, 'perfect fourth'], [1.414, 'augmented fourth'], [1.5, 'perfect fifth'], [1.618, 'golden']];
 const PROP_OPTIONS: Record<string, readonly (string | number)[]> = {
   family: ['heading', 'body', 'mono'],
-  size: [1, 2, 3, 4, 5, 6, 7, 8, 9],
   weight: ['regular', 'medium', 'semibold', 'bold'],
   leading: ['tight', 'snug', 'normal', 'relaxed'],
   tracking: ['tight', 'normal', 'wide'],
+  size: [1, 2, 3, 4, 5, 6, 7, 8, 9],
 };
 
 export function Typography({ state, d, theme, set, mode }: StepProps) {
-  const [allSizes, setAllSizes] = useState(false);
   const def = defaultDrivers.typography;
   const fam = (k: 'heading' | 'body' | 'mono') => (
     <TextField key={k} label={`${k} font stack`} value={d.typography.family[k]} def={def.family[k]}
       onChange={(x) => set(['typography', 'family', k], x)} />
   );
-  // Resolved step of one text style property, read back from the semantic token template.
-  const step = (role: string, size: string, prop: string) => {
-    const seg = theme.other[`hds/sem/typography/${role}/${size}/${prop}`].replace(/[{}]/g, '').split('/').pop()!;
-    return prop === 'size' ? Number(seg) : seg;
+  // Resolved step of one text style token, read back from the semantic token template.
+  const step = (name: string) => theme.other[`hds/sem/typography/${name}`].replace(/[{}]/g, '').split('/').pop()!;
+  const pick = (role: string, label: string, name: string, path: string[], numeric: boolean) => {
+    const full = ['typography', 'styles', role, ...path];
+    return (
+      <label key={label}>
+        {label}
+        <select value={step(name)} onChange={(e) => set(full, numeric ? Number(e.target.value) : e.target.value)}>
+          {PROP_OPTIONS[numeric ? 'size' : path[0]].map((o) => <option key={o} value={String(o)}>{o}</option>)}
+        </select>
+        <Reset show={getIn(state, full) !== undefined} onClick={() => set(full, undefined)} label={`${role} ${label}`} />
+      </label>
+    );
   };
-  const sizes = allSizes ? TEXT_SIZE : (['md'] as const);
   return (
     <>
       <p className="tt-hint">Type a Google Fonts family first in a stack, for example <code>"Inter", system-ui, sans-serif</code>. The preview loads it. The client app loads its own fonts.</p>
@@ -590,35 +597,26 @@ export function Typography({ state, d, theme, set, mode }: StepProps) {
       </Live>
 
       <h3>Text styles</h3>
-      <label className="tt-check"><input type="checkbox" checked={allSizes} onChange={(e) => setAllSizes(e.target.checked)} /> Show sm and lg sizes</label>
+      <p className="tt-hint">Each role has one family, weight, leading, and tracking. Only the font size changes between sm, md, and lg.</p>
       <div className="tt-styles">
-        {TEXT_ROLE.map((role) => sizes.map((size) => {
-          const t = `hds/sem/typography/${role}/${size}`;
+        {TEXT_ROLE.map((role) => {
+          const t = `hds/sem/typography/${role}`;
           return (
-            <div key={`${role}-${size}`} className="tt-style">
+            <div key={role} className="tt-style">
               <Live mode={mode}>
-                <span style={{ fontFamily: v(`${t}/family`), fontSize: v(`${t}/size`), fontWeight: v(`${t}/weight`) as never, lineHeight: v(`${t}/leading`), letterSpacing: v(`${t}/tracking`) }}>
-                  {role} {size}: The quick brown fox
-                </span>
+                {TEXT_SIZE.map((size) => (
+                  <span key={size} style={{ display: 'block', fontFamily: v(`${t}/family`), fontSize: v(`${t}/size/${size}`), fontWeight: v(`${t}/weight`) as never, lineHeight: v(`${t}/leading`), letterSpacing: v(`${t}/tracking`) }}>
+                    {role} {size}: The quick brown fox
+                  </span>
+                ))}
               </Live>
               <div className="tt-style__picks">
-                {TEXT_PROP.map((prop) => {
-                  const path = ['typography', 'styles', role, size, prop];
-                  const explicit = getIn(state, path);
-                  return (
-                    <label key={prop}>
-                      {prop}
-                      <select value={String(step(role, size, prop))} onChange={(e) => set(path, prop === 'size' ? Number(e.target.value) : e.target.value)}>
-                        {PROP_OPTIONS[prop].map((o) => <option key={o} value={String(o)}>{o}</option>)}
-                      </select>
-                      <Reset show={explicit !== undefined} onClick={() => set(path, undefined)} label={`${role} ${size} ${prop}`} />
-                    </label>
-                  );
-                })}
+                {TEXT_PROP.map((prop) => pick(role, prop, `${role}/${prop}`, [prop], false))}
+                {TEXT_SIZE.map((size) => pick(role, `size ${size}`, `${role}/size/${size}`, ['size', size], true))}
               </div>
             </div>
           );
-        }))}
+        })}
       </div>
     </>
   );

@@ -48,7 +48,7 @@
 
   .hds-feedback__heading {
     margin: 0;
-    font-weight: var(--hds-sem-typography-label-md-weight);
+    font-weight: var(--hds-sem-typography-label-weight);
   }
 
   .hds-alert__body {

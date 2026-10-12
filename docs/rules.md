@@ -75,7 +75,7 @@ export default {
     'content/accent/fg': { light: 'primary/700', dark: 'primary/300' },
   },
   contexts: { 'on-primary': { 'surface/raised/bg': 'neutral/50' } },
-  typography: { styles: { headline: { md: { weight: 'semibold' } } } },
+  typography: { styles: { headline: { weight: 'semibold', size: { lg: 6 } } } },
 };
 ```
 

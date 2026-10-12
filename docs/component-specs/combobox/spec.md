@@ -56,8 +56,8 @@ Borrows per part, per the previous token spec, section 9, now withdrawn ("Combob
 | Popup (Surface elevation 2) | `hds/sem/color/surface/floating/*`, `hds/sem/elevation/floating`, `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` |
 | Items (Action tertiary) | `hds/sem/color/action/tertiary/{default,hover,active,selected,disabled}/{bg,fg,border}`; item measure reads `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
 | Chips (Action secondary) | `hds/sem/color/action/secondary/*` via the no-priority Action default; chip radius reads `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control`, chip padding/gap read `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (cross-borrow, flagged in guide Q11) |
-| Empty / Status text | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/md/*`; padding borrows `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
-| Label / Group label | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/md/*` |
+| Empty / Status text | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/*`; padding borrows `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Label / Group label | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/*` |
 | Separator | `hds/sem/color/graphic/divider/default`, `hds/sem/border/divider` |
 | Backdrop | `hds/sem/color/overlay/scrim` |
 | Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (from `base.css`) |

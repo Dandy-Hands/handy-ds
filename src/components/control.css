@@ -27,11 +27,11 @@
     border-radius: var(--_radius);
     background: var(--hds-sem-color-field-default-bg);
     color: var(--hds-sem-color-field-default-fg);
-    font-family: var(--hds-sem-typography-body-md-family);
-    font-size: var(--hds-sem-typography-body-md-size);
-    font-weight: var(--hds-sem-typography-body-md-weight);
-    line-height: var(--hds-sem-typography-label-md-leading);
-    letter-spacing: var(--hds-sem-typography-body-md-tracking);
+    font-family: var(--hds-sem-typography-body-family);
+    font-size: var(--hds-sem-typography-body-size-md);
+    font-weight: var(--hds-sem-typography-body-weight);
+    line-height: var(--hds-sem-typography-label-leading);
+    letter-spacing: var(--hds-sem-typography-body-tracking);
     text-align: start;
   }
 

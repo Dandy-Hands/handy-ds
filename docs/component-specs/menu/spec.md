@@ -48,7 +48,7 @@ Explicitly rejected: a `variant`/`priority` prop on the namespace (priority is s
 | Item colors | `hds/sem/color/action/tertiary/*` (default/hover/active/focus/disabled) |
 | Item padding, radius | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control`, `.../padding-x`, `.../radius` |
 | Trigger | `hds/sem/color/action/secondary/*` (or `tertiary/*` when `data-priority="tertiary"`) |
-| Group label | `hds/sem/color/content/{role}/fg`, `hds/sem/typography/caption/md/*` |
+| Group label | `hds/sem/color/content/{role}/fg`, `hds/sem/typography/caption/*` |
 | Backdrop | `hds/sem/color/overlay/scrim` |
 | Menubar gap | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
 

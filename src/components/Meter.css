@@ -15,15 +15,15 @@
 
   .hds-meter__label {
     color: var(--hds-sem-color-content-default-fg);
-    font-family: var(--hds-sem-typography-label-md-family);
-    font-size: var(--hds-sem-typography-label-md-size);
-    font-weight: var(--hds-sem-typography-label-md-weight);
+    font-family: var(--hds-sem-typography-label-family);
+    font-size: var(--hds-sem-typography-label-size-md);
+    font-weight: var(--hds-sem-typography-label-weight);
   }
 
   .hds-meter__value {
     grid-column: 2;
     color: var(--hds-sem-color-content-muted-fg);
-    font-size: var(--hds-sem-typography-caption-md-size);
+    font-size: var(--hds-sem-typography-caption-size-md);
     font-variant-numeric: tabular-nums;
   }
 

@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  font-family: var(--hds-sem-typography-body-md-family, system-ui, sans-serif);
+  font-family: var(--hds-sem-typography-body-family, system-ui, sans-serif);
   background: var(--hds-sem-color-surface-base-bg, #fff);
   color: var(--hds-sem-color-content-default-fg, #111);
 }

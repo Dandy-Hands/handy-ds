@@ -14,11 +14,11 @@
   .hds-dialog__title {
     margin: 0;
     color: var(--hds-sem-color-content-strong-fg);
-    font-family: var(--hds-sem-typography-headline-md-family);
-    font-size: var(--hds-sem-typography-headline-md-size);
-    font-weight: var(--hds-sem-typography-headline-md-weight);
-    line-height: var(--hds-sem-typography-headline-md-leading);
-    letter-spacing: var(--hds-sem-typography-headline-md-tracking);
+    font-family: var(--hds-sem-typography-headline-family);
+    font-size: var(--hds-sem-typography-headline-size-md);
+    font-weight: var(--hds-sem-typography-headline-weight);
+    line-height: var(--hds-sem-typography-headline-leading);
+    letter-spacing: var(--hds-sem-typography-headline-tracking);
   }
 
   .hds-dialog__description {

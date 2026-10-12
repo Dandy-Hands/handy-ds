@@ -31,11 +31,11 @@
     background: var(--_default-bg);
     color: var(--_default-fg);
     border: var(--hds-sem-border-control) solid var(--_default-border);
-    font-family: var(--hds-sem-typography-label-md-family);
-    font-size: var(--hds-sem-typography-label-md-size);
-    font-weight: var(--hds-sem-typography-label-md-weight);
-    line-height: var(--hds-sem-typography-label-md-leading);
-    letter-spacing: var(--hds-sem-typography-label-md-tracking);
+    font-family: var(--hds-sem-typography-label-family);
+    font-size: var(--hds-sem-typography-label-size-md);
+    font-weight: var(--hds-sem-typography-label-weight);
+    line-height: var(--hds-sem-typography-label-leading);
+    letter-spacing: var(--hds-sem-typography-label-tracking);
     cursor: pointer;
     user-select: none;
     text-decoration: none;

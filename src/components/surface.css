@@ -88,10 +88,10 @@
   .hds-list__label {
     padding: var(--hds-sem-measure-space-200) var(--hds-sem-measure-space-400);
     color: var(--hds-sem-color-content-muted-fg);
-    font-family: var(--hds-sem-typography-caption-md-family);
-    font-size: var(--hds-sem-typography-caption-md-size);
-    font-weight: var(--hds-sem-typography-caption-md-weight);
-    letter-spacing: var(--hds-sem-typography-caption-md-tracking);
+    font-family: var(--hds-sem-typography-caption-family);
+    font-size: var(--hds-sem-typography-caption-size-md);
+    font-weight: var(--hds-sem-typography-caption-weight);
+    letter-spacing: var(--hds-sem-typography-caption-tracking);
   }
 
   /* Overlay category: modal scrims. */

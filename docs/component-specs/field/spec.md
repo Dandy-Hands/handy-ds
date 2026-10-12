@@ -48,8 +48,8 @@ Wrapped components: `Field` from `@base-ui/react/field`, `Fieldset` from `@base-
 | --- | --- |
 | Control (any size) | `hds/sem/color/field/{default,hover,error,disabled}/{bg,fg,border,placeholder}`, `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (`control.css`) |
 | Group focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (frame drawn with `:has(:focus-visible)`) |
-| `Field.Label` | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/md/*` |
-| `Field.Description` | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/md/*` |
+| `Field.Label` | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/*` |
+| `Field.Description` | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/*` |
 | `Field.Error` | `hds/sem/color/feedback/danger/fg` on the page ground (gap 14, needs review) |
 | `Fieldset.Legend` | `hds/sem/color/content/default/fg` + label measure/other tokens |
 | `Field` gap | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (borrowed, gap 13) |

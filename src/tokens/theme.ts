@@ -4,7 +4,7 @@ import { type Context, type DriverInput, type Drivers, type Pick, type TextStyle
 import { resolvePrimitives, SHADOW_ALPHA, type Primitives } from './primitives.ts';
 import { checkPick, contextPicks, defaultPicks, resolveColors, type ColorPicks } from './picks.ts';
 import { checkContrast, type ContrastFailure } from './contrast.ts';
-import { BORDER_ROLE, ELEVATION, SHAPE_ROLE, SIZE, SPACE, TEXT_ROLE, TEXT_SIZE } from './names.ts';
+import { BORDER_ROLE, ELEVATION, SHAPE_ROLE, SIZE, SPACE, TEXT_PROP, TEXT_ROLE, TEXT_SIZE } from './names.ts';
 
 export type ColorMode = 'light' | 'dark';
 export const CONTEXTS: Context[] = ['on-primary', 'on-secondary'];
@@ -19,13 +19,13 @@ export const cssVar = (slash: string) => `--${slash.replaceAll('/', '-')}`;
 const cssValue = (template: string) => template.replace(REFS, (_, name) => `var(${cssVar(name)})`);
 const colorRef = (pick: string) => (pick === 'transparent' ? 'transparent' : `{hds/prim/color/${pick}}`);
 
-// Default md text styles (spec 7.7). sm and lg move the scale step one down or up.
-const TEXT: Record<string, TextStyle> = {
-  display: { family: 'heading', size: 7, weight: 'bold', leading: 'tight', tracking: 'tight' },
-  headline: { family: 'heading', size: 5, weight: 'bold', leading: 'snug', tracking: 'normal' },
-  body: { family: 'body', size: 3, weight: 'regular', leading: 'normal', tracking: 'normal' },
-  label: { family: 'body', size: 3, weight: 'medium', leading: 'snug', tracking: 'normal' },
-  caption: { family: 'body', size: 2, weight: 'regular', leading: 'normal', tracking: 'normal' },
+// Default text styles (spec 7.7): role properties and the md scale step. sm and lg default to one step down and up.
+const TEXT: Record<string, Omit<TextStyle, 'size'> & { md: number }> = {
+  display: { family: 'heading', md: 7, weight: 'bold', leading: 'tight', tracking: 'tight' },
+  headline: { family: 'heading', md: 5, weight: 'bold', leading: 'snug', tracking: 'normal' },
+  body: { family: 'body', md: 3, weight: 'regular', leading: 'normal', tracking: 'normal' },
+  label: { family: 'body', md: 3, weight: 'medium', leading: 'snug', tracking: 'normal' },
+  caption: { family: 'body', md: 2, weight: 'regular', leading: 'normal', tracking: 'normal' },
 };
 
 /** Semantic tokens other than color: the same in every mode and context. */
@@ -45,19 +45,17 @@ function otherTokens(d: Drivers): Record<string, string> {
     put(`elevation/${level}`, d.shadow.strength <= 0 ? 'none' : layers.join(', '));
   }
   for (const role of TEXT_ROLE) {
-    const md = { ...TEXT[role], ...d.typography.styles[role]?.md };
+    const { size: sizes = {}, ...picks } = d.typography.styles[role] ?? {};
+    const { md: base, ...s } = { ...TEXT[role], ...picks };
+    const md = sizes.md ?? base;
+    const steps = { sm: md - 1, md, lg: md + 1, ...sizes };
+    for (const prop of TEXT_PROP) put(`typography/${role}/${prop}`, `{hds/prim/typography/${prop}/${s[prop]}}`);
     for (const size of TEXT_SIZE) {
-      const step = size === 'sm' ? md.size - 1 : size === 'lg' ? md.size + 1 : md.size;
-      const s = { ...md, size: step, ...d.typography.styles[role]?.[size] };
-      if (!(Number.isInteger(s.size) && s.size >= 1 && s.size <= 9)) {
-        throw new Error(`typography.styles.${role}.${size}.size: expected a scale step 1-9, got ${s.size}`);
+      const step = steps[size];
+      if (!(Number.isInteger(step) && step >= 1 && step <= 9)) {
+        throw new Error(`typography.styles.${role}.size.${size}: expected a scale step 1-9, got ${step}`);
       }
-      const t = `typography/${role}/${size}`;
-      put(`${t}/family`, `{hds/prim/typography/family/${s.family}}`);
-      put(`${t}/size`, `{hds/prim/typography/scale/${s.size}}`);
-      put(`${t}/weight`, `{hds/prim/typography/weight/${s.weight}}`);
-      put(`${t}/leading`, `{hds/prim/typography/leading/${s.leading}}`);
-      put(`${t}/tracking`, `{hds/prim/typography/tracking/${s.tracking}}`);
+      put(`typography/${role}/size/${size}`, `{hds/prim/typography/scale/${step}}`);
     }
   }
   return out;

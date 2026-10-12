@@ -18,10 +18,10 @@
     padding: 0;
     margin-bottom: var(--hds-sem-measure-space-200);
     color: var(--hds-sem-color-content-default-fg);
-    font-family: var(--hds-sem-typography-label-md-family);
-    font-size: var(--hds-sem-typography-label-md-size);
-    font-weight: var(--hds-sem-typography-label-md-weight);
-    line-height: var(--hds-sem-typography-label-md-leading);
+    font-family: var(--hds-sem-typography-label-family);
+    font-size: var(--hds-sem-typography-label-size-md);
+    font-weight: var(--hds-sem-typography-label-weight);
+    line-height: var(--hds-sem-typography-label-leading);
   }
 
   .hds-field {
@@ -40,21 +40,21 @@
 
   .hds-field__label {
     color: var(--hds-sem-color-content-default-fg);
-    font-family: var(--hds-sem-typography-label-md-family);
-    font-size: var(--hds-sem-typography-label-md-size);
-    font-weight: var(--hds-sem-typography-label-md-weight);
-    line-height: var(--hds-sem-typography-label-md-leading);
-    letter-spacing: var(--hds-sem-typography-label-md-tracking);
+    font-family: var(--hds-sem-typography-label-family);
+    font-size: var(--hds-sem-typography-label-size-md);
+    font-weight: var(--hds-sem-typography-label-weight);
+    line-height: var(--hds-sem-typography-label-leading);
+    letter-spacing: var(--hds-sem-typography-label-tracking);
   }
 
   .hds-field__description,
   .hds-field__error {
     margin: 0;
-    font-family: var(--hds-sem-typography-caption-md-family);
-    font-size: var(--hds-sem-typography-caption-md-size);
-    font-weight: var(--hds-sem-typography-caption-md-weight);
-    line-height: var(--hds-sem-typography-caption-md-leading);
-    letter-spacing: var(--hds-sem-typography-caption-md-tracking);
+    font-family: var(--hds-sem-typography-caption-family);
+    font-size: var(--hds-sem-typography-caption-size-md);
+    font-weight: var(--hds-sem-typography-caption-weight);
+    line-height: var(--hds-sem-typography-caption-leading);
+    letter-spacing: var(--hds-sem-typography-caption-tracking);
   }
 
   .hds-field__description {

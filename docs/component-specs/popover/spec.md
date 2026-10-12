@@ -48,7 +48,7 @@ Wrapped component: `Popover` from `@base-ui/react/popover`. Surface decisions:
 | Popup ground | `hds/sem/color/surface/floating/*`, `hds/sem/elevation/floating` + `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` (via `surface.css`) |
 | Backdrop | `hds/sem/color/overlay/scrim` (only when a backdrop is rendered) |
 | Trigger / Close | `hds/sem/color/action/{secondary,tertiary}/*` (all states, via `action.css`) + `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
-| Title | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/md/*` |
+| Title | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/*` |
 | Description | `hds/sem/color/content/default/fg` |
 | Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (from `base.css`) |
 

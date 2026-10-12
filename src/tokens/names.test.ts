@@ -20,7 +20,8 @@ test('every spec example name is valid', () => {
     'hds/sem/radius/round',
     'hds/sem/border/focus',
     'hds/sem/elevation/modal',
-    'hds/sem/typography/headline/lg/tracking',
+    'hds/sem/typography/headline/tracking',
+    'hds/sem/typography/headline/size/lg',
     'hds/prim/color/hue-3/600',
     'hds/prim/color/danger/600',
     'hds/prim/color/neutral/50',
@@ -48,8 +49,9 @@ test('invalid names are rejected', () => {
     'hds/sem/measure/space/500', // not in the space subset
     'hds/sem/radius/action', // radius is per shape role, not category
     'hds/sem/elevation/base', // no shadow below raised
-    'hds/sem/typography/body/xl/size', // unknown size
-    'hds/sem/typography/body/md', // incomplete
+    'hds/sem/typography/body/size/xl', // unknown size
+    'hds/sem/typography/body/md/size', // old per-step form
+    'hds/sem/typography/body/size', // incomplete
     'hds/sem/constructor', // prototype key
     'hds/prim/colour/primary/600', // unknown primitive type
     'hds/prim/space/4', // old primitive type

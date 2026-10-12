@@ -50,7 +50,7 @@ Wrapped components: `Dialog` from `@base-ui/react/dialog`, `AlertDialog` from `@
 | Popup ground | `hds/sem/color/surface/modal/*`, `hds/sem/elevation/modal` + `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` (via `surface.css`) |
 | Backdrop | `hds/sem/color/overlay/scrim` |
 | Trigger / Close | `hds/sem/color/action/secondary/*` (all states, via `action.css`) + `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
-| Title | `hds/sem/color/content/strong/fg`, `hds/sem/typography/headline/md/*` |
+| Title | `hds/sem/color/content/strong/fg`, `hds/sem/typography/headline/*` |
 | Description | `hds/sem/color/content/default/fg` |
 | Description margins | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control`, `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` (structural spacing via tokens) |
 | Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (from `base.css`) |

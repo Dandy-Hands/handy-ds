@@ -44,7 +44,7 @@ Wrapped component: `NumberField` from `@base-ui/react/number-field`. Surface dec
 | Group (any size) | `hds/sem/color/field/{default,hover,error,disabled}/{bg,fg,border,placeholder}`, `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (`control.css`) |
 | Group focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (frame, via `:has(:focus-visible)`) |
 | Stepper button hover | `hds/sem/color/action/tertiary/hover/{bg,fg}` (cross-category borrow) |
-| Value text | inherits the control's `hds/sem/typography/body/md/*` + `hds/sem/typography/body/md/*` typography |
+| Value text | inherits the control's `hds/sem/typography/body/*` + `hds/sem/typography/body/*` typography |
 
 Notes:
 

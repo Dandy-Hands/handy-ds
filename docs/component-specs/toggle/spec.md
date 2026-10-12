@@ -44,7 +44,7 @@ Wrapped components: `Toggle` from `@base-ui/react/toggle`, `ToggleGroup` from `@
 | --- | --- |
 | Toggle look and states | `hds/sem/color/action/secondary/{default,hover,active,selected,disabled}/{bg,border,fg}` (via `action.css`; other priorities available through `data-priority`) |
 | Toggle measure | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` — Toggle pins to `md` (only Button opens the size axis) |
-| Label type | `hds/sem/typography/label/md/*` |
+| Label type | `hds/sem/typography/label/*` |
 | Group gap | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
 | Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (from `base.css`) |
 

@@ -63,7 +63,7 @@ A member belongs to exactly one category. If a member seems to fit two, split it
 
 ### 5.1 Axis values
 
-Axis values appear verbatim in the axis slot of the token names the component reads: `variant="primary"` on Button reads `color/action/primary/...`; `size="sm"` on Text reads `typography/body/sm/...`. Value sets are defined once per axis (section 6) and shared across components.
+Axis values appear verbatim in the axis slot of the token names the component reads: `variant="primary"` on Button reads `color/action/primary/...`; `size="sm"` on Text reads `typography/body/size/sm`. Value sets are defined once per axis (section 6) and shared across components.
 
 ### 5.2 Measure values
 

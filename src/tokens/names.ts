@@ -27,7 +27,7 @@ export const BORDER_ROLE = ['control', 'container', 'divider', 'focus'] as const
 export const ELEVATION = ['raised', 'floating', 'modal'] as const;
 export const TEXT_ROLE = ['display', 'headline', 'body', 'label', 'caption'] as const;
 export const TEXT_SIZE = ['sm', 'md', 'lg'] as const;
-export const TEXT_PROP = ['family', 'size', 'weight', 'leading', 'tracking'] as const;
+export const TEXT_PROP = ['family', 'weight', 'leading', 'tracking'] as const;
 
 const range = (n: number) => Array.from({ length: n }, (_, i) => String(i + 1));
 const cross = (prefix: string, ...lists: readonly (readonly string[])[]): string[] =>
@@ -49,7 +49,7 @@ export const COLOR_TOKENS: string[] = [
   'overlay/scrim',
 ];
 
-/** Every semantic token in slash form (spec 7.8, 252 names). */
+/** Every semantic token in slash form (spec 7.8, 212 names). */
 export const SEM_TOKENS: string[] = [
   ...COLOR_TOKENS.map((n) => `color/${n}`),
   ...cross('measure/space', SPACE),
@@ -57,7 +57,8 @@ export const SEM_TOKENS: string[] = [
   ...cross('radius', SHAPE_ROLE),
   ...cross('border', BORDER_ROLE),
   ...cross('elevation', ELEVATION),
-  ...cross('typography', TEXT_ROLE, TEXT_SIZE, TEXT_PROP),
+  ...cross('typography', TEXT_ROLE, TEXT_PROP),
+  ...cross('typography', TEXT_ROLE, ['size'], TEXT_SIZE),
 ].map((n) => `hds/sem/${n}`);
 
 // Segment trie of SEM_TOKENS, for error messages that name the first bad segment.

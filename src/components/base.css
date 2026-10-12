@@ -16,11 +16,11 @@
 
   body {
     margin: 0;
-    font-family: var(--hds-sem-typography-body-md-family);
-    font-size: var(--hds-sem-typography-body-md-size);
-    font-weight: var(--hds-sem-typography-body-md-weight);
-    line-height: var(--hds-sem-typography-body-md-leading);
-    letter-spacing: var(--hds-sem-typography-body-md-tracking);
+    font-family: var(--hds-sem-typography-body-family);
+    font-size: var(--hds-sem-typography-body-size-md);
+    font-weight: var(--hds-sem-typography-body-weight);
+    line-height: var(--hds-sem-typography-body-leading);
+    letter-spacing: var(--hds-sem-typography-body-tracking);
   }
 
   :focus-visible {

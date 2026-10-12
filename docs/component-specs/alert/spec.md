@@ -44,7 +44,7 @@ No Base UI primitive. Alert is a single-part `useRender` component (`useRender.C
 | Block (per sentiment) | `hds/sem/color/feedback/{info,success,warning,danger}/{bg,fg,border}` |
 | Icon span (per sentiment) | `hds/sem/color/feedback/{info,success,warning,danger}/icon` |
 | Measure | `hds/sem/measure/space/*`, `hds/sem/radius/container`, `hds/sem/border/container` |
-| Heading weight | `hds/sem/typography/label/md/*` |
+| Heading weight | `hds/sem/typography/label/*` |
 
 Notes:
 

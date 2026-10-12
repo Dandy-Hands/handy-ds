@@ -44,8 +44,8 @@ Sortable columns: put a `<button>` inside the `th` and set `aria-sort="ascending
 | Row ground | `hds/sem/color/surface/base/*`; striped even rows `hds/sem/color/surface/base/*` |
 | Row hover | `hds/sem/color/action/tertiary/hover/bg` (borrowed) |
 | Cell borders | `hds/sem/color/graphic/divider/default` + `hds/sem/border/divider`; header underline `.../medium-thickness` |
-| Header text | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/md/*` |
-| Body text | `hds/sem/color/content/default/fg`; base size `hds/sem/typography/body/md/*` |
+| Header text | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/*` |
+| Body text | `hds/sem/color/content/default/fg`; base size `hds/sem/typography/body/*` |
 | Cell padding | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (borrowed, gap 13) |
 | Sort button | `hds/sem/color/action/tertiary/{default,hover,active}/bg` + `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
 

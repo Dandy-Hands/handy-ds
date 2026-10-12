@@ -49,7 +49,7 @@ Button consumes only these semantic tokens:
 
 - `hds/sem/color/action/{priority}/{default,hover,active,disabled,selected}/{bg,border,fg}` for all four priorities — look and states (`action.css`).
 - `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` — size axis (`Button.css`, `action.css`).
-- `hds/sem/typography/label/md/*` — label typography (`action.css`).
+- `hds/sem/typography/label/*` — label typography (`action.css`).
 - Focus ring from `base.css`: `hds/sem/color/focus/ring`, `hds/sem/border/focus`.
 
 No primitive or driver references. Spinner animation timing is structural (allowed literal) with a `prefers-reduced-motion` fallback. No token gaps found in review.

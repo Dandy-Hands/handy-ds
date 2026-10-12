@@ -7,10 +7,10 @@
   .hds-popover__title {
     margin: 0;
     color: var(--hds-sem-color-content-default-fg);
-    font-family: var(--hds-sem-typography-label-md-family);
-    font-size: var(--hds-sem-typography-label-md-size);
-    font-weight: var(--hds-sem-typography-label-md-weight);
-    line-height: var(--hds-sem-typography-label-md-leading);
+    font-family: var(--hds-sem-typography-label-family);
+    font-size: var(--hds-sem-typography-label-size-md);
+    font-weight: var(--hds-sem-typography-label-weight);
+    line-height: var(--hds-sem-typography-label-leading);
   }
 
   .hds-popover__description {

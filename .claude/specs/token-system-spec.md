@@ -50,7 +50,7 @@ hds/sem/{type}/[category]/[axis]/[state]/{property}
 - `type` is always the first segment after `sem`: `color`, `measure`, `radius`, `border`, `elevation`, `typography`.
 - `category` is present for `color` only. The other types are shared across categories.
 - `axis` and `state` are present only where the value varies by them.
-- `property` is last.
+- `property` is last. Exception: the typography font size step, `typography/{role}/size/{sm|md|lg}`, puts the step after the property, so the value of Text's `size` prop is the last segment (section 7.7).
 - Context and mode are never part of a token name (section 6).
 
 The typography token type is named `typography`, so the word "type" always means the token type.
@@ -94,7 +94,8 @@ The complete driver list. Section 4 defines how the palette drivers build primit
 | `typography.family.heading`, `.body`, `.mono` | CSS font stack | *tunable* system stacks |
 | `typography.baseSize` | px | 16 |
 | `typography.ratio` | number | 1.25 |
-| `typography.{role}.{size}.{property}` | a typography pick (7.7) | section 7.7 |
+| `typography.styles.{role}.{family\|weight\|leading\|tracking}` | a typography pick (7.7) | section 7.7 |
+| `typography.styles.{role}.size.{sm\|md\|lg}` | a type scale step, 1–9 | `md` per section 7.7; `sm` and `lg` one step down and up |
 | `density` | number, multiplies the grid | 1 |
 | `radius.control`, `.container`, `.indicator`, `.round` | a radius step | `200`, `300`, `100`, `round` *tunable* |
 | `border.control`, `.container`, `.divider`, `.focus` | a border step | `025`, `025`, `025`, `050` *tunable* |
@@ -496,17 +497,19 @@ Each token is one composite `box-shadow` value with three layers (4.5). The elev
 ### 7.7 Typography
 
 ```
-hds/sem/typography/{role}/{size}/{family|size|weight|leading|tracking}
+hds/sem/typography/{role}/{family|weight|leading|tracking}
+hds/sem/typography/{role}/size/{sm|md|lg}
 ```
 
 - Roles: `display`, `headline`, `body`, `label`, `caption`.
-- Sizes: `sm`, `md`, `lg`.
-- 15 text styles, 75 tokens.
-- Each property of each text style is a pick with a default. The family pick is `heading`, `body`, or `mono`. The size pick is a scale step. Weight, leading, and tracking picks are steps on their scales.
+- Sizes: `sm`, `md`, `lg`. Only the font size changes by size step. Family, weight, leading, and tracking belong to the role.
+- Leading is unitless and tracking is in `em`, so both follow the font size of each step.
+- 5 roles × 4 role properties + 5 roles × 3 sizes = 35 tokens.
+- Each token is a pick with a default. The family pick is `heading`, `body`, or `mono`. Each size pick is a scale step. Weight, leading, and tracking picks are steps on their scales.
 
-Default `md` picks *tunable*. The `sm` and `lg` sizes move the scale step one step down or up.
+Default picks *tunable*. The `sm` and `lg` sizes default to one scale step below and above `md`.
 
-| Role | Family | Scale step | Weight | Leading | Tracking |
+| Role | Family | `md` scale step | Weight | Leading | Tracking |
 |---|---|---|---|---|---|
 | `display` | heading | 7 | bold | tight | tight |
 | `headline` | heading | 5 | bold | snug | normal |
@@ -525,8 +528,8 @@ Text color is not part of typography. It comes from the Content color roles.
 | radius | 4 |
 | border | 4 |
 | elevation | 3 |
-| typography | 75 |
-| **total** | **252** |
+| typography | 35 |
+| **total** | **212** |
 
 ---
 

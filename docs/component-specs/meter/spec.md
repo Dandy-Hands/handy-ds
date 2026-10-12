@@ -45,8 +45,8 @@ Wrapped components: `Meter` from `@base-ui/react/meter`, `Progress` from `@base-
 | Track | `hds/sem/color/surface/base/*` |
 | Meter fill (per sentiment) | `hds/sem/color/feedback/{info,success,warning,danger}/icon` |
 | Progress fill | `hds/sem/color/action/primary/default/bg` |
-| Label | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/md/*` |
-| Value | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/md/*` |
+| Label | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/*` |
+| Value | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/*` |
 | Track height / radius | structural literals (`0.5rem`, `999px`) |
 
 Notes:

@@ -14,7 +14,7 @@
 .hds-chrome {
   background: var(--hds-sem-color-surface-base-bg);
   color: var(--hds-sem-color-content-default-fg);
-  font-family: var(--hds-sem-typography-body-md-family);
+  font-family: var(--hds-sem-typography-body-family);
   font-size: 0.875rem;
 }
 .hds-chrome button:not(.tt-swatch, .tt-reset, .tt-link, .tt-pick__toggle, .tt-derived__chip),
@@ -91,7 +91,7 @@
   flex: 1;
   background: var(--hds-sem-color-surface-base-bg);
   color: var(--hds-sem-color-content-default-fg);
-  font-family: var(--hds-sem-typography-body-md-family);
+  font-family: var(--hds-sem-typography-body-family);
 }
 
 /* Controls */

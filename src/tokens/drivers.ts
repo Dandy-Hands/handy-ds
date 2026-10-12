@@ -19,15 +19,15 @@ export type FamilyStep = 'heading' | 'body' | 'mono';
  */
 export type Pick = string | { light?: string; dark?: string };
 
-/** One text style (spec 7.7). `size` is a type scale step, 1-9. */
+/** One role's text style (spec 7.7). `size` holds type scale steps, 1-9; only size varies by step. */
 export interface TextStyle {
   family: FamilyStep;
-  size: number;
   weight: WeightStep;
   leading: LeadingStep;
   tracking: TrackingStep;
+  size: Record<(typeof TEXT_SIZE)[number], number>;
 }
-type TextPicks = Partial<Record<(typeof TEXT_ROLE)[number], Partial<Record<(typeof TEXT_SIZE)[number], Partial<TextStyle>>>>>;
+type TextPicks = Partial<Record<(typeof TEXT_ROLE)[number], Partial<Omit<TextStyle, 'size'>> & { size?: Partial<TextStyle['size']> }>>;
 
 export interface Drivers {
   color: {
@@ -71,7 +71,7 @@ export interface Drivers {
     baseSize: number;
     /** Each type scale step multiplies the previous one by this. */
     ratio: number;
-    /** Text style overrides, e.g. `{ headline: { md: { weight: 'semibold' } } }`. */
+    /** Text style overrides, e.g. `{ headline: { weight: 'semibold', size: { lg: 6 } } }`. */
     styles: TextPicks;
   };
   /** Multiplies the 4px grid. 1 = default, ~0.85 compact, ~1.15 roomy. */
