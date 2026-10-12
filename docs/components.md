@@ -351,18 +351,19 @@ toast.add({ title: 'Saved', type: 'success' });
 
 ### Meter
 
-A value in a known range: storage used, a score.
+A static measurement in a known range: storage used, a score.
 
 - **Use when:** the number means something on its own.
 - **Don't use when:** it is a task running to completion. Use `Progress`.
 
 | Prop | Values | Default |
 |---|---|---|
-| `sentiment` (on `Meter.Root`) | `info`, `success`, `warning`, `danger` | `info` |
+| `tone` (on `Meter.Root`) | `info`, `success`, `warning`, `danger` | `info` |
+| `size` (on `Meter.Root`) | `200`, `300`, `400` (track height) | `300` |
 
 ```tsx
-<Meter.Root value={72} sentiment="warning">
-  <Meter.Label>Storage</Meter.Label><Meter.Track><Meter.Indicator /></Meter.Track><Meter.Value />
+<Meter.Root value={81} tone="warning">
+  <Meter.Label>API quota</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track>
 </Meter.Root>
 ```
 

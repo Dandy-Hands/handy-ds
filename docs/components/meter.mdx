@@ -7,68 +7,112 @@ import { Meter, Progress } from 'handy-ds';
 
 # Meter
 
-A value in a known range — storage used, a score — with a label, a track, a
-fill, and a formatted value. `Progress` is the task-completion sibling: same
-parts, primary fill, and an indeterminate state.
+A static measurement inside a known range, such as storage used or a score. It has
+a label, a track, a fill, and an optional formatted value. Screen readers announce
+it as a meter with its value.
 
-<Meter.Root value={40}><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+<Meter.Root value={72}><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
 
 ## Usage
 
-Use Meter when the number means something on its own and has a known range. Do
-not use it for a task running to completion — use Progress. Pass
-`value={null}` to Progress when the duration is unknown.
+Use Meter when the number means something on its own and has a known range. Do not
+use it for a running task: use Progress. Set `tone` to show status, for example
+`warning` near a limit and `danger` over it. The caller picks the tone; Meter does
+not compute it from the value.
 
 ## Base UI API
 
-Wraps Base UI's `Meter` and `Progress`; every part passes through unchanged,
-styled via `part()` — the look is shared by both.
+Wraps Base UI's `Meter`. Each part takes only the props listed below.
 
 | Element | Notes |
 | ------- | ----- |
-| `Root` props (`value`, `min`, `max`, `format`, `locale`, `aria-valuetext`, ...) | Exposed — full passthrough. `Progress.Root` accepts `null` for `value`, driving `data-indeterminate`. |
-| `Root`, `Label`, `Track`, `Indicator`, `Value` | Styled with `part()` — shared by Meter and Progress. |
-| `data-indeterminate` (Progress), `data-sentiment` (Meter.Root) | Consumed by CSS. |
-| Callback-form `className`/`style` | Available via passthrough, not documented. |
+| `Root`: `value`, `min`, `max`, `format`, `locale`, `aria-valuetext`, `getAriaValueText` | Exposed. |
+| `Value` children as a function | Exposed. Returns the text to show. |
+| `Label`, `Track` children | Exposed. |
+| `Indicator` | Exposed, no props. |
+| `render`, `className`, `style`, `ref`, native props on every part | Removed. The parent layout `gap` sets the space around a Meter. |
 
 ## Extension API
 
+### Meter.Root
+
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `sentiment` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | Fill color. `info` — neutral. `success` — good level. `warning` — nearing a limit. `danger` — over a limit. |
-| `value` | `number` | — | The current value. `Progress.Root` also accepts `null` (indeterminate). |
-| `min` / `max` | `number` | `0` / `100` | The range ends. |
-| `format` | `Intl.NumberFormatOptions` | — | Formats the displayed value. |
-| `children` | `ReactNode` | — | Parts: `Label`, `Value`, `Track` with `Indicator` inside. |
+| `value` | `number` | — | Required. The current value. |
+| `min` | `number` | `0` | The low end of the range. |
+| `max` | `number` | `100` | The high end of the range. |
+| `tone` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | Fill color. `info`: a neutral reading. `success`: a good level. `warning`: near a limit. `danger`: over a limit. |
+| `size` | `'200' \| '300' \| '400'` | `'300'` | Track height. `200`: a thin bar. `300`: the standard bar. `400`: a thick bar. Text size does not change. |
+| `format` | `Intl.NumberFormatOptions` | percent | Formats the number that `Meter.Value` shows and screen readers announce. |
+| `locale` | `Intl.LocalesArgument` | the user's locale | The locale for `format`. |
+| `aria-valuetext` | `string` | — | Text that screen readers announce in place of the number. |
+| `getAriaValueText` | `(formattedValue, value) => string` | — | Returns the text that screen readers announce. |
+| `children` | `ReactNode` | — | The parts: `Label`, `Value`, and `Track` with `Indicator` inside. |
 
-`render` and standard attributes are passthrough on every part — they appear here only, never get their own section.
+### Meter.Label
 
-## Sentiment
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `children` | `ReactNode` | — | The visible name of the meter. Always include it. |
 
-The sentiment picks the fill color from the Feedback category. The track stays
-the striped Surface-0 ground.
+### Meter.Value
 
-### sentiment="info"
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `children` | `(formattedValue, value) => ReactNode` | — | Optional. Returns the text to show. Without it, Value shows the formatted number. |
 
-<Meter.Root value={40}><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+### Meter.Track
 
-### sentiment="success"
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `children` | `ReactNode` | — | Holds `Meter.Indicator`. |
 
-<Meter.Root value={72} sentiment="success"><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+### Meter.Indicator
 
-### sentiment="warning"
+Meter.Indicator takes no props.
 
-<Meter.Root value={88} sentiment="warning"><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+## Tone
 
-### sentiment="danger"
+The tone picks the fill color from the Feedback category. The track color stays
+the same.
 
-<Meter.Root value={97} sentiment="danger"><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+### tone="info"
+
+<Meter.Root value={40} tone="info"><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+
+### tone="success"
+
+<Meter.Root value={100} tone="success"><Meter.Label>Profile complete</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+
+### tone="warning"
+
+<Meter.Root value={81} tone="warning"><Meter.Label>API quota</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+
+### tone="danger"
+
+<Meter.Root value={94} tone="danger" format={{ style: 'decimal' }}><Meter.Label>Seats used</Meter.Label><Meter.Value>{(formatted) => `${formatted} of 100`}</Meter.Value><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+
+## Size
+
+The size sets the track height. The label and value text keep their size.
+
+### size="200"
+
+<Meter.Root value={72} size="200"><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+
+### size="300"
+
+<Meter.Root value={72} size="300"><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
+
+### size="400"
+
+<Meter.Root value={72} size="400"><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
 
 ## Progress
 
-`Progress` fills with the primary action color. With `value={null}` the
-indicator slides — the indeterminate state — and freezes under
-`prefers-reduced-motion`.
+Progress shares the Meter look until its own spec interview. It fills with the
+primary action color and has an 8px track. With `value={null}` the indicator
+slides (indeterminate). Under `prefers-reduced-motion` the slide stops.
 
 <Progress.Root value={40}><Progress.Label>Upload</Progress.Label><Progress.Value /><Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root>
 
@@ -78,22 +122,26 @@ indicator slides — the indeterminate state — and freezes under
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Track | `hds/sem/color/surface/base/*` |
-| Meter fill per sentiment | `hds/sem/color/feedback/{info,success,warning,danger}/icon` |
-| Progress fill | `hds/sem/color/action/primary/default/bg` |
-| Label | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/*` |
-| Value | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/*` |
+| Root gaps | `hds/sem/measure/space/100` (rows), `hds/sem/measure/space/200` (Label to Value) |
+| Track color | `hds/sem/color/surface/sunken/bg` |
+| Track height | `hds/sem/measure/size/{size}` |
+| Track radius | `hds/sem/radius/round` |
+| Indicator (fill) | `hds/sem/color/feedback/{tone}/icon` |
+| Label | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/*` at `md` |
+| Value | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/*` at `md` |
 
 ## Owner notes
 
-- Base UI mapping: wraps `@base-ui/react/meter` and `progress` in one family;
-  both namespaces are mirrored. `Root`, `Label`, `Track`, `Indicator`, and
-  `Value` are the styled parts, shared between the two.
-- Extension decisions: `sentiment` on `Meter.Root` is the only wrapper prop;
-  `Progress` has none. Track height and pill radius are structural literals.
-- Known constraints: the fill borrows the Feedback `icon-fg` token for Meter —
-  the spec's own mapping (section 9). The value text uses caption tokens with
-  tabular numerals.
-- Accessibility: the value is announced with its range by the underlying
-  behavior; `aria-valuetext` / `getAriaValueText` refine the announcement.
-  Indeterminate progress communicates an unknown duration.
+- Base UI mapping: wraps `@base-ui/react/meter`. Progress wraps `@base-ui/react/progress`
+  and shares the CSS. Progress gets its own spec interview and page.
+- Extension decisions: `tone` replaces the old `sentiment` and uses the library-wide
+  `tone` axis. `size` takes `measure/size` steps `200`, `300`, `400` (8, 12, 16px). The
+  steps `200` and `300` were added to the token set for this. The removal of `render`
+  and `className` is a recorded break of the escape-hatch rule, as for Separator.
+- Known constraints: the caller picks `tone`; there are no `low`, `high`, or `optimum`
+  thresholds. The fill width moves with a 300ms transition, off under
+  `prefers-reduced-motion`. All colors follow `data-context` and `data-section`
+  overrides.
+- Accessibility: `role="meter"` with `aria-valuenow`, `aria-valuemin`, and
+  `aria-valuemax`. `Meter.Label` names the meter. `aria-valuetext` or
+  `getAriaValueText` changes what screen readers announce. Meter is not focusable.
