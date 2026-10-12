@@ -23,7 +23,7 @@ planned, no Base UI primitive.
 - [x] separator `[re]`
 - [x] meter `[re]`
 - [x] progress `[new]`
-- [ ] avatar `[new]`
+- [x] avatar `[new]`
 
 ## Tier 2 — Single interactive controls
 
