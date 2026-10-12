@@ -1,0 +1,153 @@
+---
+title: Avatar
+order: 23.5
+---
+
+import { Avatar, Icon } from 'handy-ds';
+
+export const photo = 'data:image/svg+xml,' + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#7a8fa6"/><circle cx="32" cy="25" r="12" fill="#e8d3c0"/><path d="M10 64c2-14 11-21 22-21s20 7 22 21z" fill="#2f4a66"/></svg>'
+);
+
+export const PersonIcon = () => (
+  <Icon>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="8" r="4" /><path d="M4 21c1-4.5 4.2-7 8-7s7 2.5 8 7" /></svg>
+  </Icon>
+);
+
+# Avatar
+
+Shows a person's photo in a round frame. When there is no photo, or the photo fails to
+load, it shows a fallback: initials or an icon. The fallback sits on a quiet neutral
+ground.
+
+<div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+  <Avatar.Root><Avatar.Image src={photo} alt="" /><Avatar.Fallback delay={300}>RL</Avatar.Fallback></Avatar.Root>
+  <Avatar.Root><Avatar.Fallback>RL</Avatar.Fallback></Avatar.Root>
+  <Avatar.Root><Avatar.Fallback><PersonIcon /></Avatar.Fallback></Avatar.Root>
+</div>
+
+## Usage
+
+Use Avatar to identify a person or an account next to a name, in lists, headers, and
+comments. Always give a Fallback with initials or an icon. Do not use Avatar for
+content images or logos: use `<img>`. Give the Image an empty `alt` when the person's
+name shows next to it.
+
+## Base UI API
+
+Wraps Base UI's `Avatar`. Each part takes only the props listed below.
+
+| Element | Notes |
+| ------- | ----- |
+| `Root` children | Exposed. The parts. |
+| `Image`: `src`, `alt`, `srcSet`, `sizes`, `loading` | Exposed. Native `img` attributes. |
+| `Image`: `keepMounted`, `onLoadingStatusChange` | Exposed. |
+| `Image`: `render` | Exposed. For optimized image components such as `next/image`. |
+| `Fallback`: `children`, `delay` | Exposed. |
+| Image transition data attributes (`data-starting-style`, `data-ending-style`) | Kept. The CSS does not read them. |
+| `className`, `style`, `ref`, other native props; `render` on Root and Fallback | Removed. |
+
+## Extension API
+
+### Avatar.Root
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `size` | `'800' \| '1000' \| '1200' \| '1600'` | `'1000'` | Width and height. `800`: small, for dense lists. `1000`: the standard avatar. `1200`: large, for headers. `1600`: extra large, for profile cards. The initials size follows. |
+| `children` | `ReactNode` | — | The parts: `Avatar.Image` and `Avatar.Fallback`. |
+
+### Avatar.Image
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `src` | `string` | — | The photo URL. The image shows only after it loads. |
+| `alt` | `string` | — | Text for screen readers. Use `""` when the name shows next to the avatar. |
+| `srcSet`, `sizes` | `string` | — | Responsive image sources, as on `<img>`. |
+| `loading` | `'eager' \| 'lazy'` | `'eager'` | `eager`: load now. `lazy`: load when near the screen; also set `keepMounted`. |
+| `keepMounted` | `boolean` | `false` | Loads the image in place. Set it with `loading="lazy"` or an optimized image component. |
+| `onLoadingStatusChange` | `(status: 'idle' \| 'loading' \| 'loaded' \| 'error') => void` | — | Called when the load status changes. |
+| `render` | `ReactElement` | — | Renders an optimized image component, such as `next/image`, in place of `<img>`. |
+
+### Avatar.Fallback
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `children` | `ReactNode` | — | Initials (one or two letters) or an `Icon`. Shows when there is no image or it fails. |
+| `delay` | `number` | `0` | Milliseconds to wait before the fallback shows. Stops a flash while a fast image loads. |
+
+## Size
+
+The size sets the width and the height. The initials and an icon in the Fallback
+follow: `800` uses the small label size, `1000` the medium, `1200` and `1600` the large.
+
+### size="800"
+
+<div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+  <Avatar.Root size="800"><Avatar.Image src={photo} alt="" /><Avatar.Fallback>RL</Avatar.Fallback></Avatar.Root>
+  <Avatar.Root size="800"><Avatar.Fallback>RL</Avatar.Fallback></Avatar.Root>
+  <Avatar.Root size="800"><Avatar.Fallback><PersonIcon /></Avatar.Fallback></Avatar.Root>
+</div>
+
+### size="1000"
+
+<div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+  <Avatar.Root size="1000"><Avatar.Image src={photo} alt="" /><Avatar.Fallback>RL</Avatar.Fallback></Avatar.Root>
+  <Avatar.Root size="1000"><Avatar.Fallback>RL</Avatar.Fallback></Avatar.Root>
+  <Avatar.Root size="1000"><Avatar.Fallback><PersonIcon /></Avatar.Fallback></Avatar.Root>
+</div>
+
+### size="1200"
+
+<div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+  <Avatar.Root size="1200"><Avatar.Image src={photo} alt="" /><Avatar.Fallback>RL</Avatar.Fallback></Avatar.Root>
+  <Avatar.Root size="1200"><Avatar.Fallback>RL</Avatar.Fallback></Avatar.Root>
+  <Avatar.Root size="1200"><Avatar.Fallback><PersonIcon /></Avatar.Fallback></Avatar.Root>
+</div>
+
+### size="1600"
+
+<div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+  <Avatar.Root size="1600"><Avatar.Image src={photo} alt="" /><Avatar.Fallback>RL</Avatar.Fallback></Avatar.Root>
+  <Avatar.Root size="1600"><Avatar.Fallback>RL</Avatar.Fallback></Avatar.Root>
+  <Avatar.Root size="1600"><Avatar.Fallback><PersonIcon /></Avatar.Fallback></Avatar.Root>
+</div>
+
+## Fallback
+
+The Fallback shows when there is no `src`, or when the image fails to load. With
+`delay`, it waits before it shows, so a fast image does not flash the initials first.
+
+### Image fails to load
+
+<Avatar.Root><Avatar.Image src="/missing-photo.png" alt="" /><Avatar.Fallback>RL</Avatar.Fallback></Avatar.Root>
+
+### Icon
+
+<Avatar.Root><Avatar.Fallback><PersonIcon /></Avatar.Fallback></Avatar.Root>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Root size | `hds/sem/measure/size/{size}` (width and height) |
+| Root radius | `hds/sem/radius/round` |
+| Root ground | `hds/sem/color/surface/sunken/bg` |
+| Image | No tokens. Fills the Root, `object-fit: cover`. |
+| Fallback color | `hds/sem/color/content/muted/fg` |
+| Fallback font | `hds/sem/typography/label/*`; size `sm` at `800`, `md` at `1000`, `lg` at `1200` and `1600` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/avatar`. The Image renders only after the
+  photo loads; until then, or on error, the Fallback renders.
+- Extension decisions: `size` takes `measure/size` steps `800`, `1000`, `1200`, `1600`
+  (32 to 64px). There is no shape prop: Avatar is always round, and a client changes
+  the shape with the `radius.round` driver. There is no `tone`. The removal of
+  `className`, `style`, and `ref` is a recorded break of the escape-hatch rule, as for
+  Meter.
+- Known constraints: the ground shows behind a transparent image. An `Icon` without
+  `size` follows the Fallback font size. All colors follow `data-context` and
+  `data-section` overrides. The contrast checker covers the Fallback text on its ground.
+- Accessibility: Avatar is not focusable. Give `alt` text when no name shows next to
+  the avatar; otherwise use `alt=""`. Fallback initials are read as text.
