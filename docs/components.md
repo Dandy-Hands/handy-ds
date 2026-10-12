@@ -374,7 +374,17 @@ Task completion: an upload, an import.
 - **Use when:** something is running and will finish.
 - **Don't use when:** the value is a measurement. Use `Meter`.
 
-No handy-ds props. Pass `value={null}` when the duration is unknown.
+| Prop | Values | Default |
+|---|---|---|
+| `size` (on `Progress.Root`) | `200`, `300`, `400` (track height) | `300` |
+
+Pass `value={null}` when the duration is unknown.
+
+```tsx
+<Progress.Root value={40}>
+  <Progress.Label>Uploading photos</Progress.Label><Progress.Value /><Progress.Track><Progress.Indicator /></Progress.Track>
+</Progress.Root>
+```
 
 ---
 

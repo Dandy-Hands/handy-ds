@@ -3,7 +3,7 @@ title: Meter
 order: 22
 ---
 
-import { Meter, Progress } from 'handy-ds';
+import { Meter } from 'handy-ds';
 
 # Meter
 
@@ -108,16 +108,6 @@ The size sets the track height. The label and value text keep their size.
 
 <Meter.Root value={72} size="400"><Meter.Label>Storage</Meter.Label><Meter.Value /><Meter.Track><Meter.Indicator /></Meter.Track></Meter.Root>
 
-## Progress
-
-Progress shares the Meter look until its own spec interview. It fills with the
-primary action color and has an 8px track. With `value={null}` the indicator
-slides (indeterminate). Under `prefers-reduced-motion` the slide stops.
-
-<Progress.Root value={40}><Progress.Label>Upload</Progress.Label><Progress.Value /><Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root>
-
-<Progress.Root value={null}><Progress.Label>Working…</Progress.Label><Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root>
-
 ## Anatomy
 
 | Part | Semantic token |
@@ -132,8 +122,8 @@ slides (indeterminate). Under `prefers-reduced-motion` the slide stops.
 
 ## Owner notes
 
-- Base UI mapping: wraps `@base-ui/react/meter`. Progress wraps `@base-ui/react/progress`
-  and shares the CSS. Progress gets its own spec interview and page.
+- Base UI mapping: wraps `@base-ui/react/meter`. Progress shares its CSS; only the fill
+  color differs.
 - Extension decisions: `tone` replaces the old `sentiment` and uses the library-wide
   `tone` axis. `size` takes `measure/size` steps `200`, `300`, `400` (8, 12, 16px). The
   steps `200` and `300` were added to the token set for this. The removal of `render`

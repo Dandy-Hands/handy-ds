@@ -1,0 +1,128 @@
+---
+title: Progress
+order: 22.5
+---
+
+import { Progress } from 'handy-ds';
+
+# Progress
+
+Shows how much of a running task is complete, such as an upload or an import. It has
+a label, a track, a fill, and an optional formatted value. With `value={null}` the
+duration is unknown and the fill slides. Screen readers announce it as a progress bar.
+
+<Progress.Root value={40}><Progress.Label>Uploading photos</Progress.Label><Progress.Value /><Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root>
+
+## Usage
+
+Use Progress while a task runs and will finish. Pass `value={null}` when the duration
+is unknown. Do not use it for a measurement: use Meter. When the task finishes, show
+what comes next (a message, a toast) instead of a full bar.
+
+## Base UI API
+
+Wraps Base UI's `Progress`. Each part takes only the props listed below.
+
+| Element | Notes |
+| ------- | ----- |
+| `Root`: `value` (`number \| null`), `min`, `max`, `format`, `locale`, `aria-valuetext`, `getAriaValueText` | Exposed. `null` sets the indeterminate state. |
+| `Value` children as a function | Exposed. Returns the text to show. |
+| `Label`, `Track` children | Exposed. |
+| `Indicator` | Exposed, no props. |
+| Status data attributes (`data-indeterminate`, `data-progressing`, `data-complete`) | Kept. Only `data-indeterminate` changes the look. |
+| `render`, `className`, `style`, `ref`, native props on every part | Removed. The parent layout `gap` sets the space around a Progress. |
+
+## Extension API
+
+### Progress.Root
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `value` | `number \| null` | — | Required. The current value. `null`: the duration is unknown, and the fill slides. |
+| `min` | `number` | `0` | The low end of the range. |
+| `max` | `number` | `100` | The high end of the range. |
+| `size` | `'200' \| '300' \| '400'` | `'300'` | Track height. `200`: a thin bar. `300`: the standard bar. `400`: a thick bar. Text size does not change. |
+| `format` | `Intl.NumberFormatOptions` | percent | Formats the number that `Progress.Value` shows and screen readers announce. |
+| `locale` | `Intl.LocalesArgument` | the user's locale | The locale for `format`. |
+| `aria-valuetext` | `string` | — | Text that screen readers announce in place of the number. |
+| `getAriaValueText` | `(formattedValue, value) => string` | — | Returns the text that screen readers announce. `value` is `null` while indeterminate. |
+| `children` | `ReactNode` | — | The parts: `Label`, `Value`, and `Track` with `Indicator` inside. |
+
+### Progress.Label
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `children` | `ReactNode` | — | The visible name of the task. Always include it. |
+
+### Progress.Value
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `children` | `(formattedValue, value) => ReactNode` | — | Optional. Returns the text to show. Without it, Value shows the formatted number, and nothing while indeterminate. |
+
+### Progress.Track
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `children` | `ReactNode` | — | Holds `Progress.Indicator`. |
+
+### Progress.Indicator
+
+Progress.Indicator takes no props.
+
+## Size
+
+The size sets the track height. The label and value text keep their size.
+
+### size="200"
+
+<Progress.Root value={40} size="200"><Progress.Label>Uploading photos</Progress.Label><Progress.Value /><Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root>
+
+### size="300"
+
+<Progress.Root value={40} size="300"><Progress.Label>Uploading photos</Progress.Label><Progress.Value /><Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root>
+
+### size="400"
+
+<Progress.Root value={40} size="400"><Progress.Label>Uploading photos</Progress.Label><Progress.Value /><Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root>
+
+## Value
+
+A number fills the track to that share of the range. `null` means the duration is
+unknown: a 40%-wide bar slides across the track, and Value shows nothing. Under
+`prefers-reduced-motion` the slide stops, and the bar fills the track at half opacity.
+
+### value={40}
+
+<Progress.Root value={40}><Progress.Label>Uploading photos</Progress.Label><Progress.Value /><Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root>
+
+### value={null}
+
+<Progress.Root value={null}><Progress.Label>Preparing export</Progress.Label><Progress.Value /><Progress.Track><Progress.Indicator /></Progress.Track></Progress.Root>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Root gaps | `hds/sem/measure/space/100` (rows), `hds/sem/measure/space/200` (Label to Value) |
+| Track color | `hds/sem/color/surface/sunken/bg` |
+| Track height | `hds/sem/measure/size/{size}` |
+| Track radius | `hds/sem/radius/round` |
+| Indicator (fill) | `hds/sem/color/action/primary/default/bg` |
+| Label | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/*` at `md` |
+| Value | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/*` at `md` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/progress`. It shares the CSS of Meter; only the
+  fill color differs.
+- Extension decisions: `size` takes `measure/size` steps `200`, `300`, `400` (8, 12,
+  16px), as Meter. There is no `tone`: the fill always reads the primary action color.
+  The default track is 12px; the old one was 8px. The removal of `render` and
+  `className` is a recorded break of the escape-hatch rule, as for Meter.
+- Known constraints: the complete state looks the same as a full bar. The fill width
+  moves with a 300ms transition, off under `prefers-reduced-motion`. All colors follow
+  `data-context` and `data-section` overrides.
+- Accessibility: `role="progressbar"` with `aria-valuenow`, `aria-valuemin`, and
+  `aria-valuemax`. While indeterminate, `aria-valuenow` is absent. `Progress.Label`
+  names the bar. Progress is not focusable.
