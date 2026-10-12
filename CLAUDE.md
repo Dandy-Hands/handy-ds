@@ -42,6 +42,7 @@ Read the specs in full before creating any token, category, resolver, or compone
 ## Docs
 
 - `docs/component-conventions.md` — how every component is built; follow it for new components.
+- `docs/api-conventions.md` — component API rules: which props exist, member categories, prop names, value types, and value names (measure props take token steps such as `"400"`).
 - `docs/rules.md` — agent-facing rules for building client apps (component choice, drivers, mapping, contexts).
 
 ## Core architectural rule

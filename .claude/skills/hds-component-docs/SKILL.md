@@ -15,7 +15,7 @@ Use when the user asks to write the human-facing component documentation, or aft
 4. Place one live hero example directly under the description, before Usage — a representative snippet of the component in context.
 5. Fill in the Usage section (when to use / when not to use) in plain language.
 6. Fill in the Base UI API table from the spec's Base UI API section (what is exposed, kept, or left undocumented), then the Extension API table from the API doc. Non-visual props (event handlers, ids, refs) appear in the Extension API table only — never get their own section.
-7. For every visual axis or prop in the spec (priority, size, disabled, loading, etc.), add a section that: names the axis, explains what it controls, and shows a live example for each allowed value.
+7. For every visual axis or prop in the spec (variant, tone, size, disabled, etc.), add a section that: names the axis, explains what it controls, and shows a live example for each allowed value.
 8. Add an Anatomy section mapping parts to semantic tokens, and an Owner notes section for Base UI mapping, extension decisions, known constraints, and accessibility.
 9. Run `cd docs-site && npm run build` and fix any MDX or import errors.
 10. If the component is new, ensure `docs/api/index.md` links to `docs/api/<component>.md`.

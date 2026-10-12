@@ -31,7 +31,7 @@ Each `.tsx` imports the CSS it needs in this order: `base.css`, then category CS
 
 - Every rule sits in `@layer hds.components` (base rules in `@layer hds.base`, the generated theme in `@layer hds.theme`). Client CSS is unlayered, so it always wins without specificity fights. Files that can load first repeat the order statement `@layer hds.theme, hds.base, hds.components;`.
 - Class names: `hds-{component}` for the root, `hds-{component}__{part}` for parts, plus category classes (`hds-action`, `hds-control`, `hds-surface`, `hds-feedback`, `hds-item`).
-- Axes are data attributes named after the component's axis prop: `data-priority` (Action), `data-size`, `data-elevation` (Surface level), `data-sentiment` (Feedback), `data-weight` (divider), `data-variant` (Text/Icon role).
+- Axes are data attributes named after the component's axis prop (`data-{prop}`). Prop names and values: [`api-conventions.md`](api-conventions.md).
 - States come from Base UI's own data attributes (`data-disabled`, `data-pressed`, `data-active`, `data-selected`, `data-highlighted`, `data-checked`, `data-invalid`, `data-popup-open`...). Don't add your own state classes.
 - Category CSS maps an axis to private `--_*` custom properties once, then the state rules read those. Example: `action.css` sets `--_hover-bg` per priority, and `.hds-action:hover` reads `var(--_hover-bg)`.
 - The focus ring comes from `base.css` (`:focus-visible`). Parts inside lists or bars inset it with `outline-offset: calc(-1 * var(--hds-sem-border-focus))`.
@@ -50,7 +50,7 @@ Each `.tsx` imports the CSS it needs in this order: `base.css`, then category CS
   ```
 
   `part(Component, className, defaults)` prepends the class (keeping Base UI's function-form `className`), applies default props that callers can override, and passes everything else through, `ref` included. Only style parts that render DOM. Everything else comes through the spread. Types such as `Select.Root.Props` stay importable from `@base-ui/react/select`.
-- **Single-part components** with an axis get a small function with a typed prop named after the axis (`priority`, `size`, `elevation`, `sentiment`, `weight`, `variant`), set as a data attribute: see `Button`, `Input`, `Separator`, `Meter.Root`.
+- **Single-part components** with an axis get a small function with a typed axis prop, set as a data attribute: see `Button`, `Input`, `Separator`, `Meter.Root`.
 - **Components with no Base UI primitive** (Card, Alert, Text, LinkButton) use `useRender` + `mergeProps`, so they take the same `render` prop as Base UI parts.
 - Props extend the wrapped component's props (`ComponentProps<typeof BaseButton>`, `useRender.ComponentProps<'div'>`). React 19: `ref` is a normal prop, no `forwardRef`.
 - Imports use `.ts`/`.tsx` extensions. Only erasable TS syntax (no enums, no namespaces).
@@ -58,29 +58,7 @@ Each `.tsx` imports the CSS it needs in this order: `base.css`, then category CS
 
 ## Props
 
-- **One prop name = one axis everywhere in the library.** `size` always means the size axis, `priority` always Action priority, `variant` always the component's category role. Never reuse an axis name for a different axis, and never give one axis two names. Where the rule bites, fix the prop, not the rule (e.g. Icon's `size` must become a real size axis or be renamed — decided at Icon's spec interview).
-- An axis prop is named after its spec axis (`priority`, `size`, `elevation`, `sentiment`, `weight`, `variant`) and set as the matching data attribute.
-- **Where possible, a prop's values appear verbatim in the axis slot of the token names the component reads** (`color/action/primary/...` ⇔ `priority="primary"`, `typography/body/sm/...` ⇔ `size="sm"` on Text). Measure tokens are step-named and shared, so a `size` prop maps to steps in the component's own CSS. A prop that breaks the slot rule needs a recorded reason in its spec.
-- **Value sets are defined once per axis** and shared across components (table below). A component may only diverge when its semantics genuinely differ; record the divergence and the reason in the component spec.
-- **Named values.** All axis steps are named (`sm/md/lg`, `primary/secondary/tertiary`, `thin/medium/thick`). Numeric values are not used; if a future axis genuinely mirrors a primitive scale numbering, record the reason in its spec.
-- Axis props are **typed unions, never `string`**, exported alongside the component (`export type Size = 'sm' | 'md' | 'lg'`).
-- The axis default is documented in the spec and applied as a `part()`/`defaults` data attribute (e.g. `data-size="md"`), so callers always see the current value in the DOM.
-- Base UI props are passed through unchanged — no renaming, no re-typing. Only extension props follow these rules.
-
-Canonical axis value sets:
-
-| Axis | Values | Definition |
-|---|---|---|
-| `priority` | `primary`, `secondary`, `tertiary`, `danger` | How strongly an interactive element commands attention (its main action vs a supporting one). Action-category axis; use on any part that renders the Action look. |
-| `size` | `sm`, `md` (default), `lg` | Physical footprint that scales with context — control height and padding for interactive controls, glyph size for icons, type size for Text. Use wherever a component offers size steps. |
-| `elevation` | `0`, `1`, `2`, `3` | Distance above the page plane. Maps to the surface levels `base`, `raised`, `floating`, `modal` (color and `elevation/*` shadow). Use on any part that renders the Surface look. The token spec also has `sunken`; the component re-interviews decide whether the prop moves to the level names. |
-| `sentiment` | `danger`, `warning`, `success`, `info` | Semantic valence of a message or measurement. Feedback-category axis; use on any part that renders the Feedback look. |
-| `weight` | `thin`, `medium`, `thick` | Stroke thickness of a divider line (border thickness, not type weight). `thin` reads `border/divider`; the token spec has no divider widths for `medium` and `thick`, which read measure steps until the Separator re-interview. |
-| `variant` | per-component role sets: Icon `default`, `secondary`, `accent` (read Content `default`, `muted`, `accent`); Text `display`, `heading`, `body`, `label`, `caption` (typography roles) | Which role within the component's value scale. Use when a part renders in a specific role. |
-
-A component uses an axis when its definition matches, decided by the token category the component's spec assigns — not by copying another component's choice.
-
-New axes (e.g. `status` on Progress) get added to this table when their component's spec is written.
+Prop rules — what is and is not a member, member categories, names, value types, and value names — live in [`api-conventions.md`](api-conventions.md).
 
 ## Tokens a component may use
 

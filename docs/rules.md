@@ -92,7 +92,7 @@ Never edit component CSS or override `--hds-*` properties in app CSS to theme a 
 
 | Need | Use |
 |---|---|
-| Do something (submit, open, save) | `Button` (`priority`: `primary` = the main action on the screen, at most one per view; `secondary` = other actions; `tertiary` = low-emphasis, toolbars, inline; `danger` = destructive. `size`: `sm`/`md`/`lg`, default `md`) |
+| Do something (submit, open, save) | `Button` |
 | Go somewhere that looks like a button | `LinkButton` (renders `<a>`) |
 | On/off setting that applies immediately | `Switch` |
 | Pressed/unpressed formatting button, or pick-one/pick-many from a few buttons | `Toggle`, `ToggleGroup` |
@@ -108,18 +108,18 @@ Never edit component CSS or override `--hds-*` properties in app CSS to theme a 
 | Free text with suggestions | `Autocomplete` |
 | Yes/no or many-of-few | `Checkbox` (`CheckboxGroup` for a set) |
 | Group related fields | `Fieldset` inside a `Form` |
-| Box of related content | `Card` (`elevation` 0–3; 1 is default. 0 = page level, 1 = raised card, 2 = floating, 3 = modal) |
+| Box of related content | `Card` |
 | Must-see task that blocks the page | `Dialog`. Confirm a destructive action: `AlertDialog` |
 | Extra info or small controls anchored to a trigger | `Popover` |
 | Show/hide sections (FAQ) | `Accordion` |
-| Message that stays on the page | `Alert` (`sentiment`: `info`, `success`, `warning`, `danger`) |
+| Message that stays on the page | `Alert` |
 | Short-lived message after an action | `Toast` (`Toast.Provider` + `<Toaster />` once, then `useToastManager().add({ title, type })`) |
 | A value in a range (storage used, score) | `Meter` |
 | Task completion (upload) | `Progress` (`value={null}` = unknown) |
-| Rows and columns of data | `Table` (`striped`; sortable column = `<th aria-sort><button>`) |
-| Any text with a type role | `Text` (`variant`: `display`, `heading`, `body`, `label`, `caption`; pick the heading level with `render={<h3 />}`) |
-| An icon | `Icon` wrapping an SVG that uses `currentColor`. Give it `label` if it carries meaning. No `variant` inside buttons (it inherits the button's color) |
-| A dividing line | `Separator` (`weight`: `thin`, `medium`, `thick`; `orientation="vertical"`) |
+| Rows and columns of data | `Table` (sortable column = `<th aria-sort><button>`) |
+| Any text with a type role | `Text` (pick the heading level with `render={<h3 />}`) |
+| An icon | `Icon` wrapping an SVG that uses `currentColor` |
+| A dividing line | `Separator` |
 
 Props, use-when and don't-use-when for every component: `docs/components.md` (`node_modules/handy-ds/docs/components.md` in a client app).
 

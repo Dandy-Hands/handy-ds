@@ -9,7 +9,7 @@ updated: "2026-09-22"
 Use when the user asks to build the code for a handy-ds component, or when the internal spec is reviewed and code is the next step.
 
 ## Procedure
-1. Read the reviewed internal spec at `docs/component-specs/<component>/spec.md` and `docs/component-conventions.md`.
+1. Read the reviewed internal spec at `docs/component-specs/<component>/spec.md`, `docs/component-conventions.md`, and `docs/api-conventions.md` (prop names, types, and values).
 2. Record the Base UI version from `package.json` (`@base-ui/react`) in the component's source header comment.
 3. Create `src/components/<Component>.tsx` (plus `<Component>.css` if it needs its own layout rules), one family per file, using Base UI primitives and only `--hds-sem-*` semantic tokens. Export it from `src/index.ts` under its category heading.
 4. Run `npm test` and fix failures.

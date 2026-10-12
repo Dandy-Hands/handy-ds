@@ -9,11 +9,11 @@ updated: "2026-09-22"
 Use when the user wants to spec a new handy-ds component that starts from a Base UI primitive, asks what a component's API should be, or names a Base UI component to start on. Stop when the internal spec is reviewed and the API doc is written — do not write code.
 
 ## Procedure
-1. Read the process spec at `.pi/specs/component-build-process-2026-09-21/spec.md`, the API doc conventions at `.pi/specs/component-build-process-2026-09-21/research/api-doc-conventions.md`, `docs/component-conventions.md`, and `.claude/specs/token-system-spec.md`.
+1. Read the process spec at `.pi/specs/component-build-process-2026-09-21/spec.md`, the API doc conventions at `.pi/specs/component-build-process-2026-09-21/research/api-doc-conventions.md`, `docs/component-conventions.md`, `docs/api-conventions.md`, and `.claude/specs/token-system-spec.md`.
 2. Create the component folders: `docs/component-specs/<component>/` and prepare `docs/api/<component>.md`.
 3. Write an interview guide in `docs/component-specs/<component>/interview-guide-<YYYY-MM-DD>.md` with slots for Base UI props, extension props, and token mapping.
 4. For each Base UI prop/behavior, ask the user whether to expose, rename, wrap, or omit it. Record the decision verbatim.
-5. Propose a list of extension/additional props. Let the user add, remove, or modify them.
+5. Propose a list of extension/additional props that follow `docs/api-conventions.md` (what may be a prop, names, value types, value names). Let the user add, remove, or modify them.
 6. Define each exposed and extension prop: type, default, description, and the semantic tokens it maps to.
 7. Write the internal spec to `docs/component-specs/<component>/spec.md` with sections: Description, Usage, Base UI API, Extension API, Token mapping.
 8. Write the API doc to `docs/api/<component>.md` using the conventions in `research/api-doc-conventions.md`: Usage statement, Props table with per-value definitions, 1–2 Examples, optional Contexts. Do not mention Base UI or list omitted props.

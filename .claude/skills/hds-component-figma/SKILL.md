@@ -11,7 +11,7 @@ Use when the user asks to build or update the Figma component, or when the inter
 ## Procedure
 1. Read the reviewed internal spec at `docs/component-specs/<component>/spec.md`.
 2. Open the project's Figma library and create or update the `<component>` page/section.
-3. Build every visual state named in the spec (priorities, sizes, disabled, loading, etc.) using the semantic tokens from the token mapping.
+3. Build every visual state named in the spec (variants, tones, sizes, disabled, etc.) using the semantic tokens from the token mapping.
 4. Name layers and states clearly so they map 1:1 to the spec.
 5. Set `figma: built` in the internal spec status block and stop. Do not change the other lines.
 
