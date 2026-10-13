@@ -56,7 +56,7 @@ export function ShowcaseBody() {
             <Button variant="secondary">Secondary</Button>
             <Button variant="tertiary">Tertiary</Button>
             <Button disabled>Disabled</Button>
-            <LinkButton href="#" priority="secondary">Link button</LinkButton>
+            <LinkButton href="#">Link button</LinkButton>
           </div>
           <div className="row">
             <ToggleGroup defaultValue={['b']}>

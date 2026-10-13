@@ -2,19 +2,19 @@
 
 ## Usage
 
-LinkButton is a link that looks like a Button. Use it for navigation styled as an action, such as "View all" links or calls to action that move to another page. Use Button for actions the user takes in place, such as submitting a form.
+LinkButton is a link that looks like a Button. Use it for navigation styled as an action, such as "View all" links or calls to action that move to another page. Use Button for actions the user takes in place, such as submitting a form. For a link inside a sentence, write a plain `<a>`.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `priority` | `'primary' \| 'secondary' \| 'tertiary' \| 'danger'` | `'primary'` | Visual weight. `primary` — the view's main action. `secondary` — supporting actions next to the main one. `tertiary` — low-weight inline actions. `danger` — destructive actions. |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense toolbars and compact layouts. `md` — default. `lg` — hero and marketing contexts. |
-| `href` | `string` | — | Destination URL; passed to the rendered `<a>`. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element or composes with another component. |
-| `children` | `ReactNode` | — | Label content. Icons go here — pair with the `Icon` component. |
+| `href` | `string` | — | The destination URL. |
+| `size` | `'800' \| '1000' \| '1200'` | `'1000'` | Link height. `800`: dense toolbars and compact layouts. `1000`: the standard size. `1200`: large, for hero and marketing areas. The label size follows. |
+| `width` | `'auto' \| 'full'` | `'auto'` | `auto`: fits the content. `full`: fills the width of its container. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element, such as a router link: `<LinkButton render={<RouterLink to="/reports" />}>`. |
+| `children` | `ReactNode` | — | The content: text, an `Icon`, or both. Give an icon-only link an `aria-label`. |
 
-All standard link attributes (`aria-*`, `target`, `rel`, ...) are also accepted.
+All other standard link attributes (`target`, `rel`, `download`, `aria-*`, `onClick`, ...) and `ref` are also accepted. LinkButton has one look and takes no `variant`, `disabled`, `className`, or `style`.
 
 ## Examples
 
@@ -23,7 +23,7 @@ All standard link attributes (`aria-*`, `target`, `rel`, ...) are also accepted.
 ```
 
 ```tsx
-<LinkButton priority="secondary" size="sm" href="/docs">Read the docs</LinkButton>
+<LinkButton size="1200" width="full" href="/signup">Start free trial</LinkButton>
 ```
 
 ## Contexts

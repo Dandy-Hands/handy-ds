@@ -3,80 +3,105 @@ title: LinkButton
 order: 2
 ---
 
-import { LinkButton } from 'handy-ds';
+import { LinkButton, Icon } from 'handy-ds';
+
+export const row = { display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' };
+
+export const ArrowIcon = () => (
+  <Icon>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+  </Icon>
+);
 
 # LinkButton
 
-A link that looks like a Button. LinkButton takes navigation ("View all",
-"Read the docs", calls to action) and dresses it in the Action category's
-visuals without pretending it is a button.
+A link that looks like a Button. LinkButton renders a native `<a>` with the Action
+`primary` look. Use it for navigation that must read as an action, such as "View all"
+or a call to action.
 
-<LinkButton href="#" priority="secondary">View all reports</LinkButton>
+<div style={row}>
+  <LinkButton href="#">View all reports</LinkButton>
+</div>
 
 ## Usage
 
-Use LinkButton when the control moves the user to another page or view but
-should read as an action, like a "View all" link or a marketing CTA. Do not
-use it for in-place actions (submit, save, open a dialog) — that is Button's
-job. Do not use a real Button with `href` instead; an `<a>` is the correct
-semantics for navigation, and Button's `loading` state would make no sense.
+Use LinkButton when the control moves the user to another page or view and must read as
+an action. Do not use it for an action in place, such as submit, save, or open a dialog.
+Use Button for those. Do not use Button with `href` or `render={<a />}`, because that
+gives an `<a>` the wrong role. LinkButton is the only link component. For a link inside
+a sentence, write a plain `<a>`. The theme styles it with the Content `link` tokens.
 
 ## Base UI API
 
-No Base UI primitive — built on `useRender` + `mergeProps`, so it takes the
-same `render` prop as Base UI parts.
+No Base UI primitive. LinkButton uses `useRender` and `mergeProps`, so it takes the
+`render` prop like a Base UI part.
 
 | Element | Notes |
 | ------- | ----- |
-| `useRender` props (`render`, native `<a>` props) | Exposed — full passthrough. |
-| `href`, `target`, `rel`, `aria-*` | Standard link attributes pass through to the rendered `<a>`. |
-| Callback-form `className`/`style` | Available via passthrough, not documented. |
+| `render` | Exposed. A router link can replace the `<a>`. |
+| `ref` | Exposed. |
+| Native link props (`href`, `target`, `rel`, `download`, `onClick`, `id`, `aria-*`, `data-*`) | Exposed as rest props. |
+| `children` | Exposed. Text, an `Icon`, or both. |
+| `disabled` | Removed. An `<a>` has no disabled state. |
+| `className`, `style` | Removed. |
 
 ## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'primary'` | Visual weight. `primary` — the view's main action. `secondary` — supporting actions next to the main one. `tertiary` — low-weight inline actions. |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense toolbars and compact layouts. `md` — default. `lg` — hero and marketing contexts. |
-| `href` | `string` | — | Destination URL, passed to the rendered `<a>`. |
-| `children` | `ReactNode` | — | Label content. Icons go here — pair with the `Icon` component. |
+| `href` | `string` | — | The destination URL. |
+| `size` | `'800' \| '1000' \| '1200'` | `'1000'` | Link height. `800`: dense toolbars and compact layouts. `1000`: the standard size. `1200`: large, for hero and marketing areas. The label size follows. |
+| `width` | `'auto' \| 'full'` | `'auto'` | `auto`: fits the content. `full`: fills the width of its container. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element, such as a router link. |
+| `children` | `ReactNode` | — | The content: text, an `Icon`, or both. |
 
-Standard attributes and `render` appear here only — never get their own section.
-
-## Priority
-
-Same axis as Button, same token sets. Primary for the strongest CTA, tertiary
-for quiet inline links that should still read as clickable.
-
-<LinkButton href="#" priority="primary">View all reports</LinkButton>
-<LinkButton href="#" priority="secondary">View all reports</LinkButton>
-<LinkButton href="#" priority="tertiary">View all reports</LinkButton>
+`href`, `render`, and `children` appear here only. They have no section below.
+LinkButton has one look. It takes no `variant`.
 
 ## Size
 
-Same axis as Button, so a LinkButton sits flush next to a Button in one bar.
+The height axis. Each step is a `measure/size` token. Padding, gap, and label size
+follow the step. A LinkButton sits flush next to a Button of the same size.
 
-<LinkButton href="#" size="sm">Read the docs</LinkButton>
-<LinkButton href="#" size="md">Read the docs</LinkButton>
-<LinkButton href="#" size="lg">Read the docs</LinkButton>
+<div style={row}>
+  <LinkButton href="#" size="800">Small</LinkButton>
+  <LinkButton href="#" size="1000">Standard</LinkButton>
+  <LinkButton href="#" size="1200">Large</LinkButton>
+</div>
+
+## Width
+
+`auto` fits the content. `full` fills the container.
+
+<div style={{ display: 'grid', gap: '12px', maxWidth: '320px' }}>
+  <LinkButton href="#" width="auto">Auto width</LinkButton>
+  <LinkButton href="#" width="full">Full width</LinkButton>
+</div>
+
+## Icons
+
+There is no icon prop. Put an `Icon` in the children. It follows the label size and color.
+An icon-only link keeps the standard padding. Give it an `aria-label`.
+
+<div style={row}>
+  <LinkButton href="#">Next step<ArrowIcon /></LinkButton>
+  <LinkButton href="#" aria-label="Next step"><ArrowIcon /></LinkButton>
+</div>
 
 ## Anatomy
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Background, border, text | `hds/sem/color/action/{priority}/{default,hover,active,selected}/{bg,border,fg}` |
-| Padding, radius, gap | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Background, border, text | `hds/sem/color/action/primary/{default,hover,active}/{bg,border,fg}` |
+| Height | `hds/sem/measure/size/{size}` |
+| Inline padding, gap | `hds/sem/measure/space/*` |
+| Radius, border width | `hds/sem/radius/control`, `hds/sem/border/control` |
 | Label type | `hds/sem/typography/label/*` |
 | Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
 
 ## Owner notes
 
-- Base UI mapping: no Base UI primitive — built on `useRender` + `mergeProps`,
-  so it takes the same `render` prop as Base UI parts.
-- Extension decisions: it exists because a link must stay an `<a>`; it shares
-  Button's `priority`/`size` axes and the whole Action look. It has no
-  `loading` or `fullWidth` — links navigate, they don't run actions.
-- Known constraints: never render it as a `<button>` via `render`; Base UI
-  forbids that composition.
-- Accessibility: native `<a>` semantics (middle-click, open-in-new-tab, screen
-  reader link role) are preserved; the focus ring comes from the base layer.
+- Base UI mapping: no Base UI primitive. LinkButton uses `useRender` and `mergeProps` from `@base-ui/react` 1.8.0.
+- Extension decisions: `size` and `width` match Button and set data attributes. The look is fixed to Action `primary`, because a link needs no role. There is no `loading`, because a link navigates.
+- Known constraints: LinkButton takes no `variant`, `disabled`, `className`, or `style`. Never render it as a `<button>` with `render`.
+- Accessibility: native `<a>` semantics stay. The user can middle-click, open in a new tab, and copy the address. A screen reader announces a link. The focus ring comes from the base layer. An icon-only link needs an `aria-label`.

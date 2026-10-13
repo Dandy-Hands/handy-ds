@@ -28,7 +28,7 @@ planned, no Base UI primitive.
 ## Tier 2 — Single interactive controls
 
 - [x] button `[re]`
-- [ ] link-button `[lib]`
+- [x] link-button `[lib]`
 - [ ] toggle `[re]`
 - [ ] checkbox `[re]`
 - [ ] radio `[re]`
