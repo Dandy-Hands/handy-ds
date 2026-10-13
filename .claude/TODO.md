@@ -40,6 +40,9 @@ Running list of planned work. Add an item when the user asks for new work. Check
 - [ ] Create layout components. Example names, not final: Stack, Grid, Container, Cluster.
 - [ ] Add a charting library. Needs the data-visualization palette (Tokens and theming).
 
+- [x] Install Playwright and add it to the component process (`e2e/`, `npm run test:e2e`, code and docs skills, component conventions).
+- [ ] Fix the three doc pages that fail `e2e/pages.spec.ts`: `avatar` (404 for a resource), `combobox` (a function as a React child, and `Combobox.Label` used with `Combobox.Input`), `number-field` (an input with both `value` and `defaultValue`).
+
 ## Docs
 
 - [ ] Rewrite the no-raw-numbers rule in `docs/api-conventions.md` section 4 with the user: say where numbers are allowed (counts such as Text `maxLines`) and where they are forbidden.

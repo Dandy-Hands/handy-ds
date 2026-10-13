@@ -14,7 +14,9 @@ Use when the user asks to build the code for a handy-ds component, or when the i
 3. Create `src/components/<Component>.tsx` (plus `<Component>.css` if it needs its own layout rules), one family per file, using Base UI primitives and only `--hds-sem-*` semantic tokens. Export it from `src/index.ts` under its category heading.
 4. Run `npm test` and fix failures.
 5. Run `npm run build` and fix failures.
-6. Set `code: built` in the internal spec status block and stop. Do not change the other lines.
+6. If the component adds behavior that Base UI does not provide (for example a fallback delay or a line clamp), write `e2e/<component>.spec.ts`: a Playwright test that checks that behavior on its docs page. Skip this step for a plain wrapper. Base UI already tests its own behavior. If the docs page does not exist yet, tell the user the test waits for the docs step.
+7. If you wrote an `e2e` test, run `npm run test:e2e` and fix failures in the component.
+8. Set `code: built` in the internal spec status block and stop. Do not change the other lines.
 
 ## Pitfalls
 - Do not start unless the status block has `spec: reviewed`.
@@ -26,5 +28,6 @@ Use when the user asks to build the code for a handy-ds component, or when the i
 1. `src/components/<Component>.tsx` exists and is exported from `src/index.ts`.
 2. `npm test` exits 0.
 3. `npm run build` exits 0.
-4. `grep -E "hds-prim-|hds/prim/|hds/driver" src/components/<Component>.*` returns nothing.
-5. The internal spec status block has `code: built` before this skill stops.
+4. If the component adds its own behavior, `e2e/<component>.spec.ts` exists and `npm run test:e2e -- <component>` exits 0.
+5. `grep -E "hds-prim-|hds/prim/|hds/driver" src/components/<Component>.*` returns nothing.
+6. The internal spec status block has `code: built` before this skill stops.

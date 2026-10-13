@@ -18,8 +18,9 @@ Use when the user asks to write the human-facing component documentation, or aft
 7. For every visual axis or prop in the spec (variant, tone, size, disabled, etc.), add a section that: names the axis, explains what it controls, and shows a live example for each allowed value.
 8. Add an Anatomy section mapping parts to semantic tokens, and an Owner notes section for Base UI mapping, extension decisions, known constraints, and accessibility.
 9. Run `cd docs-site && npm run build` and fix any MDX or import errors.
-10. If the component is new, ensure `docs/api/index.md` links to `docs/api/<component>.md`.
-11. Set `docs: built` in the internal spec status block and stop. Do not change the other lines.
+10. Run `npm run test:e2e` and fix failures. The page test (`e2e/pages.spec.ts`) fails on any page error or console error. The component test is `e2e/<component>.spec.ts`.
+11. If the component is new, ensure `docs/api/index.md` links to `docs/api/<component>.md`.
+12. Set `docs: built` in the internal spec status block and stop. Do not change the other lines.
 
 ## Pitfalls
 - Every compound-family example must include the family's Root part. Base UI part components consume a root context and throw at render time if it is missing (e.g. `ContextMenu.Trigger` outside `ContextMenu.Root`, `NumberField.Group` outside `NumberField.Root`, `Field.Item`/`Field.Label` outside `Field.Root`). Even when Root appears boilerplate — e.g. a context menu's trigger is not a button — it is required: it owns open state and provides the context. Render the full tree Root → Trigger → Portal → Positioner → Popup in every live example.
@@ -32,4 +33,5 @@ Use when the user asks to write the human-facing component documentation, or aft
 2. The MDX file follows `docs/templates/component.mdx`: hero example under the description, Usage section, Base UI API table, Extension API table, and a live-example section for every visual axis/prop from the spec.
 3. Every live example imports the component from `handy-ds` and renders without crashing.
 4. `cd docs-site && npm run build` exits 0.
-5. The internal spec status block has `docs: built` before this skill stops.
+5. `npm run test:e2e` exits 0.
+6. The internal spec status block has `docs: built` before this skill stops.

@@ -37,7 +37,8 @@
     "test": "tsc && node --test 'src/**/*.test.ts' 'docs-site/src/**/*.test.ts'",
     "build": "npm test && vite build && tsc -p tsconfig.build.json && node scripts/strip-css-imports.js",
     "docs:build": "cd docs-site && npm run build",
-    "docs:preview": "cd docs-site && npm run preview"
+    "docs:preview": "cd docs-site && npm run preview",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0"
@@ -47,6 +48,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.64.0",
     "@types/culori": "^4.0.1",
     "@types/node": "^24.13.4",
     "@types/react": "^19.3.0",

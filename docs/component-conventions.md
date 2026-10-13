@@ -71,6 +71,6 @@ Components migrated before their re-interview read the new tokens through a prov
 Four skills in `.claude/skills/`, run in order. The spec has a status block with one line per phase (`spec`, `code`, `figma`, `docs`). Each skill sets only its own line and refuses to start until the lines it needs are set.
 
 1. `hds-component-spec-interview` interviews the user, then writes the internal spec `docs/component-specs/<component>/spec.md` and the agent-facing API doc `docs/api/<component>.md`. Writes the status block with `spec: reviewed` and the rest `pending`.
-2. `hds-component-code` builds the component from the reviewed spec. Needs `spec: reviewed`. Sets `code: built`.
+2. `hds-component-code` builds the component from the reviewed spec and, only when the component adds behavior Base UI does not provide, writes a Playwright test (`e2e/<component>.spec.ts`). Needs `spec: reviewed`. Sets `code: built`.
 3. `hds-component-figma` builds the Figma component from the reviewed spec. Independent of step 2: run either order. Needs `spec: reviewed`. Sets `figma: built`.
-4. `hds-component-docs` writes `docs/components/<component>.mdx` with live examples, after the code is built. Needs `spec: reviewed` and `code: built`. Sets `docs: built`.
+4. `hds-component-docs` writes `docs/components/<component>.mdx` with live examples, after the code is built. It then runs `npm run test:e2e` so the new page and the component test pass in a real browser. Needs `spec: reviewed` and `code: built`. Sets `docs: built`.
