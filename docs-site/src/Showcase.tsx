@@ -19,7 +19,7 @@ function ToastButton() {
   return (
     <ToggleGroup>
       {(['info', 'success', 'warning', 'danger'] as const).map((type) => (
-        <Button key={type} priority="secondary" onClick={() => manager.add({ type, title: `${type} toast`, description: 'Something happened.' })}>{type}</Button>
+        <Button key={type} variant="secondary" onClick={() => manager.add({ type, title: `${type} toast`, description: 'Something happened.' })}>{type}</Button>
       ))}
     </ToggleGroup>
   );
@@ -33,8 +33,8 @@ export function ShowcaseBody() {
         <Text>This section uses <code>data-section="hero"</code>. The section color rules driver maps it to the on-primary context.</Text>
         <div className="row">
           <Button>Primary</Button>
-          <Button priority="secondary">Secondary</Button>
-          <Button priority="tertiary">Tertiary</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="tertiary">Tertiary</Button>
           <Icon tone="accent" size="800" label="Accent icon"><Star /></Icon>
         </div>
         <div className="row">
@@ -44,7 +44,7 @@ export function ShowcaseBody() {
         </div>
         <Card elevation={1} data-context="default" className="nested">
           <Text variant="label">Nested data-context="default" resets to :root tokens</Text>
-          <div className="row"><Button>Primary</Button><Button priority="tertiary">Tertiary</Button></div>
+          <div className="row"><Button>Primary</Button><Button variant="tertiary">Tertiary</Button></div>
         </Card>
       </section>
 
@@ -53,8 +53,8 @@ export function ShowcaseBody() {
           <Text variant="headline" render={<h2 />}>Actions</Text>
           <div className="row">
             <Button>Primary</Button>
-            <Button priority="secondary">Secondary</Button>
-            <Button priority="tertiary">Tertiary</Button>
+            <Button variant="secondary">Secondary</Button>
+            <Button variant="tertiary">Tertiary</Button>
             <Button disabled>Disabled</Button>
             <LinkButton href="#" priority="secondary">Link button</LinkButton>
           </div>

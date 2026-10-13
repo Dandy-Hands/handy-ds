@@ -649,7 +649,7 @@ export function Measure({ d, set, mode }: StepProps) {
           <div key={s}><small>space/{s}</small><span style={{ width: v(`hds/sem/measure/space/${s}`) }} /></div>
         ))}
         <div className="tt-row">
-          <Button size="sm">Small</Button><Button>Medium</Button><Button size="lg">Large</Button>
+          <Button size="800">Small</Button><Button>Medium</Button><Button size="1200">Large</Button>
           <Input placeholder="Field" />
         </div>
       </Live>

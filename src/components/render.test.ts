@@ -17,12 +17,12 @@ after(() => server.close());
 const hds = await server.ssrLoadModule('/src/index.ts');
 const html = (el: ReturnType<typeof h>) => renderToString(el);
 
-test('Button: Base UI button with action classes and priority', () => {
-  const out = html(h(hds.Button, { priority: 'secondary' }, 'Save'));
+test('Button: Base UI button with action classes and variant', () => {
+  const out = html(h(hds.Button, { variant: 'secondary' }, 'Save'));
   assert.match(out, /<button[^>]*class="hds-button hds-action"[^>]*>Save<\/button>/);
-  assert.match(out, /data-priority="secondary"/);
+  assert.match(out, /data-variant="secondary"/);
   assert.match(html(h(hds.Button, { disabled: true }, 'x')), /disabled/);
-  assert.match(html(h(hds.Button, { className: 'extra' }, 'x')), /class="hds-button hds-action extra"/);
+  assert.match(html(h(hds.Button, { width: 'full', size: '1200' }, 'x')), /data-width="full"[^>]*/);
 });
 
 test('every component renders with its hds classes', () => {

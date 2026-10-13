@@ -47,14 +47,14 @@ function Marketing() {
         <Text variant="caption">New in 2026</Text>
         <Text variant="display" render={<h1 />}>Ship client sites in days</Text>
         <Text>One component library, re-themed per client. The hero uses <code>data-section="hero"</code>.</Text>
-        <div className="row"><Button>Start a project</Button><Button priority="secondary">See the work</Button></div>
+        <div className="row"><Button>Start a project</Button><Button variant="secondary">See the work</Button></div>
       </section>
       <main className="grid">
         {['Fast', 'Accessible', 'Themeable'].map((t) => (
           <Card key={t}>
             <Text variant="headline" render={<h2 />}>{t}</Text>
             <Text>Short supporting copy for the {t.toLowerCase()} feature. <a href="#">Learn more</a></Text>
-            <Button priority="tertiary">Details</Button>
+            <Button variant="tertiary">Details</Button>
           </Card>
         ))}
       </main>
@@ -84,7 +84,7 @@ function FormPage() {
           <Field.Root><Field.Label><Checkbox.Root defaultChecked><Checkbox.Indicator /></Checkbox.Root>Send me updates</Field.Label></Field.Root>
           <Field.Root><Field.Label><Switch.Root><Switch.Thumb /></Switch.Root>Rush delivery</Field.Label></Field.Root>
           <Input disabled placeholder="Budget (set after review)" />
-          <div className="row"><Button type="submit">Send request</Button><Button priority="tertiary">Cancel</Button></div>
+          <div className="row"><Button type="submit">Send request</Button><Button variant="tertiary">Cancel</Button></div>
         </Form>
       </Card>
     </main>
@@ -120,7 +120,7 @@ function Dashboard() {
           </tbody>
         </Table>
         <Separator />
-        <div className="row"><Button size="sm">Export</Button><Button size="sm" priority="secondary">Filter</Button><Button size="sm" priority="danger">Delete</Button></div>
+        <div className="row"><Button size="800">Export</Button><Button size="800" variant="secondary">Filter</Button><Button size="800" variant="danger">Delete</Button></div>
       </Card>
     </main>
   );
@@ -136,7 +136,7 @@ function Contexts() {
           <Text variant="headline" render={<h2 />}>Heading</Text>
           <Text>Body text with a <a href="#">link</a>.</Text>
           <Text variant="caption">Muted caption</Text>
-          <div className="row"><Button>Primary</Button><Button priority="secondary">Secondary</Button><Button priority="tertiary">Tertiary</Button></div>
+          <div className="row"><Button>Primary</Button><Button variant="secondary">Secondary</Button><Button variant="tertiary">Tertiary</Button></div>
           <Input placeholder="Field" />
           <Card><Text>A card inside the section.</Text></Card>
         </section>

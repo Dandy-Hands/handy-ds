@@ -102,15 +102,15 @@ function App() {
               <Text variant="caption">{formatDate(post.date)}</Text>
               <Text variant="headline" render={<h2 />} className="card__title">{text(post.title)}</Text>
               <Text>{text(post.excerpt)}</Text>
-              <Button priority="secondary" onClick={() => setOpen(post.slug)}>Read</Button>
+              <Button variant="secondary" onClick={() => setOpen(post.slug)}>Read</Button>
             </Card>
           ))}
         </div>
         {result && result.totalPages > 1 && (
           <nav className="pager" aria-label="Pagination">
-            <Button priority="tertiary" disabled={page <= 1} onClick={() => setPage(page - 1)}>Previous</Button>
+            <Button variant="tertiary" disabled={page <= 1} onClick={() => setPage(page - 1)}>Previous</Button>
             <Text variant="caption">Page {page} of {result.totalPages}</Text>
-            <Button priority="tertiary" disabled={page >= result.totalPages} onClick={() => setPage(page + 1)}>Next</Button>
+            <Button variant="tertiary" disabled={page >= result.totalPages} onClick={() => setPage(page + 1)}>Next</Button>
           </nav>
         )}
       </main>

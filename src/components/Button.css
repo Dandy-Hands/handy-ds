@@ -1,36 +1,39 @@
-/* Size comes from `data-size` (Action size axis). No data-size = md. */
+/* Size comes from `data-size` (a measure/size step). No data-size = 1000. */
 @layer hds.components {
   .hds-button {
+    --_height: var(--hds-sem-measure-size-1000);
     --_gap: var(--hds-sem-measure-space-200);
     --_padding-x: var(--hds-sem-measure-space-400);
-    --_padding-y: var(--hds-sem-measure-space-200);
-    --_radius: var(--hds-sem-radius-control);
+    --_font-size: var(--hds-sem-typography-label-size-md);
 
+    box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    block-size: var(--_height);
     gap: var(--_gap);
-    padding: var(--_padding-y) var(--_padding-x);
-    border-radius: var(--_radius);
+    padding-block: 0;
+    padding-inline: var(--_padding-x);
+    border-radius: var(--hds-sem-radius-control);
+    font-size: var(--_font-size);
     white-space: nowrap;
   }
 
-  .hds-button[data-size='sm'] {
+  .hds-button[data-size='800'] {
+    --_height: var(--hds-sem-measure-size-800);
     --_gap: var(--hds-sem-measure-space-100);
     --_padding-x: var(--hds-sem-measure-space-300);
-    --_padding-y: var(--hds-sem-measure-space-100);
-    --_radius: var(--hds-sem-radius-control);
+    --_font-size: var(--hds-sem-typography-label-size-sm);
   }
 
-  .hds-button[data-size='lg'] {
-    --_gap: var(--hds-sem-measure-space-200);
+  .hds-button[data-size='1200'] {
+    --_height: var(--hds-sem-measure-size-1200);
     --_padding-x: var(--hds-sem-measure-space-600);
-    --_padding-y: var(--hds-sem-measure-space-300);
-    --_radius: var(--hds-sem-radius-control);
+    --_font-size: var(--hds-sem-typography-label-size-lg);
   }
 
-  .hds-button--full {
-    width: 100%;
+  .hds-button[data-width='full'] {
+    inline-size: 100%;
   }
 
   .hds-button__spinner {

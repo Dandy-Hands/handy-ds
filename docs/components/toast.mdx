@@ -74,7 +74,7 @@ export function ToastDemo() {
   return (
     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
       {['info', 'success', 'warning', 'danger'].map((type) => (
-        <Button key={type} priority="secondary" onClick={() => toast.add({ type, title: `${type} toast`, description: 'Something happened.' })}>
+        <Button key={type} variant="secondary" onClick={() => toast.add({ type, title: `${type} toast`, description: 'Something happened.' })}>
           {type}
         </Button>
       ))}

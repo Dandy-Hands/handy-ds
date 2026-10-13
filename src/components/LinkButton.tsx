@@ -1,7 +1,7 @@
 import { mergeProps } from '@base-ui/react/merge-props';
 import { useRender } from '@base-ui/react/use-render';
 import type { Size } from './Field.tsx';
-import type { Priority } from './Button.tsx';
+import type { ButtonVariant as Priority } from './Button.tsx';
 import './base.css';
 import './action.css';
 import './Button.css';
@@ -17,7 +17,7 @@ export function LinkButton({ priority = 'primary', size = 'md', render, ...props
     defaultTagName: 'a',
     render,
     props: mergeProps<'a'>(
-      { className: 'hds-button hds-action', 'data-priority': priority, 'data-size': size } as object,
+      { className: 'hds-button hds-action', 'data-priority': priority, 'data-size': { sm: '800', md: '1000', lg: '1200' }[size] } as object,
       props,
     ),
   });

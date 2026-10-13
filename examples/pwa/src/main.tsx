@@ -102,7 +102,7 @@ function App() {
                   {task.title}
                 </Field.Label>
               </Field.Root>
-              <Button priority="tertiary" aria-label={`Delete ${task.title}`} onClick={() => setTasks(tasks.filter((t) => t.id !== task.id))}>
+              <Button variant="tertiary" aria-label={`Delete ${task.title}`} onClick={() => setTasks(tasks.filter((t) => t.id !== task.id))}>
                 <Icon><Trash /></Icon>
               </Button>
             </li>
