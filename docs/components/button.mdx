@@ -3,111 +3,141 @@ title: Button
 order: 1
 ---
 
-import { Button } from 'handy-ds';
+import { Button, Icon } from 'handy-ds';
+
+export const row = { display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' };
+
+export const CloseIcon = () => (
+  <Icon>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 6l12 12M18 6L6 18" /></svg>
+  </Icon>
+);
 
 # Button
 
-The primary control for triggering an action. Button covers every action the
-user takes in place: submit, save, confirm, open, cancel. It is the Action
-category's reference part, themed entirely by semantic tokens.
+Triggers an action the user takes in place: submit, save, confirm, open a dialog. A
+Button is a container. Text, an icon, or both go in as children. Its colors come from
+the Action category.
 
-<Button priority="primary">Save changes</Button>
-<Button priority="secondary">Cancel</Button>
+<div style={row}>
+  <Button>Save changes</Button>
+  <Button variant="secondary">Cancel</Button>
+</div>
 
 ## Usage
 
-Use a button when the user acts in place: submitting a form, saving, opening a
-dialog, confirming a destructive choice. Use one primary button per view and
-mark the rest secondary or tertiary. Do not use a button for navigation — use
-LinkButton. Do not put button styling on Dialog or Menu triggers; a trigger's
-look depends on what renders it, and triggers ship unstyled on purpose.
+Use a Button when the user acts in place: submitting a form, saving, opening a dialog,
+or confirming a choice. Use one `primary` button per view and mark the other actions
+`secondary` or `tertiary`. Do not use a Button to navigate. Use LinkButton instead.
+Dialog and Menu triggers carry no Button look. Opt in with `render`:
+`<Dialog.Trigger render={<Button variant="tertiary" />}>`.
 
 ## Base UI API
 
-Wraps Base UI's `Button`; every native prop passes through.
+Wraps Base UI's `Button`. Button takes only the members below.
 
 | Element | Notes |
 | ------- | ----- |
-| Native `<button>` props (`disabled`, `type`, `onClick`, `form*`, `aria-*`, ...) | Exposed — full passthrough. |
-| `disabled` | As-is; the `data-disabled` attribute is consumed by the CSS. |
-| `type` | Default `button` is kept — plain buttons never submit; set `submit` explicitly. |
-| `render` | Exposed — replace the element or compose with another component. |
-| `nativeButton`, callback-form `className`/`style` | Available via passthrough, not documented — edge cases. |
+| `disabled` | Exposed. The `data-disabled` attribute drives the disabled colors. |
+| `render` | Exposed. Triggers and other parts use Button through it. |
+| `ref` | Exposed. |
+| Native button props (`type`, `onClick`, `form*`, `name`, `value`, `id`, `aria-*`, `data-*`) | Exposed as rest props. `type` defaults to `button`, so a plain Button never submits a form. |
+| `children` | Exposed. Text, an `Icon`, or both. |
+| `focusableWhenDisabled`, `nativeButton` | Removed. |
+| `className`, `style` | Removed. |
 
 ## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'primary'` | Visual weight. `primary` — the view's main action. `secondary` — supporting actions next to the main one. `tertiary` — low-weight inline actions. |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense toolbars and compact layouts. `md` — default. `lg` — hero and marketing contexts. |
-| `loading` | `boolean` | `false` | Shows a spinner, sets `aria-busy="true"`, and blocks clicks while the action runs. |
-| `fullWidth` | `boolean` | `false` | Stretches to the full width of its container. |
+| `variant` | `'primary' \| 'secondary' \| 'tertiary' \| 'danger'` | `'primary'` | Role and weight. `primary`: the view's main action. `secondary`: supporting actions next to the main one. `tertiary`: low-weight inline actions. `danger`: destructive actions. |
+| `size` | `'800' \| '1000' \| '1200'` | `'1000'` | Button height. `800`: dense toolbars and compact layouts. `1000`: the standard button. `1200`: large, for hero and marketing areas. The label size follows. |
+| `width` | `'auto' \| 'full'` | `'auto'` | `auto`: fits the content. `full`: fills the width of its container. |
+| `loading` | `boolean` | `false` | Shows a spinner, sets `aria-busy="true"`, and blocks clicks while the action runs. The width does not change. |
+| `disabled` | `boolean` | — | Makes the button visible but inert. |
+| `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Set `submit` to submit a form. |
+| `onClick` | `(event: MouseEvent) => void` | — | Called when the button is activated. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element, or lets a parent such as a dialog trigger use the button look. |
+| `children` | `ReactNode` | — | The content: text, an `Icon`, or both. |
 
-Standard attributes and the passthrough props in the Base UI API table appear here only — never get their own section.
+Event handlers, `type`, `render`, and `children` appear here only. They have no section below.
 
-## Priority
+## Variant
 
-The visual weight axis. It picks the `hds/sem/color/action/{priority}/*` set:
-primary is filled, secondary is outlined, tertiary is borderless.
+The role and weight axis. It picks the `hds/sem/color/action/{variant}/*` set.
+`primary` is filled. `secondary` has an outline. `tertiary` has no border or fill. `danger` is filled in the danger color.
 
-<Button priority="primary">Save changes</Button>
-<Button priority="secondary">Save changes</Button>
-<Button priority="tertiary">Save changes</Button>
+<div style={row}>
+  <Button variant="primary">Save changes</Button>
+  <Button variant="secondary">Save changes</Button>
+  <Button variant="tertiary">Save changes</Button>
+  <Button variant="danger">Delete project</Button>
+</div>
 
 ## Size
 
-The size axis, shared with Input/Field controls so rows of controls line up.
-It sets padding, radius, and gap from `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control`.
+The height axis. Each step is a `measure/size` token. Padding, gap, and label size follow the step.
 
-<Button size="sm">Small</Button>
-<Button size="md">Medium</Button>
-<Button size="lg">Large</Button>
+<div style={row}>
+  <Button size="800">Small</Button>
+  <Button size="1000">Standard</Button>
+  <Button size="1200">Large</Button>
+</div>
+
+## Width
+
+`auto` fits the content. `full` fills the container.
+
+<div style={{ display: 'grid', gap: '12px', maxWidth: '320px' }}>
+  <Button width="auto">Auto width</Button>
+  <Button width="full">Full width</Button>
+</div>
 
 ## Disabled
 
-A disabled button keeps its footprint but takes no input. `action.css` styles
-it from the `disabled` state tokens of the current priority.
+A disabled button keeps its size and takes no input. It reads the disabled tokens of its variant.
 
-<Button disabled>Save changes</Button>
-<Button priority="secondary" disabled>Save changes</Button>
+<div style={row}>
+  <Button disabled>Save changes</Button>
+  <Button variant="secondary" disabled>Save changes</Button>
+  <Button variant="tertiary" disabled>Save changes</Button>
+  <Button variant="danger" disabled>Delete project</Button>
+</div>
 
 ## Loading
 
-While `loading`, the button shows a spinner, sets `aria-busy="true"`, and
-blocks clicks (it is disabled, so the disabled tokens apply). Icons are not a
-prop — put an `Icon` in children and it inherits the button's color.
+While `loading` is set, the button shows a spinner and sets `aria-busy="true"`. It is also disabled, so the disabled tokens apply. The width does not change.
 
-<Button loading>Saving…</Button>
-<Button loading priority="secondary">Uploading…</Button>
+<div style={row}>
+  <Button loading>Saving…</Button>
+  <Button loading variant="secondary">Uploading…</Button>
+</div>
 
-## Full width
+## Icons
 
-`fullWidth` stretches the button to its container. It is structural — no token
-is involved.
+There is no icon prop. Put an `Icon` in the children. It follows the label size and color.
+An icon-only button keeps the standard padding. Give it an `aria-label`.
 
-<Button fullWidth>Save changes</Button>
+<div style={row}>
+  <Button><CloseIcon />Close</Button>
+  <Button variant="tertiary" aria-label="Close"><CloseIcon /></Button>
+</div>
 
 ## Anatomy
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Background, border, text | `hds/sem/color/action/{priority}/{default,hover,active,disabled,selected}/{bg,border,fg}` |
-| Padding, radius, gap | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Background, border, text | `hds/sem/color/action/{variant}/{default,hover,active,disabled}/{bg,border,fg}` |
+| Height | `hds/sem/measure/size/{size}` |
+| Inline padding, gap | `hds/sem/measure/space/*` |
+| Radius, border width | `hds/sem/radius/control`, `hds/sem/border/control` |
 | Label type | `hds/sem/typography/label/*` |
 | Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
-| Spinner | reuses the state fg token via `currentColor` |
+| Spinner | The foreground token of the current state. |
 
 ## Owner notes
 
-- Base UI mapping: wraps `@base-ui/react/button`; every native prop passes
-  through, including `aria-*` and `render`. `nativeButton` and callback-form
-  `className`/`style` work but are undocumented edge cases.
-- Extension decisions: `priority` and `size` set data attributes the CSS maps
-  to tokens; `loading` and `fullWidth` are new; LinkButton moved to its own
-  component. `type="button"` is the default so plain buttons never submit.
-- Known constraints: triggers (`Dialog.Trigger`, `Menu.Trigger`, ...) do not
-  look like Buttons by default — style them deliberately if you want that.
-  Only Button opens the size axis among Action parts.
-- Accessibility: native button semantics and focus ring are free. The spinner
-  is `aria-hidden`; loading state is announced through `aria-busy`. Spinner
-  animation stops under `prefers-reduced-motion`.
+- Base UI mapping: wraps `@base-ui/react/button` 1.8.0.
+- Extension decisions: `variant`, `size`, and `width` set data attributes. The CSS maps them to tokens. `loading` is new. `type="button"` is the default.
+- Known constraints: Button takes no `className` or `style`. Dialog and Menu triggers do not look like a Button by default. Use `render`. The `selected` state tokens belong to Toggle and Tab, not Button.
+- Accessibility: native button semantics and the focus ring come with the element. The spinner is `aria-hidden`. The loading state is announced through `aria-busy`. The spinner stops under `prefers-reduced-motion`. An icon-only button needs an `aria-label`.
