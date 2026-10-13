@@ -2,34 +2,40 @@
 
 ## Usage
 
-Button triggers an action the user takes in place, such as submitting a form, saving, or opening a dialog. Use it for actions, not navigation — use LinkButton when the control moves to another page. Use one primary button per view and mark supporting actions as secondary or tertiary.
+Button triggers an action the user takes in place, such as submitting a form, saving, or opening a dialog. Use it for actions, not navigation. Use LinkButton when the control moves to another page. Use one `primary` button per view, and mark supporting actions `secondary` or `tertiary`.
 
 ## Props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `priority` | `'primary' \| 'secondary' \| 'tertiary' \| 'danger'` | `'primary'` | Visual weight. `primary` — the view's main action. `secondary` — supporting actions next to the main one. `tertiary` — low-weight inline actions. `danger` — destructive actions. |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense toolbars and compact layouts. `md` — default. `lg` — hero and marketing contexts. |
-| `loading` | `boolean` | `false` | Shows a spinner, sets `aria-busy="true"`, and blocks clicks while the action runs. |
-| `fullWidth` | `boolean` | `false` | Stretches to the full width of its container. |
+| `variant` | `'primary' \| 'secondary' \| 'tertiary' \| 'danger'` | `'primary'` | Role and weight. `primary`: the view's main action. `secondary`: supporting actions next to the main one. `tertiary`: low-weight inline actions. `danger`: destructive actions. |
+| `size` | `'800' \| '1000' \| '1200'` | `'1000'` | Button height. `800`: dense toolbars and compact layouts. `1000`: the standard button. `1200`: large, for hero and marketing areas. The label size follows. |
+| `width` | `'auto' \| 'full'` | `'auto'` | `auto`: fits the content. `full`: fills the width of its container. |
+| `loading` | `boolean` | `false` | Shows a spinner, sets `aria-busy="true"`, and blocks clicks while the action runs. The width does not change. |
 | `disabled` | `boolean` | — | Makes the button visible but inert. |
 | `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Set `submit` to submit a form. |
-| `onClick` | `(event: MouseEvent) => void` | — | Fires when the button is activated. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element or composes with another component. |
-| `children` | `ReactNode` | — | Label content. Icons go here — pair with the `Icon` component. |
+| `onClick` | `(event: MouseEvent) => void` | — | Called when the button is activated. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element, or lets a parent such as a dialog trigger use the button look: `<Dialog.Trigger render={<Button variant="tertiary" />}>`. |
+| `children` | `ReactNode` | — | The content: text, an `Icon`, or both. Give an icon-only button an `aria-label`. |
 
-All standard button attributes (`aria-*`, `form*`, ...) are also accepted.
+All other standard button attributes (`aria-*`, `form*`, `name`, `id`, ...) and `ref` are also accepted. Button takes no `className` or `style`.
 
 ## Examples
 
 ```tsx
 <Button onClick={save}>Save changes</Button>
-<Button priority="secondary" onClick={cancel}>Cancel</Button>
+<Button variant="secondary" onClick={cancel}>Cancel</Button>
 ```
 
 ```tsx
-<Button priority="secondary" size="sm" loading={isSaving} fullWidth>
+<Button variant="secondary" size="1200" width="full" loading={isSaving}>
   {isSaving ? 'Saving…' : 'Save draft'}
+</Button>
+```
+
+```tsx
+<Button variant="tertiary" aria-label="Close">
+  <Icon>x</Icon>
 </Button>
 ```
 

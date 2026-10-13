@@ -1,66 +1,84 @@
-# Button — Internal Spec
+Status:
+- spec: reviewed
+- code: built
+- figma: built
+- docs: built
 
-- Status: docs-built
-- Date: 2026-09-21
-- Interview: `interview-guide-2026-09-21.md`
+# Internal Spec: Button
+
+- Date: 2026-10-12
+- Interview: `interview-guide-2026-10-12.md` (dry run: `interview-guide-2026-09-21.md`)
 - Base UI version documented from: `@base-ui/react` 1.8.0 (`@base-ui/react/button`)
-- Code: `src/components/Button.tsx` (reference implementation)
 
 ## Description
 
-Button triggers an action. It renders a native `<button>` themed by the Action category. Use it for actions the user takes in place (submit, save, open a dialog); use LinkButton when the control navigates. Don't use Button for navigation, and don't use it as a trigger look — Base UI triggers (Dialog.Trigger, Menu.Trigger...) are semantically their own controls and carry no Button styling by default.
+Button triggers an action the user takes in place. It renders a native `<button>` styled by the Action category. It is a container: text, an icon, or both go in as children. LinkButton is its own component and covers navigation.
 
 ## Usage
 
-- One primary button per view: it marks the main action.
-- `priority` marks weight: primary for the main action, secondary for supporting actions, tertiary for low-weight inline actions.
-- Disabled buttons are visible but inert (`disabled`); loading buttons show a spinner and block clicks.
+- Do use Button for actions: submit, save, confirm, open a dialog.
+- Don't use Button to navigate. Use LinkButton.
+- Do use one `primary` variant per view. It marks the main action.
+- Do use `loading` while the action runs. Don't swap the label for a spinner by hand.
+- Do give an icon-only Button an `aria-label`.
+- Do opt triggers in to the Button look with `render`: `<Dialog.Trigger render={<Button variant="tertiary" />}>`. Triggers carry no look of their own (`.claude/decisions.md`, "Triggers carry no styling").
 
 ## Base UI API
 
-Wrapped component: `Button` from `@base-ui/react/button`. Surface decisions:
+Wrapped component: `Button` from `@base-ui/react/button`. Minimal surface with `render`, `ref`, and rest props.
 
-| Base UI surface | Decision |
+| Base UI member | Decision |
 | --- | --- |
-| Native `<button>` props (`disabled`, `type`, `onClick`, `form*`, `aria-*`, ...) | Exposed — full passthrough via `ComponentProps<'button'>`. `aria-*` needs no special support. |
-| `disabled` | Exposed as-is; Base UI sets `data-disabled`, styled by `action.css`. |
-| `render` | Exposed — replace the element or compose with another component. |
-| `nativeButton` | Available via passthrough, not documented (edge case: only matters with `render` on non-button elements). |
-| Callback-form `className` / `style` | Available via passthrough, not documented. |
-| Default `type="button"` | Kept — prevents accidental form submits; callers set `type="submit"` explicitly. |
-| `data-disabled` state attribute | Consumed by CSS for the disabled state. |
+| `disabled` | Exposed. Base UI sets `data-disabled`; the Action disabled colors read it. |
+| `render` | Exposed. Triggers and other parts compose Button through it. |
+| `ref` | Exposed. React 19 prop. Popups use it to position. |
+| Native button props (`type`, `onClick`, `form*`, `name`, `value`, `id`, `aria-*`, `data-*`, ...) | Exposed as rest props. `type` defaults to `'button'`. |
+| `children` | Exposed. Text, an `Icon`, or both. |
+| `focusableWhenDisabled` | Omitted. No second use. A disabled Button leaves the tab order. |
+| `nativeButton` | Omitted. Not documented. It matters only for `render` onto a non-button. |
+| `className` | Omitted. Recorded break of API conventions section 1 (Composition `className` is pass-through): the user wants a minimal surface. |
+| `style` | Omitted. Removed by API conventions section 1. |
+| `data-disabled` state attribute | Kept. CSS reads it. |
+
+The prop type is written out as `Omit<ComponentProps<'button'>, 'className' | 'style'>` plus the extension props. It does not extend the Base UI props.
 
 ## Extension API
 
+Set as data attributes on the root.
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `priority` | `'primary' \| 'secondary' \| 'tertiary' \| 'danger'` | `'primary'` | Visual weight; set as `data-priority`. `danger` added 2026-10-07 by the token rework (token spec 7.1). |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size axis, shared with Field; set as `data-size`. Only Button exposes it among Action parts (decisions.md "Button size axis"). |
-| `loading` | `boolean` | `false` | Shows a spinner and sets `aria-busy="true"`. Blocks clicks by disabling the button while loading. `disabled` styling applies during loading; spinner color reuses the fg token of the current state. |
-| `fullWidth` | `boolean` | `false` | Stretches to the container width (structural, no token). |
+| `variant` | `ButtonVariant = 'primary' \| 'secondary' \| 'tertiary' \| 'danger'` | `'primary'` | Role and weight, Action axis (API conventions section 6). `primary`: the main action. `secondary`: supporting action. `tertiary`: low-weight inline action. `danger`: destructive action. Set as `data-variant`. Renamed from `priority`. |
+| `size` | `ButtonSize = '800' \| '1000' \| '1200'` | `'1000'` | Control height, a `measure/size` step (32, 40, 48px at density 1). Also sets padding, gap, and label size. Set as `data-size`. Not responsive. Replaces `sm`/`md`/`lg`. |
+| `width` | `ButtonWidth = 'auto' \| 'full'` | `'auto'` | `auto`: fits the content. `full`: fills the parent (`100%`). Set as `data-width`. Not responsive. Replaces `fullWidth`. |
+| `loading` | `boolean` | `false` | Shows a spinner before the children, sets `aria-busy="true"`, and disables the Button. Width does not change. |
 
-Icons are injected as children (pair with the `Icon` component or inline SVG); there is no `icon` prop.
+No `focusableWhenDisabled`, no icon props, no `shape`. An icon-only Button is a Button with an `Icon` child and the standard padding.
 
 ## Token mapping
 
-> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+| Part | Property | Token |
+| --- | --- | --- |
+| Root | `background`, `color`, `border-color` | `hds/sem/color/action/{variant}/{default\|hover\|active\|disabled\|selected}/{bg\|fg\|border}` |
+| Root | `border-width` | `hds/sem/border/control` |
+| Root | `border-radius` | `hds/sem/radius/control` |
+| Root | `block-size` | `hds/sem/measure/size/{size}` |
+| Root | `padding-inline` | `hds/sem/measure/space/{step}`: `800` = `300`, `1000` = `400`, `1200` = `600` |
+| Root | `gap` | `hds/sem/measure/space/{step}`: `800` = `100`, `1000` and `1200` = `200` |
+| Root | font | `hds/sem/typography/label/{family\|weight\|leading\|tracking}` |
+| Root | font size | `hds/sem/typography/label/size/{step}`: `800` = `sm`, `1000` = `md`, `1200` = `lg` |
+| Focus ring | outline | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (from `base.css`) |
 
-Button consumes only these semantic tokens:
+Notes:
 
-- `hds/sem/color/action/{priority}/{default,hover,active,disabled,selected}/{bg,border,fg}` for all four priorities — look and states (`action.css`).
-- `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` — size axis (`Button.css`, `action.css`).
-- `hds/sem/typography/label/*` — label typography (`action.css`).
-- Focus ring from `base.css`: `hds/sem/color/focus/ring`, `hds/sem/border/focus`.
+- State mapping: `hover` = `:hover`, `active` = `:active`, `disabled` = `[data-disabled]` and `:disabled`. `selected` is not used by Button. The Action look is shared with Toggle, Tab, and menu items.
+- Layout (structural): `inline-flex`, centered, `white-space: nowrap`, `box-sizing: border-box`, no vertical padding (height comes from `block-size`). `width="full"` sets `inline-size: 100%`.
+- Spinner (structural): `1em` square, `currentColor`, so it follows the foreground token of the current state. The border width and the spin timing are literals. `prefers-reduced-motion` stops the spin.
+- An `Icon` child without `size` follows the font size, so it scales with `size`.
+- Contrast: the Action pairs are checked by `src/tokens/contrast.ts` in both modes and both brand contexts. No token gaps. `measure/size` has the steps `800`, `1000`, and `1200`.
+- Context-passive: all colors re-resolve from ancestor `data-context` and `data-section` overrides.
 
-No primitive or driver references. Spinner animation timing is structural (allowed literal) with a `prefers-reduced-motion` fallback. No token gaps found in review.
+## Code consequences (for `hds-component-code`)
 
-## LinkButton
-
-LinkButton becomes its own component (`src/components/LinkButton.tsx`, separate export) — not part of the Button file. Same surface as Button minus `loading`/`fullWidth`: `priority`, `size`, and Base UI `useRender` props (including `render`). No Base UI primitive underneath (uses `useRender` + `mergeProps`); an `<a>` that looks like a Button. Exists because Base UI forbids rendering links as buttons (decisions.md Wave 4). Consumes the same Action tokens as Button.
-
-### LinkButton Base UI API
-
-| Base UI surface | Decision |
-| --- | --- |
-| `useRender` props (`render`, `className`, `style`, native `<a>` props) | Exposed — full passthrough. |
-| Callback-form `className` / `style` | Available via passthrough, not documented. |
+- `action.css` reads `data-priority` today and treats a missing value as `secondary`. The shared look must read `data-variant`. Toggle, Toolbar, Menu, Tabs, Select, Combobox, NavigationMenu, Dialog, Popover, and Toast set `data-priority` or rely on the default. Their re-interviews rename them. Until then, either keep `data-priority` working in `action.css` or change them in the same commit. Ask the user which.
+- Button `size` no longer uses `Size` from `Field.tsx`. Export `ButtonSize` from `Button.tsx`.
