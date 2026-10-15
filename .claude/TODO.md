@@ -41,6 +41,10 @@ Running list of planned work. Add an item when the user asks for new work. Check
 - [x] Slider (2026-10-15): spec, code, docs, and Figma done. `Slider.Root`, `Label`, `Value`, `Control`; `size` of `200 | 300 | 400` is the track height; range and vertical are exposed. The user has not reviewed the spec yet (the token mapping is Claude's call). Figma page `Slider` (60 variants: value, size, state, orientation).
 - [ ] Add a contrast pair for `surface/sunken` (both modes) to the contrast checker. Slider and Toggle both depend on it (see the Toggle item).
 - [ ] The e2e page test passes for a page that the dev server does not serve: with a stale server on port 5173 (`reuseExistingServer`), `goto('slider')` rendered the Overview page, which has an `h1`, so the test passed. Decide how to make `e2e/pages.spec.ts` check the page title.
+- [ ] After every component is done (the list in `.claude/component-interview-todo.md` is fully checked), run several quality passes over all components.
+  - [ ] Define the passes with the user first. Candidates: API consistency against `docs/api-conventions.md`, token mapping and contrast, accessibility, docs and Figma against code, and visual consistency across components.
+  - [ ] Keep a record of every difference in decisions: where two components decided the same question in different ways, what each chose, why, and what the pass changed. Write it to `.claude/decisions.md` (the file for judgment calls) or a new file the user picks.
+  - [ ] After each pass, update the specs, the API docs, the docs pages, and the Figma pages that the pass changed.
 - [ ] Create a Carousel component.
 - [ ] Create a Section component.
 - [ ] Create layout components. Example names, not final: Stack, Grid, Container, Cluster.
