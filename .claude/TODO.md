@@ -35,6 +35,8 @@ Running list of planned work. Add an item when the user asks for new work. Check
 ## Components
 
 - [ ] Run the component process for every component, to confirm each API. Per-component list: `.claude/component-interview-todo.md`.
+- [ ] Toggle re-interview (2026-10-12): spec reviewed. `Toggle` is the group in a filled track, `Toggle.Button` is the child; no standalone button, no text prop. Next: code, docs, Figma. Blocked on a user decision: the pressed fill matches the `surface/sunken` track (contrast 1.0 to 1.4). See the spec, Token mapping notes.
+- [ ] Switch re-interview (2026-10-14): spec reviewed. `Switch` is one component with one icon per state (`toggle_off`, `toggle_on`), `size` of `500 | 600 | 800`, Field tokens like Checkbox, no group. `Switch.Root` and `Switch.Thumb` are removed. Code and docs done (2026-10-14). Next: Figma.
 - [ ] Create a Carousel component.
 - [ ] Create a Section component.
 - [ ] Create layout components. Example names, not final: Stack, Grid, Container, Cluster.
@@ -45,6 +47,7 @@ Running list of planned work. Add an item when the user asks for new work. Check
 
 ## Docs
 
+- [ ] Decide the `render` rule with the user, then check every component against it. Proposed rule: a component exposes `render` only when its element varies by context, not by role. Likely keep: Text, Card, Avatar image, router-link parts (Menu item, Navigation Menu link, Tabs tab). Likely omit: Button, Checkbox, Radio, Separator, Meter, Progress. Update `docs/api-conventions.md` section 1 (the escape-hatch rule) and each spec and component that differs.
 - [ ] Rewrite the no-raw-numbers rule in `docs/api-conventions.md` section 4 with the user: say where numbers are allowed (counts such as Text `maxLines`) and where they are forbidden.
 - [x] Write the component API conventions: what is and is not an API member, member categories, member names, value types, and value names. Size and space props take measure token steps (`"400"`, `"500"`, ...) plus other values.
-- [ ] Rework the component documentation template (`docs/templates/component.mdx`).
+- [ ] Build a proper MDX template for component docs (`docs/templates/component.mdx`). Not started. Open points: show one props table for the whole API instead of a separate "Base UI API" section (link to Base UI for pass-through behavior), and update the `hds-component-docs` skill and the existing `docs/components/*.mdx` pages to match.

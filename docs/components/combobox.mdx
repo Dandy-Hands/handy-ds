@@ -3,7 +3,7 @@ title: Combobox
 order: 15
 ---
 
-import { Combobox } from 'handy-ds';
+import { Combobox, Field } from 'handy-ds';
 
 # Combobox
 
@@ -86,12 +86,14 @@ and the other parts compose the widget.
 The default. Type to filter, pick one option; the check marks the chosen one.
 
 <Combobox.Root items={['Japan', 'Jordan', 'Norway', 'Portugal']} defaultValue="Norway">
-  <Combobox.Label>Country</Combobox.Label>
+  <Field.Root>
+  <Field.Label>Country</Field.Label>
   <Combobox.InputGroup>
     <Combobox.Input placeholder="Type to filter…" />
     <Combobox.Clear />
     <Combobox.Trigger />
   </Combobox.InputGroup>
+  </Field.Root>
   <Combobox.Portal>
     <Combobox.Positioner>
       <Combobox.Popup>
@@ -114,18 +116,22 @@ The default. Type to filter, pick one option; the check marks the chosen one.
 With `multiple`, each selection becomes a chip with its own remove button.
 
 <Combobox.Root items={['fast', 'compact', 'accessible', 'typed']} multiple defaultValue={['fast', 'typed']}>
-  <Combobox.Label>Tags</Combobox.Label>
+  <Field.Root>
+  <Field.Label>Tags</Field.Label>
   <Combobox.InputGroup>
     <Combobox.Chips>
-      {(chip) => (
-        <Combobox.Chip key={chip.value}>
-          {chip.label}
-          <Combobox.ChipRemove />
-        </Combobox.Chip>
-      )}
+      <Combobox.Value>
+        {(selected) => selected.map((tag) => (
+          <Combobox.Chip key={tag}>
+            {tag}
+            <Combobox.ChipRemove />
+          </Combobox.Chip>
+        ))}
+      </Combobox.Value>
     </Combobox.Chips>
     <Combobox.Input placeholder="Add…" />
   </Combobox.InputGroup>
+  </Field.Root>
   <Combobox.Portal>
     <Combobox.Positioner>
       <Combobox.Popup>

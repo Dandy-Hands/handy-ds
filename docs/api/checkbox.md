@@ -6,37 +6,54 @@ Checkbox is a yes/no control, or one of several picked from a few options. Use i
 
 ## Props
 
+### Checkbox
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `size` | `'500' \| '600' \| '800'` | `'500'` | Size of the checkbox icon. `500`: standard. `600`: roomy forms. `800`: large, for touch layouts. |
 | `checked` / `defaultChecked` | `boolean` | — | The controlled / initial tick state. |
 | `indeterminate` | `boolean` | `false` | Shows a dash: the box stands for a partly selected set. |
-| `onCheckedChange` | `(checked, eventDetails) => void` | — | Fires when the box is ticked or unticked. |
-| `value` | `string` | — | The value submitted with the form when checked. |
+| `onCheckedChange` | `(checked: boolean, eventDetails) => void` | — | Called when the box is ticked or unticked. |
+| `value` | `string` | — | The name of this box in a `Checkbox.Group`. Also the value submitted with the form when checked. |
 | `name` | `string` | — | Identifies the field on form submission. |
-| `disabled` | `boolean` | `false` | Ignores interaction and dims the box. |
-| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element on any part. |
-| `children` | `ReactNode` | — | Indicator content; the built-in check and dash glyphs can be overridden. |
+| `disabled` | `boolean` | `false` | Makes the box visible but inert. |
+| `readOnly` | `boolean` | `false` | Shows the state but blocks changes. |
+| `required` | `boolean` | `false` | The box must be ticked before the form submits. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
 
-All standard attributes (`id`, `aria-*`, `required`, ...) are also accepted.
+All other standard attributes (`id`, `form`, `aria-*`, ...) and `ref` are also accepted. The box takes no `className` or `style`, and no children.
+
+### Checkbox.Group
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'vertical'` | Layout direction of the checkboxes. |
+| `value` / `defaultValue` | `string[]` | — | The controlled / initial `value`s of the ticked boxes. |
+| `onValueChange` | `(value: string[], eventDetails) => void` | — | Called when a box in the group is ticked or unticked. |
+| `disabled` | `boolean` | `false` | Makes every box visible but inert. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
+| `children` | `ReactNode` | — | The checkboxes, each with its label. |
+
+The group takes no `className` or `style`.
 
 ## Examples
 
 ```tsx
 <Field.Root>
   <Field.Label>
-    <Checkbox.Root defaultChecked><Checkbox.Indicator /></Checkbox.Root>
-    Subscribe
+    <Checkbox defaultChecked name="news" />
+    Subscribe to the newsletter
   </Field.Label>
 </Field.Root>
 ```
 
 ```tsx
-<CheckboxGroup defaultValue={['email']}>
-  <Field.Label><Checkbox.Root value="email"><Checkbox.Indicator /></Checkbox.Root>Email</Field.Label>
-  <Field.Label><Checkbox.Root value="sms"><Checkbox.Indicator /></Checkbox.Root>SMS</Field.Label>
-</CheckboxGroup>
+<Checkbox.Group defaultValue={['email']} orientation="horizontal">
+  <Field.Label><Checkbox value="email" />Email</Field.Label>
+  <Field.Label><Checkbox value="sms" />SMS</Field.Label>
+</Checkbox.Group>
 ```
 
 ## Contexts
 
-No own context handling. The box reads Input/Field tokens; contrast holds in the default context and inside `data-context="default"` containers.
+Honors the theme's context overrides: set `data-context="on-primary"` (on a colored ground), `data-context="default"` (back to normal colors), or `data-section="hero"` on any ancestor and Checkbox's tokens re-resolve automatically.

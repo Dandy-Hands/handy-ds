@@ -3,140 +3,159 @@ title: Checkbox
 order: 12
 ---
 
-import { Checkbox, CheckboxGroup, Field } from 'handy-ds';
+import { Checkbox, Field } from 'handy-ds';
+
+export const row = { display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' };
 
 # Checkbox
 
-A yes/no control, or one of several picked from a few options. Renders a square
-box with a built-in check glyph; a dash appears when the box is
-`indeterminate`.
+A yes/no control, or one of several picked from a few options. Checkbox draws one
+Material Symbols icon for each state: unticked, ticked, and indeterminate. There is no
+separate box element. Its colors come from the Field category.
 
 <Field.Root>
   <Field.Label>
-    <Checkbox.Root defaultChecked>
-      <Checkbox.Indicator />
-    </Checkbox.Root>
-    Subscribe
+    <Checkbox defaultChecked />
+    Subscribe to the newsletter
   </Field.Label>
 </Field.Root>
 
 ## Usage
 
-Use Checkbox when the value is submitted with a form, or when several options
-can be picked at once. Do not use it for a setting that applies the moment it
-changes — use Switch. Label every checkbox with `Field.Label` or a wrapping
-`<label>`.
+Use Checkbox when the value is submitted with a form, or when the user can pick several
+options at once. Label every checkbox with `Field.Label` or a wrapping `<label>`. Use
+`indeterminate` on a parent box that stands for a partly selected set. Do not use Checkbox
+for a setting that applies the moment it changes. Use Switch instead. Do not use it to
+pick exactly one option. Use Radio instead.
 
 ## Base UI API
 
-Wraps Base UI's `Checkbox` and `CheckboxGroup`; every part passes through
-unchanged, styled via `part()`.
+Wraps Base UI's `Checkbox` and `CheckboxGroup`. `Checkbox` renders the root and the icons
+in one component. `Checkbox.Group` is the group.
 
 | Element | Notes |
 | ------- | ----- |
-| `Root` props (`checked`, `indeterminate`, `onCheckedChange`, `value`, `name`, `disabled`, `readOnly`, ...) | Exposed — full passthrough on the namespace. |
-| `Root`, `Indicator` | Styled with `part()` — built-in check and dash glyphs as overridable defaults. |
-| `CheckboxGroup` | Single `part()` stack. |
-| `data-checked`, `data-indeterminate`, `data-invalid`, `data-disabled` | Consumed by CSS. |
-| Callback-form `className`/`style` | Available via passthrough, not documented. |
+| `checked`, `defaultChecked`, `onCheckedChange` | Exposed on `Checkbox`. |
+| `indeterminate`, `disabled`, `readOnly`, `required` | Exposed on `Checkbox`. |
+| `name`, `value`, `form`, `id` | Exposed on `Checkbox`. |
+| `render`, `ref`, rest props | Exposed on `Checkbox` and `Checkbox.Group`. |
+| `Indicator` | Not used. The state icons replace it. |
+| `parent`, `allValues`, `uncheckedValue`, `inputRef`, `nativeButton` | Removed. |
+| Group `value`, `defaultValue`, `onValueChange`, `disabled` | Exposed on `Checkbox.Group`. |
+| `className`, `style` | Removed on both parts. |
+| `data-checked`, `data-unchecked`, `data-indeterminate`, `data-invalid`, `data-disabled` | Kept. The CSS reads them. |
 
 ## Extension API
 
+### Checkbox
+
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
+| `size` | `'500' \| '600' \| '800'` | `'500'` | Size of the icon. `500`: the standard checkbox. `600`: roomy forms. `800`: large, for touch layouts. |
 | `checked` / `defaultChecked` | `boolean` | — | The controlled / initial tick state. |
-| `indeterminate` | `boolean` | `false` | Shows a dash: the box stands for a partly selected set. |
-| `onCheckedChange` | `(checked, eventDetails) => void` | — | Fires when the box is ticked or unticked. |
-| `value` | `string` | — | The value submitted with the form when checked. |
+| `indeterminate` | `boolean` | `false` | Shows the indeterminate icon: the box stands for a partly selected set. |
+| `onCheckedChange` | `(checked: boolean, eventDetails) => void` | — | Called when the box is ticked or unticked. |
+| `value` | `string` | — | The name of this box in a `Checkbox.Group`. Also the value submitted with the form when checked. |
 | `name` | `string` | — | Identifies the field on form submission. |
-| `disabled` | `boolean` | `false` | Ignores interaction and dims the box. |
-| `children` | `ReactNode` | — | Indicator content; the built-in check and dash glyphs can be overridden. |
+| `disabled` | `boolean` | `false` | Makes the box visible but inert. |
+| `readOnly` | `boolean` | `false` | Shows the state but blocks changes. |
+| `required` | `boolean` | `false` | The box must be ticked before the form submits. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
 
-`render` and standard attributes are passthrough — they appear here only, never get their own section.
+### Checkbox.Group
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'vertical'` | Layout direction of the checkboxes. `vertical`: a stack. `horizontal`: a row that wraps. |
+| `value` / `defaultValue` | `string[]` | — | The controlled / initial `value`s of the ticked boxes. |
+| `onValueChange` | `(value: string[], eventDetails) => void` | — | Called when a box in the group is ticked or unticked. |
+| `disabled` | `boolean` | `false` | Makes every box visible but inert. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
+| `children` | `ReactNode` | — | The checkboxes, each with its label. |
+
+Event handlers, form props, `render`, and `children` appear here only. They have no section below.
+
+## Size
+
+The icon size axis. Each step is a `measure/size` token. The square drawn inside the icon is
+about three quarters of the step.
+
+<div style={row}>
+  <Field.Root><Field.Label><Checkbox size="500" defaultChecked />500</Field.Label></Field.Root>
+  <Field.Root><Field.Label><Checkbox size="600" defaultChecked />600</Field.Label></Field.Root>
+  <Field.Root><Field.Label><Checkbox size="800" defaultChecked />800</Field.Label></Field.Root>
+</div>
 
 ## Checked
 
-The checked look comes from the Input/Field `checked` state:
-`hds/sem/color/field/checked/*`. The mark inherits the state's `fg`.
+The value is `check_box_outline_blank` when unticked and `check_box` when ticked. The ticked
+icon is filled with `hds/sem/color/field/checked/bg`. The unticked icon is an outline in
+`hds/sem/color/field/default/border`. Hover changes the outline of an unticked box.
 
-<Field.Root>
-  <Field.Label>
-    <Checkbox.Root defaultChecked>
-      <Checkbox.Indicator />
-    </Checkbox.Root>
-    Subscribe
-  </Field.Label>
-</Field.Root>
+<div style={row}>
+  <Field.Root><Field.Label><Checkbox />Unticked</Field.Label></Field.Root>
+  <Field.Root><Field.Label><Checkbox defaultChecked />Ticked</Field.Label></Field.Root>
+</div>
 
 ## Indeterminate
 
-`indeterminate` shows a dash instead of the check. Use it on a parent box that
-stands for a partly selected set.
+`indeterminate` shows `indeterminate_check_box` instead. Use it on a parent box that stands
+for a partly selected set. It uses the ticked color.
 
 <Field.Root>
   <Field.Label>
-    <Checkbox.Root indeterminate>
-      <Checkbox.Indicator />
-    </Checkbox.Root>
+    <Checkbox indeterminate />
     Some selected
   </Field.Label>
 </Field.Root>
 
 ## Disabled
 
-A disabled box ignores interaction and dims. A disabled **and** checked box
-inverts the disabled colors so the mark still reads.
+A disabled box keeps its size and takes no input. It uses `hds/sem/color/field/disabled/fg`
+in every state.
 
-<Field.Root disabled>
-  <Field.Label>
-    <Checkbox.Root defaultChecked>
-      <Checkbox.Indicator />
-    </Checkbox.Root>
-    Disabled checked
-  </Field.Label>
-</Field.Root>
+<div style={row}>
+  <Field.Root><Field.Label><Checkbox disabled />Unticked</Field.Label></Field.Root>
+  <Field.Root><Field.Label><Checkbox disabled defaultChecked />Ticked</Field.Label></Field.Root>
+  <Field.Root><Field.Label><Checkbox disabled indeterminate />Indeterminate</Field.Label></Field.Root>
+</div>
 
 ## Group
 
-`CheckboxGroup` stacks boxes vertically with shared spacing. Pick several
-options from a few.
+`Checkbox.Group` shares the state of several boxes. Each box needs a `value`.
+`orientation` sets the layout direction.
 
-<CheckboxGroup defaultValue={['email']}>
-  <Field.Root>
-    <Field.Label>
-      <Checkbox.Root value="email"><Checkbox.Indicator /></Checkbox.Root>
-      Email me
-    </Field.Label>
-  </Field.Root>
-  <Field.Root>
-    <Field.Label>
-      <Checkbox.Root value="sms"><Checkbox.Indicator /></Checkbox.Root>
-      Text me
-    </Field.Label>
-  </Field.Root>
-</CheckboxGroup>
+<Checkbox.Group defaultValue={['email']}>
+  <Field.Root><Field.Label><Checkbox value="email" />Email me</Field.Label></Field.Root>
+  <Field.Root><Field.Label><Checkbox value="sms" />Text me</Field.Label></Field.Root>
+</Checkbox.Group>
+
+<Checkbox.Group orientation="horizontal" defaultValue={['email']}>
+  <Field.Root><Field.Label><Checkbox value="email" />Email</Field.Label></Field.Root>
+  <Field.Root><Field.Label><Checkbox value="sms" />SMS</Field.Label></Field.Root>
+  <Field.Root><Field.Label><Checkbox value="push" />Push</Field.Label></Field.Root>
+</Checkbox.Group>
 
 ## Anatomy
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Box background, border | `hds/sem/color/field/default/{bg,border}` |
-| Checked background, mark, border | `hds/sem/color/field/checked/{bg,fg,border}` |
-| Hover / invalid / disabled borders | `hds/sem/color/field/{hover,error,disabled}/*` |
-| Box radius | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (halved) |
-| Group gap | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Icon size and box | `hds/sem/measure/size/{size}` |
+| Unticked icon | `hds/sem/color/field/default/border`, hover `hds/sem/color/field/hover/border` |
+| Ticked and indeterminate icon | `hds/sem/color/field/checked/bg` |
+| Invalid icon | `hds/sem/color/field/error/border` |
+| Disabled icon | `hds/sem/color/field/disabled/fg` |
+| Focus ring shape | `hds/sem/radius/indicator` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+| Group gap | `hds/sem/measure/space/200` vertical, `hds/sem/measure/space/400` horizontal |
 
 ## Owner notes
 
-- Base UI mapping: wraps `@base-ui/react/checkbox` and `checkbox-group`; the
-  namespace is mirrored, so every prop passes through. `Root` and `Indicator`
-  are the styled parts.
-- Extension decisions: no wrapper props — the box scales with its label
-  (`1.25em`, structural). `Indicator` ships built-in check and dash glyphs as
-  overridable `children` defaults.
-- Known constraints: the border has a 1px floor so an unchecked box stays
-  visible when the input border driver is `none`. Disabled + checked inverts
-  the disabled colors on purpose. The group gap borrows Input/Field measure
-  tokens (layout-spacing gap 13, needs review).
-- Accessibility: the box is a real labeled control through the wrapping label;
-  `indeterminate` is conveyed by the underlying behavior. Label every box.
+- Base UI mapping: wraps `@base-ui/react/checkbox` and `@base-ui/react/checkbox-group` 1.8.0.
+- Extension decisions: `size` and `orientation` set data attributes. `Checkbox` has no
+  `Indicator` part. It renders three `Icon` elements and the CSS shows one.
+- Known constraints: the icons need the Material Symbols font, and the client loads it. If
+  the font does not load, the box shows the words "check_box". The checkbox takes no
+  `className` or `style`. `readOnly` has no own look.
+- Accessibility: the root is a labeled checkbox, with native form behavior through a hidden
+  input. The icons are `aria-hidden`. Focus shows the ring. Label every box.

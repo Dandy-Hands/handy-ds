@@ -94,10 +94,10 @@ An on/off setting that takes effect immediately.
 - **Use when:** the change applies the moment it is flipped.
 - **Don't use when:** the value is submitted with a form. Use `Checkbox`.
 
-No handy-ds props.
+One handy-ds prop: `size` (`500` | `600` | `800`).
 
 ```tsx
-<Switch.Root defaultChecked><Switch.Thumb /></Switch.Root>
+<Switch defaultChecked />
 ```
 
 ### Tabs
@@ -190,29 +190,29 @@ No handy-ds props. `NumberField.Group` takes `data-size`.
 </NumberField.Root>
 ```
 
-### Checkbox, CheckboxGroup
+### Checkbox, Checkbox.Group
 
 Yes/no, or several from a few options.
 
 - **Use when:** the value is submitted with a form, or several options can be picked at once.
 - **Don't use when:** the change applies immediately. Use `Switch`.
 
-No handy-ds props. Label it with `Field.Label` or a `<label>`.
+`size`: `"500"` (default), `"600"`, `"800"`. `Checkbox.Group` takes `orientation`. Label it with `Field.Label` or a `<label>`.
 
 ```tsx
 <Field.Root>
-  <Field.Label><Checkbox.Root defaultChecked><Checkbox.Indicator /></Checkbox.Root>Subscribe</Field.Label>
+  <Field.Label><Checkbox defaultChecked />Subscribe</Field.Label>
 </Field.Root>
 ```
 
-### Radio, RadioGroup
+### Radio, Radio.Group
 
 One of a few options, all visible.
 
 - **Use when:** two to five options and the user should see them all.
 - **Don't use when:** more than about five options. Use `Select`.
 
-No handy-ds props. Wrap the group in `Fieldset.Root` with a `Fieldset.Legend`.
+`Radio` takes `size`: `"500"` (default), `"600"`, `"800"`. `Radio.Group` takes `orientation`. Wrap the group in `Fieldset.Root` with a `Fieldset.Legend`.
 
 ### Select
 

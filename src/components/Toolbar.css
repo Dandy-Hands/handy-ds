@@ -1,0 +1,11 @@
+@layer hds.components {
+  .hds-toolbar,
+  .hds-toolbar__group {
+    display: inline-flex;
+    gap: var(--hds-sem-measure-space-200);
+  }
+
+  .hds-toolbar[data-orientation='vertical'] {
+    flex-direction: column;
+  }
+}

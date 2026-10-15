@@ -1,57 +1,90 @@
+Status:
+- spec: reviewed
+- code: built
+- figma: built
+- docs: built
+
 # Internal Spec: Radio
 
-- Status: docs-built
-- Date: 2026-09-23
-- Interview: `interview-guide-2026-09-23.md` (retroactive)
+- Date: 2026-10-13
+- Interview: `interview-guide-2026-10-13.md` (dry run: `interview-guide-2026-09-23.md`)
 - Base UI version documented from: `@base-ui/react` 1.8.0 (`@base-ui/react/radio`, `@base-ui/react/radio-group`)
-- Code: `src/components/Radio.tsx` (+ shared `Checkbox.css`)
 
 ## Description
 
-Radio is one choice out of two to five options that should all stay visible. It renders a circular Field box with a CSS dot as the selected mark. `RadioGroup` owns the selection state and stacks the options. Use Radio for two to five visible choices; use Select beyond that and Checkbox when more than one can be picked.
+Radio is one choice out of two to five options that stay visible. `Radio` renders one Material Symbols icon for each state: `radio_button_unchecked` (not selected) and `radio_button_checked` (selected). There is no separate circle element. `Radio.Group` holds the options and owns the selection. A `Radio` never stands alone. The label sits outside the radio, in a `Field.Label` or a wrapping `<label>`.
 
 ## Usage
 
-- Do wrap the group in `Fieldset.Root` with a `Fieldset.Legend` (or an `aria-labelledby`) so the group has a name.
-- Do label each radio with `Field.Label` or a wrapping `<label>`.
-- Don't use it for more than about five options — use `Select`.
-- Don't restyle the circle with `className` — checked and state colors come from the theme.
+- Do use Radio when the user picks exactly one value out of two to five options that all fit on screen.
+- Do put every `Radio` inside a `Radio.Group`.
+- Do give the group a name with `Fieldset.Root` and `Fieldset.Legend`, or with `aria-labelledby`.
+- Do label every radio with `Field.Label` or a wrapping `<label>`.
+- Don't use it for more than about five options. Use Select.
+- Don't use it when several values can be picked. Use Checkbox.
 
 ## Base UI API
 
-Wrapped components: `Radio` from `@base-ui/react/radio`, `RadioGroup` from `@base-ui/react/radio-group`. Surface decisions:
+Wrapped components: `Radio.Root` and `Radio.Indicator` together as `Radio`, `RadioGroup` as `Radio.Group`.
 
-| Base UI surface | Decision |
+| Base UI member | Decision |
 | --- | --- |
-| `Root` props (`value`, `checked`, `defaultChecked`, `onCheckedChange`, `name`, `form`, `disabled`, `readOnly`, `nativeButton`, ...) | Exposed — full passthrough on the namespace. |
-| `Root`, `Indicator` | Styled with `part()`: `hds-radio`, `hds-radio__indicator`. |
-| `Indicator` mark | CSS `::before` dot — no icon injection, unlike Checkbox. |
-| `RadioGroup` | Single `part()` — `hds-choice-group` stack (shared with `CheckboxGroup`). |
-| `render` on every part | Exposed — passthrough via `part()`. |
-| `data-checked`, `data-invalid`, `data-disabled` state attributes | Consumed by CSS. |
-| Callback-form `className` / `style` | Available via passthrough, not documented. |
+| `Root` `value` | Exposed on `Radio`. Required. Identifies the radio in the group. |
+| `Root` `disabled`, `required`, `readOnly` | Exposed on `Radio`. |
+| `Root` `render`, `ref`, rest props | Exposed on `Radio`. |
+| `Root` `inputRef` | Omitted. No second use. |
+| `Root` `nativeButton` | Omitted. Same as Button. |
+| `Root` `className`, `style` | Omitted. Same recorded break of API conventions section 1 as Button, Toggle, and Checkbox. |
+| `Indicator` (all members) | Not used. The state icons replace it. |
+| `RadioGroup` `value`, `defaultValue`, `onValueChange` | Exposed on `Radio.Group`. |
+| `RadioGroup` `disabled`, `readOnly`, `required` | Exposed on `Radio.Group`. |
+| `RadioGroup` `name`, `form` | Exposed on `Radio.Group`. |
+| `RadioGroup` `render`, `ref`, rest props | Exposed on `Radio.Group`. |
+| `RadioGroup` `inputRef` | Omitted. No second use. |
+| `RadioGroup` `className`, `style` | Omitted. Same as Root. |
+| `data-checked`, `data-unchecked`, `data-invalid`, `data-disabled`, `data-readonly` | Kept. CSS reads them. |
+
+`Root` has no `checked`, `defaultChecked`, or `onCheckedChange` in this Base UI version. The group owns the selection. The earlier API doc listed those three props by mistake.
+
+The prop types are written out with `Omit<..., 'className' | 'style' | 'children' | 'inputRef' | 'nativeButton'>` on `Radio`, and `Omit<..., 'className' | 'style' | 'inputRef'>` on `Radio.Group`.
 
 ## Extension API
 
-| Prop | Type | Default | Decision |
-| --- | --- | --- | --- |
-| — | — | — | No extension props. The circle scales with its label (`1.25em` structural size); no `size` axis. |
+| Part | Prop | Type | Default | Description |
+| --- | --- | --- | --- | --- |
+| `Radio` | `size` | `RadioSize = '500' \| '600' \| '800'` | `'500'` | Size of the icon, a `measure/size` step (20, 24, 32px at density 1). Same steps as `CheckboxSize`. The circle drawn inside is smaller than the step. Set as `data-size`. |
+| `Radio.Group` | `orientation` | `'horizontal' \| 'vertical'` | `'vertical'` | Layout direction of the radios. Layout only. Set as `data-orientation`. |
+
+No text prop and no icon prop. The label is a `Field.Label` or a wrapping `<label>`. The icons are not replaceable.
 
 ## Token mapping
 
-> **Provisional (2026-10-07).** The token rework renamed every token. The names below are the provisional mapping from the previous spec (token spec section 9, item 5). This component's re-interview confirms them.
+Each state icon is an `Icon` with `currentColor`, no `tone`, and no `fill`. The root sets the color for the state. The colors match Checkbox.
 
-| Part | Tokens |
-| --- | --- |
-| Circle default | `hds/sem/color/field/default/{bg,border}`; border width `max(1px, hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control)` (floor) |
-| Checked | `hds/sem/color/field/checked/{bg,fg,border}` (gap 12) |
-| Hover | `hds/sem/color/field/hover/border` |
-| Invalid | `hds/sem/color/field/error/border` |
-| Disabled | `hds/sem/color/field/disabled/{bg,border}`; disabled + checked inverted (`disabled-fg` ground, `disabled-bg` mark) |
-| Shape | `border-radius: 50%` (structural); dot at `0.45em` of `currentColor` |
-| Group gap | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` (borrowed, gap 13) |
+| Part | Property | Token |
+| --- | --- | --- |
+| Radio | `font-size`, `inline-size`, `block-size` | `hds/sem/measure/size/{size}` |
+| Radio, not selected | icon `color` | `hds/sem/color/field/default/border` |
+| Radio, not selected, hover | icon `color` | `hds/sem/color/field/hover/border` |
+| Radio, selected | icon `color` | `hds/sem/color/field/checked/bg` |
+| Radio, invalid | icon `color` | `hds/sem/color/field/error/border` |
+| Radio, disabled | icon `color` | `hds/sem/color/field/disabled/fg` |
+| Radio | `border-radius` (focus ring shape only) | `hds/sem/radius/round` |
+| Radio.Group | `gap` | `hds/sem/measure/space/200` vertical, `hds/sem/measure/space/400` horizontal |
+| Focus ring | outline | `hds/sem/color/focus/ring`, `hds/sem/border/focus` (from `base.css`) |
 
 Notes:
 
-- No primitive or driver references; Radio reads only Field tokens (gap 12) and shares `Checkbox.css` with Checkbox.
-- The selected mark is structural CSS, not a token — its color is `currentColor` (= `checked-fg`).
+- Claude calls (token interview scope): the colors above (same as Checkbox), `radius/round` for the focus ring shape, the group gaps, no own look for `readOnly`, no Field `focus` border.
+- The icons are outlines. The page surface shows through them. `field/default/bg`, `field/checked/fg`, and `border/control` are not read.
+- The icon glyph has empty margin. The circle drawn is about three quarters of the `size` step.
+- Contrast: `field/default/border` and `field/checked/bg` against the surface need 3:1 (non-text). The checker owns the pairs.
+- Context-passive: all colors re-resolve from ancestor `data-context` and `data-section` overrides.
+- The icons need the Material Symbols font. The client loads it (`docs/rules.md`).
+
+## Code consequences (for `hds-component-code`)
+
+- `Radio.tsx` exports `Radio` as a function component with a `Group` member: `Object.assign(RadioItem, { Group })`. `RadioItem` renders `BaseRadio.Root` with two `Icon` children: `radio_button_unchecked` and `radio_button_checked`. CSS shows one, keyed on `data-checked`. Remove `RadioGroup` from `Radio.tsx` and `src/index.ts`. Export `RadioSize` and `RadioGroupOrientation`.
+- `Radio.Group` is `BaseRadioGroup` with `data-orientation` and the class `hds-radio-group`.
+- Create `Radio.css` with the rules for `.hds-radio` and `.hds-radio-group`. Move them out of `Checkbox.css`, and remove `.hds-choice-group` and the old `.hds-radio*` rules there. Radio then imports `Radio.css` and not `Checkbox.css`. Both components can share the color rules through one shared selector if the code phase finds that simpler.
+- Update every use of `Radio.Root`, `Radio.Indicator`, and `RadioGroup`: `docs-site/src/Showcase.tsx`, `docs-site/src/theme-tool/Preview.tsx`, `docs/rules.md`, `docs/components.md`, `docs/components/radio.mdx`, `examples/`, and any render or e2e test. No backwards compatibility is kept.

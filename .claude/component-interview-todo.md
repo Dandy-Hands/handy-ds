@@ -29,10 +29,10 @@ planned, no Base UI primitive.
 
 - [x] button `[re]`
 - [x] link-button `[lib]`
-- [ ] toggle `[re]`
-- [ ] checkbox `[re]`
-- [ ] radio `[re]`
-- [ ] switch `[re]`
+- [x] toggle `[re]`
+- [x] checkbox `[re]`
+- [x] radio `[re]`
+- [x] switch `[re]`
 - [ ] slider `[new]`
 - [ ] input `[new]`
 - [ ] number-field `[re]`
@@ -73,7 +73,6 @@ planned, no Base UI primitive.
 - [ ] select `[re]`
 - [ ] combobox `[re]`
 - [ ] autocomplete `[new]`
-- [ ] toggle-group `[new]`
 - [ ] checkbox-group `[new]`
 - [ ] radio-group `[new]`
 - [ ] carousel `[plan]`

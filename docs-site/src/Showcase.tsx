@@ -2,7 +2,7 @@
 // Themed by the live theme CSS injected in Layout.tsx, so the flyout re-themes it.
 import {
   Accordion, Alert, Autocomplete, Button, Card, Checkbox, Combobox, Dialog, Field, Fieldset, Form, Icon, Input,
-  LinkButton, Menu, Menubar, Meter, NavigationMenu, NumberField, Popover, Progress, Radio, RadioGroup, Select,
+  LinkButton, Menu, Menubar, Meter, NavigationMenu, NumberField, Popover, Progress, Radio, Select,
   Separator, Switch, Table, Tabs, Text, Toast, Toaster, Toggle, ToggleGroup, Toolbar,
 } from 'handy-ds';
 
@@ -39,8 +39,8 @@ export function ShowcaseBody() {
         </div>
         <div className="row">
           <Input placeholder="Email in a hero" />
-          <Switch.Root defaultChecked><Switch.Thumb /></Switch.Root>
-          <Checkbox.Root defaultChecked><Checkbox.Indicator /></Checkbox.Root>
+          <Switch defaultChecked />
+          <Checkbox defaultChecked />
         </div>
         <Card elevation={1} data-context="default" className="nested">
           <Text variant="label">Nested data-context="default" resets to :root tokens</Text>
@@ -62,7 +62,7 @@ export function ShowcaseBody() {
             <ToggleGroup defaultValue={['b']}>
               <Toggle value="b">Bold</Toggle><Toggle value="i">Italic</Toggle><Toggle value="u">Underline</Toggle>
             </ToggleGroup>
-            <Switch.Root><Switch.Thumb /></Switch.Root>
+            <Switch />
           </div>
           <Toolbar.Root>
             <Toolbar.Button>Cut</Toolbar.Button>
@@ -92,16 +92,16 @@ export function ShowcaseBody() {
               </NumberField.Root>
             </Field.Root>
             <Field.Root>
-              <Fieldset.Root render={<RadioGroup defaultValue="card" />}>
+              <Fieldset.Root render={<Radio.Group defaultValue="card" />}>
                 <Fieldset.Legend>Payment</Fieldset.Legend>
-                <Field.Item><Field.Label><Radio.Root value="card"><Radio.Indicator /></Radio.Root>Card</Field.Label></Field.Item>
-                <Field.Item><Field.Label><Radio.Root value="bank"><Radio.Indicator /></Radio.Root>Bank transfer</Field.Label></Field.Item>
-                <Field.Item><Field.Label><Radio.Root value="cash" disabled><Radio.Indicator /></Radio.Root>Cash (unavailable)</Field.Label></Field.Item>
+                <Field.Item><Field.Label><Radio value="card" />Card</Field.Label></Field.Item>
+                <Field.Item><Field.Label><Radio value="bank" />Bank transfer</Field.Label></Field.Item>
+                <Field.Item><Field.Label><Radio value="cash" disabled />Cash (unavailable)</Field.Label></Field.Item>
               </Fieldset.Root>
             </Field.Root>
-            <Field.Root><Field.Label><Checkbox.Root defaultChecked><Checkbox.Indicator /></Checkbox.Root>Subscribe</Field.Label></Field.Root>
-            <Field.Root><Field.Label><Checkbox.Root indeterminate><Checkbox.Indicator /></Checkbox.Root>Some selected</Field.Label></Field.Root>
-            <Field.Root disabled><Field.Label><Checkbox.Root defaultChecked><Checkbox.Indicator /></Checkbox.Root>Disabled checked</Field.Label></Field.Root>
+            <Field.Root><Field.Label><Checkbox defaultChecked />Subscribe</Field.Label></Field.Root>
+            <Field.Root><Field.Label><Checkbox indeterminate />Some selected</Field.Label></Field.Root>
+            <Field.Root disabled><Field.Label><Checkbox defaultChecked />Disabled checked</Field.Label></Field.Root>
             <div className="row"><Input size="sm" placeholder="sm" /><Input placeholder="md" /><Input size="lg" placeholder="lg" /></div>
             <Input disabled placeholder="Disabled" />
             <Button type="submit">Submit</Button>

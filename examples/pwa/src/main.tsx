@@ -96,9 +96,7 @@ function App() {
             <li key={task.id}>
               <Field.Root>
                 <Field.Label>
-                  <Checkbox.Root checked={task.done} onCheckedChange={(checked) => update(task.id, { done: checked })}>
-                    <Checkbox.Indicator />
-                  </Checkbox.Root>
+                  <Checkbox checked={task.done} onCheckedChange={(checked) => update(task.id, { done: checked })} />
                   {task.title}
                 </Field.Label>
               </Field.Root>

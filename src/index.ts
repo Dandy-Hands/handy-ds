@@ -3,14 +3,16 @@ export { Button, type ButtonProps, type ButtonVariant, type ButtonSize, type But
 export { LinkButton, type LinkButtonProps } from './components/LinkButton.tsx';
 export { Toggle, ToggleGroup } from './components/Toggle.tsx';
 export { Toolbar } from './components/Toolbar.tsx';
-export { Switch } from './components/Switch.tsx';
+export { Switch, type SwitchProps, type SwitchSize } from './components/Switch.tsx';
 export { Tabs } from './components/Tabs.tsx';
 export { Menu, ContextMenu, Menubar } from './components/Menu.tsx';
 export { NavigationMenu } from './components/NavigationMenu.tsx';
 // Input/Field
 export { Input, Field, Fieldset, Form, type InputProps, type Size } from './components/Field.tsx';
-export { Checkbox, CheckboxGroup } from './components/Checkbox.tsx';
-export { Radio, RadioGroup } from './components/Radio.tsx';
+export { Checkbox } from './components/Checkbox.tsx';
+export type { CheckboxProps, CheckboxGroupProps, CheckboxSize, CheckboxGroupOrientation } from './components/Checkbox.tsx';
+export { Radio } from './components/Radio.tsx';
+export type { RadioProps, RadioGroupProps, RadioSize, RadioGroupOrientation } from './components/Radio.tsx';
 export { NumberField } from './components/NumberField.tsx';
 export { Select } from './components/Select.tsx';
 export { Combobox, Autocomplete } from './components/Combobox.tsx';

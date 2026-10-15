@@ -1,0 +1,54 @@
+/* Radio is one Material Symbols icon per state. Colors match Checkbox. */
+@layer hds.components {
+  .hds-radio {
+    display: inline-flex;
+    flex-shrink: 0;
+    padding: 0;
+    border-radius: var(--hds-sem-radius-round);
+    color: var(--hds-sem-color-field-default-border);
+    cursor: pointer;
+  }
+
+  .hds-radio[data-size='500'] { inline-size: var(--hds-sem-measure-size-500); block-size: var(--hds-sem-measure-size-500); }
+  .hds-radio[data-size='600'] { inline-size: var(--hds-sem-measure-size-600); block-size: var(--hds-sem-measure-size-600); }
+  .hds-radio[data-size='800'] { inline-size: var(--hds-sem-measure-size-800); block-size: var(--hds-sem-measure-size-800); }
+
+  /* One icon shows per state. */
+  .hds-radio__checked,
+  .hds-radio[data-checked] .hds-radio__unchecked {
+    display: none;
+  }
+
+  .hds-radio[data-checked] .hds-radio__checked {
+    display: inline-flex;
+  }
+
+  .hds-radio:hover {
+    color: var(--hds-sem-color-field-hover-border);
+  }
+
+  .hds-radio[data-checked] {
+    color: var(--hds-sem-color-field-checked-bg);
+  }
+
+  .hds-radio[data-invalid] {
+    color: var(--hds-sem-color-field-error-border);
+  }
+
+  .hds-radio[data-disabled] {
+    color: var(--hds-sem-color-field-disabled-fg);
+    cursor: not-allowed;
+  }
+
+  .hds-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hds-sem-measure-space-200);
+  }
+
+  .hds-radio-group[data-orientation='horizontal'] {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--hds-sem-measure-space-400);
+  }
+}

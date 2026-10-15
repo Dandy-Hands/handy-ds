@@ -40,6 +40,8 @@ Theming, contexts and app-CSS rules: `node_modules/handy-ds/docs/rules.md`. Neve
 
 Load font files yourself (Google Fonts `<link>`, `@font-face`). The theme only sets the `font-family` stacks.
 
+Load the Material Symbols Outlined font too (Google Fonts `<link>`, family `Material Symbols Outlined`, axes `opsz,wght,FILL,GRAD`). `Checkbox` draws its box with it, and `Icon` uses it for glyph names. Without the font, these show the glyph name as plain text.
+
 ## 2. Theme a client: palette drivers
 
 Drivers are the only way to theme a client. There is no mapping level. Change only what the brand needs; everything left out uses the default (`defaultDrivers` in `handy-ds/tokens`)..
@@ -102,11 +104,11 @@ Never edit component CSS or override `--hds-*` properties in app CSS to theme a 
 | List of commands behind a button | `Menu`. App-style menu row: `Menubar`. Right-click: `ContextMenu` |
 | Text input | `Field.Root` + `Field.Label` + `Field.Control` (+ `Field.Description`, `Field.Error`). Bare `Input` only where there's no label (search in a toolbar with `aria-label`) |
 | Number with +/- steppers | `NumberField` |
-| Pick one of 2–5 visible options | `RadioGroup` + `Radio` |
+| Pick one of 2–5 visible options | `Radio.Group` + `Radio` |
 | Pick one from a long fixed list | `Select` |
 | Pick from a long list with typing/filtering, or multi-select chips | `Combobox` |
 | Free text with suggestions | `Autocomplete` |
-| Yes/no or many-of-few | `Checkbox` (`CheckboxGroup` for a set) |
+| Yes/no or many-of-few | `Checkbox` (`Checkbox.Group` for a set) |
 | Group related fields | `Fieldset` inside a `Form` |
 | Box of related content | `Card` |
 | Must-see task that blocks the page | `Dialog`. Confirm a destructive action: `AlertDialog` |
@@ -118,7 +120,7 @@ Never edit component CSS or override `--hds-*` properties in app CSS to theme a 
 | Task completion (upload) | `Progress` (`value={null}` = unknown) |
 | Rows and columns of data | `Table` (sortable column = `<th aria-sort><button>`) |
 | Any text with a type role | `Text` (pick the heading level with `render={<h3 />}`) |
-| An icon | `Icon` wrapping an SVG that uses `currentColor` |
+| An icon | `Icon` wrapping an SVG that uses `currentColor`, or a Material Symbols glyph name |
 | A dividing line | `Separator` |
 
 Props, use-when and don't-use-when for every component: `docs/components.md` (`node_modules/handy-ds/docs/components.md` in a client app).

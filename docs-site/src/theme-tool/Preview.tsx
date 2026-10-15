@@ -3,7 +3,7 @@
 // the `:root` theme, and so do the popups that Base UI portals to <body>.
 import { useState } from 'react';
 import {
-  Alert, Button, Card, Checkbox, Field, Fieldset, Form, Input, Meter, Radio, RadioGroup, Separator, Switch, Table, Text,
+  Alert, Button, Card, Checkbox, Field, Fieldset, Form, Input, Meter, Radio, Separator, Switch, Table, Text,
   Toast, Toaster,
 } from 'handy-ds';
 import { ShowcaseBody } from '../Showcase.tsx';
@@ -75,14 +75,14 @@ function FormPage() {
           <Field.Root><Field.Label>Company</Field.Label><Field.Control placeholder="Acme Inc." /></Field.Root>
           <Field.Root invalid><Field.Label>Email</Field.Label><Field.Control defaultValue="jane@" /><Field.Error match>Enter a valid email.</Field.Error></Field.Root>
           <Field.Root>
-            <Fieldset.Root render={<RadioGroup defaultValue="web" />}>
+            <Fieldset.Root render={<Radio.Group defaultValue="web" />}>
               <Fieldset.Legend>Project type</Fieldset.Legend>
-              <Field.Item><Field.Label><Radio.Root value="web"><Radio.Indicator /></Radio.Root>Website</Field.Label></Field.Item>
-              <Field.Item><Field.Label><Radio.Root value="app"><Radio.Indicator /></Radio.Root>Web app</Field.Label></Field.Item>
+              <Field.Item><Field.Label><Radio value="web" />Website</Field.Label></Field.Item>
+              <Field.Item><Field.Label><Radio value="app" />Web app</Field.Label></Field.Item>
             </Fieldset.Root>
           </Field.Root>
-          <Field.Root><Field.Label><Checkbox.Root defaultChecked><Checkbox.Indicator /></Checkbox.Root>Send me updates</Field.Label></Field.Root>
-          <Field.Root><Field.Label><Switch.Root><Switch.Thumb /></Switch.Root>Rush delivery</Field.Label></Field.Root>
+          <Field.Root><Field.Label><Checkbox defaultChecked />Send me updates</Field.Label></Field.Root>
+          <Field.Root><Field.Label><Switch />Rush delivery</Field.Label></Field.Root>
           <Input disabled placeholder="Budget (set after review)" />
           <div className="row"><Button type="submit">Send request</Button><Button variant="tertiary">Cancel</Button></div>
         </Form>

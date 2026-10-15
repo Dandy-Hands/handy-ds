@@ -3,126 +3,153 @@ title: Radio
 order: 13
 ---
 
-import { Field, Fieldset, Radio, RadioGroup } from 'handy-ds';
+import { Field, Fieldset, Radio } from 'handy-ds';
 
 # Radio
 
-One choice out of two to five options, all visible. Renders a circular box with
-a dot as the selected mark. `RadioGroup` owns the selection and stacks the
-options.
+One choice out of two to five options, all visible. Radio draws one Material Symbols
+icon for each state: not selected and selected. There is no separate circle element.
+`Radio.Group` owns the selection. Its colors come from the Field category.
 
-<RadioGroup defaultValue="card">
-  <Field.Root>
-    <Fieldset.Root>
-      <Fieldset.Legend>Payment</Fieldset.Legend>
-      <Field.Item>
-        <Field.Label>
-          <Radio.Root value="card"><Radio.Indicator /></Radio.Root>
-          Card
-        </Field.Label>
-      </Field.Item>
-      <Field.Item>
-        <Field.Label>
-          <Radio.Root value="bank"><Radio.Indicator /></Radio.Root>
-          Bank transfer
-        </Field.Label>
-      </Field.Item>
-    </Fieldset.Root>
-  </Field.Root>
-</RadioGroup>
+<Field.Root>
+  <Fieldset.Root render={<Radio.Group defaultValue="card" />}>
+    <Fieldset.Legend>Payment</Fieldset.Legend>
+    <Field.Item><Field.Label><Radio value="card" />Card</Field.Label></Field.Item>
+    <Field.Item><Field.Label><Radio value="bank" />Bank transfer</Field.Label></Field.Item>
+  </Fieldset.Root>
+</Field.Root>
 
 ## Usage
 
-Use Radio when the user picks exactly one value from two to five options and
-they should all stay visible. Do not use it beyond about five options — use
-Select. Do not use it when several values can be picked at once — use Checkbox.
-Wrap the group in `Fieldset.Root` with a `Fieldset.Legend`, and label each
-option with `Field.Label`.
+Use Radio when the user picks exactly one value from two to five options and all the
+options fit on screen. Put every `Radio` inside a `Radio.Group`. Name the group with a
+`Fieldset.Legend`, and label each radio with `Field.Label` or a wrapping `<label>`. Do not
+use Radio for more than about five options. Use Select instead. Do not use it when several
+values can be picked. Use Checkbox instead.
 
 ## Base UI API
 
-Wraps Base UI's `Radio` and `RadioGroup`; every part passes through unchanged,
-styled via `part()`.
+Wraps Base UI's `Radio` and `RadioGroup`. `Radio` renders the root and the icons in one
+component. `Radio.Group` is the group.
 
 | Element | Notes |
 | ------- | ----- |
-| `Root` props (`value`, `checked`, `onCheckedChange`, `name`, `disabled`, ...) | Exposed — full passthrough on the namespace. |
-| `Root`, `Indicator` | Styled with `part()`; the mark is a CSS dot. |
-| `RadioGroup` | Single `part()` stack, shared with `CheckboxGroup`. |
-| `data-checked`, `data-invalid`, `data-disabled` | Consumed by CSS. |
-| Callback-form `className`/`style` | Available via passthrough, not documented. |
+| `value` | Exposed on `Radio`. Required. Identifies the radio in the group. |
+| `disabled`, `required`, `readOnly` | Exposed on `Radio` and on `Radio.Group`. |
+| `render`, `ref`, rest props | Exposed on both parts. |
+| `Indicator` | Not used. The state icons replace it. |
+| `inputRef`, `nativeButton` | Removed on `Radio`. |
+| Group `value`, `defaultValue`, `onValueChange`, `name`, `form` | Exposed on `Radio.Group`. |
+| Group `inputRef` | Removed. |
+| `className`, `style` | Removed on both parts. |
+| `data-checked`, `data-unchecked`, `data-invalid`, `data-disabled`, `data-readonly` | Kept. The CSS reads them. |
 
 ## Extension API
 
+### Radio
+
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `value` | `string` | — | The value this option submits; identifies it inside the RadioGroup. |
-| `disabled` | `boolean` | `false` | Ignores interaction and dims the option. |
-| `children` | `ReactNode` | — | Indicator content. |
+| `size` | `'500' \| '600' \| '800'` | `'500'` | Size of the icon. `500`: the standard radio. `600`: roomy forms. `800`: large, for touch layouts. |
+| `value` | `string` | — | Identifies the radio in its `Radio.Group`, and is the value submitted when it is selected. Required. |
+| `disabled` | `boolean` | `false` | Makes the radio visible but inert. |
+| `readOnly` | `boolean` | `false` | Shows the state but blocks changes. |
+| `required` | `boolean` | `false` | The user must choose a value before the form submits. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
 
-`render`, `checked`/`onCheckedChange`, standard attributes, and the group's props (`defaultValue`, `name`, ...) are passthrough — they appear here only, never get their own section.
+### Radio.Group
 
-## Checked
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'vertical'` | Layout direction of the radios. `vertical`: a stack. `horizontal`: a row that wraps. |
+| `value` / `defaultValue` | `string` | — | The controlled / initial `value` of the selected radio. |
+| `onValueChange` | `(value: string, eventDetails) => void` | — | Called when the selection changes. |
+| `name` | `string` | — | Identifies the field on form submission. |
+| `disabled` | `boolean` | `false` | Makes every radio visible but inert. |
+| `readOnly` | `boolean` | `false` | Shows the selection but blocks changes. |
+| `required` | `boolean` | `false` | The user must choose a value before the form submits. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
+| `children` | `ReactNode` | — | The radios, each with its label. |
 
-The selected look comes from the Input/Field `checked` state:
-`hds/sem/color/field/checked/*`. The dot inherits the state's `fg`.
+Event handlers, form props, `value`, `render`, and `children` appear here only. They have no section below.
 
-<RadioGroup defaultValue="card">
-  <Field.Root>
-    <Fieldset.Root>
-      <Fieldset.Legend>Payment</Fieldset.Legend>
-      <Field.Item>
-        <Field.Label>
-          <Radio.Root value="card"><Radio.Indicator /></Radio.Root>
-          Card
-        </Field.Label>
-      </Field.Item>
-      <Field.Item>
-        <Field.Label>
-          <Radio.Root value="bank"><Radio.Indicator /></Radio.Root>
-          Bank transfer
-        </Field.Label>
-      </Field.Item>
-    </Fieldset.Root>
-  </Field.Root>
-</RadioGroup>
+## Size
+
+The icon size axis. Each step is a `measure/size` token. The circle drawn inside the icon is
+about three quarters of the step.
+
+<Field.Root>
+  <Fieldset.Root render={<Radio.Group defaultValue="a" orientation="horizontal" />}>
+    <Fieldset.Legend>Sizes</Fieldset.Legend>
+    <Field.Item><Field.Label><Radio size="500" value="a" />500</Field.Label></Field.Item>
+    <Field.Item><Field.Label><Radio size="600" value="b" />600</Field.Label></Field.Item>
+    <Field.Item><Field.Label><Radio size="800" value="c" />800</Field.Label></Field.Item>
+  </Fieldset.Root>
+</Field.Root>
+
+## Selected
+
+The icon is `radio_button_unchecked` when the radio is not selected and `radio_button_checked`
+when it is. The selected icon uses `hds/sem/color/field/checked/bg`. The unselected icon uses
+`hds/sem/color/field/default/border`. Hover changes the color of an unselected radio.
+
+<Field.Root>
+  <Fieldset.Root render={<Radio.Group defaultValue="card" />}>
+    <Fieldset.Legend>Payment</Fieldset.Legend>
+    <Field.Item><Field.Label><Radio value="card" />Selected</Field.Label></Field.Item>
+    <Field.Item><Field.Label><Radio value="bank" />Not selected</Field.Label></Field.Item>
+  </Fieldset.Root>
+</Field.Root>
 
 ## Disabled
 
-A disabled option ignores interaction and dims. The disabled **and** checked
-combination inverts the disabled colors so the mark still reads.
+A disabled radio keeps its size and takes no input. It uses `hds/sem/color/field/disabled/fg`
+in every state. Set `disabled` on the group to disable every radio.
 
-<RadioGroup defaultValue="card">
-  <Field.Root>
-    <Field.Item>
-      <Field.Label>
-        <Radio.Root value="cash" disabled><Radio.Indicator /></Radio.Root>
-        Cash (unavailable)
-      </Field.Label>
-    </Field.Item>
-  </Field.Root>
-</RadioGroup>
+<Field.Root>
+  <Fieldset.Root render={<Radio.Group defaultValue="card" />}>
+    <Fieldset.Legend>Payment</Fieldset.Legend>
+    <Field.Item><Field.Label><Radio value="card" disabled />Card (selected, disabled)</Field.Label></Field.Item>
+    <Field.Item><Field.Label><Radio value="cash" disabled />Cash (unavailable)</Field.Label></Field.Item>
+  </Fieldset.Root>
+</Field.Root>
+
+## Orientation
+
+`orientation` on the group sets the layout direction. `vertical` is a stack. `horizontal` is a
+row that wraps.
+
+<Field.Root>
+  <Fieldset.Root render={<Radio.Group defaultValue="card" orientation="horizontal" />}>
+    <Fieldset.Legend>Payment</Fieldset.Legend>
+    <Field.Item><Field.Label><Radio value="card" />Card</Field.Label></Field.Item>
+    <Field.Item><Field.Label><Radio value="bank" />Bank</Field.Label></Field.Item>
+    <Field.Item><Field.Label><Radio value="cash" />Cash</Field.Label></Field.Item>
+  </Fieldset.Root>
+</Field.Root>
 
 ## Anatomy
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Circle background, border | `hds/sem/color/field/default/{bg,border}` |
-| Checked background, dot, border | `hds/sem/color/field/checked/{bg,fg,border}` |
-| Hover / invalid / disabled borders | `hds/sem/color/field/{hover,error,disabled}/*` |
-| Group gap | `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Icon size and box | `hds/sem/measure/size/{size}` |
+| Not selected icon | `hds/sem/color/field/default/border`, hover `hds/sem/color/field/hover/border` |
+| Selected icon | `hds/sem/color/field/checked/bg` |
+| Invalid icon | `hds/sem/color/field/error/border` |
+| Disabled icon | `hds/sem/color/field/disabled/fg` |
+| Focus ring shape | `hds/sem/radius/round` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+| Group gap | `hds/sem/measure/space/200` vertical, `hds/sem/measure/space/400` horizontal |
 
 ## Owner notes
 
-- Base UI mapping: wraps `@base-ui/react/radio` and `radio-group`; the
-  namespace is mirrored, so every prop passes through. `Root` and `Indicator`
-  are the styled parts; `RadioGroup` is a single stacked part.
-- Extension decisions: no wrapper props — the circle scales with its label
-  (`1.25em`, structural). The selected mark is a CSS dot drawn from
-  `currentColor`, not an injected glyph (the one difference from Checkbox).
-- Known constraints: the 1px border floor and the disabled + checked inversion
-  are shared with Checkbox. The group gap borrows Input/Field measure tokens
-  (layout-spacing gap 13, needs review).
-- Accessibility: the circle is a real labeled control through the wrapping
-  label; the group is named through `Fieldset.Legend` or `aria-labelledby`.
-  Arrow keys move between options.
+- Base UI mapping: wraps `@base-ui/react/radio` and `@base-ui/react/radio-group` 1.8.0.
+- Extension decisions: `size` and `orientation` set data attributes. `Radio` has no
+  `Indicator` part. It renders two `Icon` elements and the CSS shows one. The group owns the
+  selection, so `Radio` has no `checked` prop.
+- Known constraints: the icons need the Material Symbols font, and the client loads it. If
+  the font does not load, the radio shows the words "radio_button_unchecked". The radio takes
+  no `className` or `style`. `readOnly` has no own look.
+- Accessibility: the root is a labeled radio, with native form behavior through a hidden
+  input. The icons are `aria-hidden`. Arrow keys move the selection inside the group. Focus
+  shows the ring. Name the group with a legend and label every radio.
