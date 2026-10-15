@@ -1,66 +1,17 @@
 ---
-title: Toggle
+title: ToggleGroup
 order: 4
 ---
 
-import { Toggle, ToggleGroup } from 'handy-ds';
+import { ToggleGroup, Toggle, Icon } from 'handy-ds';
 
-# Toggle
+export const col = { display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' };
 
-A button that stays pressed. `ToggleGroup` is a row of them with single or
-multiple selection. Toggle wears the full button look — secondary by default —
-and shows its pressed state through the Action `selected` colors.
+# ToggleGroup
 
-<ToggleGroup defaultValue={['b']}>
-  <Toggle value="b">Bold</Toggle>
-  <Toggle value="i">Italic</Toggle>
-</ToggleGroup>
-
-## Usage
-
-Use Toggle for formatting controls (bold, italic) or picking one or several
-from a few options that all stay visible. Do not use it for a setting that
-applies the moment it changes — use Switch. Do not use it for more than about
-five options — use Select.
-
-## Base UI API
-
-Wraps Base UI's `Toggle` and `ToggleGroup`; full passthrough via `part()` on
-both.
-
-### Toggle
-
-| Element | Notes |
-| ------- | ----- |
-| `Toggle` props (`pressed`, `defaultPressed`, `onPressedChange`, `value`, `disabled`, ...) | Exposed — full passthrough. |
-| `Toggle` look | The complete Button footprint; `data-pressed` drives the Action `selected` colors. |
-
-### ToggleGroup
-
-| Element | Notes |
-| ------- | ----- |
-| `ToggleGroup` props (`value`, `defaultValue`, `onValueChange`, `multiple`, `orientation`, ...) | Exposed — full passthrough. |
-
-## Extension API
-
-### Toggle
-
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `data-priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the toggle's button look. |
-| `children` | `ReactNode` | — | Label content. |
-
-### ToggleGroup
-
-handy-ds adds no props to ToggleGroup; the row layout uses the Action gap. Every
-Base UI prop (`pressed`, `onPressedChange`, `value`, `multiple`, `orientation`,
-`disabled`, `render`, standard attributes) is passthrough — it appears here
-only, never gets its own section.
-
-## Pressed
-
-A pressed toggle takes the Action `selected` colors of its priority. The
-default priority is secondary.
+A group of buttons in one filled container. Each button stays pressed or not. A pressed
+button shows the group `variant`. An idle button shows the next weaker look. A button never
+stands alone: every Toggle sits inside a `ToggleGroup`.
 
 <ToggleGroup defaultValue={['b']}>
   <Toggle value="b">Bold</Toggle>
@@ -68,20 +19,90 @@ default priority is secondary.
   <Toggle value="u">Underline</Toggle>
 </ToggleGroup>
 
-## Priority
+## Usage
 
-`data-priority` changes the button look. It is a data attribute, not a prop,
-because the look depends on where the toggle sits.
+Use ToggleGroup for formatting controls (bold, italic) or to pick one or several options from a
+few that all stay visible. Put every Toggle inside a `ToggleGroup`. Give an icon-only
+button an `aria-label`. Do not use ToggleGroup for a setting that applies the moment it changes.
+Use Switch instead. Do not use it for more than about five options. Use Select instead.
 
-<ToggleGroup multiple defaultValue={['a']}>
-  <Toggle value="c" data-priority="primary">Primary</Toggle>
-  <Toggle value="a">Default (secondary)</Toggle>
-  <Toggle value="t" data-priority="tertiary">Tertiary</Toggle>
-</ToggleGroup>
+## Base UI API
+
+Wraps Base UI's `ToggleGroup` and `Toggle` under the same names.
+
+| Element | Notes |
+| ------- | ----- |
+| `ToggleGroup` `value`, `defaultValue`, `onValueChange`, `multiple`, `orientation`, `disabled` | Exposed on `ToggleGroup`. |
+| `ToggleGroup` `render`, `ref`, rest props | Exposed on `ToggleGroup`. |
+| `ToggleGroup` `loopFocus` | Removed. Focus always loops. |
+| `Toggle` `value`, `disabled`, `render`, `ref`, rest props | Exposed on `Toggle`. |
+| `Toggle` `pressed`, `defaultPressed`, `onPressedChange` | Removed. The group owns the pressed state. |
+| `Toggle` `nativeButton` | Removed. |
+| `className`, `style` | Removed on both parts. |
+| `data-pressed`, `data-disabled` | Kept. The CSS reads them. |
+
+## Extension API
+
+Set on `ToggleGroup`. Every Toggle inside takes the values from context.
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `variant` | `'primary' \| 'secondary'` | `'secondary'` | Look of a pressed button. An idle button uses the next weaker look. |
+| `size` | `'800' \| '1000' \| '1200'` | `'1000'` | Height of the whole group, the same as a Button of that size. The Toggles fill the inside. The label size and the container padding follow. |
+| `multiple` | `boolean` | `false` | Lets several buttons be pressed at once. |
+| `value` / `defaultValue` | `string[]` | — | The controlled / initial values of the pressed buttons. |
+| `onValueChange` | `(value: string[], eventDetails) => void` | — | Called when a button is pressed or released. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the buttons. |
+| `disabled` | `boolean` | `false` | Makes every button visible but inert. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
+
+Toggle takes `value` (a required string), `disabled`, `render`, and `children`. It has
+no `variant` or `size` prop.
+
+Event handlers, `value` props, and `render` appear here only. They have no section below.
+
+## Variant
+
+A pressed button shows `variant`. An idle button shows the next weaker look. With `primary`,
+pressed is primary and idle is secondary. With `secondary`, pressed is secondary and idle is
+tertiary. There is no `tertiary` or `danger` variant, because a pressed state is a choice and
+not a destructive action.
+
+<div style={col}>
+  <ToggleGroup variant="primary" defaultValue={['a']}>
+    <Toggle value="a">Day</Toggle>
+    <Toggle value="b">Week</Toggle>
+    <Toggle value="c">Month</Toggle>
+  </ToggleGroup>
+  <ToggleGroup variant="secondary" defaultValue={['a']}>
+    <Toggle value="a">Day</Toggle>
+    <Toggle value="b">Week</Toggle>
+    <Toggle value="c">Month</Toggle>
+  </ToggleGroup>
+</div>
+
+## Size
+
+The height of the whole group. It matches a Button of the same size. Each step is a `measure/size` token. The Toggles fill the inside of the group. A vertical group has no fixed height: each Toggle is one size step tall minus the track border and padding.
+
+<div style={col}>
+  <ToggleGroup size="800" defaultValue={['a']}>
+    <Toggle value="a">800</Toggle>
+    <Toggle value="b">Idle</Toggle>
+  </ToggleGroup>
+  <ToggleGroup size="1000" defaultValue={['a']}>
+    <Toggle value="a">1000</Toggle>
+    <Toggle value="b">Idle</Toggle>
+  </ToggleGroup>
+  <ToggleGroup size="1200" defaultValue={['a']}>
+    <Toggle value="a">1200</Toggle>
+    <Toggle value="b">Idle</Toggle>
+  </ToggleGroup>
+</div>
 
 ## Multiple
 
-`multiple` lets several toggles stay pressed at once.
+By default, pressing a button releases the others. `multiple` lets several buttons stay pressed.
 
 <ToggleGroup multiple defaultValue={['a', 'c']}>
   <Toggle value="a">List</Toggle>
@@ -89,36 +110,63 @@ because the look depends on where the toggle sits.
   <Toggle value="c">Table</Toggle>
 </ToggleGroup>
 
+## Orientation
+
+`orientation="vertical"` stacks the buttons in a column.
+
+<ToggleGroup orientation="vertical" defaultValue={['a']}>
+  <Toggle value="a">Left</Toggle>
+  <Toggle value="b">Center</Toggle>
+  <Toggle value="c">Right</Toggle>
+</ToggleGroup>
+
+## Icons
+
+A button holds text, an `Icon`, or both. Give an icon-only button an `aria-label`.
+
+<ToggleGroup size="800" multiple defaultValue={['grid']}>
+  <Toggle value="grid" aria-label="Grid view"><Icon>grid_view</Icon></Toggle>
+  <Toggle value="list" aria-label="List view"><Icon>list</Icon></Toggle>
+</ToggleGroup>
+
 ## Disabled
 
-A disabled toggle keeps its footprint and takes no input.
+A disabled button keeps its size and takes no input. `disabled` on `ToggleGroup` disables every button.
 
-<ToggleGroup>
-  <Toggle value="a">Available</Toggle>
-  <Toggle value="b" disabled>Unavailable</Toggle>
-</ToggleGroup>
+<div style={col}>
+  <ToggleGroup defaultValue={['a']}>
+    <Toggle value="a">Available</Toggle>
+    <Toggle value="b" disabled>Unavailable</Toggle>
+  </ToggleGroup>
+  <ToggleGroup disabled defaultValue={['a']}>
+    <Toggle value="a">Pressed</Toggle>
+    <Toggle value="b">Idle</Toggle>
+  </ToggleGroup>
+</div>
 
 ## Anatomy
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Background, border, text (per priority × state) | `hds/sem/color/action/{priority}/{default,hover,active,disabled,selected}/{bg,border,fg}` |
-| Footprint | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Container background | `hds/sem/color/surface/sunken/bg` |
+| Container border | `hds/sem/color/surface/sunken/border`, `hds/sem/border/container` |
+| Container shape and padding | `hds/sem/radius/container`, `hds/sem/measure/space/{050,100}` |
+| Button colors (pressed: `variant`, idle: next weaker) | `hds/sem/color/action/{variant}/{default,hover,active,disabled}/{bg,fg,border}` |
+| Button shape | `hds/sem/radius/control`, `hds/sem/border/control` |
+| Container height (horizontal) | `hds/sem/measure/size/{size}` |
 | Label type | `hds/sem/typography/label/*` |
-| Group gap | `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
 | Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
 
 ## Owner notes
 
-- Base UI mapping: wraps `@base-ui/react/toggle` and `toggle-group`. Toggle is
-  a single `part()` carrying the full Button classes, so it lines up next to
-  Buttons; the group is a flex row with the Action gap.
-- Extension decisions: no extension props. Priority is `data-priority` because
-  `hds-action` defaults to secondary. Toggle pins to the `md` Action measure —
-  only Button opens the size axis.
-- Known constraints: pressed state colors come from the `selected` state of the
-  current priority; a priority with no `selected` tokens falls back to its
-  default look on press.
-- Accessibility: pressed state is announced through the underlying toggle
-  semantics; arrow keys move inside the group. Label each toggle with text or
-  an `aria-label`.
+- Base UI mapping: wraps `@base-ui/react/toggle-group` and `@base-ui/react/toggle` 1.8.0.
+  Toggle reads `variant` and `size` from a React context that `ToggleGroup` provides.
+- Extension decisions: the pressed look is the group `variant`. The idle look is the next
+  weaker variant. The `selected` Action tokens are not used, because the pressed fill of
+  `secondary` and `tertiary` was almost the same color as the container.
+- Known constraints: Toggle throws an error outside a `ToggleGroup`. Neither part takes
+  `className` or `style`. A pressed `secondary` button is an outlined button, not a filled
+  one. The container radius should be larger than the button radius. A theme with a larger
+  `control` radius than `container` radius looks wrong.
+- Accessibility: Base UI sets the pressed state and the group role. Arrow keys move focus in
+  the group. Give an icon-only button an `aria-label`.

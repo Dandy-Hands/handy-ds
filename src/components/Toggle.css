@@ -1,10 +1,66 @@
+/* Track (ToggleGroup): Surface sunken. Its height is the Button size step. Toggles keep the Action look; pressed takes the group variant (set in Toggle.tsx). */
 @layer hds.components {
   .hds-toggle-group {
+    --_size: var(--hds-sem-measure-size-1000);
+    --_padding: var(--hds-sem-measure-space-100);
+
+    box-sizing: border-box;
     display: inline-flex;
-    gap: var(--hds-sem-measure-space-200);
+    align-items: stretch;
+    block-size: var(--_size);
+    gap: var(--_padding);
+    padding: var(--_padding);
+    background: var(--hds-sem-color-surface-sunken-bg);
+    border: var(--hds-sem-border-container) solid var(--hds-sem-color-surface-sunken-border);
+    border-radius: var(--hds-sem-radius-container);
   }
 
+  .hds-toggle-group[data-size='800'] {
+    --_size: var(--hds-sem-measure-size-800);
+    --_padding: var(--hds-sem-measure-space-050);
+  }
+
+  .hds-toggle-group[data-size='1200'] {
+    --_size: var(--hds-sem-measure-size-1200);
+  }
+
+  /* Vertical: the group grows with its toggles. Each toggle is one size step tall, minus the track border and padding. */
   .hds-toggle-group[data-orientation='vertical'] {
     flex-direction: column;
+    block-size: auto;
+  }
+
+  .hds-toggle-group[data-orientation='vertical'] > .hds-toggle {
+    block-size: calc(var(--_size) - 2 * var(--hds-sem-border-container) - 2 * var(--_padding));
+  }
+
+  /* Horizontal: the toggle fills the height of the track. */
+  .hds-toggle {
+    block-size: auto;
+  }
+
+  /* The `selected` tokens are not used: a pressed button shows the default look of its variant. */
+  .hds-toggle[data-pressed] {
+    background: var(--_default-bg);
+    color: var(--_default-fg);
+    border-color: var(--_default-border);
+  }
+
+  .hds-toggle[data-pressed]:hover {
+    background: var(--_hover-bg);
+    color: var(--_hover-fg);
+    border-color: var(--_hover-border);
+  }
+
+  .hds-toggle[data-pressed]:active {
+    background: var(--_active-bg);
+    color: var(--_active-fg);
+    border-color: var(--_active-border);
+  }
+
+  .hds-toggle[data-pressed][data-disabled] {
+    background: var(--_disabled-bg);
+    color: var(--_disabled-fg);
+    border-color: var(--_disabled-border);
   }
 }

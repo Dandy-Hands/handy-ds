@@ -1,7 +1,7 @@
 import { StrictMode, useEffect, useState, useSyncExternalStore } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
-  Alert, Button, Card, Checkbox, Field, Form, Icon, Progress, Text, Toast, Toaster, Toggle, ToggleGroup,
+  Alert, Button, Card, Checkbox, Field, Form, Icon, Progress, Text, Toast, Toaster, ToggleGroup, Toggle,
 } from 'handy-ds';
 import 'handy-ds/styles.css';
 import './theme.css';

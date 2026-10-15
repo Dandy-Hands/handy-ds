@@ -35,8 +35,9 @@ Running list of planned work. Add an item when the user asks for new work. Check
 ## Components
 
 - [ ] Run the component process for every component, to confirm each API. Per-component list: `.claude/component-interview-todo.md`.
-- [ ] Toggle re-interview (2026-10-12): spec reviewed. `Toggle` is the group in a filled track, `Toggle.Button` is the child; no standalone button, no text prop. Next: code, docs, Figma. Blocked on a user decision: the pressed fill matches the `surface/sunken` track (contrast 1.0 to 1.4). See the spec, Token mapping notes.
-- [ ] Switch re-interview (2026-10-14): spec reviewed. `Switch` is one component with one icon per state (`toggle_off`, `toggle_on`), `size` of `500 | 600 | 800`, Field tokens like Checkbox, no group. `Switch.Root` and `Switch.Thumb` are removed. Code and docs done (2026-10-14). Next: Figma.
+- [x] Toggle re-interview (2026-10-12): spec reviewed. `ToggleGroup` is the group in a filled track, `Toggle` is the child (Base UI names, restored 2026-10-14); no standalone button, no text prop. Code, docs, and Figma done (2026-10-14). Contrast gap decided (2026-10-14): a pressed button takes `variant`, an idle button takes the next weaker variant, `variant` is `primary | secondary` only. The group is as tall as a Button of the same `size`; the Toggles fill the inside (2026-10-14).
+- [ ] Measure the contrast of a pressed `secondary` (outlined) Toggle against `surface/sunken`. The contrast checker has no sunken pair: add one for `surface/sunken` (both modes) and report any failure.
+- [x] Switch re-interview (2026-10-14): spec reviewed. `Switch` is one component with one icon per state (`toggle_off`, `toggle_on`), `size` of `500 | 600 | 800`, Field tokens like Checkbox, no group. `Switch.Root` and `Switch.Thumb` are removed. Code and docs done (2026-10-14). Figma built (2026-10-14).
 - [ ] Create a Carousel component.
 - [ ] Create a Section component.
 - [ ] Create layout components. Example names, not final: Stack, Grid, Container, Cluster.

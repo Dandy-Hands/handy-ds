@@ -44,7 +44,7 @@ test('every component renders with its hds classes', () => {
     ['Switch', h(H.Switch, { defaultChecked: true, size: '600' }), [/hds-switch"/, /data-size="600"/, /data-checked/, /hds-switch__on/]],
     ['Tabs', h(H.Tabs.Root, { defaultValue: 'a' }, h(H.Tabs.List, null, h(H.Tabs.Tab, { value: 'a' }, 'A'), h(H.Tabs.Tab, { value: 'b' }, 'B')), h(H.Tabs.Panel, { value: 'a' }, 'P')),
       [/hds-tabs"/, /hds-action hds-tabs__tab/, /data-priority="tertiary"/, /data-active/, /hds-tabs__panel/]],
-    ['Toggle', h(H.ToggleGroup, null, h(H.Toggle, { defaultPressed: true, value: 'x' }, 'B')), [/hds-toggle-group/, /hds-button hds-action/]],
+    ['Toggle', h(H.ToggleGroup, { defaultValue: ['x'] }, h(H.Toggle, { value: 'x' }, 'B')), [/hds-toggle-group"/, /hds-button hds-action hds-toggle"/]],
     ['Toolbar', h(H.Toolbar.Root, null, h(H.Toolbar.Button, null, 'x'), h(H.Toolbar.Separator)), [/hds-button hds-action/, /hds-separator/]],
     ['Menu', h(H.Menubar, null, h(H.Menu.Root, null, h(H.Menu.Trigger, { 'data-priority': 'tertiary' }, 'File'))), [/hds-menubar/, /hds-button hds-action/, /data-priority="tertiary"/]],
     ['ContextMenu', h(H.ContextMenu.Root, null, h(H.ContextMenu.Trigger, null, 'area')), [/area/]],

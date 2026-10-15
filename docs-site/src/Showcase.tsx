@@ -3,7 +3,7 @@
 import {
   Accordion, Alert, Autocomplete, Button, Card, Checkbox, Combobox, Dialog, Field, Fieldset, Form, Icon, Input,
   LinkButton, Menu, Menubar, Meter, NavigationMenu, NumberField, Popover, Progress, Radio, Select,
-  Separator, Switch, Table, Tabs, Text, Toast, Toaster, Toggle, ToggleGroup, Toolbar,
+  Separator, Switch, Table, Tabs, Text, Toast, Toaster, ToggleGroup, Toggle, Toolbar,
 } from 'handy-ds';
 
 const Star = () => (
@@ -17,11 +17,11 @@ const fruits = ['Apple', 'Banana', 'Cherry', 'Grape', 'Mango', 'Orange', 'Pear']
 function ToastButton() {
   const manager = Toast.useToastManager();
   return (
-    <ToggleGroup>
+    <div className="row">
       {(['info', 'success', 'warning', 'danger'] as const).map((type) => (
         <Button key={type} variant="secondary" onClick={() => manager.add({ type, title: `${type} toast`, description: 'Something happened.' })}>{type}</Button>
       ))}
-    </ToggleGroup>
+    </div>
   );
 }
 

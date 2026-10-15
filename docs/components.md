@@ -54,14 +54,16 @@ A link that looks like a button. Renders `<a>`.
 <LinkButton render={<RouterLink to="/pricing" />}>See pricing</LinkButton>
 ```
 
-### Toggle, ToggleGroup
+### ToggleGroup, Toggle
 
-A button that stays pressed. `ToggleGroup` is a row of them.
+`ToggleGroup` is a group of buttons in one filled container. `Toggle` is one button that stays pressed or not. Every `Toggle` sits inside a `ToggleGroup`.
 
 - **Use when:** formatting controls (bold, italic), or picking one or several from a few options that are all visible.
 - **Don't use when:** the setting applies immediately to a preference — use `Switch`. More than about five options — use `Select`.
 
-No handy-ds props. `Toggle` is Action `secondary`; set `data-priority` to change it.
+`ToggleGroup` takes `variant` (`'primary' | 'secondary'`, default `'secondary'`) and `size` (`'800' | '1000' | '1200'`). A pressed `Toggle` shows `variant`. An idle `Toggle` shows the next weaker look.
+
+The `ToggleGroup` is as tall as a `Button` of the same `size`. The `Toggle` buttons fill the inside of the group.
 
 ```tsx
 <ToggleGroup defaultValue={['b']}>

@@ -1,7 +1,7 @@
 // Action
 export { Button, type ButtonProps, type ButtonVariant, type ButtonSize, type ButtonWidth } from './components/Button.tsx';
 export { LinkButton, type LinkButtonProps } from './components/LinkButton.tsx';
-export { Toggle, ToggleGroup } from './components/Toggle.tsx';
+export { ToggleGroup, Toggle, type ToggleGroupProps, type ToggleProps, type ToggleVariant, type ToggleSize } from './components/Toggle.tsx';
 export { Toolbar } from './components/Toolbar.tsx';
 export { Switch, type SwitchProps, type SwitchSize } from './components/Switch.tsx';
 export { Tabs } from './components/Tabs.tsx';
