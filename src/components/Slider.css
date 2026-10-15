@@ -1,0 +1,123 @@
+/* Slider (spec 2026-10-15). Track height = size step; the thumb is two steps larger. Colors match Checkbox. */
+@layer hds.components {
+  .hds-slider {
+    --_track: var(--hds-sem-measure-size-300);
+    --_thumb: var(--hds-sem-measure-size-500);
+    --_fill: var(--hds-sem-color-field-checked-bg);
+    --_track-bg: var(--hds-sem-color-surface-sunken-bg);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: var(--hds-sem-measure-space-100) var(--hds-sem-measure-space-200);
+  }
+
+  .hds-slider[data-size='200'] { --_track: var(--hds-sem-measure-size-200); --_thumb: var(--hds-sem-measure-size-400); }
+  .hds-slider[data-size='400'] { --_track: var(--hds-sem-measure-size-400); --_thumb: var(--hds-sem-measure-size-600); }
+
+  /* A vertical slider fills the height of its parent: label and value above, control below. */
+  .hds-slider[data-orientation='vertical'] {
+    grid-template-columns: auto;
+    grid-template-rows: auto auto 1fr;
+    justify-items: center;
+    block-size: 100%;
+  }
+
+  .hds-slider[data-invalid] { --_fill: var(--hds-sem-color-field-error-border); }
+
+  .hds-slider[data-disabled] {
+    --_fill: var(--hds-sem-color-field-disabled-fg);
+    --_track-bg: var(--hds-sem-color-field-disabled-bg);
+  }
+
+  .hds-slider__label {
+    color: var(--hds-sem-color-content-default-fg);
+    font-family: var(--hds-sem-typography-label-family);
+    font-size: var(--hds-sem-typography-label-size-md);
+    font-weight: var(--hds-sem-typography-label-weight);
+    line-height: var(--hds-sem-typography-label-leading);
+    letter-spacing: var(--hds-sem-typography-label-tracking);
+  }
+
+  .hds-slider__value {
+    grid-column: 2;
+    color: var(--hds-sem-color-content-muted-fg);
+    font-family: var(--hds-sem-typography-caption-family);
+    font-size: var(--hds-sem-typography-caption-size-md);
+    font-weight: var(--hds-sem-typography-caption-weight);
+    line-height: var(--hds-sem-typography-caption-leading);
+    letter-spacing: var(--hds-sem-typography-caption-tracking);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hds-slider[data-orientation='vertical'] .hds-slider__value { grid-column: 1; }
+
+  .hds-slider__control {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    inline-size: 100%;
+    block-size: var(--_thumb);
+    touch-action: none;
+    user-select: none;
+    cursor: pointer;
+  }
+
+  .hds-slider[data-orientation='vertical'] .hds-slider__control {
+    grid-column: 1;
+    justify-content: center;
+    inline-size: var(--_thumb);
+    block-size: 100%;
+    min-block-size: calc(var(--_thumb) * 4);
+  }
+
+  .hds-slider__track {
+    position: relative;
+    inline-size: 100%;
+    block-size: var(--_track);
+    border-radius: var(--hds-sem-radius-round);
+    background: var(--_track-bg);
+  }
+
+  .hds-slider[data-orientation='vertical'] .hds-slider__track {
+    inline-size: var(--_track);
+    block-size: 100%;
+  }
+
+  /* Base UI writes the position and length inline. No transition, so the fill never lags a drag. */
+  .hds-slider__indicator {
+    border-radius: inherit;
+    background: var(--_fill);
+  }
+
+  .hds-slider__thumb {
+    inline-size: var(--_thumb);
+    block-size: var(--_thumb);
+    border: var(--hds-sem-border-control) solid var(--hds-sem-color-field-default-border);
+    border-radius: var(--hds-sem-radius-round);
+    background: var(--hds-sem-color-field-default-bg);
+  }
+
+  .hds-slider__thumb:hover { border-color: var(--hds-sem-color-field-hover-border); }
+
+  .hds-slider__thumb:has(:focus-visible),
+  .hds-slider__thumb[data-dragging] {
+    border-color: var(--hds-sem-color-field-focus-border);
+  }
+
+  /* The ring sits on the thumb, not on the hidden input inside it. */
+  .hds-slider__thumb:has(:focus-visible) {
+    outline: var(--hds-sem-border-focus) solid var(--hds-sem-color-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .hds-slider__thumb input:focus-visible { outline: none; }
+
+  .hds-slider[data-invalid] .hds-slider__thumb { border-color: var(--hds-sem-color-field-error-border); }
+
+  .hds-slider[data-disabled] .hds-slider__control { cursor: not-allowed; }
+
+  .hds-slider[data-disabled] .hds-slider__thumb {
+    border-color: var(--hds-sem-color-field-disabled-fg);
+    background: var(--hds-sem-color-field-disabled-bg);
+  }
+}

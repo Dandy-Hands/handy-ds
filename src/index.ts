@@ -13,6 +13,7 @@ export { Checkbox } from './components/Checkbox.tsx';
 export type { CheckboxProps, CheckboxGroupProps, CheckboxSize, CheckboxGroupOrientation } from './components/Checkbox.tsx';
 export { Radio } from './components/Radio.tsx';
 export type { RadioProps, RadioGroupProps, RadioSize, RadioGroupOrientation } from './components/Radio.tsx';
+export { Slider, type SliderRootProps, type SliderControlProps, type SliderSize } from './components/Slider.tsx';
 export { NumberField } from './components/NumberField.tsx';
 export { Select } from './components/Select.tsx';
 export { Combobox, Autocomplete } from './components/Combobox.tsx';

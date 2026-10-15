@@ -97,6 +97,7 @@ Never edit component CSS or override `--hds-*` properties in app CSS to theme a 
 | Do something (submit, open, save) | `Button` |
 | Go somewhere that looks like a button | `LinkButton` (renders `<a>`) |
 | On/off setting that applies immediately | `Switch` |
+| Pick an approximate number or a range by dragging | `Slider` |
 | Pressed/unpressed formatting button, or pick-one/pick-many from a few buttons | `ToggleGroup` with `Toggle` |
 | Group of controls for a region (editor bar) | `Toolbar` |
 | Switch between views in place | `Tabs` |

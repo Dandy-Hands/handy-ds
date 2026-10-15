@@ -33,7 +33,7 @@ planned, no Base UI primitive.
 - [x] checkbox `[re]`
 - [x] radio `[re]`
 - [x] switch `[re]`
-- [ ] slider `[new]`
+- [x] slider `[new]`
 - [ ] input `[new]`
 - [ ] number-field `[re]`
 - [ ] otp-field `[new]`

@@ -1,0 +1,156 @@
+---
+title: Slider
+order: 13.6
+---
+
+import { Slider } from 'handy-ds';
+
+# Slider
+
+Picks a number, or a range of numbers, by dragging a thumb along a track. A number
+value gives one thumb. A number array gives one thumb for each number. The arrow keys
+move a thumb one step.
+
+<Slider.Root defaultValue={40}><Slider.Label>Volume</Slider.Label><Slider.Value /><Slider.Control /></Slider.Root>
+
+## Usage
+
+Use Slider to pick a number inside a known range where an approximate value is
+enough, such as volume or a price range. Label every Slider with `Slider.Label`.
+Give each thumb of a range slider its own name with `getAriaLabel`. Do not use
+Slider when the user must type an exact number: use NumberField. Do not use it to
+show a value the user cannot change: use Meter or Progress.
+
+## Base UI API
+
+Wraps Base UI's `Slider`. `Slider.Control` renders the track, the fill, and the
+thumbs, so those three parts are not exported.
+
+| Element | Notes |
+| ------- | ----- |
+| `Root`: `value`, `defaultValue`, `onValueChange`, `onValueCommitted` | Exposed. |
+| `Root`: `min`, `max`, `step`, `largeStep`, `minStepsBetweenValues` | Exposed. |
+| `Root`: `orientation`, `disabled`, `name`, `form`, `format`, `locale`, `thumbCollisionBehavior` | Exposed. |
+| `Root`: `render`, `ref`, `children` | Exposed. |
+| `Root`: `thumbAlignment` | Fixed to `edge`. The thumb stays inside the ends of the track. |
+| `Root`: `className`, `style` | Removed. |
+| `Value` children as a function | Exposed. Returns the text to show. |
+| `Control`: `getAriaLabel`, `getAriaValueText` | Exposed. `Control` passes them to each thumb. |
+| `Track`, `Indicator`, `Thumb` | Rendered by `Control`. Not exported. |
+
+## Extension API
+
+### Slider.Root
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `value` | `number \| readonly number[]` | — | The controlled value. A number gives one thumb. An array gives one thumb for each number. |
+| `defaultValue` | `number \| readonly number[]` | — | The initial value when you do not control the value. |
+| `onValueChange` | `(value, eventDetails) => void` | — | Called on every change while the user drags or presses a key. |
+| `onValueCommitted` | `(value, eventDetails) => void` | — | Called once when the user finishes a change. Use it to save the value. |
+| `min` | `number` | `0` | The low end of the range. |
+| `max` | `number` | `100` | The high end of the range. |
+| `step` | `number` | `1` | The distance between values. Arrow keys move one step. |
+| `largeStep` | `number` | `10` | The distance for Page Up, Page Down, and Shift with an arrow key. |
+| `minStepsBetweenValues` | `number` | `0` | The smallest number of steps between two thumbs in a range slider. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | `horizontal`: the track runs left to right. `vertical`: the track runs bottom to top and fills the height of its parent. |
+| `size` | `'200' \| '300' \| '400'` | `'300'` | Track height. `200`: a thin track. `300`: the standard track. `400`: a thick track. The thumb is larger than the track in every size. Text size does not change. |
+| `disabled` | `boolean` | `false` | The user cannot change the value. |
+| `name` | `string` | — | The field name when a form is submitted. |
+| `form` | `string` | — | The `id` of the form that owns the slider, when the slider is outside the form. |
+| `format` | `Intl.NumberFormatOptions` | plain number | Formats the numbers that `Slider.Value` shows and screen readers announce. |
+| `locale` | `Intl.LocalesArgument` | the user's locale | The locale for `format`. |
+| `thumbCollisionBehavior` | `'push' \| 'swap' \| 'none'` | `'push'` | What happens when a thumb meets another. `push`: it moves the other thumb. `swap`: they change places. `none`: it stops. |
+| `children` | `ReactNode` | — | The parts: `Label`, `Value`, and `Control`. |
+
+### Slider.Label
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `children` | `ReactNode` | — | The visible name of the slider. Always include it. |
+
+### Slider.Value
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `children` | `(formattedValues, values) => ReactNode` | — | Optional. Returns the text to show. Without it, Value shows the formatted number, or the formatted numbers joined by a dash for a range. |
+
+### Slider.Control
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `getAriaLabel` | `(index: number) => string` | — | Returns the screen reader name of the thumb at `index`. Set it for a range slider. |
+| `getAriaValueText` | `(formattedValue, value, index) => string` | — | Returns the text that screen readers announce for a thumb in place of the number. |
+
+## Size
+
+The size sets the track height. The thumb is two steps larger than the track. The
+label and value text keep their size.
+
+### size="200"
+
+<Slider.Root defaultValue={40} size="200"><Slider.Label>Volume</Slider.Label><Slider.Value /><Slider.Control /></Slider.Root>
+
+### size="300"
+
+<Slider.Root defaultValue={40} size="300"><Slider.Label>Volume</Slider.Label><Slider.Value /><Slider.Control /></Slider.Root>
+
+### size="400"
+
+<Slider.Root defaultValue={40} size="400"><Slider.Label>Volume</Slider.Label><Slider.Value /><Slider.Control /></Slider.Root>
+
+## Range
+
+An array value gives one thumb for each number. Name each thumb with `getAriaLabel`.
+
+<Slider.Root defaultValue={[20, 80]} min={0} max={200} step={5} format={{ style: 'currency', currency: 'USD', maximumFractionDigits: 0 }}><Slider.Label>Price</Slider.Label><Slider.Value>{(formatted) => `${formatted[0]} to ${formatted[1]}`}</Slider.Value><Slider.Control getAriaLabel={(index) => (index === 0 ? 'Minimum price' : 'Maximum price')} /></Slider.Root>
+
+## Orientation
+
+### orientation="horizontal"
+
+<Slider.Root defaultValue={40}><Slider.Label>Volume</Slider.Label><Slider.Value /><Slider.Control /></Slider.Root>
+
+### orientation="vertical"
+
+A vertical Slider fills the height of its parent. The parent below is 200px high.
+
+<div style={{ blockSize: 200 }}><Slider.Root defaultValue={40} orientation="vertical"><Slider.Label>Volume</Slider.Label><Slider.Value /><Slider.Control /></Slider.Root></div>
+
+## States
+
+### disabled
+
+<Slider.Root defaultValue={40} disabled><Slider.Label>Volume</Slider.Label><Slider.Value /><Slider.Control /></Slider.Root>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Root gaps | `hds/sem/measure/space/100` (rows), `hds/sem/measure/space/200` (Label to Value) |
+| Track color | `hds/sem/color/surface/sunken/bg`, disabled `hds/sem/color/field/disabled/bg` |
+| Track height | `hds/sem/measure/size/{size}` |
+| Track radius | `hds/sem/radius/round` |
+| Fill | `hds/sem/color/field/checked/bg`, invalid `hds/sem/color/field/error/border`, disabled `hds/sem/color/field/disabled/fg` |
+| Thumb size | `hds/sem/measure/size/{size + 2 steps}` (400, 500, 600) |
+| Thumb fill | `hds/sem/color/field/default/bg`, disabled `hds/sem/color/field/disabled/bg` |
+| Thumb border | `hds/sem/color/field/default/border`, hover `field/hover/border`, focus and drag `field/focus/border`, invalid `field/error/border`, disabled `field/disabled/fg` |
+| Thumb border width, radius | `hds/sem/border/control`, `hds/sem/radius/round` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+| Label | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/*` at `md` |
+| Value | `hds/sem/color/content/muted/fg`, `hds/sem/typography/caption/*` at `md` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/slider`. `Slider.Control` renders the track,
+  the fill, and one thumb for each value, so a caller cannot assemble them wrongly.
+- Extension decisions: `size` is the track height with the same steps as Meter and
+  Progress (`200`, `300`, `400`). The thumb is two steps larger. There is no length prop:
+  a vertical Slider fills its parent. The removal of `className` and `style` is a
+  recorded break of the escape-hatch rule.
+- Known constraints: the track is low contrast on purpose (`surface/sunken/bg`). The
+  thumb border and the fill carry the 3:1 contrast. The thumb has no transition, so it
+  does not lag a drag. All colors follow `data-context` and `data-section` overrides.
+- Accessibility: each thumb is a native `input type="range"`, so the keyboard and screen
+  readers work as for a native range input. `Slider.Label` names a single slider.
+  `getAriaLabel` names each thumb of a range slider.

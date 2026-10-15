@@ -102,6 +102,23 @@ One handy-ds prop: `size` (`500` | `600` | `800`).
 <Switch defaultChecked />
 ```
 
+### Slider
+
+Picks a number, or a range of numbers, by dragging a thumb along a track.
+
+- **Use when:** an approximate value inside a known range is enough, such as volume or a price range.
+- **Don't use when:** the user must type an exact number — use `NumberField`. The value is read-only — use `Meter` or `Progress`.
+
+One handy-ds prop: `size` (`200` | `300` | `400`, the track height). Parts: `Slider.Root`, `Slider.Label`, `Slider.Value`, `Slider.Control`. A `number[]` value gives a range slider. A vertical slider fills the height of its parent.
+
+```tsx
+<Slider.Root defaultValue={40}>
+  <Slider.Label>Volume</Slider.Label>
+  <Slider.Value />
+  <Slider.Control />
+</Slider.Root>
+```
+
 ### Tabs
 
 Switches between views in the same place.
