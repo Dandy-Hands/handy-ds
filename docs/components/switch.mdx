@@ -5,83 +5,109 @@ order: 6
 
 import { Switch, Field } from 'handy-ds';
 
+export const row = { display: 'flex', gap: '24px', alignItems: 'center', flexWrap: 'wrap' };
+
 # Switch
 
-An on/off control whose change takes effect the moment it flips. Renders a
-pill-shaped track with a sliding thumb. Off looks like a secondary action; on
-looks like a selected primary action.
+An on/off control whose change takes effect the moment it flips. Switch draws one
+Material Symbols icon for each state: `toggle_off` and `toggle_on`. There is no separate
+track or thumb element. Its colors come from the Field category.
 
-<label>
-  <Switch.Root defaultChecked><Switch.Thumb /></Switch.Root>
-  Email notifications
-</label>
+<Field.Root>
+  <Field.Label>
+    <Switch defaultChecked />
+    Email notifications
+  </Field.Label>
+</Field.Root>
 
 ## Usage
 
-Use Switch for settings that apply immediately — a visibility flag, a
-preference toggle. Do not use it when the value is submitted with a form; use
-Checkbox. Label the switch with `Field.Label` or a wrapping `<label>`.
+Use Switch for a setting that applies the moment it changes. Examples are a visibility flag
+and a preference. Label every switch with `Field.Label` or a wrapping `<label>`. Do not use
+Switch when the value is submitted with a form. Use Checkbox instead. Do not use it to pick
+one option from several. Use Radio instead.
 
 ## Base UI API
 
-Wraps Base UI's `Switch`; every part passes through unchanged, styled via
-`part()`.
+Wraps Base UI's `Switch`. `Switch` renders the root and the icons in one component.
 
 | Element | Notes |
 | ------- | ----- |
-| `Root` props (`checked`, `defaultChecked`, `onCheckedChange`, `value`, `uncheckedValue`, `name`, `form`, `disabled`, `readOnly`, ...) | Exposed — full passthrough on the namespace. |
-| `Root`, `Thumb` | Styled with `part()`. |
-| `data-checked`, `data-disabled` | Consumed by CSS. |
-| Callback-form `className`/`style` | Available via passthrough, not documented. |
+| `checked`, `defaultChecked`, `onCheckedChange` | Exposed. |
+| `disabled`, `readOnly`, `required` | Exposed. |
+| `name`, `value`, `form`, `id` | Exposed. |
+| `render`, `ref`, rest props | Exposed. |
+| `Switch.Root`, `Switch.Thumb` | Removed. `Switch` is one component. |
+| `uncheckedValue`, `inputRef`, `nativeButton` | Removed. |
+| `className`, `style`, `children` | Removed. |
+| `data-checked`, `data-unchecked`, `data-invalid`, `data-disabled` | Kept. The CSS reads them. |
 
 ## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `children` | `ReactNode` | — | Switch content; `Switch.Thumb` renders the sliding knob. |
+| `size` | `'500' \| '600' \| '800'` | `'500'` | Size of the icon. `500`: the standard switch. `600`: roomy forms. `800`: large, for touch layouts. |
+| `checked` / `defaultChecked` | `boolean` | `false` | The controlled / initial on state. |
+| `onCheckedChange` | `(checked: boolean, eventDetails) => void` | — | Called when the switch flips. |
+| `disabled` | `boolean` | `false` | Makes the switch visible but inert. |
+| `readOnly` | `boolean` | `false` | Shows the state but blocks changes. |
+| `required` | `boolean` | `false` | The switch must be on before the form submits. |
+| `name` | `string` | — | Identifies the field on form submission. |
+| `value` | `string` | — | The value submitted when the switch is on. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered element. |
 
-Everything else is Base UI passthrough (`checked`, `onCheckedChange`, `name`, `value`, `disabled`, `render`, standard attributes) — it appears here only, never gets its own section.
+Event handlers, form props, and `render` appear here only. They have no section below.
+
+## Size
+
+The icon size axis. Each step is a `measure/size` token.
+
+<div style={row}>
+  <Field.Root><Field.Label><Switch size="500" defaultChecked />500</Field.Label></Field.Root>
+  <Field.Root><Field.Label><Switch size="600" defaultChecked />600</Field.Label></Field.Root>
+  <Field.Root><Field.Label><Switch size="800" defaultChecked />800</Field.Label></Field.Root>
+</div>
 
 ## Checked
 
-The track reads Action tokens: secondary when off, primary `selected` when on.
-The thumb uses the matching state's `fg` and slides between the two ends.
+The icon is `toggle_off` when off and `toggle_on` when on. The on icon is filled with
+`hds/sem/color/field/checked/bg`. The off icon is an outline in
+`hds/sem/color/field/default/border`. Hover changes the outline of an off switch.
 
-<label>
-  <Switch.Root defaultChecked><Switch.Thumb /></Switch.Root>
-  Email notifications
-</label>
-
-<label>
-  <Switch.Root><Switch.Thumb /></Switch.Root>
-  Public profile
-</label>
+<div style={row}>
+  <Field.Root><Field.Label><Switch />Off</Field.Label></Field.Root>
+  <Field.Root><Field.Label><Switch defaultChecked />On</Field.Label></Field.Root>
+</div>
 
 ## Disabled
 
-A disabled switch ignores interaction and dims the track and thumb.
+A disabled switch keeps its size and takes no input. It uses
+`hds/sem/color/field/disabled/fg` in every state.
 
-<label>
-  <Switch.Root disabled><Switch.Thumb /></Switch.Root>
-  Beta features
-</label>
+<div style={row}>
+  <Field.Root><Field.Label><Switch disabled />Off</Field.Label></Field.Root>
+  <Field.Root><Field.Label><Switch disabled defaultChecked />On</Field.Label></Field.Root>
+</div>
 
 ## Anatomy
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Track off (default, hover, disabled) | `hds/sem/color/action/secondary/{default,hover,disabled}/{bg,border}` |
-| Track on | `hds/sem/color/action/primary/selected/{bg,border}` |
-| Thumb off / on / disabled | `hds/sem/color/action/secondary/default/fg`, `hds/sem/color/action/primary/selected/fg`, `hds/sem/color/action/secondary/disabled/fg` |
+| Icon size and box | `hds/sem/measure/size/{size}` |
+| Off icon | `hds/sem/color/field/default/border`, hover `hds/sem/color/field/hover/border` |
+| On icon | `hds/sem/color/field/checked/bg` |
+| Invalid icon | `hds/sem/color/field/error/border` |
+| Disabled icon | `hds/sem/color/field/disabled/fg` |
+| Box shape | `hds/sem/radius/round` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
 
 ## Owner notes
 
-- Base UI mapping: wraps `@base-ui/react/switch`; the namespace is mirrored and
-  every prop passes through. `Root` and `Thumb` are the styled parts.
-- Extension decisions: no wrapper props. The track size (`2.25em × 1.25em`),
-  pill radius (`999px`), and thumb travel (`1em`) are structural literals that
-  scale with the surrounding font size.
-- Known constraints: no invalid state — an instant setting has no form
-  validation to mirror. No size axis; the switch scales with its label.
-- Accessibility: the switch is a real labeled control through the wrapping
-  label and announces on/off state. Keyboard toggling is native.
+- Base UI mapping: wraps `@base-ui/react/switch` 1.8.0.
+- Extension decisions: `size` sets a data attribute. `Switch` has no `Thumb` part. It
+  renders two `Icon` elements and the CSS shows one.
+- Known constraints: the icons need the Material Symbols font, and the client loads it. If
+  the font does not load, the switch shows the words "toggle_off". The switch takes no
+  `className`, `style`, or children. `readOnly` has no own look.
+- Accessibility: the root is a labeled switch, with native form behavior through a hidden
+  input. The icons are `aria-hidden`. Label every switch.

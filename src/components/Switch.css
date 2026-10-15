@@ -1,48 +1,42 @@
+/* Switch is one Material Symbols icon per state. Colors match Checkbox. */
 @layer hds.components {
   .hds-switch {
     display: inline-flex;
-    align-items: center;
     flex-shrink: 0;
-    inline-size: 2.25em;
-    block-size: 1.25em;
-    padding: 2px;
-    border: var(--hds-sem-border-control) solid var(--hds-sem-color-action-secondary-default-border);
-    border-radius: 999px;
-    background: var(--hds-sem-color-action-secondary-default-bg);
+    padding: 0;
+    border-radius: var(--hds-sem-radius-round);
+    color: var(--hds-sem-color-field-default-border);
     cursor: pointer;
-    transition: background-color 150ms;
+  }
+
+  .hds-switch[data-size='500'] { inline-size: var(--hds-sem-measure-size-500); block-size: var(--hds-sem-measure-size-500); }
+  .hds-switch[data-size='600'] { inline-size: var(--hds-sem-measure-size-600); block-size: var(--hds-sem-measure-size-600); }
+  .hds-switch[data-size='800'] { inline-size: var(--hds-sem-measure-size-800); block-size: var(--hds-sem-measure-size-800); }
+
+  /* One icon shows per state. */
+  .hds-switch__on,
+  .hds-switch[data-checked] .hds-switch__off {
+    display: none;
+  }
+
+  .hds-switch[data-checked] .hds-switch__on {
+    display: inline-flex;
   }
 
   .hds-switch:hover {
-    background: var(--hds-sem-color-action-secondary-hover-bg);
-    border-color: var(--hds-sem-color-action-secondary-hover-border);
+    color: var(--hds-sem-color-field-hover-border);
   }
 
   .hds-switch[data-checked] {
-    background: var(--hds-sem-color-action-primary-selected-bg);
-    border-color: var(--hds-sem-color-action-primary-selected-border);
+    color: var(--hds-sem-color-field-checked-bg);
+  }
+
+  .hds-switch[data-invalid] {
+    color: var(--hds-sem-color-field-error-border);
   }
 
   .hds-switch[data-disabled] {
-    background: var(--hds-sem-color-action-secondary-disabled-bg);
-    border-color: var(--hds-sem-color-action-secondary-disabled-border);
+    color: var(--hds-sem-color-field-disabled-fg);
     cursor: not-allowed;
-  }
-
-  .hds-switch__thumb {
-    block-size: 100%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background: var(--hds-sem-color-action-secondary-default-fg);
-    transition: translate 150ms;
-  }
-
-  .hds-switch__thumb[data-checked] {
-    translate: 1em 0;
-    background: var(--hds-sem-color-action-primary-selected-fg);
-  }
-
-  .hds-switch__thumb[data-disabled] {
-    background: var(--hds-sem-color-action-secondary-disabled-fg);
   }
 }
