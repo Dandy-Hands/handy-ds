@@ -28,7 +28,8 @@ test('Button: Base UI button with action classes and variant', () => {
 test('every component renders with its hds classes', () => {
   const H = hds;
   const cases: [string, ReturnType<typeof h>, RegExp[]][] = [
-    ['Input', h(H.Input, { size: 'sm', placeholder: 'x' }), [/<input[^>]*class="hds-control"/, /data-size="sm"/]],
+    ['TextInput', h(H.TextInput, { size: '800', placeholder: 'x', start: 's', end: 'e' }),
+      [/<div[^>]*class="hds-control hds-text-input"[^>]*data-size="800"/, /hds-text-input__start/, /<input[^>]*type="text"[^>]*class="hds-control__input"/, /hds-text-input__end/]],
     ['Field', h(H.Field.Root, null, h(H.Field.Label, null, 'Name'), h(H.Field.Control), h(H.Field.Description, null, 'd')),
       [/hds-field"/, /hds-field__label/, /<input[^>]*hds-control/, /hds-field__description/]],
     ['Fieldset+Form', h(H.Form, null, h(H.Fieldset.Root, null, h(H.Fieldset.Legend, null, 'L'))), [/<form[^>]*hds-form/, /hds-fieldset__legend/]],

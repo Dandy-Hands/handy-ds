@@ -1,7 +1,7 @@
 /*
- * Input/Field category: the text-control look shared by Input, Field.Control, Select trigger,
+ * Input/Field category: the text-control look shared by TextInput, Field.Control, Select trigger,
  * Combobox/Autocomplete input group and NumberField group.
- *   size      data-size = sm | md | lg (default md)
+ *   size      data-size = 800 | 1000 | 1200 (default 1000), measure/size steps
  *   hover     :hover
  *   focus     :focus-within, [data-popup-open]
  *   error     [data-invalid], [aria-invalid='true']
@@ -35,7 +35,7 @@
     text-align: start;
   }
 
-  .hds-control[data-size='sm'] {
+  .hds-control[data-size='800'] {
     --_height: var(--hds-sem-measure-size-800);
     --_padding-x: var(--hds-sem-measure-space-200);
     --_padding-y: var(--hds-sem-measure-space-100);
@@ -43,7 +43,7 @@
     --_border-width: var(--hds-sem-border-control);
   }
 
-  .hds-control[data-size='lg'] {
+  .hds-control[data-size='1200'] {
     --_height: var(--hds-sem-measure-size-1200);
     --_padding-x: var(--hds-sem-measure-space-400);
     --_padding-y: var(--hds-sem-measure-space-300);
@@ -77,14 +77,16 @@
   }
 
   .hds-control[data-invalid],
-  .hds-control[aria-invalid='true'] {
+  .hds-control[aria-invalid='true'],
+  .hds-control:has(.hds-control__input[data-invalid]) {
     background: var(--hds-sem-color-field-error-bg);
     color: var(--hds-sem-color-field-error-fg);
     border-color: var(--hds-sem-color-field-error-border);
   }
 
   .hds-control[data-disabled],
-  .hds-control:disabled {
+  .hds-control:disabled,
+  .hds-control:has(.hds-control__input:disabled) {
     background: var(--hds-sem-color-field-disabled-bg);
     color: var(--hds-sem-color-field-disabled-fg);
     border-color: var(--hds-sem-color-field-disabled-border);

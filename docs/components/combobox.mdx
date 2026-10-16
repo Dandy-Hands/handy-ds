@@ -77,7 +77,7 @@ and the other parts compose the widget.
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `data-size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input group control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+| `data-size` | `'800' \| '1000' \| '1200'` | `'1000'` | Input group control size. `800` — dense layouts. `1000` — default. `1200` — large form contexts. |
 
 `render`, `ref`, and standard attributes are passthrough on every part — they appear here only, never get their own section.
 
@@ -154,12 +154,12 @@ With `multiple`, each selection becomes a chip with its own remove button.
 The input group reads the Input/Field control look. `data-size` picks the
 control height and padding; options always read the md action measure.
 
-### sm
+### 800
 
 Dense layouts and compact forms.
 
 <Combobox.Root items={['Japan', 'Norway', 'Portugal']} defaultValue="Norway">
-  <Combobox.InputGroup data-size="sm">
+  <Combobox.InputGroup data-size="800">
     <Combobox.Input placeholder="Filter…" />
     <Combobox.Trigger />
   </Combobox.InputGroup>
@@ -179,12 +179,12 @@ Dense layouts and compact forms.
   </Combobox.Portal>
 </Combobox.Root>
 
-### md
+### 1000
 
 Default.
 
 <Combobox.Root items={['Japan', 'Norway', 'Portugal']} defaultValue="Norway">
-  <Combobox.InputGroup data-size="md">
+  <Combobox.InputGroup data-size="1000">
     <Combobox.Input placeholder="Filter…" />
     <Combobox.Trigger />
   </Combobox.InputGroup>
@@ -204,12 +204,12 @@ Default.
   </Combobox.Portal>
 </Combobox.Root>
 
-### lg
+### 1200
 
 Large form contexts.
 
 <Combobox.Root items={['Japan', 'Norway', 'Portugal']} defaultValue="Norway">
-  <Combobox.InputGroup data-size="lg">
+  <Combobox.InputGroup data-size="1200">
     <Combobox.Input placeholder="Filter…" />
     <Combobox.Trigger />
   </Combobox.InputGroup>
@@ -280,7 +280,7 @@ value does not have to come from the list. No chips parts, no item indicator.
   Autocomplete the same way. Types like `Combobox.Root.Props` come from Base UI.
 - Extension decisions: deliberately none — "no handy-ds props" is the
   components.md contract. Overrides go through part props (e.g.
-  `data-size="lg"` on `InputGroup`). Chips read Action secondary via the
+  `data-size="1200"` on `InputGroup`). Chips read Action secondary via the
   no-priority Action default, per the Wave 5 part table.
 - Known constraints: the chip cross-borrows two input measure tokens for
   padding/gap — if a spacing token set lands (open gap 13), chips should move

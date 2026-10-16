@@ -76,7 +76,7 @@ and the other parts compose the widget.
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `data-size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Trigger control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+| `data-size` | `'800' \| '1000' \| '1200'` | `'1000'` | Trigger control size. `800` — dense layouts. `1000` — default. `1200` — large form contexts. |
 
 `render`, `ref`, and standard attributes are passthrough on every part — they appear here only, never get their own section.
 
@@ -113,12 +113,12 @@ The trigger reads the Input/Field control look. `data-size` picks the control
 height and padding. Items always read the md action measure; only the trigger
 changes size.
 
-### sm
+### 800
 
 Dense layouts and compact forms.
 
 <Select.Root items={['Apple', 'Banana', 'Cherry']} defaultValue="Banana">
-  <Select.Trigger data-size="sm">
+  <Select.Trigger data-size="800">
     <Select.Value />
     <Select.Icon />
   </Select.Trigger>
@@ -138,12 +138,12 @@ Dense layouts and compact forms.
   </Select.Portal>
 </Select.Root>
 
-### md
+### 1000
 
 Default.
 
 <Select.Root items={['Apple', 'Banana', 'Cherry']} defaultValue="Banana">
-  <Select.Trigger data-size="md">
+  <Select.Trigger data-size="1000">
     <Select.Value />
     <Select.Icon />
   </Select.Trigger>
@@ -163,12 +163,12 @@ Default.
   </Select.Portal>
 </Select.Root>
 
-### lg
+### 1200
 
 Large form contexts.
 
 <Select.Root items={['Apple', 'Banana', 'Cherry']} defaultValue="Banana">
-  <Select.Trigger data-size="lg">
+  <Select.Trigger data-size="1200">
     <Select.Value />
     <Select.Icon />
   </Select.Trigger>
@@ -233,7 +233,7 @@ The whole widget goes inert; the trigger reads the disabled input colors.
   from Base UI. Only DOM-rendering parts get classes via `part()`.
 - Extension decisions: deliberately none — "no handy-ds props" is the
   components.md contract. Visual overrides go through part props (e.g.
-  `data-size="lg"` on the Trigger), which `part()` defaults allow.
+  `data-size="1200"` on the Trigger), which `part()` defaults allow.
 - Known constraints: the trigger pins the Input/Field category and items pin
   Action md; the Action size axis is Button-only by decision. Long lists get
   Base UI's scroll arrows, which render unstyled structural parts.

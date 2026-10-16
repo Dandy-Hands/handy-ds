@@ -168,18 +168,18 @@ No handy-ds props. Triggers and links are Action `tertiary`.
 
 ## Input/Field
 
-### Field, Input, Fieldset, Form
+### Field, Fieldset, Form
 
-`Field` is one labelled form value: label, control, description, error. `Input` is a bare text input. `Fieldset` groups related fields inside a `Form`.
+`Field` is one labelled form value: label, control, description, error. `Fieldset` groups related fields inside a `Form`.
 
 - **Use when:** any text entry. Use the full `Field` set so the label, description and error are wired to the control.
-- **Don't use when:** there is no visible label — only then use bare `Input`, with an `aria-label`.
+- **Don't use when:** there is no visible label — only then use a bare `TextInput`, with an `aria-label`.
 
 | Component | Prop | Values | Default |
 |---|---|---|---|
-| `Input` | `size` | `sm`, `md`, `lg` | `md` |
+| `Field.Control` | `data-size` | `800`, `1000`, `1200` | `1000` |
 
-`Field.Control` takes `data-size` for the same axis.
+`TextInput` is a standalone text field with a `size` prop (`800`, `1000`, `1200`) and `start` and `end` slots.
 
 ```tsx
 <Form onSubmit={submit}>
@@ -193,6 +193,22 @@ No handy-ds props. Triggers and links are Action `tertiary`.
 ```
 
 Field error text is contrast-checked in the default context only. Inside a colored section, put the form in a `data-context="default"` container (`docs/rules.md` section 5).
+
+### TextInput
+
+A single-line field for free text, with `start` and `end` slots.
+
+- **Use when:** a name, a title, or a comment. Wrap it in `Field` when it has a visible label.
+- **Don't use when:** the value is an email, a phone number, a password, a URL, or a search (use the typed field), a number (use `NumberField`), or a date.
+
+| Prop | Values | Default |
+|---|---|---|
+| `size` | `800`, `1000`, `1200` | `1000` |
+| `start`, `end` | any node | none |
+
+```tsx
+<TextInput aria-label="Weight" size="800" end="kg" />
+```
 
 ### NumberField
 

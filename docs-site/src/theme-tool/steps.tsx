@@ -2,7 +2,7 @@
 // Samples inside `.hds-live` render with the theme under edit; the rest of the chrome keeps
 // the default theme (interview F2).
 import { useEffect, useState } from 'react';
-import { Button, Input } from 'handy-ds';
+import { Button, TextInput } from 'handy-ds';
 import { defaultDrivers, withDefaults, type DriverInput, type Drivers, type Pick, type RadiusStep, type BorderStep } from '../../../src/tokens/drivers.ts';
 import { contextPicks, defaultPicks } from '../../../src/tokens/picks.ts';
 import { ladder, wheel } from '../../../src/tokens/primitives.ts';
@@ -650,7 +650,7 @@ export function Measure({ d, set, mode }: StepProps) {
         ))}
         <div className="tt-row">
           <Button size="800">Small</Button><Button>Medium</Button><Button size="1200">Large</Button>
-          <Input placeholder="Field" />
+          <TextInput placeholder="Field" />
         </div>
       </Live>
     </>

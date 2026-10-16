@@ -1,0 +1,24 @@
+/*
+ * TextInput: frame (.hds-control), input (.hds-control__input), start and end slots.
+ * The frame look and states come from control.css.
+ */
+@layer hds.components {
+  .hds-text-input {
+    display: flex;
+    inline-size: 100%;
+    box-sizing: border-box;
+  }
+
+  .hds-text-input__start,
+  .hds-text-input__end {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    color: var(--hds-sem-color-content-muted-fg);
+  }
+
+  .hds-text-input:has(.hds-control__input:disabled) .hds-text-input__start,
+  .hds-text-input:has(.hds-control__input:disabled) .hds-text-input__end {
+    color: var(--hds-sem-color-field-disabled-fg);
+  }
+}

@@ -35,7 +35,7 @@ docs apply one for one.
 | Element | Notes |
 | ------- | ----- |
 | `Button` / `Link` | Action tertiary buttons. |
-| `Input` | Input/Field control, pinned to size `sm`. |
+| `Input` | Input/Field control, pinned to size `800`. |
 | `Separator` | Shared Divider look. |
 
 ## Extension API
@@ -46,7 +46,7 @@ nothing gets its own section.
 ## Parts
 
 Buttons and links are Action `tertiary` and keep the default control size. The
-input is pinned to size `sm` so it sits level with the buttons. The separator
+input is pinned to size `800` so it sits level with the buttons. The separator
 is the shared Divider look. Group related controls with `Toolbar.Group`.
 
 <Toolbar.Root>
@@ -86,6 +86,6 @@ one stop in the bar's arrow-key navigation.
 ## Owner notes
 
 - Base UI mapping: wraps the Base UI toolbar namespace part for part (`{ ...BaseToolbar, Button: part(...), ... }`); every unrestyled part passes through and Base UI's docs apply one for one.
-- Extension decisions: no handy-ds props — each part composes its own category's tokens (buttons Action tertiary, input Input/Field `sm`, separator Divider); the bar itself carries no color tokens.
+- Extension decisions: no handy-ds props — each part composes its own category's tokens (buttons Action tertiary, input Input/Field `800`, separator Divider); the bar itself carries no color tokens.
 - Known constraints: only `Toolbar.Input` has a pinned size; buttons keep the Action default, so an all-`lg` toolbar needs per-button attributes. Don't reuse it as site navigation.
 - Accessibility: arrow keys move focus between parts (skipping disabled ones), and `Toolbar.Group` clusters related controls for screen-reader traversal. The focus ring comes from the shared Focus tokens.

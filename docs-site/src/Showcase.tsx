@@ -1,7 +1,7 @@
 // Showcase: every component on one page, ported from the old demo/main.tsx.
 // Themed by the live theme CSS injected in Layout.tsx, so the flyout re-themes it.
 import {
-  Accordion, Alert, Autocomplete, Button, Card, Checkbox, Combobox, Dialog, Field, Fieldset, Form, Icon, Input,
+  Accordion, Alert, Autocomplete, Button, Card, Checkbox, Combobox, Dialog, Field, Fieldset, Form, Icon, TextInput,
   LinkButton, Menu, Menubar, Meter, NavigationMenu, NumberField, Popover, Progress, Radio, Select,
   Separator, Switch, Table, Tabs, Text, Toast, Toaster, ToggleGroup, Toggle, Toolbar,
 } from 'handy-ds';
@@ -38,7 +38,7 @@ export function ShowcaseBody() {
           <Icon tone="accent" size="800" label="Accent icon"><Star /></Icon>
         </div>
         <div className="row">
-          <Input placeholder="Email in a hero" />
+          <TextInput placeholder="Email in a hero" />
           <Switch defaultChecked />
           <Checkbox defaultChecked />
         </div>
@@ -102,8 +102,8 @@ export function ShowcaseBody() {
             <Field.Root><Field.Label><Checkbox defaultChecked />Subscribe</Field.Label></Field.Root>
             <Field.Root><Field.Label><Checkbox indeterminate />Some selected</Field.Label></Field.Root>
             <Field.Root disabled><Field.Label><Checkbox defaultChecked />Disabled checked</Field.Label></Field.Root>
-            <div className="row"><Input size="sm" placeholder="sm" /><Input placeholder="md" /><Input size="lg" placeholder="lg" /></div>
-            <Input disabled placeholder="Disabled" />
+            <div className="row"><TextInput size="800" placeholder="800" /><TextInput placeholder="1000" /><TextInput size="1200" placeholder="1200" /></div>
+            <TextInput disabled placeholder="Disabled" />
             <Button type="submit">Submit</Button>
           </Form>
         </Card>

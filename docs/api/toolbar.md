@@ -6,7 +6,7 @@ Toolbar is a bar of controls for a region — buttons, links, a small input, and
 
 ## Props
 
-No handy-ds props. `Toolbar.Button` and `Toolbar.Link` are Action `tertiary`; `Toolbar.Input` is size `sm`; `Toolbar.Separator` is a Divider.
+No handy-ds props. `Toolbar.Button` and `Toolbar.Link` are Action `tertiary`; `Toolbar.Input` is size `800`; `Toolbar.Separator` is a Divider.
 
 ## Examples
 

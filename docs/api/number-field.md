@@ -19,7 +19,7 @@ NumberField is a number input with decrement and increment steppers. Use it for 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `data-size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows. `md` — default. `lg` — large or hero forms. |
+| `data-size` | `'800' \| '1000' \| '1200'` | `'1000'` | Control size. `800` — dense rows. `1000` — default. `1200` — large or hero forms. |
 | `children` | `ReactNode` | — | Group content: decrement button, value input, increment button. |
 
 `render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element on any part. All standard attributes (`id`, `aria-*`, `name`, ...) are also accepted.
@@ -37,7 +37,7 @@ NumberField is a number input with decrement and increment steppers. Use it for 
 ```
 
 ```tsx
-<NumberField.Group data-size="sm">
+<NumberField.Group data-size="800">
   <NumberField.Decrement />
   <NumberField.Input />
   <NumberField.Increment />

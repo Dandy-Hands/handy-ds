@@ -27,7 +27,7 @@ Combobox is a compound component: `Combobox.Root` takes the configuration props,
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `data-size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Input group control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+| `data-size` | `'800' \| '1000' \| '1200'` | `'1000'` | Input group control size. `800` — dense layouts. `1000` — default. `1200` — large form contexts. |
 
 `children` holds content on `Item` (label, or `ItemText`) and `Group` (grouped items). `render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element of any part. All standard attributes (`id`, `aria-*`, `className`, ...) are accepted on every part.
 

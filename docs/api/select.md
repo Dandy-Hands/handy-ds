@@ -25,7 +25,7 @@ Select is a compound component: `Select.Root` takes the configuration props, and
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `data-size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Trigger control size. `sm` — dense layouts. `md` — default. `lg` — large form contexts. |
+| `data-size` | `'800' \| '1000' \| '1200'` | `'1000'` | Trigger control size. `800` — dense layouts. `1000` — default. `1200` — large form contexts. |
 
 `children` holds content on `Trigger` (pair `Value` + `Icon`), `Item` (label, or `ItemText`), and `Group` (grouped items). `render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element of any part. All standard attributes (`id`, `aria-*`, `className`, ...) are accepted on every part.
 
@@ -62,7 +62,7 @@ Select is a compound component: `Select.Root` takes the configuration props, and
   onValueChange={(v) => setSize(v)}
   disabled={!editable}
 >
-  <Select.Trigger data-size="sm">
+  <Select.Trigger data-size="800">
     <Select.Value />
     <Select.Icon />
   </Select.Trigger>

@@ -1,0 +1,123 @@
+---
+title: TextInput
+order: 10.5
+---
+
+import { TextInput, Field, Icon } from 'handy-ds';
+
+export const col = { display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '360px' };
+
+# TextInput
+
+A single-line field for free text, such as a name, a title, or a comment. It always
+renders `type="text"`. It draws a frame, one input, and an optional `start` and `end`
+slot. Typed fields, such as email, phone, and password, are separate components.
+
+<div style={col}>
+  <Field.Root>
+    <Field.Label>Project name</Field.Label>
+    <TextInput placeholder="Untitled" />
+  </Field.Root>
+</div>
+
+## Usage
+
+Use TextInput for free text that has no special format. Wrap it in a `Field` when it has
+a visible label. For a bare TextInput, give it an `aria-label`. Use `start` and `end` to
+put an icon, a unit, or a button inside the frame. Do not use it for an email, a phone
+number, a password, a URL, or a search. Use the typed component. Do not use it for a
+number. Use NumberField. Do not use it for a date or a time.
+
+## Base UI API
+
+Wraps Base UI's `Input`. The frame and the slots are handy-ds markup around it.
+
+| Element | Notes |
+| ------- | ----- |
+| `value`, `defaultValue`, `onValueChange` | Exposed on the input. |
+| Native input attributes (`name`, `placeholder`, `disabled`, `required`, `readOnly`, `inputMode`, `autoComplete`, `maxLength`, `id`, `aria-*`) | Exposed on the input. |
+| `ref` | Exposed on the input, so a caller can call `focus()`. |
+| `render` | Exposed on the input. |
+| `className` | Exposed on the frame. |
+| `type`, `size` (the HTML attribute), `style` | Removed. TextInput is always `type="text"`. |
+| `data-disabled`, `data-invalid`, `data-focused`, and the other state attributes | Kept. The frame reads them with `:has()` and `:focus-within`. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `size` | `'800' \| '1000' \| '1200'` | `'1000'` | Height of the field. `800`: compact, for dense layouts. `1000`: standard. `1200`: large, for touch layouts. |
+| `start` | `ReactNode` | — | Content before the text, such as an icon. |
+| `end` | `ReactNode` | — | Content after the text, such as a unit or a button. |
+| `value` / `defaultValue` | `string` | `''` | The controlled / initial text. |
+| `onValueChange` | `(value: string, eventDetails) => void` | — | Called when the text changes. |
+| `placeholder` | `string` | — | Hint text shown when the field is empty. |
+| `disabled` | `boolean` | `false` | Makes the field visible but inert. |
+| `readOnly` | `boolean` | `false` | Shows the text but blocks changes. |
+| `required` | `boolean` | `false` | The field must have text before the form submits. |
+| `name` | `string` | — | Identifies the field on form submission. |
+| `className` | `string` | — | Class for the outer frame. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered input element. |
+
+Event handlers, form props, and `render` appear here only. They have no section below.
+
+## Size
+
+The size axis. Each step is a `measure/size` token and sets the height.
+
+<div style={col}>
+  <TextInput size="800" aria-label="Size 800" placeholder="800" />
+  <TextInput size="1000" aria-label="Size 1000" placeholder="1000" />
+  <TextInput size="1200" aria-label="Size 1200" placeholder="1200" />
+</div>
+
+## Start and end
+
+`start` and `end` take any node. Use an icon, a unit, or a button. A press on the frame
+or on plain content moves focus to the input. A button in a slot keeps its own press.
+
+<div style={col}>
+  <TextInput aria-label="Search" start={<Icon>search</Icon>} placeholder="Search" />
+  <TextInput aria-label="Weight" end="kg" placeholder="0" />
+  <TextInput aria-label="Price" start={<Icon>attach_money</Icon>} end="USD" placeholder="0.00" />
+</div>
+
+## States
+
+Hover and focus come from the frame. `disabled` and an invalid `Field` set the other
+looks. The focus ring shows only for keyboard focus.
+
+<div style={col}>
+  <TextInput aria-label="Default" placeholder="Default" />
+  <TextInput aria-label="Disabled" placeholder="Disabled" disabled />
+  <Field.Root invalid>
+    <Field.Label>Invalid</Field.Label>
+    <TextInput defaultValue="not valid" />
+    <Field.Error match>Enter a valid value.</Field.Error>
+  </Field.Root>
+</div>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Height | `hds/sem/measure/size/{size}` |
+| Padding and gap | `hds/sem/measure/space/{step}` |
+| Frame colors, by state | `hds/sem/color/field/{default,hover,focus,error,disabled}/{bg,fg,border}` |
+| Placeholder | `hds/sem/color/field/{state}/placeholder` |
+| Frame shape | `hds/sem/radius/control`, `hds/sem/border/control` |
+| Text | `hds/sem/typography/body/*` |
+| Start and end content | `hds/sem/color/content/muted/fg`, disabled `hds/sem/color/field/disabled/fg` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/input` 1.8.0.
+- Extension decisions: `size` sets a data attribute. `start` and `end` are slot props, the
+  first use of that rule in `docs/api-conventions.md`. `type` is removed, and each typed
+  field is its own component.
+- Known constraints: the `Icon` glyph names need the Material Symbols font, and the client
+  loads it. The field fills its container. `width` is not a prop.
+- Accessibility: with no visible label, set `aria-label`. Inside `Field.Root`, the label,
+  description, and error are wired to the input. An icon in a slot is hidden from assistive
+  tech unless it has a `label`.

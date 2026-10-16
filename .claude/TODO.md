@@ -45,6 +45,14 @@ Running list of planned work. Add an item when the user asks for new work. Check
   - [ ] Define the passes with the user first. Candidates: API consistency against `docs/api-conventions.md`, token mapping and contrast, accessibility, docs and Figma against code, and visual consistency across components.
   - [ ] Keep a record of every difference in decisions: where two components decided the same question in different ways, what each chose, why, and what the pass changed. Write it to `.claude/decisions.md` (the file for judgment calls) or a new file the user picks.
   - [ ] After each pass, update the specs, the API docs, the docs pages, and the Figma pages that the pass changed.
+- [ ] Text and number inputs (scope set 2026-10-15): split components by the value type they hold. Select-type controls are out of scope for now. Revised 2026-10-15: each string type is its own component that wraps the Base UI `Input`. Interview guide: `docs/component-specs/input/interview-guide-2026-10-15.md`.
+  - [x] `TextInput` (renamed from `Input`; plain text, no `type` prop, `start` and `end` slot props). Spec, code, Figma, and docs built 2026-10-15. `control.css` now uses size steps, so `Field.Control`, `NumberField.Group`, Select, Combobox, and `Toolbar.Input` changed with it.
+  - [ ] `EmailInput` (validation on blur, typo hint).
+  - [ ] `PhoneInput` (masking by country, raw digits as the value).
+  - [ ] `PasswordInput` (show/hide button).
+  - [ ] `SearchInput` (clear button, `Escape` clears).
+  - [ ] `UrlInput` (undecided: include now or wait for a client need).
+- [ ] Create a date and time component set (future, not part of the input work): `Calendar`, `DatePicker` (with `range`), later `TimeField`. Values are ISO strings (`"2026-10-15"`), range is `{ start, end }`. Needs a spec interview and maybe new semantic tokens (today, in-range, range start and end, outside month). Base UI has no calendar.
 - [ ] Create a Carousel component.
 - [ ] Create a Section component.
 - [ ] Create layout components. Example names, not final: Stack, Grid, Container, Cluster.

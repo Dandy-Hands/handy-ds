@@ -15,7 +15,7 @@ const tertiary = { 'data-priority': 'tertiary' };
 export const Combobox = {
   ...BaseCombobox,
   Label: part(BaseCombobox.Label, 'hds-field__label'),
-  InputGroup: part(BaseCombobox.InputGroup, 'hds-control', { 'data-size': 'md' }),
+  InputGroup: part(BaseCombobox.InputGroup, 'hds-control', { 'data-size': '1000' }),
   Input: part(BaseCombobox.Input, 'hds-control__input'),
   Trigger: part(BaseCombobox.Trigger, 'hds-control__button', { children: <ChevronDownIcon /> }),
   Clear: part(BaseCombobox.Clear, 'hds-control__button', { children: <XIcon />, 'aria-label': 'Clear' }),
@@ -37,7 +37,7 @@ export const Combobox = {
 /** Same parts and token sources as Combobox; free text input with suggestions. */
 export const Autocomplete = {
   ...BaseAutocomplete,
-  InputGroup: part(BaseAutocomplete.InputGroup, 'hds-control', { 'data-size': 'md' }),
+  InputGroup: part(BaseAutocomplete.InputGroup, 'hds-control', { 'data-size': '1000' }),
   Input: part(BaseAutocomplete.Input, 'hds-control__input'),
   Trigger: part(BaseAutocomplete.Trigger, 'hds-control__button', { children: <ChevronDownIcon /> }),
   Clear: part(BaseAutocomplete.Clear, 'hds-control__button', { children: <XIcon />, 'aria-label': 'Clear' }),

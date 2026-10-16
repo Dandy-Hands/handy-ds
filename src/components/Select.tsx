@@ -14,7 +14,7 @@ const tertiary = { 'data-priority': 'tertiary' };
 export const Select = {
   ...BaseSelect,
   Label: part(BaseSelect.Label, 'hds-field__label'),
-  Trigger: part(BaseSelect.Trigger, 'hds-control hds-select__trigger', { 'data-size': 'md' }),
+  Trigger: part(BaseSelect.Trigger, 'hds-control hds-select__trigger', { 'data-size': '1000' }),
   Icon: part(BaseSelect.Icon, 'hds-select__icon', { children: <ChevronDownIcon /> }),
   Positioner: part(BaseSelect.Positioner, 'hds-positioner'),
   Popup: part(BaseSelect.Popup, 'hds-surface hds-popup hds-list', { 'data-elevation': '2' }),

@@ -2,7 +2,7 @@
 
 ## Usage
 
-Field is one labelled form value: label, control, description, and error, wired to each other for assistive tech. Fieldset groups related fields; Form validates and submits. Use the full Field set for any labelled text entry, and bare Input only when a control has no visible label — then give it an `aria-label`.
+Field is one labelled form value: label, control, description, and error, wired to each other for assistive tech. Fieldset groups related fields; Form validates and submits. Use the full Field set for any labelled text entry, and a bare TextInput only when a control has no visible label — then give it an `aria-label`.
 
 ## Props
 
@@ -12,11 +12,11 @@ Field is one labelled form value: label, control, description, and error, wired 
 | --- | --- | --- | --- |
 | `invalid` | `boolean` | — | Marks the field and its control, description and error with `data-invalid`. |
 
-### Input
+### Field.Control
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows and compact layouts. `md` — default. `lg` — large or hero forms. `Field.Control` takes the same axis as `data-size`. |
+| `data-size` | `'800' \| '1000' \| '1200'` | `'1000'` | Control size. `800` — dense rows and compact layouts. `1000` — default. `1200` — large or hero forms. |
 
 ### Field.Error
 
@@ -46,7 +46,7 @@ Field is one labelled form value: label, control, description, and error, wired 
 ```
 
 ```tsx
-<Input size="sm" placeholder="Compact" />
+<Field.Control data-size="800" placeholder="Compact" />
 <Fieldset.Root>
   <Fieldset.Legend>Billing address</Fieldset.Legend>
   <Field.Root><Field.Label>City</Field.Label><Field.Control /></Field.Root>

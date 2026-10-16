@@ -3,7 +3,7 @@
 // the `:root` theme, and so do the popups that Base UI portals to <body>.
 import { useState } from 'react';
 import {
-  Alert, Button, Card, Checkbox, Field, Fieldset, Form, Input, Meter, Radio, Separator, Switch, Table, Text,
+  Alert, Button, Card, Checkbox, Field, Fieldset, Form, TextInput, Meter, Radio, Separator, Switch, Table, Text,
   Toast, Toaster,
 } from 'handy-ds';
 import { ShowcaseBody } from '../Showcase.tsx';
@@ -83,7 +83,7 @@ function FormPage() {
           </Field.Root>
           <Field.Root><Field.Label><Checkbox defaultChecked />Send me updates</Field.Label></Field.Root>
           <Field.Root><Field.Label><Switch />Rush delivery</Field.Label></Field.Root>
-          <Input disabled placeholder="Budget (set after review)" />
+          <TextInput disabled placeholder="Budget (set after review)" />
           <div className="row"><Button type="submit">Send request</Button><Button variant="tertiary">Cancel</Button></div>
         </Form>
       </Card>
@@ -137,7 +137,7 @@ function Contexts() {
           <Text>Body text with a <a href="#">link</a>.</Text>
           <Text variant="caption">Muted caption</Text>
           <div className="row"><Button>Primary</Button><Button variant="secondary">Secondary</Button><Button variant="tertiary">Tertiary</Button></div>
-          <Input placeholder="Field" />
+          <TextInput placeholder="Field" />
           <Card><Text>A card inside the section.</Text></Card>
         </section>
       ))}

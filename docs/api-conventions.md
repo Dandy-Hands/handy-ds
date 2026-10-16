@@ -17,9 +17,18 @@ Do not add:
 - **Driver or primitive access**: no prop may name a driver or a `hds/prim/*` value.
 - **Renamed Base UI props**: never wrap a Base UI prop under a second name.
 - **Axis values as booleans**: no `primary`, `isDanger`, `large`, `fullWidth`. Use the axis or measure prop (`variant="primary"`, `width="full"`). Fewer props are better.
-- **Content shortcut props**: no `label`, `description`, `startIcon`. Content goes in parts and `children`, as in Base UI (`<Field.Label>`, `<Button><Icon />Save</Button>`). Base UI parts already wire labels, descriptions, and errors for accessibility; a shortcut prop would be a second way to do the same thing.
+- **Shortcut props for a Base UI part**: no `label`, `description`, `error`, `title`. A Base UI part already holds this content and wires it for accessibility (`<Field.Label>`, `<Field.Description>`), so a prop would be a second way to do the same thing. Content goes in the part.
+- **Content-type props**: no `startIcon`, `endText`, `leadingImage`. A prop name never states what kind of content it holds. Use a slot prop (next rule).
 - **One-off client needs**: use `render`, `className`, or composition instead. A member needs at least two real uses across client work.
 - **Speculative members**: no prop "for later". Add it when the second use appears.
+
+A **slot prop** is allowed when all of these hold:
+
+- It places decorative or supporting content beside the main content, such as an icon, a unit, or a button inside a field frame.
+- No Base UI part exists for this content, and the component's `children` already hold something else.
+- The component needs to control the placement, spacing, or alignment of the content.
+
+A slot prop is named for its position with logical names, `start` and `end`, never `left` and `right`. It takes `ReactNode`. A component has at most `start` and `end`. Content that needs accessibility wiring is not a slot: use the Base UI part.
 
 ## 2. Member categories
 
@@ -28,7 +37,7 @@ Do not add:
 | Axis | Selects a role on a token category axis | `variant`, `tone`, `elevation` |
 | Measure | Selects a `measure/size` or `measure/space` step, or a keyword | `size`, `gap`, `padding`, `paddingInline`, `width` |
 | State | Holds component state, Base UI pattern | `open` / `defaultOpen` / `onOpenChange`, `disabled` |
-| Content | Places content | `children` only; named content is a part, not a prop |
+| Content | Places content | `children`, and the slot props `start` and `end`; other named content is a part, not a prop |
 | Event | Reports something that happened | `onValueChange`, `onOpenChange` |
 | Composition | Changes the rendered element or merges styling | `render`, `className`, `ref` — pass-through only |
 
@@ -43,7 +52,7 @@ A member belongs to exactly one category. If a member seems to fit two, split it
   - Exception: Action has no tone, so a destructive Button is `variant="danger"`, matching the Action token slot `color/action/danger/...`.
 - **Measure** props depend on the kind of component:
   - **Layout components and containers** (Stack, Grid, Container, Card, ...) take props close to individual CSS properties, in camelCase: `gap`, `padding`, `paddingInline`, `paddingBlock`, `width`, `height`. Use logical names (`inline`/`block`), not `x`/`y` or `left`/`right`.
-  - **Controls and graphics** (Button, Input, Icon, ...) take one `size` prop for their main dimension (control height, icon glyph box). Their padding, gaps, and type size follow from the `size` step in component CSS, not from separate props.
+  - **Controls and graphics** (Button, TextInput, Icon, ...) take one `size` prop for their main dimension (control height, icon glyph box). Their padding, gaps, and type size follow from the `size` step in component CSS, not from separate props.
 - **Boolean** props are a bare adjective or participle, no `is`/`has` prefix, as in HTML and Base UI: `disabled`, `required`, `inline`. A boolean must be a real two-state flag; anything with three or more states is an axis.
 - **State** props follow Base UI: `x` (controlled), `defaultX` (uncontrolled), `onXChange`.
 - **Event** props are `on` + subject + verb: `onValueChange`, `onOpenChange`. Not `onChange` for a non-input value.

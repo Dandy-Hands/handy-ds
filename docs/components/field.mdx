@@ -3,13 +3,13 @@ title: Field
 order: 10
 ---
 
-import { Field, Fieldset, Form, Input } from 'handy-ds';
+import { Field, Fieldset, Form } from 'handy-ds';
 
 # Field
 
 One labelled form value: label, control, description, and error, wired together
 for assistive tech. `Fieldset` groups related fields. `Form` validates and
-submits. Bare `Input` is a text input without a Field wrapper.
+submits. For a text input without a Field wrapper, use `TextInput`.
 
 <Field.Root>
   <Field.Label>Email</Field.Label>
@@ -20,14 +20,14 @@ submits. Bare `Input` is a text input without a Field wrapper.
 
 Use the full Field set for any labelled text entry: `Field.Root` wraps one
 value, and the label, description and error attach to the control
-automatically. Do not use bare `Input` when a visible label exists — use
+automatically. Do not use a bare `TextInput` when a visible label exists — use
 `Field.Control`, which renders the same input with the wiring included. Use
-bare `Input` only when the control has no visible label, and give it an
+a bare `TextInput` only when the control has no visible label, and give it an
 `aria-label`.
 
 ## Base UI API
 
-Wraps Base UI's `Field`, `Fieldset`, `Form`, and `Input`; every part passes
+Wraps Base UI's `Field`, `Fieldset`, and `Form`; every part passes
 through unchanged, styled via `part()`.
 
 | Element | Notes |
@@ -35,7 +35,6 @@ through unchanged, styled via `part()`.
 | `Field.Root/Label/Control/Description/Error/Item` | All exposed, namespace mirrored; each renders its own DOM. |
 | `Fieldset.Root/Legend` | Exposed, namespace mirrored. |
 | `Form` | Single `part()`; validation and submit behavior are Base UI's, untouched. |
-| Native input props on `Input` (`type`, `placeholder`, `required`, `aria-*`, ...) | Exposed — full passthrough. The HTML `size` attribute is omitted from the wrapper type so the axis prop owns the name. |
 | `Field.Root`'s `invalid` and Base UI's `data-invalid` | Consumed by CSS for the error state. |
 | Callback-form `className`/`style` | Available via passthrough, not documented. |
 
@@ -47,12 +46,6 @@ through unchanged, styled via `part()`.
 | ---- | ---- | ------- | ----------- |
 | `invalid` | `boolean` | — | Marks the field and its control, description and error with `data-invalid`. |
 | `children` | `ReactNode` | — | Label, control, description and error content. |
-
-### Input
-
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows and compact layouts. `md` — default. `lg` — large or hero forms. `Field.Control` takes the same axis as `data-size`. |
 
 ### Field.Error
 
@@ -70,21 +63,22 @@ through unchanged, styled via `part()`.
 
 ## Size
 
-The size axis on `Input` and `Field.Control`. It sets height, padding, radius,
-and border width from `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control`. `Field.Control` defaults to
-`md`; give it `data-size` to match a neighbouring `Input`.
+The size axis on `Field.Control`. It sets height, padding, radius, and border
+width from `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control`. `Field.Control` defaults to
+`1000`. Give it `data-size` to match a neighbouring control. `TextInput` has
+its own page, `text-input`, with the same axis as the `size` prop.
 
-### size="sm"
+### data-size="800"
 
-<Input size="sm" placeholder="Compact input" />
+<Field.Control data-size="800" placeholder="Compact control" />
 
-### size="md"
+### data-size="1000"
 
-<Input placeholder="Default input" />
+<Field.Control placeholder="Default control" />
 
-### size="lg"
+### data-size="1200"
 
-<Input size="lg" placeholder="Large input" />
+<Field.Control data-size="1200" placeholder="Large control" />
 
 ## Invalid
 
@@ -138,12 +132,11 @@ scale with density.
 
 ## Owner notes
 
-- Base UI mapping: wraps `@base-ui/react/field`, `field/set`, `form`, and
-  `input`; namespaces are mirrored so the underlying docs apply part for part.
+- Base UI mapping: wraps `@base-ui/react/field`, `field/set`, and
+  `form`; namespaces are mirrored so the underlying docs apply part for part.
   Every part passes props through, `render` included.
-- Extension decisions: `size` on `Input` is the only wrapper prop;
-  `Field.Control` takes `data-size` instead so the part stays prop-free. No
-  extension props on `Field`, `Fieldset`, or `Form`.
+- Extension decisions: `Field.Control` takes `data-size` (`800`, `1000`, `1200`) so the part
+  stays prop-free. No extension props on `Field`, `Fieldset`, or `Form`.
 - Known constraints: layout gaps borrow Input/Field measure tokens because the
   spec has no layout-spacing tokens yet (gap 13, needs review). Error text
   contrast is checked in the default context only — forms inside colored

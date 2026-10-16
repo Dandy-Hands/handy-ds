@@ -49,7 +49,7 @@ Every Base UI prop (`value`, `min`, `max`, `step`, `onValueChange`, ...) is pass
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `data-size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Control size. `sm` — dense rows. `md` — default. `lg` — large or hero forms. |
+| `data-size` | `'800' \| '1000' \| '1200'` | `'1000'` | Control size. `800` — dense rows. `1000` — default. `1200` — large or hero forms. |
 | `children` | `ReactNode` | — | Group content: decrement button, value input, increment button. |
 
 `render` and standard attributes are passthrough on every part — they appear here only, never get their own section.
@@ -60,17 +60,17 @@ The group takes the Input/Field size axis as `data-size`. It sets height,
 padding, radius, and border width from `hds/sem/measure/space/*`, `hds/sem/measure/size/*`, `hds/sem/radius/control`, `hds/sem/border/control`. The default
 is `md`.
 
-### data-size="sm"
+### data-size="800"
 
 <NumberField.Root defaultValue={1}>
-  <NumberField.Group data-size="sm">
+  <NumberField.Group data-size="800">
     <NumberField.Decrement />
     <NumberField.Input />
     <NumberField.Increment />
   </NumberField.Group>
 </NumberField.Root>
 
-### data-size="md"
+### data-size="1000"
 
 <NumberField.Root defaultValue={1}>
   <NumberField.Group>
@@ -80,10 +80,10 @@ is `md`.
   </NumberField.Group>
 </NumberField.Root>
 
-### data-size="lg"
+### data-size="1200"
 
 <NumberField.Root defaultValue={1}>
-  <NumberField.Group data-size="lg">
+  <NumberField.Group data-size="1200">
     <NumberField.Decrement />
     <NumberField.Input />
     <NumberField.Increment />

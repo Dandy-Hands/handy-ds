@@ -8,7 +8,8 @@ export { Tabs } from './components/Tabs.tsx';
 export { Menu, ContextMenu, Menubar } from './components/Menu.tsx';
 export { NavigationMenu } from './components/NavigationMenu.tsx';
 // Input/Field
-export { Input, Field, Fieldset, Form, type InputProps, type Size } from './components/Field.tsx';
+export { Field, Fieldset, Form } from './components/Field.tsx';
+export { TextInput, type TextInputProps, type TextInputSize } from './components/TextInput.tsx';
 export { Checkbox } from './components/Checkbox.tsx';
 export type { CheckboxProps, CheckboxGroupProps, CheckboxSize, CheckboxGroupOrientation } from './components/Checkbox.tsx';
 export { Radio } from './components/Radio.tsx';

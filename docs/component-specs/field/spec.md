@@ -8,25 +8,24 @@
 
 ## Description
 
-Field is one labelled form value: label, control, description, and error, wired to each other so assistive tech announces them together. `Fieldset` groups related fields; `Form` validates and submits. Bare `Input` is a text input without a Field wrapper, for the rare control with no visible label. The family is the Field category's text-control reference: every text-entry surface (including Select and Combobox triggers) reuses its look through `control.css`.
+Field is one labelled form value: label, control, description, and error, wired to each other so assistive tech announces them together. `Fieldset` groups related fields; `Form` validates and submits. A bare `TextInput` is a text input without a Field wrapper, for the rare control with no visible label. The family is the Field category's text-control reference: every text-entry surface (including Select and Combobox triggers) reuses its look through `control.css`.
 
 ## Usage
 
 - Do use the full `Field` set (`Field.Root`, `Field.Label`, `Field.Control`, `Field.Description`, `Field.Error`) for any labelled text entry.
-- Don't reach for bare `Input` unless the control has no visible label; when you do, give it an `aria-label`.
+- Don't reach for a bare `TextInput` unless the control has no visible label; when you do, give it an `aria-label`.
 - Don't set `className` to restyle controls — sizes come from `data-size`, colors from the theme.
 - Put forms inside colored sections in a `data-context="default"` container so `Field.Error` text keeps contrast.
 
 ## Base UI API
 
-Wrapped components: `Field` from `@base-ui/react/field`, `Fieldset` from `@base-ui/react/fieldset`, `Form` from `@base-ui/react/form`, `Input` from `@base-ui/react/input`. Surface decisions:
+Wrapped components: `Field` from `@base-ui/react/field`, `Fieldset` from `@base-ui/react/fieldset`, `Form` from `@base-ui/react/form`. Surface decisions:
 
 | Base UI surface | Decision |
 | --- | --- |
 | `Field.Root/Label/Control/Description/Error/Item` | All exposed, namespace mirrored; each renders its own DOM and gets a class via `part()`. |
 | `Fieldset.Root/Legend` | Exposed, namespace mirrored. |
 | `Form` | Exposed as a single `part()` (`hds-form`); validation and submit behavior are Base UI's, untouched. |
-| Native input props on `Input` (`type`, `placeholder`, `required`, `aria-*`, ...) | Exposed — full passthrough. `size` the HTML attribute is omitted from the wrapper type so the axis prop can own the name. |
 | `render` on every part | Exposed — passthrough via `part()`. |
 | `Field.Root` `invalid` prop and Base UI's `data-invalid` attributes | Consumed by CSS for the error state. |
 | Callback-form `className` / `style` | Available via passthrough, not documented. |
@@ -35,7 +34,7 @@ Wrapped components: `Field` from `@base-ui/react/field`, `Fieldset` from `@base-
 
 | Component | Prop | Type | Default | Decision |
 | --- | --- | --- | --- | --- |
-| `Input` | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Existing axis. Sets `data-size`; the same axis exists on `Field.Control` as `data-size` (default `md`). |
+| `Field.Control` | `data-size` | `'800' \| '1000' \| '1200'` | `'1000'` | Existing axis, now measure steps (2026-10-15). `TextInput` has the same axis as the `size` prop. |
 | `Field`, `Fieldset`, `Form` | — | — | — | No extension props. |
 
 `Field.Control` takes `data-size` directly instead of a prop because it is a Base UI part, and `part()` defaults keep the pattern prop-free.

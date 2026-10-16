@@ -108,3 +108,11 @@ Judgment calls made while building the phased plan (waves 2–6), with the reaso
 - **Why:** one level of control is simpler to learn, to document, and to build a driver interface for. A mapping change made for one client helps no other client; a new driver helps all of them.
 - **What replaces it:** more detailed drivers. Color drivers generate the palette, and pick drivers choose the exact palette color for each use (e.g. primary action background), instead of the Theme Map pre-selecting a hue and shade. This also answers the Wave 3 "light brand color" review note: the client picks their exact color for buttons with a driver, not a mapping.
 - **Spec done (2026-10-07):** `token-system-spec.md` section 3 lists the drivers, including the pick drivers. `src/tokens/` implements them; `themeMap.ts` and the `mapping` config are removed (2026-10-07).
+
+## Slot props allowed (API conventions)
+
+- **The "no content shortcut props" rule is narrowed (2026-10-15).** It now bans two things: props that duplicate a Base UI part (`label`, `description`, `error`, `title`), and props named for the content type (`startIcon`, `endText`). `docs/api-conventions.md` section 1.
+- **Why:** the old rule existed so a prop would not copy a Base UI part that wires accessibility. An icon or a unit beside an input has no such part, and `Input` has no `children` to hold it. The old rule forced a custom part API with no accessibility gain.
+- **What replaces it:** slot props `start` and `end`, type `ReactNode`, allowed when no Base UI part exists, `children` are used for other content, and the component must control placement. Named by position, never by content type.
+- **First use:** `Input` (`start`, `end`). Found during the Input spec interview.
+- **Not affected:** `Icon`'s `label` prop stays a recorded exception. Existing components keep their parts. No component is changed by this decision.

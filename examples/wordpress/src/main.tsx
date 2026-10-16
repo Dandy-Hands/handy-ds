@@ -1,6 +1,6 @@
 import { StrictMode, useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Alert, Button, Card, Dialog, Input, NavigationMenu, Progress, Text } from 'handy-ds';
+import { Alert, Button, Card, Dialog, TextInput, NavigationMenu, Progress, Text } from 'handy-ds';
 import 'handy-ds/styles.css';
 import './theme.css';
 import './app.css';
@@ -87,7 +87,7 @@ function App() {
         <Text variant="display">News</Text>
         <Text>Posts from {new URL(SITE).host}, fetched live from the WordPress REST API.</Text>
         <form className="search" role="search" onSubmit={(e) => { e.preventDefault(); setPage(1); setQuery(search.trim()); }}>
-          <Input aria-label="Search posts" placeholder="Search posts" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <TextInput aria-label="Search posts" placeholder="Search posts" value={search} onChange={(e) => setSearch(e.target.value)} />
           <Button type="submit">Search</Button>
         </form>
       </section>
