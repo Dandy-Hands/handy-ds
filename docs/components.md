@@ -210,6 +210,23 @@ A single-line field for free text, with `start` and `end` slots.
 <TextInput aria-label="Weight" size="800" end="kg" />
 ```
 
+### PasswordInput
+
+A password field with a show/hide button.
+
+- **Use when:** the user enters or confirms a password.
+- **Don't use when:** the value is not a secret (use `TextInput`).
+
+| Prop | Values | Default |
+|---|---|---|
+| `size` | `800`, `1000`, `1200` | `1000` |
+| `start` | any node | none |
+| `autoComplete` | native; `new-password` for a new password | `current-password` |
+
+```tsx
+<PasswordInput aria-label="Password" start={<Icon>lock</Icon>} />
+```
+
 ### NumberField
 
 A number input with steppers.

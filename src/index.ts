@@ -10,6 +10,7 @@ export { NavigationMenu } from './components/NavigationMenu.tsx';
 // Input/Field
 export { Field, Fieldset, Form } from './components/Field.tsx';
 export { TextInput, type TextInputProps, type TextInputSize } from './components/TextInput.tsx';
+export { PasswordInput, type PasswordInputProps, type PasswordInputSize } from './components/PasswordInput.tsx';
 export { Checkbox } from './components/Checkbox.tsx';
 export type { CheckboxProps, CheckboxGroupProps, CheckboxSize, CheckboxGroupOrientation } from './components/Checkbox.tsx';
 export { Radio } from './components/Radio.tsx';

@@ -30,6 +30,8 @@ test('every component renders with its hds classes', () => {
   const cases: [string, ReturnType<typeof h>, RegExp[]][] = [
     ['TextInput', h(H.TextInput, { size: '800', placeholder: 'x', start: 's', end: 'e' }),
       [/<div[^>]*class="hds-control hds-text-input"[^>]*data-size="800"/, /hds-text-input__start/, /<input[^>]*type="text"[^>]*class="hds-control__input"/, /hds-text-input__end/]],
+    ['PasswordInput', h(H.PasswordInput, { size: '800', start: 's' }),
+      [/hds-control hds-text-input"[^>]*data-size="800"/, /<input[^>]*type="password"/, /autoComplete="current-password"|autocomplete="current-password"/, /aria-pressed="false"/, /aria-label="Show password"/, />visibility</]],
     ['Field', h(H.Field.Root, null, h(H.Field.Label, null, 'Name'), h(H.Field.Control), h(H.Field.Description, null, 'd')),
       [/hds-field"/, /hds-field__label/, /<input[^>]*hds-control/, /hds-field__description/]],
     ['Fieldset+Form', h(H.Form, null, h(H.Fieldset.Root, null, h(H.Fieldset.Legend, null, 'L'))), [/<form[^>]*hds-form/, /hds-fieldset__legend/]],

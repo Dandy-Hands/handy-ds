@@ -49,7 +49,7 @@ Running list of planned work. Add an item when the user asks for new work. Check
   - [x] `TextInput` (renamed from `Input`; plain text, no `type` prop, `start` and `end` slot props). Spec, code, Figma, and docs built 2026-10-15. `control.css` now uses size steps, so `Field.Control`, `NumberField.Group`, Select, Combobox, and `Toolbar.Input` changed with it.
   - [ ] `EmailInput` (validation on blur, typo hint).
   - [ ] `PhoneInput` (masking by country, raw digits as the value).
-  - [ ] `PasswordInput` (show/hide button).
+  - [x] `PasswordInput` (show/hide button). Spec, code, Figma, docs, and e2e built 2026-10-19. Added the internal `Input` base (`src/components/Input.tsx`) that `TextInput` and the typed inputs derive from.
   - [ ] `SearchInput` (clear button, `Escape` clears).
   - [ ] `UrlInput` (undecided: include now or wait for a client need).
 - [ ] Create a date and time component set (future, not part of the input work): `Calendar`, `DatePicker` (with `range`), later `TimeField`. Values are ISO strings (`"2026-10-15"`), range is `{ start, end }`. Needs a spec interview and maybe new semantic tokens (today, in-range, range start and end, outside month). Base UI has no calendar.

@@ -15,6 +15,7 @@ Every public component: name, purpose, when to use it, and its API page.
 | NavigationMenu | A site or section navigation bar | Primary navigation across pages or views | [navigation-menu.md](navigation-menu.md) |
 | Field | A labeled form value: label, control, description, error | Any labeled text input; use plain Input only when the label is invisible | [field.md](field.md) |
 | TextInput | A single-line field for free text | A name, a title, or a comment; typed fields (email, phone, password) are separate components | [text-input.md](text-input.md) |
+| PasswordInput | A single-line field for a password, with a show/hide button | The user enters or confirms a password | [password-input.md](password-input.md) |
 | NumberField | A number input with steppers | Quantities the user adjusts up or down | [number-field.md](number-field.md) |
 | Checkbox | A yes/no or multi-select choice (`Checkbox.Group` holds several) | Submitted with a form, or selecting many of a few options | [checkbox.md](checkbox.md) |
 | Radio | Pick one of 2–5 visible options (`Radio.Group` holds them) | The user must see all options and choose exactly one | [radio.md](radio.md) |
