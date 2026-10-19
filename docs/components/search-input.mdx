@@ -1,0 +1,110 @@
+---
+title: SearchInput
+order: 10.7
+---
+
+import { SearchInput, Field } from 'handy-ds';
+
+export const col = { display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '360px' };
+
+# SearchInput
+
+A single-line field for a search query. It has a search icon and a clear button. The
+clear button shows when the field has text. `Escape` clears the text.
+
+<div style={col}>
+  <SearchInput aria-label="Search" placeholder="Search" defaultValue="handy" />
+</div>
+
+## Usage
+
+Use SearchInput when the user types a query to find or filter items. Put it in a
+`<form role="search">` so `Enter` submits. With no form, read `Enter` with `onKeyDown`.
+Give it an `aria-label` when it has no visible label. Do not use it for free text that is
+not a query. Use TextInput instead. Do not show a loading state inside it. Show a spinner
+outside the field.
+
+## Base UI API
+
+Built on the shared input base, which wraps Base UI's `Input`. The base is internal.
+
+| Element | Notes |
+| ------- | ----- |
+| `value`, `defaultValue`, `onValueChange` | Exposed on the input. `onValueChange` also runs when the clear button or `Escape` clears the text. |
+| `onKeyDown` | Exposed. It runs before the `Escape` rule. `preventDefault()` stops the clear. |
+| Native input attributes (`name`, `placeholder`, `disabled`, `required`, `readOnly`, `maxLength`, `id`, `aria-*`) | Exposed on the input. |
+| `inputMode`, `enterKeyHint`, `autoComplete`, `autoCapitalize`, `spellCheck` | Exposed as native attributes. Defaults: `search`, `search`, `off`, `off`, `false`. |
+| `ref`, `render` | Exposed on the input. |
+| `className` | Exposed on the frame. |
+| `type`, `start`, `end`, `size` (the HTML attribute), `style` | Removed. The icon owns `start`. The clear button owns `end`. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `size` | `'800' \| '1000' \| '1200'` | `'1000'` | Height of the field. `800`: compact, for dense layouts and toolbars. `1000`: standard. `1200`: large, for touch layouts. |
+| `value` / `defaultValue` | `string` | `''` | The controlled / initial text. |
+| `onValueChange` | `(value: string, eventDetails) => void` | — | Called when the text changes, and when the clear button or `Escape` clears it. |
+| `placeholder` | `string` | — | Hint text shown when the field is empty. |
+| `disabled` | `boolean` | `false` | Makes the field visible but inert. The clear button is hidden. |
+| `readOnly` | `boolean` | `false` | Shows the text but blocks changes. The clear button is hidden. |
+| `name` | `string` | — | Identifies the field on form submission. |
+| `className` | `string` | — | Class for the outer frame. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered input element. |
+
+Event handlers, form props, and `render` appear here only. They have no section below.
+
+## Size
+
+The size axis. Each step is a `measure/size` token and sets the height.
+
+<div style={col}>
+  <SearchInput size="800" aria-label="Size 800" placeholder="800" />
+  <SearchInput size="1000" aria-label="Size 1000" placeholder="1000" />
+  <SearchInput size="1200" aria-label="Size 1200" placeholder="1200" />
+</div>
+
+## Clear
+
+The clear button shows only when the field has text. When the field is empty, the end
+of the field is empty and the field does not shift. A press on the button clears the
+text and keeps focus in the input. `Escape` does the same. The first `Escape` clears.
+When the field is empty, `Escape` passes up, so a dialog can close.
+
+<div style={col}>
+  <SearchInput aria-label="Search with text" defaultValue="design tokens" />
+  <SearchInput aria-label="Empty search" placeholder="Empty: no clear button" />
+</div>
+
+## States
+
+`disabled` and `readOnly` hide the clear button.
+
+<div style={col}>
+  <SearchInput aria-label="Disabled" defaultValue="disabled" disabled />
+  <SearchInput aria-label="Read only" defaultValue="read only" readOnly />
+</div>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Frame and input | The same tokens as TextInput |
+| Search icon and clear button color | `hds/sem/color/content/muted/fg`, disabled `hds/sem/color/field/disabled/fg` |
+| Clear button hover | `hds/sem/color/action/tertiary/hover/{bg,fg}` |
+| Clear button shape | `hds/sem/radius/control` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+
+## Owner notes
+
+- Base UI mapping: built on the shared input base, which wraps `@base-ui/react/input` 1.8.0.
+- Extension decisions: no new props. The icon owns `start` and the clear button owns
+  `end`. There is no `onSearch` prop: use a form, or `onKeyDown`. There is no loading state.
+  The label `Clear search` is a fixed English string. A label prop can be added when a
+  client needs another language.
+- Known constraints: the icons need the Material Symbols font, and the client loads it.
+  The component hides the browser's own clear button. A press on the clear button runs
+  `onValueChange` through a native input event.
+- Accessibility: the clear button is a native button in the tab order with a label. A
+  pointer press keeps focus in the input. `Escape` clears, then passes up when empty.
+  Pair the field with `role="search"` on the form.

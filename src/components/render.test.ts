@@ -32,6 +32,8 @@ test('every component renders with its hds classes', () => {
       [/<div[^>]*class="hds-control hds-text-input"[^>]*data-size="800"/, /hds-text-input__start/, /<input[^>]*type="text"[^>]*class="hds-control__input"/, /hds-text-input__end/]],
     ['PasswordInput', h(H.PasswordInput, { size: '800', start: 's' }),
       [/hds-control hds-text-input"[^>]*data-size="800"/, /<input[^>]*type="password"/, /autoComplete="current-password"|autocomplete="current-password"/, /aria-pressed="false"/, /aria-label="Show password"/, />visibility</]],
+    ['SearchInput', h(H.SearchInput, { size: '800', defaultValue: 'q' }),
+      [/hds-control hds-text-input hds-search-input"[^>]*data-size="800"/, /<input[^>]*type="search"/, /inputMode="search"|inputmode="search"/, />search</, /aria-label="Clear search"/, />close</]],
     ['Field', h(H.Field.Root, null, h(H.Field.Label, null, 'Name'), h(H.Field.Control), h(H.Field.Description, null, 'd')),
       [/hds-field"/, /hds-field__label/, /<input[^>]*hds-control/, /hds-field__description/]],
     ['Fieldset+Form', h(H.Form, null, h(H.Fieldset.Root, null, h(H.Fieldset.Legend, null, 'L'))), [/<form[^>]*hds-form/, /hds-fieldset__legend/]],

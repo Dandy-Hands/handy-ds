@@ -227,6 +227,23 @@ A password field with a show/hide button.
 <PasswordInput aria-label="Password" start={<Icon>lock</Icon>} />
 ```
 
+### SearchInput
+
+A search field with a search icon and a clear button.
+
+- **Use when:** the user types a query to find or filter items.
+- **Don't use when:** the value is free text that is not a query (use `TextInput`).
+
+| Prop | Values | Default |
+|---|---|---|
+| `size` | `800`, `1000`, `1200` | `1000` |
+
+Put it in a `<form role="search">` so `Enter` submits. `Escape` clears the text.
+
+```tsx
+<SearchInput aria-label="Search posts" onValueChange={setQuery} />
+```
+
 ### NumberField
 
 A number input with steppers.

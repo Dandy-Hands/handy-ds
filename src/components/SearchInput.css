@@ -1,0 +1,15 @@
+/* SearchInput: the clear button inside the frame. Frame look and states come from control.css. */
+@layer hds.components {
+  .hds-search-input__clear {
+    inline-size: 1.5em;
+    block-size: 1.5em;
+  }
+
+  /* The component draws its own clear button, so hide the browser's. */
+  .hds-search-input input::-webkit-search-cancel-button,
+  .hds-search-input input::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+  }
+}
