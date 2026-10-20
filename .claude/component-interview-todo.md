@@ -40,8 +40,10 @@ planned, no Base UI primitive.
 - [x] email-input `[new]`
 - [x] phone-input `[new]`
 - [ ] url-input `[new]` (undecided: include now or wait for a client need)
+- [ ] textarea `[lib]` (multi-line text; same frame as text-input; Base UI has no textarea)
 - [ ] number-field `[re]`
 - [ ] otp-field `[new]`
+- [ ] time-field `[plan]` (future; a segmented time input; values are ISO times)
 
 ## Tier 3 — Form containers
 
@@ -80,6 +82,8 @@ planned, no Base UI primitive.
 - [ ] autocomplete `[new]`
 - [ ] checkbox-group `[new]`
 - [ ] radio-group `[new]`
+- [ ] calendar `[plan]` (future; a date grid; needs new semantic tokens: today, in-range, range start and end, outside month; Base UI has no calendar)
+- [ ] date-picker `[plan]` (future; input plus popover plus calendar, with `range`; after calendar and popover)
 - [ ] carousel `[plan]`
 
 ## Not in scope
