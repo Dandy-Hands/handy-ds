@@ -34,7 +34,12 @@ planned, no Base UI primitive.
 - [x] radio `[re]`
 - [x] switch `[re]`
 - [x] slider `[new]`
-- [ ] input `[new]`
+- [x] text-input `[new]` (was `input`; folder `docs/component-specs/input/`)
+- [x] password-input `[new]`
+- [x] search-input `[new]`
+- [x] email-input `[new]`
+- [ ] phone-input `[new]`
+- [ ] url-input `[new]` (undecided: include now or wait for a client need)
 - [ ] number-field `[re]`
 - [ ] otp-field `[new]`
 
