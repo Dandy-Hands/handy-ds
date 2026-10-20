@@ -18,6 +18,7 @@ Every public component: name, purpose, when to use it, and its API page.
 | PasswordInput | A single-line field for a password, with a show/hide button | The user enters or confirms a password | [password-input.md](password-input.md) |
 | SearchInput | A single-line field for a search query, with a clear button | The user types a query to find or filter items | [search-input.md](search-input.md) |
 | EmailInput | A single-line field for one email address, with a mail icon | The user enters an email address | [email-input.md](email-input.md) |
+| PhoneInput | A single-line field for a phone number, with a mask | The user enters a phone number | [phone-input.md](phone-input.md) |
 | NumberField | A number input with steppers | Quantities the user adjusts up or down | [number-field.md](number-field.md) |
 | Checkbox | A yes/no or multi-select choice (`Checkbox.Group` holds several) | Submitted with a form, or selecting many of a few options | [checkbox.md](checkbox.md) |
 | Radio | Pick one of 2–5 visible options (`Radio.Group` holds them) | The user must see all options and choose exactly one | [radio.md](radio.md) |

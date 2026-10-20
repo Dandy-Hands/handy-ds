@@ -1,0 +1,127 @@
+---
+title: PhoneInput
+order: 10.9
+---
+
+import { PhoneInput, Field, Icon } from 'handy-ds';
+
+export const col = { display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '360px' };
+
+# PhoneInput
+
+A single-line field for one phone number. It shows a phone icon, asks the mobile keyboard
+for the phone keypad, and masks the text as `(202) 555-0123`. The value is digits only,
+for example `2025550123`. The `country` prop sets the mask. v1 ships `US`.
+
+<div style={col}>
+  <Field.Root>
+    <Field.Label>Phone</Field.Label>
+    <PhoneInput />
+    <Field.Error match="patternMismatch">Enter a 10-digit phone number.</Field.Error>
+  </Field.Root>
+</div>
+
+## Usage
+
+Use PhoneInput when the user enters one phone number. Wrap it in a `Field` when it has a
+visible label. For a bare PhoneInput, give it an `aria-label`. `onValueChange` receives
+digits. Build an international number in your own code from the country code and the
+digits. Inside a `Field`, the check runs on blur. Show a failed check with
+`<Field.Error match="patternMismatch">`. Do not use it for a number from a country it does
+not ship. Do not use it for a value that is not a phone number. Use TextInput instead.
+
+## Base UI API
+
+Built on the shared input base, which wraps Base UI's `Input`. The base is internal.
+
+| Element | Notes |
+| ------- | ----- |
+| `value`, `defaultValue` | Exposed. They hold digits. The component masks them for display. |
+| `onValueChange` | Exposed. The first argument is digits. It runs only when the digits change. |
+| Native input attributes (`placeholder`, `disabled`, `required`, `readOnly`, `id`, `aria-*`) | Exposed on the input. |
+| `inputMode`, `autoComplete`, `spellCheck`, `pattern` | Exposed as native attributes. Defaults: `tel`, `tel-national`, `false`, the country pattern. |
+| `name` | Exposed on a hidden input that holds the digits. The form posts digits, not the masked text. |
+| `ref`, `render` | Exposed on the visible input. |
+| `className` | Exposed on the frame. |
+| `type`, `start`, `multiple`, `size` (the HTML attribute), `style` | Removed. The type is always `tel`. The phone icon owns `start`. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `country` | `'US'` | `'US'` | Sets the mask, the digit count, and the default `pattern`. |
+| `size` | `'800' \| '1000' \| '1200'` | `'1000'` | Height of the field. `800`: compact, for dense layouts. `1000`: standard. `1200`: large, for touch layouts. |
+| `end` | `ReactNode` | — | Content after the text, such as a badge or a button. |
+| `value` / `defaultValue` | `string` | `''` | The controlled / initial digits. |
+| `onValueChange` | `(digits: string, eventDetails) => void` | — | Called when the digits change. |
+| `pattern` | `string` | the country's pattern | The check for a complete number, applied to the shown text. |
+| `autoComplete` | `string` | `'tel-national'` | Tells the browser which value to offer. |
+| `placeholder` | `string` | the country's format, `(555) 555-5555` for `US` | Hint text shown when the field is empty. |
+| `disabled` | `boolean` | `false` | Makes the field visible but inert. |
+| `readOnly` | `boolean` | `false` | Shows the text but blocks changes. |
+| `required` | `boolean` | `false` | The field must have text before the form submits. |
+| `name` | `string` | — | Identifies the field on form submission. |
+| `className` | `string` | — | Class for the outer frame. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered input element. |
+
+Event handlers, form props, and `render` appear here only. They have no section below.
+
+## Size
+
+The size axis. Each step is a `measure/size` token and sets the height.
+
+<div style={col}>
+  <PhoneInput size="800" aria-label="Size 800" />
+  <PhoneInput size="1000" aria-label="Size 1000" />
+  <PhoneInput size="1200" aria-label="Size 1200" />
+</div>
+
+## Mask
+
+Type digits, or paste a number with any punctuation. The mask strips the symbols and stops
+at 10 digits. A paste of `+1 202-555-0123` gives `(202) 555-0123`. The mask adds no
+trailing punctuation, so Backspace never stops on a symbol.
+
+<div style={col}>
+  <PhoneInput aria-label="Masked phone" defaultValue="2025550123" />
+</div>
+
+## Validation
+
+The default `pattern` needs a complete number. An incomplete number reports
+`patternMismatch`. An empty field is valid. Add `required` to report `valueMissing`. Pass
+`pattern` to change the check.
+
+## End
+
+`end` takes any node, such as a badge or a button.
+
+<div style={col}>
+  <PhoneInput aria-label="Phone with badge" end={<Icon>check_circle</Icon>} defaultValue="2025550123" />
+</div>
+
+## Disabled
+
+<div style={col}>
+  <PhoneInput aria-label="Disabled" placeholder="Disabled" disabled />
+</div>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Frame, input, and slots | The same tokens as TextInput |
+| Phone icon color | `hds/sem/color/content/muted/fg`, disabled `hds/sem/color/field/disabled/fg` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+
+## Owner notes
+
+- Base UI mapping: built on the shared input base, which wraps `@base-ui/react/input` 1.8.0.
+- Extension decisions: one new prop, `country`. The placeholder defaults to the format of the country, so it shows the mask. A `placeholder` from the caller overrides it. v1 ships `US`. One small hand-written mask
+  per country, no library. A country picker and more countries wait for a client need.
+  The value is digits only. The caller builds an international number.
+- Known constraints: the phone icon needs the Material Symbols font, and the client loads
+  it. `name` goes to a hidden input, so a server error keyed by `name` does not reach the
+  visible input.
+- Accessibility: the icon is decorative. In `Field.Root`, the label, description, and
+  error are wired to the input.

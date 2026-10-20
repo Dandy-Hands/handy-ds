@@ -263,6 +263,26 @@ Show a failed check with `<Field.Error match="patternMismatch">`.
 <EmailInput aria-label="Email" required />
 ```
 
+### PhoneInput
+
+A phone field with a phone icon, a phone keypad, and a mask. The value is digits only.
+
+- **Use when:** the user enters a phone number.
+- **Don't use when:** the value is not a phone number (use `TextInput`).
+
+| Prop | Values | Default |
+|---|---|---|
+| `size` | `800`, `1000`, `1200` | `1000` |
+| `country` | `US` | `US` |
+| `end` | any node | none |
+| `pattern` | native; override the check for a complete number | the country's pattern |
+
+`onValueChange` receives digits, such as `2025550123`. Show a failed check with `<Field.Error match="patternMismatch">`.
+
+```tsx
+<PhoneInput aria-label="Phone" onValueChange={setPhone} />
+```
+
 ### NumberField
 
 A number input with steppers.

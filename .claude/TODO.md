@@ -48,7 +48,7 @@ Running list of planned work. Add an item when the user asks for new work. Check
 - [ ] Text and number inputs (scope set 2026-10-15): split components by the value type they hold. Select-type controls are out of scope for now. Revised 2026-10-15: each string type is its own component that wraps the Base UI `Input`. Interview guide: `docs/component-specs/input/interview-guide-2026-10-15.md`.
   - [x] `TextInput` (renamed from `Input`; plain text, no `type` prop, `start` and `end` slot props). Spec, code, Figma, and docs built 2026-10-15. `control.css` now uses size steps, so `Field.Control`, `NumberField.Group`, Select, Combobox, and `Toolbar.Input` changed with it.
   - [x] `EmailInput` (mail icon, email keyboard, dot-in-domain `pattern`; no typo hint in v1). Spec, code, Figma, and docs built 2026-10-19.
-  - [ ] `PhoneInput` (masking by country, raw digits as the value).
+  - [x] `PhoneInput` (phone icon, `country` mask, raw digits as the value; `US` only in v1). Spec, code, Figma, docs, and e2e built 2026-10-19.
   - [x] `PasswordInput` (show/hide button). Spec, code, Figma, docs, and e2e built 2026-10-19. Added the internal `Input` base (`src/components/Input.tsx`) that `TextInput` and the typed inputs derive from.
   - [x] `SearchInput` (clear button, `Escape` clears). Spec, code, Figma, docs, and e2e built 2026-10-19.
   - [ ] `UrlInput` (undecided: include now or wait for a client need).

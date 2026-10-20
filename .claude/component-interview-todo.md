@@ -38,7 +38,7 @@ planned, no Base UI primitive.
 - [x] password-input `[new]`
 - [x] search-input `[new]`
 - [x] email-input `[new]`
-- [ ] phone-input `[new]`
+- [x] phone-input `[new]`
 - [ ] url-input `[new]` (undecided: include now or wait for a client need)
 - [ ] number-field `[re]`
 - [ ] otp-field `[new]`
