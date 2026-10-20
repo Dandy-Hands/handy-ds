@@ -244,6 +244,25 @@ Put it in a `<form role="search">` so `Enter` submits. `Escape` clears the text.
 <SearchInput aria-label="Search posts" onValueChange={setQuery} />
 ```
 
+### EmailInput
+
+An email field with a mail icon, an email keyboard, and a check for a dot in the domain.
+
+- **Use when:** the user enters one email address.
+- **Don't use when:** the value is not an email (use `TextInput`) or is a list of addresses.
+
+| Prop | Values | Default |
+|---|---|---|
+| `size` | `800`, `1000`, `1200` | `1000` |
+| `end` | any node | none |
+| `pattern` | native; override for `user@intranet` | needs a dot in the domain |
+
+Show a failed check with `<Field.Error match="patternMismatch">`.
+
+```tsx
+<EmailInput aria-label="Email" required />
+```
+
 ### NumberField
 
 A number input with steppers.

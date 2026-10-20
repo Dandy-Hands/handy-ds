@@ -1,0 +1,121 @@
+---
+title: EmailInput
+order: 10.8
+---
+
+import { EmailInput, Field, Icon } from 'handy-ds';
+
+export const col = { display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '360px' };
+
+# EmailInput
+
+A single-line field for one email address. It shows a mail icon, asks the mobile keyboard
+for `@` and `.`, and lets the browser offer saved addresses. It requires a dot in the
+domain, so `name@gmail` fails.
+
+<div style={col}>
+  <Field.Root>
+    <Field.Label>Email</Field.Label>
+    <EmailInput placeholder="name@example.com" />
+    <Field.Error match="patternMismatch">Enter an address like name@example.com.</Field.Error>
+  </Field.Root>
+</div>
+
+## Usage
+
+Use EmailInput when the user enters one email address. Wrap it in a `Field` when it has a
+visible label. For a bare EmailInput, give it an `aria-label`. Inside a `Field`, the check
+runs on blur. Show a failed check with `<Field.Error match="patternMismatch">`. Do not use
+it for a list of addresses. Do not use it for a value that is not an email. Use TextInput
+instead.
+
+## Base UI API
+
+Built on the shared input base, which wraps Base UI's `Input`. The base is internal.
+
+| Element | Notes |
+| ------- | ----- |
+| `value`, `defaultValue`, `onValueChange` | Exposed on the input. The browser trims spaces at both ends. |
+| Native input attributes (`name`, `placeholder`, `disabled`, `required`, `readOnly`, `maxLength`, `id`, `aria-*`) | Exposed on the input. |
+| `inputMode`, `autoComplete`, `autoCapitalize`, `spellCheck`, `pattern` | Exposed as native attributes. Defaults: `email`, `email`, `off`, `false`, a dot-in-domain pattern. |
+| `ref`, `render` | Exposed on the input. |
+| `className` | Exposed on the frame. |
+| `type`, `start`, `multiple`, `size` (the HTML attribute), `style` | Removed. The type is always `email`. The mail icon owns `start`. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `size` | `'800' \| '1000' \| '1200'` | `'1000'` | Height of the field. `800`: compact, for dense layouts. `1000`: standard. `1200`: large, for touch layouts. |
+| `end` | `ReactNode` | — | Content after the text, such as a badge or a button. |
+| `value` / `defaultValue` | `string` | `''` | The controlled / initial text. |
+| `onValueChange` | `(value: string, eventDetails) => void` | — | Called when the text changes. |
+| `pattern` | `string` | `'[^@\s]+@[^@\s]+\.[^@\s]+'` | The check for a valid address. The default needs a dot in the domain. |
+| `autoComplete` | `string` | `'email'` | Tells the browser which value to offer. |
+| `placeholder` | `string` | — | Hint text shown when the field is empty. |
+| `disabled` | `boolean` | `false` | Makes the field visible but inert. |
+| `readOnly` | `boolean` | `false` | Shows the text but blocks changes. |
+| `required` | `boolean` | `false` | The field must have text before the form submits. |
+| `name` | `string` | — | Identifies the field on form submission. |
+| `className` | `string` | — | Class for the outer frame. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered input element. |
+
+Event handlers, form props, and `render` appear here only. They have no section below.
+
+## Size
+
+The size axis. Each step is a `measure/size` token and sets the height.
+
+<div style={col}>
+  <EmailInput size="800" aria-label="Size 800" placeholder="800" />
+  <EmailInput size="1000" aria-label="Size 1000" placeholder="1000" />
+  <EmailInput size="1200" aria-label="Size 1200" placeholder="1200" />
+</div>
+
+## Validation
+
+The default `pattern` needs a dot in the domain, so `a@b` fails. The native
+`type="email"` check alone accepts it. Pass `pattern` to allow an address such as
+`user@intranet`. A failed pattern reports `patternMismatch`. A value that is not an email
+reports `typeMismatch`.
+
+<div style={col}>
+  <Field.Root>
+    <Field.Label>Intranet email</Field.Label>
+    <EmailInput pattern=".+@.+" defaultValue="user@intranet" />
+  </Field.Root>
+</div>
+
+## End
+
+`end` takes any node, such as a badge or a button.
+
+<div style={col}>
+  <EmailInput aria-label="Email with badge" end={<Icon>check_circle</Icon>} defaultValue="name@example.com" />
+</div>
+
+## Disabled
+
+<div style={col}>
+  <EmailInput aria-label="Disabled" placeholder="Disabled" disabled />
+</div>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Frame, input, and slots | The same tokens as TextInput |
+| Mail icon color | `hds/sem/color/content/muted/fg`, disabled `hds/sem/color/field/disabled/fg` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+
+## Owner notes
+
+- Base UI mapping: built on the shared input base, which wraps `@base-ui/react/input` 1.8.0.
+- Extension decisions: no new props. The component sets `type="email"`, a dot-in-domain
+  `pattern`, and mobile and autofill defaults. A native attribute from the caller
+  overrides each default except `type`.
+- Known constraints: the mail icon needs the Material Symbols font, and the client loads
+  it. There is no typo hint. Read the value with `onValueChange` and show the result in
+  `Field.Description`. The default `pattern` rejects an address without a dot.
+- Accessibility: the icon is decorative. In `Field.Root`, the label, description, and
+  error are wired to the input.
