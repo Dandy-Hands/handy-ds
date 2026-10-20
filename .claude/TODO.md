@@ -51,7 +51,7 @@ Running list of planned work. Add an item when the user asks for new work. Check
   - [x] `PhoneInput` (phone icon, `country` mask, raw digits as the value; `US` only in v1). Spec, code, Figma, docs, and e2e built 2026-10-19.
   - [x] `PasswordInput` (show/hide button). Spec, code, Figma, docs, and e2e built 2026-10-19. Added the internal `Input` base (`src/components/Input.tsx`) that `TextInput` and the typed inputs derive from.
   - [x] `SearchInput` (clear button, `Escape` clears). Spec, code, Figma, docs, and e2e built 2026-10-19.
-  - [ ] `UrlInput` (undecided: include now or wait for a client need).
+  - [x] `UrlInput` (include now; `http` and `https` only; adds `https://` on blur). Spec, code, Figma, docs, and e2e built 2026-10-19. The user reviewed the decisions.
 - [ ] Create a date and time component set (future, not part of the input work): `Calendar`, `DatePicker` (with `range`), later `TimeField`. Values are ISO strings (`"2026-10-15"`), range is `{ start, end }`. Needs a spec interview and maybe new semantic tokens (today, in-range, range start and end, outside month). Base UI has no calendar.
 - [ ] Create a Carousel component.
 - [ ] Create a Section component.

@@ -14,6 +14,7 @@ export { PasswordInput, type PasswordInputProps, type PasswordInputSize } from '
 export { SearchInput, type SearchInputProps, type SearchInputSize } from './components/SearchInput.tsx';
 export { EmailInput, type EmailInputProps, type EmailInputSize } from './components/EmailInput.tsx';
 export { PhoneInput, type PhoneInputProps, type PhoneInputSize, type PhoneInputCountry } from './components/PhoneInput.tsx';
+export { UrlInput, type UrlInputProps, type UrlInputSize } from './components/UrlInput.tsx';
 export { Checkbox } from './components/Checkbox.tsx';
 export type { CheckboxProps, CheckboxGroupProps, CheckboxSize, CheckboxGroupOrientation } from './components/Checkbox.tsx';
 export { Radio } from './components/Radio.tsx';

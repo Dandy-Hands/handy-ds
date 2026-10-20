@@ -283,6 +283,25 @@ A phone field with a phone icon, a phone keypad, and a mask. The value is digits
 <PhoneInput aria-label="Phone" onValueChange={setPhone} />
 ```
 
+### UrlInput
+
+A URL field with a link icon and a URL keyboard. On blur it adds `https://` when the text has no scheme.
+
+- **Use when:** the user enters one web address.
+- **Don't use when:** the value is not a web address (use `TextInput`).
+
+| Prop | Values | Default |
+|---|---|---|
+| `size` | `800`, `1000`, `1200` | `1000` |
+| `end` | any node | none |
+| `pattern` | native; override to allow other schemes | `http` and `https` only |
+
+Show a failed check with `<Field.Error match="patternMismatch">`.
+
+```tsx
+<UrlInput aria-label="Website" />
+```
+
 ### NumberField
 
 A number input with steppers.

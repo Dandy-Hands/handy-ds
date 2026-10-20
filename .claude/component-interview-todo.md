@@ -39,7 +39,7 @@ planned, no Base UI primitive.
 - [x] search-input `[new]`
 - [x] email-input `[new]`
 - [x] phone-input `[new]`
-- [ ] url-input `[new]` (undecided: include now or wait for a client need)
+- [x] url-input `[new]` (included 2026-10-19; Claude's calls, reviewed by the user)
 - [ ] textarea `[lib]` (multi-line text; same frame as text-input; Base UI has no textarea)
 - [ ] number-field `[re]`
 - [ ] otp-field `[new]`

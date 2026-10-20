@@ -1,0 +1,124 @@
+---
+title: UrlInput
+order: 10.95
+---
+
+import { UrlInput, Field, Icon } from 'handy-ds';
+
+export const col = { display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '360px' };
+
+# UrlInput
+
+A single-line field for one web address. It shows a link icon and asks the mobile keyboard
+for `/` and `.com`. When the user leaves the field, it adds `https://` if the text has no
+scheme. It accepts `http` and `https` only.
+
+<div style={col}>
+  <Field.Root>
+    <Field.Label>Website</Field.Label>
+    <UrlInput placeholder="example.com" />
+    <Field.Error match="patternMismatch">Enter a web address like example.com.</Field.Error>
+  </Field.Root>
+</div>
+
+## Usage
+
+Use UrlInput when the user enters one web address. Wrap it in a `Field` when it has a
+visible label. For a bare UrlInput, give it an `aria-label`. Inside a `Field`, the check
+runs on blur. Show a failed check with `<Field.Error match="patternMismatch">`. Do not use
+it for a list of addresses. Do not use it for a value that is not a web address. Use
+TextInput instead.
+
+## Base UI API
+
+Built on the shared input base, which wraps Base UI's `Input`. The base is internal.
+
+| Element | Notes |
+| ------- | ----- |
+| `value`, `defaultValue`, `onValueChange` | Exposed on the input. The browser trims spaces at both ends. After a blur that adds a scheme, `onValueChange` receives the new value. |
+| Native input attributes (`name`, `placeholder`, `disabled`, `required`, `readOnly`, `maxLength`, `id`, `aria-*`) | Exposed on the input. |
+| `inputMode`, `autoComplete`, `autoCapitalize`, `spellCheck`, `pattern` | Exposed as native attributes. Defaults: `url`, `url`, `off`, `false`, `https?://\S+`. |
+| `onBlur` | Exposed. It runs before the component adds a scheme. |
+| `ref`, `render` | Exposed on the input. |
+| `className` | Exposed on the frame. |
+| `type`, `start`, `multiple`, `size` (the HTML attribute), `style` | Removed. The type is always `url`. The link icon owns `start`. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `size` | `'800' \| '1000' \| '1200'` | `'1000'` | Height of the field. `800`: compact, for dense layouts. `1000`: standard. `1200`: large, for touch layouts. |
+| `end` | `ReactNode` | — | Content after the text, such as a badge or a button. |
+| `value` / `defaultValue` | `string` | `''` | The controlled / initial text. |
+| `onValueChange` | `(value: string, eventDetails) => void` | — | Called when the text changes, also when a blur adds `https://`. |
+| `pattern` | `string` | `'https?://\S+'` | The check for a valid address. The default accepts `http` and `https` only. |
+| `autoComplete` | `string` | `'url'` | Tells the browser which value to offer. |
+| `placeholder` | `string` | — | Hint text shown when the field is empty. |
+| `disabled` | `boolean` | `false` | Makes the field visible but inert. |
+| `readOnly` | `boolean` | `false` | Shows the text but blocks changes. A blur does not add a scheme. |
+| `required` | `boolean` | `false` | The field must have text before the form submits. |
+| `name` | `string` | — | Identifies the field on form submission. |
+| `className` | `string` | — | Class for the outer frame. |
+| `render` | `ReactElement \| (props, state) => ReactElement` | — | Replaces the rendered input element. |
+
+Event handlers, form props, and `render` appear here only. They have no section below.
+
+## Size
+
+The size axis. Each step is a `measure/size` token and sets the height.
+
+<div style={col}>
+  <UrlInput size="800" aria-label="Size 800" placeholder="800" />
+  <UrlInput size="1000" aria-label="Size 1000" placeholder="1000" />
+  <UrlInput size="1200" aria-label="Size 1200" placeholder="1200" />
+</div>
+
+## Scheme on blur
+
+Type `example.com` and leave the field. The text becomes `https://example.com`. Text that
+already has a scheme stays as typed. `javascript:` and `data:` fail the default pattern,
+because a client app often puts the value in a link.
+
+<div style={col}>
+  <UrlInput aria-label="Website" placeholder="example.com" />
+</div>
+
+## Validation
+
+The default `pattern` accepts `http` and `https` only. A failed pattern reports
+`patternMismatch`. Text that is not a URL reports `typeMismatch`. There is no dot rule, so
+`https://intranet` is valid. Pass `pattern` to allow another scheme.
+
+## End
+
+`end` takes any node, such as a badge or a button.
+
+<div style={col}>
+  <UrlInput aria-label="Website with badge" end={<Icon>check_circle</Icon>} defaultValue="https://example.com" />
+</div>
+
+## Disabled
+
+<div style={col}>
+  <UrlInput aria-label="Disabled" placeholder="Disabled" disabled />
+</div>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Frame, input, and slots | The same tokens as TextInput |
+| Link icon color | `hds/sem/color/content/muted/fg`, disabled `hds/sem/color/field/disabled/fg` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+
+## Owner notes
+
+- Base UI mapping: built on the shared input base, which wraps `@base-ui/react/input` 1.8.0.
+- Extension decisions: no new props. The component sets `type="url"`, an `http` and
+  `https` pattern, and mobile and autofill defaults. A blur adds `https://` when the text
+  has no scheme. A native attribute from the caller overrides each default except `type`.
+- Known constraints: the link icon needs the Material Symbols font, and the client loads
+  it. `localhost:3000` looks like it has a scheme and stays as typed. There is no
+  reachability check and no typo hint.
+- Accessibility: the icon is decorative. In `Field.Root`, the label, description, and
+  error are wired to the input.
