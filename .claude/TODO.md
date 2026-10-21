@@ -52,7 +52,7 @@ Running list of planned work. Add an item when the user asks for new work. Check
   - [x] `PasswordInput` (show/hide button). Spec, code, Figma, docs, and e2e built 2026-10-19. Added the internal `Input` base (`src/components/Input.tsx`) that `TextInput` and the typed inputs derive from.
   - [x] `SearchInput` (clear button, `Escape` clears). Spec, code, Figma, docs, and e2e built 2026-10-19.
   - [x] `UrlInput` (include now; `http` and `https` only; adds `https://` on blur). Spec, code, Figma, docs, and e2e built 2026-10-19. The user reviewed the decisions.
-  - [x] `TextArea` (was `Textarea`; the `Input` base with `render={<textarea />}`; `rows`, `autoGrow`, `maxRows`; no slots in v1). Spec, code, docs, and e2e built 2026-10-20. Figma not built.
+  - [x] `TextArea` (was `Textarea`; the `Input` base with `render={<textarea />}`; `rows`, `autoGrow`, `maxRows`; no slots in v1). Spec, code, Figma, docs, and e2e built 2026-10-20.
 - [ ] Create a date and time component set (future, not part of the input work): `Calendar`, `DatePicker` (with `range`), later `TimeField`. Values are ISO strings (`"2026-10-15"`), range is `{ start, end }`. Needs a spec interview and maybe new semantic tokens (today, in-range, range start and end, outside month). Base UI has no calendar.
 - [ ] Create a Carousel component.
 - [x] Create layout components (done 2026-10-20: specs, code, docs pages; follow-ups below). Layout components are non-visual and place other components. Two sets:

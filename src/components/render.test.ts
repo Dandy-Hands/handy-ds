@@ -40,6 +40,8 @@ test('every component renders with its hds classes', () => {
       [/hds-control hds-text-input"[^>]*data-size="800"/, /<input[^>]*type="tel"/, /value="\(202\) 555-0123"/, /inputMode="tel"|inputmode="tel"/, /autoComplete="tel-national"|autocomplete="tel-national"/, /pattern="/, /placeholder="\(555\) 555-5555"/, />phone</, /type="hidden"[^>]*value="2025550123"/]],
     ['UrlInput', h(H.UrlInput, { size: '800' }),
       [/hds-control hds-text-input"[^>]*data-size="800"/, /<input[^>]*type="url"/, /inputMode="url"|inputmode="url"/, /autoComplete="url"|autocomplete="url"/, /pattern="https\?:\/\/\\S\+"/, />link</]],
+    ['TextArea', h(H.TextArea, { size: '800', rows: 4, autoGrow: true }),
+      [/hds-control hds-text-input hds-text-area"[^>]*data-size="800"/, /<textarea[^>]*class="hds-control__input"/, /rows="4"/, /data-auto-grow="true"/]],
     ['Field', h(H.Field.Root, null, h(H.Field.Label, null, 'Name'), h(H.Field.Control), h(H.Field.Description, null, 'd')),
       [/hds-field"/, /hds-field__label/, /<input[^>]*hds-control/, /hds-field__description/]],
     ['Fieldset+Form', h(H.Form, null, h(H.Fieldset.Root, null, h(H.Fieldset.Legend, null, 'L'))), [/<form[^>]*hds-form/, /hds-fieldset__legend/]],

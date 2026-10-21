@@ -1,0 +1,25 @@
+/*
+ * TextArea: a TextInput frame with a <textarea> inside. Frame look and states come from control.css.
+ * The text starts at the top, and the field fills the frame.
+ */
+@layer hds.components {
+  .hds-text-area {
+    align-items: flex-start;
+  }
+
+  .hds-text-area .hds-control__input {
+    display: block;
+    align-self: stretch;
+    resize: vertical;
+    overflow: auto;
+    line-height: inherit;
+  }
+
+  .hds-text-area:has(textarea[data-auto-grow]) .hds-control__input {
+    resize: none;
+  }
+
+  .hds-text-area:has(.hds-control__input:disabled) .hds-control__input {
+    resize: none;
+  }
+}

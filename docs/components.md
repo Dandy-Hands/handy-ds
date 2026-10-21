@@ -302,6 +302,24 @@ Show a failed check with `<Field.Error match="patternMismatch">`.
 <UrlInput aria-label="Website" />
 ```
 
+### TextArea
+
+A multi-line text field. The user drags the bottom edge to resize it, or `autoGrow` fits the height to the text.
+
+- **Use when:** the user writes more than one line, such as a message, a note, or a description.
+- **Don't use when:** the text is one line (use `TextInput`).
+
+| Prop | Values | Default |
+|---|---|---|
+| `size` | `800`, `1000`, `1200` | `1000` |
+| `rows` | a count | `3` |
+| `autoGrow` | `true`, `false` | `false` |
+| `maxRows` | a count; with `autoGrow`, the most rows before it scrolls | no limit |
+
+```tsx
+<TextArea aria-label="Message" rows={4} autoGrow maxRows={10} />
+```
+
 ### NumberField
 
 A number input with steppers.

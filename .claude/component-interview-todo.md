@@ -40,7 +40,7 @@ planned, no Base UI primitive.
 - [x] email-input `[new]`
 - [x] phone-input `[new]`
 - [x] url-input `[new]` (included 2026-10-19; Claude's calls, reviewed by the user)
-- [ ] textarea `[lib]` (multi-line text; same frame as text-input; Base UI has no textarea)
+- [x] text-area `[lib]` (was `textarea`; multi-line text; same frame as text-input; Base UI has no textarea)
 - [ ] number-field `[re]`
 - [ ] otp-field `[new]`
 - [ ] time-field `[plan]` (future; a segmented time input; values are ISO times)

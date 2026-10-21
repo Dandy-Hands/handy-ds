@@ -12,7 +12,8 @@ export type InputSize = '800' | '1000' | '1200';
 export type InputType = 'text' | 'email' | 'tel' | 'url' | 'search' | 'password';
 
 export interface InputProps extends Omit<ComponentProps<typeof BaseInput>, 'type' | 'size' | 'style' | 'className'> {
-  type: InputType;
+  /** Omitted when `render` swaps the element for one without a type, such as a textarea. */
+  type?: InputType;
   size?: InputSize;
   /** Content before the text, inside the frame. */
   start?: ReactNode;
@@ -22,7 +23,7 @@ export interface InputProps extends Omit<ComponentProps<typeof BaseInput>, 'type
   className?: string;
 }
 
-/** Frame, input, and start and end slots. Each public input sets `type` and its own defaults. */
+/** Frame, input, and start and end slots. Each public input sets `type` (or `render`) and its own defaults. */
 export function Input({ size = '1000', start, end, className, ref, ...props }: InputProps) {
   const input = useRef<HTMLInputElement | null>(null);
   const setRef: Ref<HTMLInputElement> = (el) => {
