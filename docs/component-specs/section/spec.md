@@ -39,7 +39,7 @@ No Base UI primitive. `useRender.ComponentProps<'section'>` (`'header'` and `'fo
 | `surface` | `"sunken" \| "base" \| "primary" \| "secondary"` | `"base"` | Axis (new, see `docs/api-conventions.md` section 6). Background color. No `raised`: raised is the level of a card, a popup, or a modal, not of a band (decided 2026-10-20). `primary` and `secondary` set `data-context="on-primary"` or `"on-secondary"` on the element, so children re-resolve to their on-primary tokens. No `context` or `mode` prop: the page sets the mode. |
 | `gradient` | `{ to: "sunken" \| "base", direction: "to-bottom" \| "to-top" \| "to-start" \| "to-end" }` | absent | The background runs from `surface` to the `to` level of the same context. |
 | `media` | `{ type: "image", src, fit, position }` or `{ type: "video", src, poster, fit, position }` | absent | A background image or video. `fit`: `"cover" \| "contain"`. `position`: a keyword such as `"center"` or `"top"`. Decorative: no alt text. Video: `poster` required, muted, loops, no controls, paused under `prefers-reduced-motion`, not loaded on a data-saver connection. |
-| `scrim` | `{ tone: "dark" \| "light", strength: "subtle" \| "medium" \| "strong", direction?: gradient direction }` | absent | A layer between the media and the content that keeps text readable. `direction` absent: an even layer. |
+| `scrim` | `{ tone: "dark" \| "light", strength: "subtle" \| "medium" \| "strong", direction?: gradient direction }` | absent | A layer between the media and the content that keeps text readable. `direction` absent: an even layer. **`tone` also sets the mode of the section (decided 2026-10-20):** `dark` sets `data-mode="dark"`, so the text inside is light; `light` sets `data-mode="light"`, so the text is dark. Limit: a mode element re-declares every color token, so it resets a brand context above it (token spec 6.1). |
 | `background` | `ReactNode` | absent | A custom layer behind the content (a canvas, WebGL, or Lottie scene). `aria-hidden`, `pointer-events: none`, sits above `media` and below `scrim`. **Breaks `docs/api-conventions.md` section 1** (slot props are only `start` and `end`; `background` is banned as a style prop). Decided by the user on 2026-10-20 to ignore the convention for now; the convention needs an amendment. |
 | `paddingBlock` | space step or `"none"`, or a responsive object | `"1600"` | Space above and below the content. |
 | `paddingInline` | space step or `"none"`, or a responsive object | `"400"` | Space at the left and right edges (the gutter). |
@@ -62,7 +62,7 @@ No Base UI primitive. `useRender.ComponentProps<'section'>` (`'header'` and `'fo
 | --- | --- |
 | `surface` | `hds/sem/color/surface/{sunken,base}/bg`; `primary` and `secondary` use `surface/base/bg` inside the brand context |
 | `gradient` | the same `surface/{level}/bg` tokens, for both stops |
-| `scrim` | `hds/sem/overlay/media/{tone}/{strength}` (**new tokens**, see TODO) |
+| `scrim` | `hds/sem/color/overlay/media/{tone}/{strength}` (added 2026-10-20) |
 | `paddingBlock`, `paddingInline` | `hds/sem/measure/space/{step}` |
 | `contentWidth` | `hds/sem/measure/width/content`, `hds/sem/measure/width/content-narrow` (**new tokens, driven by `layout.contentWidth` and `layout.contentWidthNarrow`**) |
 | Content text color | `hds/sem/color/content/default/fg` |
@@ -73,7 +73,7 @@ No primitive or driver references. `height` and `minHeight` are CSS lengths from
 ## Contrast
 
 - Text on `surface` and on both `gradient` stops: the contrast checker covers `surface/{level}/bg` against content text in each context. Pairs: `surface/{sunken,base}` in the default context and in each brand context.
-- Text over `media`: the image is client content, so the real result is unknown. The checker tests the text against the scrim over pure white and pure black. This is a worst case, not a guarantee.
+- Text over `media`: the image is client content, so the real result is unknown. The checker tests `content/default/fg` of the section mode against the scrim over pure white (dark tone) and pure black (light tone). `strong` passes 4.5:1 and `medium` passes 3:1. `subtle` is not checked. This is a worst case, not a guarantee.
 
 ## CSS
 

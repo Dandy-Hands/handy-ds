@@ -97,6 +97,8 @@ The complete driver list. Section 4 defines how the palette drivers build primit
 | `typography.styles.{role}.{family\|weight\|leading\|tracking}` | a typography pick (7.7) | section 7.7 |
 | `typography.styles.{role}.size.{sm\|md\|lg}` | a type scale step, 1–9 | `md` per section 7.7; `sm` and `lg` one step down and up |
 | `density` | number, multiplies the grid | 1 |
+| `layout.contentWidth` | number, px. The maximum width of page content | 1152 |
+| `layout.contentWidthNarrow` | number, px. The maximum width for reading text. Not wider than `contentWidth` | 768 |
 | `radius.control`, `.container`, `.indicator`, `.round` | a radius step | `200`, `300`, `100`, `round` *tunable* |
 | `border.control`, `.container`, `.divider`, `.focus` | a border step | `025`, `025`, `025`, `050` *tunable* |
 | `shadow.strength` | number, 0 = flat | 1 |
@@ -195,7 +197,16 @@ Role aliases point at slot values: `--hds-prim-color-danger-600: var(--hds-prim-
 hds/prim/dimension/{step}  =  step ÷ 100 × 4px × density
 ```
 
-Steps *tunable*: `025, 050, 100, 200, 300, 400, 500, 600, 800, 1000, 1200, 1600, 2400, 3200`. Examples at density 1: `025` = 1px, `100` = 4px, `400` = 16px.
+Steps *tunable*: `025, 050, 100, 200, 300, 400, 500, 600, 800, 1000, 1200, 1600, 2400, 3200, 6400, 8000, 9600, 12800`. Examples at density 1: `025` = 1px, `100` = 4px, `400` = 16px, `8000` = 320px. The steps `6400` to `12800` (256 to 512px) are component widths (7.5).
+
+### 4.2.1 Page width
+
+```
+hds/prim/width/content          =  layout.contentWidth (px)
+hds/prim/width/content-narrow   =  layout.contentWidthNarrow (px)
+```
+
+Page widths are drivers, so a client sets them. Density does not scale them: a page width must not change when the spacing grid changes (decided 2026-10-20).
 
 ### 4.3 Radius
 
@@ -288,6 +299,7 @@ Any pick can have an optional dark value: `picks: { "{token}": { light, dark } }
 - Pairs are checked in light mode, in dark mode, and in each brand context.
 - Derived values (state offsets, the dark palette) are checked too. A derived value that fails is an error in the interface and in the build output. The fix is an override pick.
 - A `transparent` background is checked against the surface behind it.
+- Media scrim: the image is client content, so the checker tests the worst case, a dark scrim over a white image and a light scrim over a black image, against `content/default/fg` of the matching mode. `strong` needs 4.5:1. `medium` needs 3:1 (large text). `subtle` is decorative and is not checked.
 
 ---
 
@@ -369,8 +381,9 @@ hds/sem/color/
 ├─ graphic/diverging/{1…9}                                                                           9
 ├─ feedback/{danger|warning|success|info}/{bg|fg|border|icon}                                       16
 ├─ focus/ring                                                                                        1
-└─ overlay/scrim                                                                                     1
-                                                                                          total  146
+├─ overlay/scrim                                                                                     1
+└─ overlay/media/{dark|light}/{subtle|medium|strong}                                                 6
+                                                                                          total  152
 ```
 
 Every token in a matrix is emitted. Components read one token per cell and need no `var()` fallbacks.
@@ -432,6 +445,8 @@ In dark mode the inverted ladder makes `raised`, `floating`, and `modal` darker 
 
 **Overlay.** `scrim` = `black` at `overlay.opacity`. The scrim belongs to the modal level: it sits between the page and a `modal` surface.
 
+`media/{tone}/{strength}` is the scrim over a Section image or video (decided 2026-10-20). `dark` is black, `light` is white. Alpha: `subtle` 0.2, `medium` 0.5, `strong` 0.6. The alphas are fixed in `src/tokens/theme.ts` (`MEDIA_ALPHA`), not drivers and not picks. A Section with a `dark` scrim sets `data-mode="dark"` and a `light` scrim sets `data-mode="light"`, so the text inside is light on a dark scrim and dark on a light scrim.
+
 ### 7.4 Data visualization
 
 Data-visualization colors are semantic tokens in the Graphic category. Each one is a pick from the primitive palette. There are no data-visualization primitives.
@@ -455,6 +470,9 @@ All *tunable*:
 ```
 hds/sem/measure/space/{step}     padding, gaps, layout spacing
 hds/sem/measure/size/{step}      heights, icon and control sizes
+hds/sem/measure/width/{step}     component widths: minimum tile and column width, Aside width
+hds/sem/measure/width/content    maximum width of page content (Section)
+hds/sem/measure/width/content-narrow   maximum width for reading text (Section)
 hds/sem/radius/{role}
 hds/sem/border/{role}
 ```
@@ -463,6 +481,7 @@ hds/sem/border/{role}
 
 - `space`: `050, 100, 200, 300, 400, 600, 800, 1000, 1200, 1600, 2400`.
 - `size`: `200, 300, 400, 500, 600, 800, 1000, 1200, 1600, 2400, 3200`.
+- `width`: `6400, 8000, 9600, 12800`, 256 to 512px at density 1 (point at the dimension primitive with the same step), and the two named page widths `content` and `content-narrow` (point at the width primitives, driven by `layout.contentWidth` and `layout.contentWidthNarrow`). `size` stops at 128px, too small for a width.
 
 Form gaps, field gaps, and table cell padding read `space` steps.
 
@@ -523,13 +542,13 @@ Text color is not part of typography. It comes from the Content color roles.
 
 | Type | Tokens |
 |---|---|
-| color | 146 |
-| measure | 22 |
+| color | 152 |
+| measure | 28 |
 | radius | 4 |
 | border | 4 |
 | elevation | 3 |
 | typography | 35 |
-| **total** | **214** |
+| **total** | **226** |
 
 ---
 

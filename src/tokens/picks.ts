@@ -11,7 +11,7 @@ export type ColorPicks = Record<string, string>;
 
 /** Pick keys that are not token names: the Action disabled pair. Field's pair is its own disabled bg and fg. */
 const PAIR_KEYS = ['action/disabled/bg', 'action/disabled/fg'];
-export const PICK_KEYS = new Set([...COLOR_TOKENS.filter((n) => n !== 'overlay/scrim'), ...PAIR_KEYS]);
+export const PICK_KEYS = new Set([...COLOR_TOKENS.filter((n) => !n.startsWith('overlay/')), ...PAIR_KEYS]);
 
 const STOP = `(${STOPS.join('|')})`;
 const SCALE_PICK = new RegExp(`^((${[...ROLES, 'neutral'].join('|')})/${STOP}|white|black|transparent)$`);
@@ -118,7 +118,7 @@ export function offset(pick: string, n: number, fg?: string, contextRole?: strin
 }
 
 /**
- * Resolves every color token (except `overlay/scrim`) from root picks. `base` holds the
+ * Resolves every color token (except the `overlay/*` tokens) from root picks. `base` holds the
  * defaults plus every explicit pick; a token in `base` is used as is, otherwise it derives.
  */
 export function resolveColors(base: ColorPicks, d: Drivers, contextRole?: string): ColorPicks {

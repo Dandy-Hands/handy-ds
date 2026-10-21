@@ -4,8 +4,8 @@
 import { wcagContrast } from 'culori';
 import type { Context } from './drivers.ts';
 import type { Primitives } from './primitives.ts';
-import type { ColorMap, ColorMode } from './theme.ts';
-import { CONTENT_ROLE, LEVEL, PRIORITY, SENTIMENT } from './names.ts';
+import { MEDIA_ALPHA, type ColorMap, type ColorMode } from './theme.ts';
+import { CONTENT_ROLE, LEVEL, MEDIA_STRENGTH, PRIORITY, SENTIMENT } from './names.ts';
 
 export interface ContrastFailure {
   mode: ColorMode;
@@ -49,6 +49,9 @@ export const PAIRS: [fg: string, bg: string, min: number][] = [
   ]),
 ];
 
+/** Minimum text contrast per media scrim strength. 0 = not checked (decorative). */
+const MEDIA_MIN: Record<(typeof MEDIA_STRENGTH)[number], number> = { subtle: 0, medium: 3, strong: 4.5 };
+
 export function checkContrast(prims: Primitives, colors: ColorMap): ContrastFailure[] {
   const failures: ContrastFailure[] = [];
   for (const mode of ['light', 'dark'] as const) {
@@ -72,6 +75,22 @@ export function checkContrast(prims: Primitives, colors: ColorMap): ContrastFail
       };
 
       for (const [fg, bg, min] of PAIRS) check(fg, bg, min);
+    }
+
+    // Media scrim (Section `scrim`). The image is client content, so test the worst case: a dark
+    // scrim over a white image, a light scrim over a black one. A dark tone puts the section in
+    // dark mode and a light tone in light mode, so each tone checks the text of its own mode.
+    const tone = mode === 'dark' ? 'dark' : 'light';
+    const text = prim(`hds/prim/color/${colors[mode].default['content/default/fg']}`);
+    for (const s of MEDIA_STRENGTH) {
+      const min = MEDIA_MIN[s];
+      if (min === 0) continue;
+      const a = MEDIA_ALPHA[s];
+      const gray = Math.round((tone === 'dark' ? 1 - a : a) * 255) / 255; // scrim over white (dark) or black (light)
+      const ratio = wcagContrast(text, { mode: 'rgb', r: gray, g: gray, b: gray });
+      if (ratio < min) {
+        failures.push({ mode, context: 'default', fg: 'hds/sem/color/content/default/fg', bg: `hds/sem/color/overlay/media/${tone}/${s}`, ratio: Number(ratio.toFixed(2)), min });
+      }
     }
   }
   return failures;

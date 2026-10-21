@@ -25,12 +25,12 @@ test('primitive names are frozen: independent of driver values, all valid', () =
   for (const name of allPrims(base)) assert.equal(checkTokenName(name), null, name);
 });
 
-test('every semantic token is emitted once, and the set matches spec 7.8 (214)', () => {
-  assert.equal(SEM_TOKENS.length, 214);
-  assert.equal(new Set(SEM_TOKENS).size, 214);
+test('every semantic token is emitted once, and the set matches spec 7.8 (226)', () => {
+  assert.equal(SEM_TOKENS.length, 226);
+  assert.equal(new Set(SEM_TOKENS).size, 226);
   for (const name of SEM_TOKENS) assert.match(base.css, new RegExp(`${name.replaceAll('/', '-')}:`), name);
   const colorCount = SEM_TOKENS.filter((n) => n.startsWith('hds/sem/color/')).length;
-  assert.equal(colorCount, 146);
+  assert.equal(colorCount, 152);
 });
 
 test('hue wheel: 11 slots, anchors exact, default secondary = primary + 163.6°', () => {
@@ -159,4 +159,28 @@ test('meta is not a driver: buildTheme ignores it', () => {
   const t = buildTheme({ meta: { client: 'Acme', version: '0.0.1' } });
   assert.equal(t.css, buildTheme().css);
   assert.equal('meta' in t.drivers, false);
+});
+
+test('width tokens: page widths are drivers, component widths are scale steps', () => {
+  const wide = buildTheme({ layout: { contentWidth: 1400, contentWidthNarrow: 700 }, density: 2 });
+  assert.equal(wide.primitives.shared['hds/prim/width/content'], '1400px'); // density does not scale it
+  assert.equal(wide.primitives.shared['hds/prim/width/content-narrow'], '700px');
+  assert.equal(wide.other['hds/sem/measure/width/content'], '{hds/prim/width/content}');
+  assert.equal(base.primitives.shared['hds/prim/dimension/8000'], '320px');
+  assert.equal(wide.primitives.shared['hds/prim/dimension/8000'], '640px'); // density scales the scale
+  assert.equal(base.other['hds/sem/measure/width/8000'], '{hds/prim/dimension/8000}');
+  assert.match(base.css, /--hds-sem-measure-width-content-narrow: var\(--hds-prim-width-content-narrow\);/);
+  assert.throws(() => buildTheme({ layout: { contentWidth: 600, contentWidthNarrow: 700 } }), /contentWidthNarrow/);
+  assert.throws(() => buildTheme({ layout: { contentWidthNarrow: 0 } }), /contentWidthNarrow/);
+});
+
+test('media scrim tokens: six color tokens, not picks, emitted in every mode block', () => {
+  for (const tone of ['dark', 'light']) {
+    for (const s of ['subtle', 'medium', 'strong']) {
+      assert.ok(SEM_TOKENS.includes(`hds/sem/color/overlay/media/${tone}/${s}`), `${tone}/${s}`);
+    }
+  }
+  assert.match(base.css, /--hds-sem-color-overlay-media-dark-strong: color-mix\(in oklch, var\(--hds-prim-color-black\) 60%, transparent\);/);
+  assert.match(base.css, /--hds-sem-color-overlay-media-light-subtle: color-mix\(in oklch, var\(--hds-prim-color-white\) 20%, transparent\);/);
+  assert.throws(() => buildTheme({ picks: { 'overlay/media/dark/strong': 'primary/600' } }), /unknown color pick/);
 });

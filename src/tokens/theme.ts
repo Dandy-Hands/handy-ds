@@ -4,13 +4,15 @@ import { type Context, type DriverInput, type Drivers, type Pick, type TextStyle
 import { resolvePrimitives, SHADOW_ALPHA, type Primitives } from './primitives.ts';
 import { checkPick, contextPicks, defaultPicks, resolveColors, type ColorPicks } from './picks.ts';
 import { checkContrast, type ContrastFailure } from './contrast.ts';
-import { BORDER_ROLE, ELEVATION, SHAPE_ROLE, SIZE, SPACE, TEXT_PROP, TEXT_ROLE, TEXT_SIZE } from './names.ts';
+import { BORDER_ROLE, ELEVATION, MEDIA_STRENGTH, MEDIA_TONE, SHAPE_ROLE, SIZE, SPACE, TEXT_PROP, TEXT_ROLE, TEXT_SIZE, WIDTH, WIDTH_PAGE } from './names.ts';
 
 export type ColorMode = 'light' | 'dark';
 export const CONTEXTS: Context[] = ['on-primary', 'on-secondary'];
 /** Resolved color picks per mode and context (`default` = root). */
 export type ColorMap = Record<ColorMode, Record<'default' | Context, ColorPicks>>;
 
+/** Alpha of each media scrim strength. Strong passes 4.5:1 for text, medium 3:1 (large text), subtle is decorative. Checked in contrast.ts. */
+export const MEDIA_ALPHA: Record<(typeof MEDIA_STRENGTH)[number], number> = { subtle: 0.2, medium: 0.5, strong: 0.6 };
 const SECTION_NAME = /^[a-z0-9-]+$/;
 const REFS = /\{(hds\/prim\/[^}]+)\}/g;
 
@@ -34,6 +36,8 @@ function otherTokens(d: Drivers): Record<string, string> {
   const put = (name: string, value: string) => (out[`hds/sem/${name}`] = value);
   for (const s of SPACE) put(`measure/space/${s}`, `{hds/prim/dimension/${s}}`);
   for (const s of SIZE) put(`measure/size/${s}`, `{hds/prim/dimension/${s}}`);
+  for (const s of WIDTH) put(`measure/width/${s}`, `{hds/prim/dimension/${s}}`);
+  for (const w of WIDTH_PAGE) put(`measure/width/${w}`, `{hds/prim/width/${w}}`);
   for (const r of SHAPE_ROLE) put(`radius/${r}`, `{hds/prim/radius/${d.radius[r]}}`);
   for (const r of BORDER_ROLE) put(`border/${r}`, `{hds/prim/border/${d.border[r]}}`);
   for (const level of ELEVATION) {
@@ -96,6 +100,10 @@ export function buildTheme({ meta: _meta, ...input }: DriverInput = {}) {
     if (!SECTION_NAME.test(name)) throw new Error(`sections: bad section name "${name}"`);
     if (!['light', 'dark', ...CONTEXTS].includes(target)) throw new Error(`sections.${name}: unknown target "${target}"`);
   }
+  const { contentWidth, contentWidthNarrow } = drivers.layout;
+  if (!(contentWidthNarrow > 0 && contentWidth >= contentWidthNarrow)) {
+    throw new Error(`layout: expected 0 < contentWidthNarrow <= contentWidth, got ${contentWidthNarrow} and ${contentWidth}`);
+  }
   const primitives = resolvePrimitives(drivers);
   const colors = colorMap(drivers, primitives);
   const other = otherTokens(drivers);
@@ -119,6 +127,12 @@ function toCss(d: Drivers, prims: Primitives, colors: ColorMap, other: Record<st
     ...Object.entries(prims[mode]),
     ...sem(colors[mode].default),
     ['hds/sem/color/overlay/scrim', scrim],
+    ...MEDIA_TONE.flatMap((tone): [string, string][] =>
+      MEDIA_STRENGTH.map((s) => [
+        `hds/sem/color/overlay/media/${tone}/${s}`,
+        `color-mix(in oklch, {hds/prim/color/${tone === 'dark' ? 'black' : 'white'}} ${Math.round(MEDIA_ALPHA[s] * 100)}%, transparent)`,
+      ]),
+    ),
   ];
   const decls = (entries: [string, string][]) => entries.map(([k, v]) => `    ${cssVar(k)}: ${cssValue(v)};`).join('\n');
   const block = (sel: string[], entries: [string, string][]) =>

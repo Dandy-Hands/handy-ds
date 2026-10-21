@@ -85,6 +85,7 @@ Measure values are the token step names, verbatim:
 
 - `size` takes `measure/size` steps: `"200"`, `"300"`, `"400"`, `"500"`, `"600"`, `"800"`, `"1000"`, `"1200"`, `"1600"`, `"2400"`, `"3200"`.
 - Space props (`gap`, `padding`, `paddingInline`, ...) take `measure/space` steps: `"050"`, `"100"`, `"200"`, `"300"`, `"400"`, `"600"`, `"800"`, `"1000"`, `"1200"`, `"1600"`, `"2400"`.
+- Width props (`Tiles` `minTileWidth`, `Grid` `minColWidth`, `Aside` `width`) take `measure/width` steps: `"6400"`, `"8000"`, `"9600"`, `"12800"` (256 to 512px at density 1). The page widths `content` and `content-narrow` are not prop values: `Section` `contentWidth` takes the keywords `"default"`, `"narrow"`, and `"full"`.
 - **Each component allows a subset.** Its spec lists the allowed steps and the union type rejects the rest (for example, Button `size`: `"800" | "1000" | "1200"`). For a control, `size` sets the height from `measure/size/{step}`; the component spec defines padding and type size for each allowed step.
 
 Measure props may also take these keywords where the spec allows them:

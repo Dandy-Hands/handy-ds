@@ -644,6 +644,10 @@ export function Measure({ d, set, mode }: StepProps) {
     <>
       <Slider label="Density" value={d.density} def={defaultDrivers.density} min={0.75} max={1.35} step={0.05}
         onChange={(x) => set(['density'], x)} hint="Scales the 4px grid. About 0.85 is compact, 1.15 is roomy." />
+      <Slider label="Content width" value={d.layout.contentWidth} def={defaultDrivers.layout.contentWidth} min={960} max={1600} step={16}
+        onChange={(x) => set(['layout', 'contentWidth'], x)} hint="Maximum width of page content, in px. Density does not scale it." />
+      <Slider label="Narrow content width" value={d.layout.contentWidthNarrow} def={defaultDrivers.layout.contentWidthNarrow} min={480} max={960} step={16}
+        onChange={(x) => set(['layout', 'contentWidthNarrow'], x)} hint="Maximum width for reading text, in px. Never wider than the content width." />
       <Live mode={mode} className="tt-measure">
         {SPACE.map((s) => (
           <div key={s}><small>space/{s}</small><span style={{ width: v(`hds/sem/measure/space/${s}`) }} /></div>

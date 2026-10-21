@@ -76,6 +76,8 @@ export interface Drivers {
   };
   /** Multiplies the 4px grid. 1 = default, ~0.85 compact, ~1.15 roomy. */
   density: number;
+  /** Page widths in px. Density does not scale them. `contentWidthNarrow` must not exceed `contentWidth`. */
+  layout: { contentWidth: number; contentWidthNarrow: number };
   radius: Record<(typeof SHAPE_ROLE)[number], RadiusStep>;
   border: Record<(typeof BORDER_ROLE)[number], BorderStep>;
   /** 0 = flat (no shadows), 1 = default, >1 = heavier. */
@@ -109,6 +111,7 @@ export const defaultDrivers: Drivers = {
     styles: {},
   },
   density: 1,
+  layout: { contentWidth: 1152, contentWidthNarrow: 768 },
   radius: { control: '200', container: '300', indicator: '100', round: 'round' },
   border: { control: '025', container: '025', divider: '025', focus: '050' },
   shadow: { strength: 1 },

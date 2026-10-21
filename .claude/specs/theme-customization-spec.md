@@ -141,7 +141,7 @@ Drivers: `typography.family.*`, `typography.baseSize`, `typography.ratio`, `typo
 
 ### Step 5: Measure
 
-Driver: `density`. One control scales the 4px grid. The preview shows spacing and control heights at the current density.
+Drivers: `density`, `layout.contentWidth`, `layout.contentWidthNarrow`. One control scales the 4px grid. The preview shows spacing and control heights at the current density. Two sliders set the page widths in px (content width 960 to 1600, narrow content width 480 to 960, step 16). The ranges do not overlap, so the narrow width is never wider than the content width. Density does not scale the page widths.
 
 ### Step 6: Radius
 

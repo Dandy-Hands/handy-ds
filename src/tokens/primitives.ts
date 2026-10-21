@@ -9,7 +9,7 @@ const N = SLOT_COUNT;
 const LADDER = [0.975, 0.94, 0.88, 0.8, 0.71, 0.62, 0.53, 0.45, 0.38, 0.3, 0.23];
 const ROLE_TARGET = { danger: 25, success: 145, warning: 70, info: 240 }; // assignment order (4.1.4)
 
-const DIMENSION = ['025', '050', '100', '200', '300', '400', '500', '600', '800', '1000', '1200', '1600', '2400', '3200'];
+const DIMENSION = ['025', '050', '100', '200', '300', '400', '500', '600', '800', '1000', '1200', '1600', '2400', '3200', '6400', '8000', '9600', '12800'];
 const RADIUS = { none: 0, '050': 2, '100': 4, '200': 8, '300': 12, '400': 16, '600': 24, round: 9999 };
 const BORDER = { none: 0, '025': 1, '050': 2, '100': 4 };
 // [x, y, blur, spread] px per level and layer (spec 4.5).
@@ -187,6 +187,8 @@ export function resolvePrimitives(d: Drivers): Primitives {
   const shared: Record<string, string> = {};
   const set = (name: string, value: string) => (shared[`hds/prim/${name}`] = value);
   for (const step of DIMENSION) set(`dimension/${step}`, `${round((Number(step) / 100) * 4 * d.density, 2)}px`);
+  set('width/content', `${d.layout.contentWidth}px`);
+  set('width/content-narrow', `${d.layout.contentWidthNarrow}px`);
   for (const [k, v] of Object.entries(RADIUS)) set(`radius/${k}`, `${v}px`);
   for (const [k, v] of Object.entries(BORDER)) set(`border/${k}`, `${v}px`);
   for (const [level, layers] of Object.entries(SHADOW)) {

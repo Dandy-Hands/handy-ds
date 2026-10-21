@@ -17,6 +17,9 @@ test('every spec example name is valid', () => {
     'hds/sem/color/overlay/scrim',
     'hds/sem/measure/space/400',
     'hds/sem/measure/size/3200',
+    'hds/sem/measure/width/8000',
+    'hds/sem/measure/width/content-narrow',
+    'hds/prim/width/content',
     'hds/sem/radius/round',
     'hds/sem/border/focus',
     'hds/sem/elevation/modal',
@@ -47,6 +50,7 @@ test('invalid names are rejected', () => {
     'hds/sem/color/surface/overlay/bg', // old level name
     'hds/sem/color/graphic/categorical/9', // 8 series
     'hds/sem/measure/space/500', // not in the space subset
+    'hds/sem/measure/width/400', // not a width step
     'hds/sem/radius/action', // radius is per shape role, not category
     'hds/sem/elevation/base', // no shadow below raised
     'hds/sem/typography/body/size/xl', // unknown size
