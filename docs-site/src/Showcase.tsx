@@ -2,7 +2,7 @@
 // Themed by the live theme CSS injected in Layout.tsx, so the flyout re-themes it.
 import {
   Accordion, Alert, Autocomplete, Button, Card, Checkbox, Combobox, Dialog, Field, Fieldset, Form, Icon, TextInput,
-  LinkButton, Menu, Menubar, Meter, NavigationMenu, NumberField, Popover, Progress, Radio, Select,
+  LinkButton, Menu, Menubar, Meter, NavigationMenu, NumberInput, Popover, Progress, Radio, Select,
   Separator, Switch, Table, Tabs, Text, Toast, Toaster, ToggleGroup, Toggle, Toolbar,
 } from 'handy-ds';
 
@@ -87,9 +87,7 @@ export function ShowcaseBody() {
             </Field.Root>
             <Field.Root>
               <Field.Label>Quantity</Field.Label>
-              <NumberField.Root defaultValue={2} min={0}>
-                <NumberField.Group><NumberField.Decrement /><NumberField.Input /><NumberField.Increment /></NumberField.Group>
-              </NumberField.Root>
+              <NumberInput steppers defaultValue={2} min={0} />
             </Field.Root>
             <Field.Root>
               <Fieldset.Root render={<Radio.Group defaultValue="card" />}>

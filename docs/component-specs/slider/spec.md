@@ -18,7 +18,7 @@ Slider picks a number, or a range of numbers, by dragging a thumb along a track.
 
 - Do use Slider to pick a number inside a known range where an approximate value is enough, such as volume or a price range.
 - Do label every Slider with `Slider.Label`, and give each thumb of a range slider its own name through `getAriaLabel`.
-- Don't use Slider when the user must type an exact number. Use NumberField.
+- Don't use Slider when the user must type an exact number. Use NumberInput.
 - Don't use Slider to show a value the user cannot change. Use Meter or Progress.
 
 ## Base UI API

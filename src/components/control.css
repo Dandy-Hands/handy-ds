@@ -1,6 +1,6 @@
 /*
  * Input/Field category: the text-control look shared by TextInput, Field.Control, Select trigger,
- * Combobox/Autocomplete input group and NumberField group.
+ * Combobox/Autocomplete input group and NumberInput.
  *   size      data-size = 800 | 1000 | 1200 (default 1000), measure/size steps
  *   hover     :hover
  *   focus     :focus-within, [data-popup-open]

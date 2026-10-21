@@ -2,7 +2,7 @@
 
 ## Usage
 
-Slider picks a number, or a range of two or more numbers, by dragging a thumb along a track. Use it where an approximate value inside a known range is enough, such as volume or a price range. Don't use it when the user must type an exact number; use NumberField. Don't use it to show a value the user cannot change; use Meter or Progress.
+Slider picks a number, or a range of two or more numbers, by dragging a thumb along a track. Use it where an approximate value inside a known range is enough, such as volume or a price range. Don't use it when the user must type an exact number; use NumberInput. Don't use it to show a value the user cannot change; use Meter or Progress.
 
 ## Props
 

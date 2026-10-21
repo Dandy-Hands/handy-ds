@@ -21,10 +21,10 @@ Every public component: name, purpose, when to use it, and its API page.
 | PhoneInput | A single-line field for a phone number, with a mask | The user enters a phone number | [phone-input.md](phone-input.md) |
 | UrlInput | A single-line field for a web address, with a link icon | The user enters one web address | [url-input.md](url-input.md) |
 | TextArea | A multi-line text field, with drag resize or auto grow | A message, a note, or a description that can run to several lines | [text-area.md](text-area.md) |
-| NumberField | A number input with steppers | Quantities the user adjusts up or down | [number-field.md](number-field.md) |
+| NumberInput | A single-line field for an exact number, with optional − and + steppers | A price, an amount, or a quantity; use Slider for an approximate value | [number-field.md](number-field.md) |
 | Checkbox | A yes/no or multi-select choice (`Checkbox.Group` holds several) | Submitted with a form, or selecting many of a few options | [checkbox.md](checkbox.md) |
 | Radio | Pick one of 2–5 visible options (`Radio.Group` holds them) | The user must see all options and choose exactly one | [radio.md](radio.md) |
-| Slider | Picks a number or a range by dragging a thumb along a track | An approximate value inside a known range; use NumberField for an exact number | [slider.md](slider.md) |
+| Slider | Picks a number or a range by dragging a thumb along a track | An approximate value inside a known range; use NumberInput for an exact number | [slider.md](slider.md) |
 | Select | A compact single-choice dropdown | One choice from many options in little space | [select.md](select.md) |
 | Combobox | An input that filters options or accepts free text | Long option lists, or a value the user may type | [combobox.md](combobox.md) |
 | Card | A surface box for related content | Grouping content at a chosen elevation; not for spacing alone | [card.md](card.md) |

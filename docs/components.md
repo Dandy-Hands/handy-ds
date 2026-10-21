@@ -107,7 +107,7 @@ One handy-ds prop: `size` (`500` | `600` | `800`).
 Picks a number, or a range of numbers, by dragging a thumb along a track.
 
 - **Use when:** an approximate value inside a known range is enough, such as volume or a price range.
-- **Don't use when:** the user must type an exact number — use `NumberField`. The value is read-only — use `Meter` or `Progress`.
+- **Don't use when:** the user must type an exact number — use `NumberInput`. The value is read-only — use `Meter` or `Progress`.
 
 One handy-ds prop: `size` (`200` | `300` | `400`, the track height). Parts: `Slider.Root`, `Slider.Label`, `Slider.Value`, `Slider.Control`. A `number[]` value gives a range slider. A vertical slider fills the height of its parent.
 
@@ -199,7 +199,7 @@ Field error text is contrast-checked in the default context only. Inside a color
 A single-line field for free text, with `start` and `end` slots.
 
 - **Use when:** a name, a title, or a comment. Wrap it in `Field` when it has a visible label.
-- **Don't use when:** the value is an email, a phone number, a password, a URL, or a search (use the typed field), a number (use `NumberField`), or a date.
+- **Don't use when:** the value is an email, a phone number, a password, a URL, or a search (use the typed field), a number (use `NumberInput`), or a date.
 
 | Prop | Values | Default |
 |---|---|---|
@@ -320,19 +320,26 @@ A multi-line text field. The user drags the bottom edge to resize it, or `autoGr
 <TextArea aria-label="Message" rows={4} autoGrow maxRows={10} />
 ```
 
-### NumberField
+### NumberInput
 
-A number input with steppers.
+A single-line field for an exact number, with optional − and + steppers.
 
-- **Use when:** a quantity the user nudges up and down.
-- **Don't use when:** the value is a range with no exact number in mind — use a slider, which this library does not ship yet.
+- **Use when:** a price, an amount, a quantity, or a percentage. Wrap it in `Field` when it has a visible label.
+- **Don't use when:** the value is picked by feel in a known range (use `Slider`), or the value is a phone number, a postal code, or an ID (use a text field).
 
-No handy-ds props. `NumberField.Group` takes `data-size`.
+| Prop | Values | Default |
+|---|---|---|
+| `size` | `"800"`, `"1000"`, `"1200"` | `"1000"` |
+| `steppers` | `true`, `false`; adds the − and + buttons | `false` |
+| `start`, `end` | `ReactNode` slots inside the frame | none |
+| `format` | `Intl.NumberFormatOptions`: currency, percent, unit | none |
+| `allowOutOfRange` | keep a typed number outside `min` and `max` and show the invalid state | `false` |
+
+The value is a `number`, or `null` for an empty field. Other props: `value`, `defaultValue`, `onValueChange`, `min`, `max`, `step`, `locale`.
 
 ```tsx
-<NumberField.Root defaultValue={2} min={0}>
-  <NumberField.Group><NumberField.Decrement /><NumberField.Input /><NumberField.Increment /></NumberField.Group>
-</NumberField.Root>
+<NumberInput aria-label="Price" min={0} format={{ style: 'currency', currency: 'USD' }} />
+<NumberInput aria-label="Seats" steppers defaultValue={2} min={1} />
 ```
 
 ### Checkbox, Checkbox.Group

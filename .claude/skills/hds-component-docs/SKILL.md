@@ -23,7 +23,7 @@ Use when the user asks to write the human-facing component documentation, or aft
 12. Set `docs: built` in the internal spec status block and stop. Do not change the other lines.
 
 ## Pitfalls
-- Every compound-family example must include the family's Root part. Base UI part components consume a root context and throw at render time if it is missing (e.g. `ContextMenu.Trigger` outside `ContextMenu.Root`, `NumberField.Group` outside `NumberField.Root`, `Field.Item`/`Field.Label` outside `Field.Root`). Even when Root appears boilerplate — e.g. a context menu's trigger is not a button — it is required: it owns open state and provides the context. Render the full tree Root → Trigger → Portal → Positioner → Popup in every live example.
+- Every compound-family example must include the family's Root part. Base UI part components consume a root context and throw at render time if it is missing (e.g. `ContextMenu.Trigger` outside `ContextMenu.Root`, `Select.Trigger` outside `Select.Root`, `Field.Item`/`Field.Label` outside `Field.Root`). Even when Root appears boilerplate — e.g. a context menu's trigger is not a button — it is required: it owns open state and provides the context. Render the full tree Root → Trigger → Portal → Positioner → Popup in every live example.
 - Any demo component referenced in JSX must be defined (via `export function X()` in the MDX) or imported in the same file. An undefined reference throws `missingMdxReference` at render time, not build time.
 - MDX compiles as plain JavaScript, not TypeScript. No `as const`, no type annotations, no generics in MDX demo code.
 - Never leave a live demo's JSX in a separate orphan .tsx file — if the demo needs code, inline it in the MDX or import a sibling that actually exports it.

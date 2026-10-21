@@ -41,7 +41,7 @@ planned, no Base UI primitive.
 - [x] phone-input `[new]`
 - [x] url-input `[new]` (included 2026-10-19; Claude's calls, reviewed by the user)
 - [x] text-area `[lib]` (was `textarea`; multi-line text; same frame as text-input; Base UI has no textarea)
-- [ ] number-field `[re]`
+- [x] number-field `[re]` (renamed `NumberInput`, 2026-10-21; folder `docs/component-specs/number-field/`)
 - [ ] otp-field `[new]`
 - [ ] time-field `[plan]` (future; a segmented time input; values are ISO times)
 

@@ -1,0 +1,167 @@
+---
+title: NumberInput
+category: Form controls
+order: 11
+---
+
+import { NumberInput, Field, Icon } from 'handy-ds';
+
+export const col = { display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '360px' };
+
+# NumberInput
+
+A single-line field for an exact number. It has the same frame as TextInput. The default is
+typed entry. Set `steppers` for − and + buttons. The `format` option shows currency,
+percent, or a unit.
+
+<div style={col}>
+  <Field.Root>
+    <Field.Label>Price</Field.Label>
+    <NumberInput
+      defaultValue={1250}
+      min={0}
+      format={{ style: 'currency', currency: 'USD' }}
+      start={<Icon>payments</Icon>}
+    />
+  </Field.Root>
+</div>
+
+## Usage
+
+Use NumberInput for an exact number: a price, an amount, a quantity, or a percentage. Set
+`format` for currency, percent, or a unit. Set `steppers` for a small count such as seats
+or copies. Wrap it in a `Field` when it has a visible label. For a bare NumberInput, give
+it an `aria-label`. Do not use it for a value that the user picks by feel in a known
+range. Use Slider instead. Do not use it for a phone number, a postal code, or an ID.
+They are text. Use TextInput or PhoneInput.
+
+## Base UI API
+
+Wraps Base UI's `NumberField`. The component renders `Root`, `Group`, `Input`, and, with
+`steppers`, `Decrement` and `Increment`. The parts are not exposed.
+
+| Element | Notes |
+| ------- | ----- |
+| `value`, `defaultValue`, `onValueChange`, `onValueCommitted` | Exposed. `value` is `number \| null`. `null` is an empty field. |
+| `min`, `max`, `step`, `smallStep`, `largeStep`, `snapOnStep` | Exposed. |
+| `allowOutOfRange` | Exposed. A typed number outside the limits stays, and the field is invalid. |
+| `format`, `locale` | Exposed. |
+| `name`, `form`, `id`, `required`, `disabled`, `readOnly` | Exposed. |
+| Native input attributes (`placeholder`, `autoComplete`, `aria-*`), `ref` | Exposed on the input. |
+| `className` | Exposed on the frame. |
+| `allowWheelScrub`, `ScrubArea`, `ScrubAreaCursor`, `inputRef`, `render`, `style` | Removed. A page scroll could change a value by mistake, so the wheel is off. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `size` | `'800' \| '1000' \| '1200'` | `'1000'` | Height of the field. `800`: compact, for dense layouts. `1000`: standard. `1200`: large, for touch layouts. |
+| `steppers` | `boolean` | `false` | Shows a − button at the start edge and a + button at the end edge. The arrow keys step the value with or without the buttons. |
+| `start` | `ReactNode` | — | Content before the number, such as an icon. |
+| `end` | `ReactNode` | — | Content after the number, such as a unit or a button. |
+| `value` / `defaultValue` | `number \| null` | — | The controlled / initial value. |
+| `onValueChange` | `(value: number \| null, eventDetails) => void` | — | Called when the value changes. |
+| `onValueCommitted` | `(value: number \| null, eventDetails) => void` | — | Called when the user finishes a change. |
+| `min` / `max` | `number` | — | The smallest / largest allowed value. |
+| `step` / `smallStep` / `largeStep` | `number` | `1` / `0.1` / `10` | Step for the arrow keys and the steppers. Alt uses `smallStep`. Shift uses `largeStep`. |
+| `snapOnStep` | `boolean` | `false` | A step moves the value to the nearest multiple of the step. |
+| `allowOutOfRange` | `boolean` | `false` | Keep a typed number outside `min` and `max` and show the invalid state. |
+| `format` | `Intl.NumberFormatOptions` | — | How the number looks. The value stays a plain number. |
+| `locale` | `Intl.LocalesArgument` | browser locale | Sets the decimal mark, the group mark, and the place of a currency symbol. |
+| `placeholder` | `string` | — | Hint text shown when the field is empty. |
+| `disabled` | `boolean` | `false` | Makes the field visible but inert. |
+| `readOnly` | `boolean` | `false` | Shows the number but blocks changes. |
+| `required` | `boolean` | `false` | The field must have a number before the form submits. |
+| `name` | `string` | — | Identifies the field on form submission. |
+| `className` | `string` | — | Class for the outer frame. |
+
+Event handlers and form props appear here only. They have no section below.
+
+## Size
+
+The size axis. Each step is a `measure/size` token. It sets the height, the padding, and the
+stepper size.
+
+<div style={col}>
+  <NumberInput size="800" aria-label="Size 800" defaultValue={800} />
+  <NumberInput size="1000" aria-label="Size 1000" defaultValue={1000} />
+  <NumberInput size="1200" aria-label="Size 1200" defaultValue={1200} />
+</div>
+
+## Steppers
+
+With `steppers`, a − button sits at the start edge and a + button at the end edge. A stepper
+is disabled at its limit.
+
+<div style={col}>
+  <NumberInput steppers size="800" aria-label="Steppers 800" defaultValue={2} min={0} max={5} />
+  <NumberInput steppers aria-label="Steppers 1000" defaultValue={2} min={0} max={5} />
+  <NumberInput steppers size="1200" aria-label="Steppers 1200" defaultValue={0} min={0} max={5} />
+</div>
+
+## Format
+
+`format` changes the text only. The value stays a number. A currency symbol is part of the
+text, and `locale` sets its place.
+
+<div style={col}>
+  <NumberInput aria-label="Currency" defaultValue={1250.5} format={{ style: 'currency', currency: 'USD' }} />
+  <NumberInput aria-label="Currency in German" defaultValue={1250.5} locale="de-DE" format={{ style: 'currency', currency: 'EUR' }} />
+  <NumberInput aria-label="Percent" defaultValue={0.25} step={0.01} format={{ style: 'percent' }} />
+  <NumberInput aria-label="Unit" defaultValue={5} format={{ style: 'unit', unit: 'kilogram' }} />
+</div>
+
+## Slots
+
+`start` and `end` place an icon, a unit, or a button inside the frame. Use a slot for what
+`format` cannot do. With `steppers`, the slots sit between the buttons and the number.
+
+<div style={col}>
+  <NumberInput aria-label="Nights" defaultValue={3} start={<Icon>hotel</Icon>} end="nights" />
+  <NumberInput steppers aria-label="Guests" defaultValue={2} min={1} start={<Icon>group</Icon>} />
+</div>
+
+## Out of range
+
+By default, a typed number outside `min` and `max` changes to the limit on blur. With
+`allowOutOfRange`, the number stays and the field shows the invalid state. The invalid state
+needs a `Field` that validates on blur: set `validationMode="onBlur"` on `Field.Root`.
+
+<div style={col}>
+  <Field.Root validationMode="onBlur">
+    <Field.Label>Discount (0 to 50)</Field.Label>
+    <NumberInput allowOutOfRange min={0} max={50} defaultValue={80} />
+    <Field.Error match="rangeOverflow">Enter a number from 0 to 50.</Field.Error>
+  </Field.Root>
+</div>
+
+## Disabled
+
+<div style={col}>
+  <NumberInput steppers aria-label="Disabled" defaultValue={4} disabled />
+</div>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Frame and input | The same tokens as TextInput |
+| Stepper hover | `hds/sem/color/action/tertiary/hover/{bg,fg}` |
+| Stepper disabled | `hds/sem/color/field/disabled/fg` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/number-field` 1.8.0. The component renders the
+  parts, so a caller sees one component. Props for `Root` go to `Root`. All other props go
+  to the input.
+- Extension decisions: `steppers` is off by default, because currency and large numbers
+  are typed. The scrub area and the wheel are removed. `allowOutOfRange` is exposed so
+  that a limit can warn and not change the number in silence.
+- Known constraints: the value is a floating-point number, and the field does not round
+  it. For money, round the value or keep whole cents. Percent style shows `0.5` as `50%`.
+  Stepper hover borrows Action tertiary colors, the one cross-category read in the control
+  look.
+- Accessibility: the arrow keys always step the value. The buttons are not tab stops and
+  have the names `Decrease` and `Increase`. In `Field.Root`, the label, description, and
+  error are wired to the input.

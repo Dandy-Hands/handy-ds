@@ -89,5 +89,5 @@ Notes:
 - `Checkbox.Group` is `part(BaseCheckboxGroup, 'hds-checkbox-group', { 'data-orientation': 'vertical' })` with an `orientation` prop that sets `data-orientation`.
 - The `.hds-choice-group` rule stays in `Checkbox.css` because Radio uses it. Radio's code phase moves it (decided in the code phase, 2026-10-13).
 - `Checkbox.css` is shared with Radio (`.hds-radio`). Radio's re-interview decides the split. Keep the Radio rules working until then.
-- `CheckIcon` stays in `icons.tsx` (Combobox, Menu, and Select use it). `MinusIcon` stays for NumberField.
+- `CheckIcon` stays in `icons.tsx` (Combobox, Menu, and Select use it). `MinusIcon` stays for NumberInput.
 - Update every use of `Checkbox.Root`, `Checkbox.Indicator`, and `CheckboxGroup`: `docs-site/src/Showcase.tsx`, `docs/rules.md`, `docs/components/checkbox.mdx`, and any e2e or render test. No backwards compatibility is kept.

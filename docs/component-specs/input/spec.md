@@ -21,7 +21,7 @@ TextInput is a single-line field for free text. It always renders `type="text"`.
 - Do wrap it in a `Field` when the field has a visible label. Use a bare TextInput only with an `aria-label`.
 - Do use `start` and `end` for an icon, a unit, or a button inside the frame.
 - Don't use it for an email, a phone number, a password, a URL, or a search. Use the typed component.
-- Don't use it for a number. Use NumberField.
+- Don't use it for a number. Use NumberInput.
 - Don't use it for a date or a time.
 
 ## Base UI API
@@ -98,6 +98,6 @@ Notes:
 ## Code consequences (for `hds-component-code`)
 
 - Create `TextInput.tsx`. Export `TextInput` and `TextInputSize`. Remove `Input` and `InputProps` from `Field.tsx`. No backwards compatibility is kept.
-- Change `control.css` from `data-size='sm' | 'md' | 'lg'` to `'800' | '1000' | '1200'`. This changes `Field.Control`, `NumberField.Group`, the Select trigger, and Combobox. Update their `data-size` values in the same change.
+- Change `control.css` from `data-size='sm' | 'md' | 'lg'` to `'800' | '1000' | '1200'`. This changes `Field.Control`, `NumberInput`, the Select trigger, and Combobox. Update their `data-size` values in the same change.
 - Update every use of `Input`: `docs/api/field.md`, `docs/components/field.mdx`, `docs-site/src/Showcase.tsx`, `docs/components.md`, `docs/rules.md`, `examples/*`, and any e2e or render test.
 - Add `docs/components/text-input.mdx` and an e2e page check.

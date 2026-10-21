@@ -2,7 +2,7 @@
 
 ## Usage
 
-TextInput is a single-line field for free text, such as a name, a title, or a comment. Wrap it in a `Field` when it has a visible label. For a bare TextInput, give it an `aria-label`. Use `start` and `end` to put an icon, a unit, or a button inside the frame. Don't use it for an email, a phone number, a password, a URL, or a search — use the typed field. Don't use it for a number — use NumberField.
+TextInput is a single-line field for free text, such as a name, a title, or a comment. Wrap it in a `Field` when it has a visible label. For a bare TextInput, give it an `aria-label`. Use `start` and `end` to put an icon, a unit, or a button inside the frame. Don't use it for an email, a phone number, a password, a URL, or a search — use the typed field. Don't use it for a number — use NumberInput.
 
 ## Props
 

@@ -1,0 +1,27 @@
+/*
+ * NumberInput: frame, input, slots, and optional steppers.
+ * The frame look and states come from control.css, the slots from TextInput.css.
+ */
+@layer hds.components {
+  .hds-number-input {
+    display: block;
+    inline-size: 100%;
+  }
+
+  /* The stepper is a square as tall as the inner height of the frame, so it sits equally inset on all sides. */
+  .hds-control[data-steppers] {
+    padding-inline: var(--_padding-y);
+  }
+
+  .hds-number-input__stepper {
+    align-self: stretch;
+    flex: none;
+    inline-size: calc(var(--_height) - 2 * (var(--_padding-y) + var(--_border-width)));
+  }
+
+  .hds-number-input__stepper:disabled {
+    color: var(--hds-sem-color-field-disabled-fg);
+    background: transparent;
+    cursor: not-allowed;
+  }
+}

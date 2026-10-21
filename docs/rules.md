@@ -104,7 +104,7 @@ Never edit component CSS or override `--hds-*` properties in app CSS to theme a 
 | Site navigation, with dropdowns | `NavigationMenu` |
 | List of commands behind a button | `Menu`. App-style menu row: `Menubar`. Right-click: `ContextMenu` |
 | Text input | `Field.Root` + `Field.Label` + `Field.Control` (+ `Field.Description`, `Field.Error`). Bare `TextInput` only where there's no label (search in a toolbar with `aria-label`) |
-| Number with +/- steppers | `NumberField` |
+| Exact number (typed, optional +/- steppers) | `NumberInput` |
 | Pick one of 2–5 visible options | `Radio.Group` + `Radio` |
 | Pick one from a long fixed list | `Select` |
 | Pick from a long list with typing/filtering, or multi-select chips | `Combobox` |
