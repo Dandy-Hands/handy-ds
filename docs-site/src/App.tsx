@@ -7,6 +7,7 @@ interface Page {
   path: string;
   title: string;
   order: number;
+  category?: string;
   Component: React.ComponentType;
 }
 
@@ -41,6 +42,7 @@ const pages: Page[] = Object.entries(modules)
       path: route,
       title: (fm.title as string) ?? fileToTitle(file),
       order: (fm.order as number) ?? 999,
+      category: fm.category as string | undefined,
       Component: mod.default,
     };
   })

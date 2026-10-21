@@ -8,6 +8,7 @@ const theme = buildTheme();
 interface Page {
   path: string;
   title: string;
+  category?: string;
 }
 
 export function Layout({ pages }: { pages: Page[] }) {
@@ -15,10 +16,12 @@ export function Layout({ pages }: { pages: Page[] }) {
   const current = location.pathname.replace(/^\//, '');
   setDocTheme(theme);
 
-  // Sidebar sections: tokens get their own area, everything else is components.
+  // Sidebar sections: tokens, then one section per component category (first-seen order).
+  const categories = [...new Set(pages.map((p) => p.category).filter((c): c is string => !!c))];
   const sections = [
     { title: 'Tokens', pages: pages.filter((p) => p.path.startsWith('tokens/')) },
-    { title: 'Components', pages: pages.filter((p) => !p.path.startsWith('tokens/')) },
+    { title: 'Components', pages: pages.filter((p) => !p.path.startsWith('tokens/') && !p.category) },
+    ...categories.map((c) => ({ title: c, pages: pages.filter((p) => p.category === c) })),
   ].filter((s) => s.pages.length > 0);
 
   return (

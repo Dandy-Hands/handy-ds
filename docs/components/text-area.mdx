@@ -1,0 +1,118 @@
+---
+title: TextArea
+order: 10.96
+---
+
+import { TextArea, Field } from 'handy-ds';
+
+export const col = { display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '360px' };
+
+# TextArea
+
+A multi-line field for free text. It has the same frame as TextInput. The user drags the
+bottom edge to change the height. With `autoGrow`, the height follows the text.
+
+<div style={col}>
+  <Field.Root>
+    <Field.Label>Message</Field.Label>
+    <TextArea placeholder="Write a message" />
+  </Field.Root>
+</div>
+
+## Usage
+
+Use TextArea when the user writes more than one line, such as a message, a note, or a
+description. Wrap it in a `Field` when it has a visible label. For a bare TextArea, give
+it an `aria-label`. Do not use it for one line of text. Use TextInput instead. To show a
+character count, read the value with `onValueChange` and show the result in
+`Field.Description`.
+
+## Base UI API
+
+Built on the shared input base, which wraps Base UI's `Input` and renders a `<textarea>`.
+The base is internal.
+
+| Element | Notes |
+| ------- | ----- |
+| `value`, `defaultValue`, `onValueChange` | Exposed on the textarea. |
+| Native textarea attributes (`name`, `placeholder`, `disabled`, `required`, `readOnly`, `maxLength`, `minLength`, `id`, `aria-*`) | Exposed on the textarea. |
+| `rows`, `wrap` | Exposed. `rows` defaults to `3`. |
+| `ref` | Exposed on the textarea. |
+| `className` | Exposed on the frame. |
+| `render`, `type`, `start`, `end`, `cols`, `size` (the HTML attribute), `style` | Removed. The component owns the element. The field fills its container. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `size` | `'800' \| '1000' \| '1200'` | `'1000'` | Padding, type size, and the height of one row. `800`: compact, for dense layouts. `1000`: standard. `1200`: large, for touch layouts. |
+| `rows` | `number` | `3` | Rows shown at the start. |
+| `autoGrow` | `boolean` | `false` | The height follows the text, from `rows` up to `maxRows`. The drag handle is off. |
+| `maxRows` | `number` | — | With `autoGrow`, the most rows before the field scrolls. No limit by default. |
+| `value` / `defaultValue` | `string` | `''` | The controlled / initial text. |
+| `onValueChange` | `(value: string, eventDetails) => void` | — | Called when the text changes. |
+| `placeholder` | `string` | — | Hint text shown when the field is empty. |
+| `maxLength` / `minLength` | `number` | — | The most / fewest characters the form accepts. |
+| `wrap` | `'soft' \| 'hard' \| 'off'` | `'soft'` | How the text wraps, and how a form posts it. |
+| `disabled` | `boolean` | `false` | Makes the field visible but inert. |
+| `readOnly` | `boolean` | `false` | Shows the text but blocks changes. |
+| `required` | `boolean` | `false` | The field must have text before the form submits. |
+| `name` | `string` | — | Identifies the field on form submission. |
+| `className` | `string` | — | Class for the outer frame. |
+
+Event handlers and form props appear here only. They have no section below.
+
+## Size
+
+The size axis. Each step is a `measure/size` token. It sets padding, type size, and the
+height of one row.
+
+<div style={col}>
+  <TextArea size="800" aria-label="Size 800" placeholder="800" />
+  <TextArea size="1000" aria-label="Size 1000" placeholder="1000" />
+  <TextArea size="1200" aria-label="Size 1200" placeholder="1200" />
+</div>
+
+## Rows
+
+`rows` sets the starting height. The user drags the bottom edge to change it.
+
+<div style={col}>
+  <TextArea aria-label="Six rows" rows={6} placeholder="6 rows" />
+</div>
+
+## Auto grow
+
+With `autoGrow`, the height starts at `rows` and follows the text. The drag handle is
+off. Add `maxRows` to stop the growth. The field then scrolls inside.
+
+<div style={col}>
+  <TextArea aria-label="Auto grow" autoGrow rows={2} placeholder="Type to grow" />
+  <TextArea aria-label="Auto grow with limit" autoGrow rows={2} maxRows={4} placeholder="Grows to 4 rows, then scrolls" />
+</div>
+
+## Disabled
+
+<div style={col}>
+  <TextArea aria-label="Disabled" placeholder="Disabled" disabled />
+</div>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Frame and textarea | The same tokens as TextInput |
+| Line height | `hds/sem/typography/label/leading` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+
+## Owner notes
+
+- Base UI mapping: built on the shared input base, which wraps `@base-ui/react/input` 1.8.0
+  and renders a `<textarea>` through `render`.
+- Extension decisions: `autoGrow` and `maxRows` are new. There are no slots in v1. The
+  height comes from `scrollHeight`, not `field-sizing: content`, because support is not
+  complete.
+- Known constraints: there is no character count. Read the value with `onValueChange` and
+  show the result in `Field.Description`.
+- Accessibility: in `Field.Root`, the label, description, and error are wired to the
+  textarea.

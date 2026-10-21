@@ -52,6 +52,7 @@ Running list of planned work. Add an item when the user asks for new work. Check
   - [x] `PasswordInput` (show/hide button). Spec, code, Figma, docs, and e2e built 2026-10-19. Added the internal `Input` base (`src/components/Input.tsx`) that `TextInput` and the typed inputs derive from.
   - [x] `SearchInput` (clear button, `Escape` clears). Spec, code, Figma, docs, and e2e built 2026-10-19.
   - [x] `UrlInput` (include now; `http` and `https` only; adds `https://` on blur). Spec, code, Figma, docs, and e2e built 2026-10-19. The user reviewed the decisions.
+  - [x] `TextArea` (was `Textarea`; the `Input` base with `render={<textarea />}`; `rows`, `autoGrow`, `maxRows`; no slots in v1). Spec, code, docs, and e2e built 2026-10-20. Figma not built.
 - [ ] Create a date and time component set (future, not part of the input work): `Calendar`, `DatePicker` (with `range`), later `TimeField`. Values are ISO strings (`"2026-10-15"`), range is `{ start, end }`. Needs a spec interview and maybe new semantic tokens (today, in-range, range start and end, outside month). Base UI has no calendar.
 - [ ] Create a Carousel component.
 - [x] Create layout components (done 2026-10-20: specs, code, docs pages; follow-ups below). Layout components are non-visual and place other components. Two sets:
@@ -90,3 +91,8 @@ Running list of planned work. Add an item when the user asks for new work. Check
 - [x] Rewrite the no-raw-numbers rule (done and accepted by the user 2026-10-20, `docs/api-conventions.md` section 4). Original task: rewrite the no-raw-numbers rule in `docs/api-conventions.md` section 4 with the user: say where numbers are allowed (counts such as Text `maxLines`) and where they are forbidden. Also list `Section` `height` and `minHeight` (CSS length strings, decided 2026-10-20) and the numeric `Grid` `cols` and `Grid.Item` `colSpan`, `rowSpan`, `colStart`, and `rowStart`.
 - [x] Write the component API conventions: what is and is not an API member, member categories, member names, value types, and value names. Size and space props take measure token steps (`"400"`, `"500"`, ...) plus other values.
 - [ ] Build a proper MDX template for component docs (`docs/templates/component.mdx`). Not started. Open points: show one props table for the whole API instead of a separate "Base UI API" section (link to Base UI for pass-through behavior), and update the `hds-component-docs` skill and the existing `docs/components/*.mdx` pages to match.
+
+## Categories
+
+- [x] Group components by builder purpose (2026-10-20): Actions, Form controls, Form structure, Navigation, Overlays, Feedback, Content, Layout, Page building. Applied to `src/index.ts` headings, a `category` field in each `docs/components/*.mdx` front matter, and the docs sidebar.
+- [ ] Add `category` to the front matter template and the `hds-component-docs` skill so new components get one.
