@@ -38,3 +38,12 @@ Every public component: name, purpose, when to use it, and its API page.
 | Avatar | A person's photo in a round frame, with initials or an icon as fallback | Identifying a person or account next to a name; not for content images or logos | [avatar.md](avatar.md) |
 | Separator | A line that marks a boundary between content groups | Use where spacing alone does not show the boundary; not for decoration | [separator.md](separator.md) |
 | Table | A styled data table with themed rows and sort buttons | Real columns compared across rows; not for lists | [table.md](table.md) |
+| Stack | Places children in one column with a token gap | The main flow of a page, form, or card body; not for rows or grids | [stack.md](stack.md) |
+| Inline | Places children in a row that wraps | Buttons, tags, links, or an icon with a label; not for equal-size cards | [inline.md](inline.md) |
+| Tiles | Places equal-size children in as many columns as fit | Card lists and galleries of equal weight; not when one item is larger | [tiles.md](tiles.md) |
+| Flex | Places children in a row or column with full flexbox controls | A fixed item beside a filling item, or a direction that changes with the screen; not when Stack or Inline fits | [flex.md](flex.md) |
+| Grid | Places children in columns, with `Grid.Item` for spans and starts | A dashboard or a page layout with a chosen column count; not for equal items (use Tiles) | [grid.md](grid.md) |
+| Section | A full-width band of a page with a background and a centered column | Each macro part of a page: hero, feature row, call to action; not a box (use Card) | [section.md](section.md) |
+| Header | The band at the top of a page (`<header>`) | Once per page for the title, logo, and main navigation | [header.md](header.md) |
+| Footer | The band at the bottom of a page (`<footer>`) | Once per page for legal text and secondary links | [footer.md](footer.md) |
+| Aside | A column of supporting content beside the main content (`<aside>`) | A side nav, an outline, sources, or related links; not a drawer | [aside.md](aside.md) |
