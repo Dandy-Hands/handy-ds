@@ -13,7 +13,7 @@ Add a member only when at least one of these holds:
 
 Do not add:
 
-- **Style props**: `style`, `color`, `background`, pixel or CSS-string lengths, shadows. Components read semantic tokens only; a client changes looks through drivers. Wrapped parts remove `style` from their types (`Omit<..., 'style'>`). Components may still write inline custom properties internally (for example, responsive values), but never expose `style`. Limit: Base UI parts that pass through unwrapped still accept `style`; the ban is enforced on wrapped parts only.
+- **Style props**: `style`, `color`, `background` (as a color or CSS string), pixel or CSS-string lengths, shadows. The only lengths allowed are the `height` and `minHeight` of band components (section 4). Components read semantic tokens only; a client changes looks through drivers. Wrapped parts remove `style` from their types (`Omit<..., 'style'>`). Components may still write inline custom properties internally (for example, responsive values), but never expose `style`. Limit: Base UI parts that pass through unwrapped still accept `style`; the ban is enforced on wrapped parts only.
 - **Driver or primitive access**: no prop may name a driver or a `hds/prim/*` value.
 - **Renamed Base UI props**: never wrap a Base UI prop under a second name.
 - **Axis values as booleans**: no `primary`, `isDanger`, `large`, `fullWidth`. Use the axis or measure prop (`variant="primary"`, `width="full"`). Fewer props are better.
@@ -29,6 +29,8 @@ A **slot prop** is allowed when all of these hold:
 - The component needs to control the placement, spacing, or alignment of the content.
 
 A slot prop is named for its position with logical names, `start` and `end`, never `left` and `right`. It takes `ReactNode`. A component has at most `start` and `end`. Content that needs accessibility wiring is not a slot: use the Base UI part.
+
+**Exception (2026-10-20):** the band components `Section`, `Header`, and `Footer` also have `background`. It is a slot for a custom layer behind the content, such as a canvas, WebGL, or Lottie scene. The name states a position (behind), it takes `ReactNode`, and it is not the style prop `background` that holds a color. The component renders the layer with `aria-hidden` and `pointer-events: none`.
 
 ## 2. Member categories
 
@@ -63,9 +65,12 @@ A member belongs to exactly one category. If a member seems to fit two, split it
 
 - **Enumerated values are typed string unions**, never `string`. Export the union with the component (`export type ButtonSize = '800' | '1000' | '1200'`).
 - **Measure values are strings**, never numbers: `"400"`, not `400`. The string matches the token name and the data attribute, and keeps the leading zero in `"050"`.
-- No raw numbers and no CSS lengths in any handy-ds member.
+- **No raw numbers and no CSS lengths** in a handy-ds member, with these exceptions:
+  - **Counts** are numbers: `cols`, `colSpan`, `rowSpan`, `colStart`, `rowStart` (Grid and Grid.Item), and Text `maxLines`. A count is a number of things, not a size.
+  - **Band height** is a CSS length string: `height` and `minHeight` on `Section`, `Header`, and `Footer` take `"auto"`, `"screen"`, or a string such as `"60svh"` or `"480px"`. A page-design height has no token scale, and the `measure/size` steps are too small.
+  - Every other size, space, or width is a measure step (section 5.2).
 - **Content** is `ReactNode`. **Events** are functions. **Booleans** are only for true two-state flags.
-- **Measure props accept responsive values** (section 5.3). Axis props do not; they take one value.
+- **Measure props and layout props accept responsive values** (section 5.3). A layout prop sets how a Flex or Grid places its items: `Flex` `direction`, `Grid` `cols`, and every `Grid.Item` and `Flex.Item` prop. Axis props do not; they take one value.
 - Every handy-ds member with values has a documented default, applied as a data attribute (`data-size="1000"`) or private custom property, so the current value shows in the DOM.
 
 ## 5. Value names
@@ -94,11 +99,12 @@ Measure props may also take these keywords where the spec allows them:
 
 ### 5.3 Responsive values
 
-A measure prop takes one value or an object keyed by breakpoint:
+A measure prop or a layout prop takes one value or an object keyed by breakpoint:
 
 ```tsx
 <Stack gap="400" />
 <Stack gap={{ base: '200', md: '400', xl: '600' }} />
+<Grid cols={{ base: 1, md: 2, lg: 4 }} />
 ```
 
 - Keys: `base`, `sm`, `md`, `lg`, `xl`. `base` is required in the object form.
@@ -112,6 +118,7 @@ A measure prop takes one value or an object keyed by breakpoint:
 | `variant` | per component. Button and other Action parts: `primary`, `secondary`, `tertiary`, `danger`. Text: `display`, `headline`, `body`, `label`, `caption` | The component's role or priority. Values match the token slot (`color/action/primary/...`, `typography/display/...`). |
 | `tone` | per category. Feedback: `danger`, `warning`, `success`, `info`. Content (Icon, Text color): `default`, `muted`, `accent`. Graphic divider (Separator): `default`, `strong` | Semantic color. Values match the token slot (`color/feedback/danger/...`, `color/content/muted/...`). |
 | `elevation` | `base`, `raised`, `floating`, `modal` (`sunken` where a spec needs it) | Surface level: distance above the page plane. Reads Surface color and `elevation/*` shadow. |
+| `surface` | `sunken`, `base`, `primary`, `secondary` on Section, Header, and Footer. `Aside` also takes `raised`. | Background color of a band or column. `sunken` — below the page. `base` — the page. `raised` — above the page. `primary` and `secondary` — the brand color; they also set `data-context="on-primary"` or `"on-secondary"` on the element, so the content re-resolves to its on-brand tokens. Reads Surface color only, with no shadow; this differs from `elevation`. Added in the Section spec (2026-10-20). |
 | `size` on Text | `sm`, `md`, `lg` | Font size step inside a typography role. Text reads `typography/{role}/size/{size}`, so the slot rule gives `sm`/`md`/`lg`, not measure steps. Recorded exception to "one name, one meaning" (section 3), decided in Text's spec interview (2026-10-12). |
 
 A component uses an axis when its definition matches, decided by the token category the component's spec assigns — not by copying another component's choice.
