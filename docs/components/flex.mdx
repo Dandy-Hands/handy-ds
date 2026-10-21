@@ -1,0 +1,347 @@
+---
+title: Flex
+order: 28
+---
+
+import { Flex, Text, Card } from 'handy-ds';
+
+# Flex
+
+Places its children in a row or a column with the flexbox controls as typed
+props. Items wrap by default and the gap is a token. `Flex.Item` sets the size
+of one child. Renders a `div` by default.
+
+<Flex gap="400" wrap={false}>
+  <Flex.Item basis="8000"><Card><Text>Fixed width</Text></Card></Flex.Item>
+  <Flex.Item grow><Text>A description that fills the rest of the row.</Text></Flex.Item>
+</Flex>
+
+## Usage
+
+Use Flex when Stack and Inline do not fit: a fixed item beside an item that
+fills the rest, a `direction` that changes with the screen, or
+`justify="between"` in a column. Do not use Flex when Stack or Inline does the
+job. Use the smaller component first.
+
+## Base UI API
+
+No Base UI primitive — `Flex` and `Flex.Item` are `useRender` components that
+pass all standard attributes through.
+
+| Element | Notes |
+| ------- | ----- |
+| `render` | Exposed on both parts — swap the element without changing the layout. |
+| Native `div` props (`id`, `aria-*`, `className`, ...) | Exposed — full passthrough. `style` is not part of the type. |
+
+## Extension API
+
+`Flex`
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `direction` | `"row" \| "column" \| "row-reverse" \| "column-reverse"`, or `{ base, sm, md, lg, xl }` of these | `"row"` | The main axis. The reverse values flip the order. |
+| `gap` | `"none" \| "050" \| "100" \| "200" \| "300" \| "400" \| "600" \| "800" \| "1000" \| "1200" \| "1600" \| "2400"`, or `{ base, sm, md, lg, xl }` of these | `"400"` | Space between children. |
+| `wrap` | `boolean` | `true` | Children move to the next line when the line is full. |
+| `align` | `"start" \| "center" \| "end" \| "baseline" \| "stretch"` | `"stretch"` | Position of the children on the cross axis. |
+| `justify` | `"start" \| "center" \| "end" \| "between" \| "around" \| "evenly"` | `"start"` | Distribution of the children on the main axis. |
+| `children` | `ReactNode` | — | The items. |
+
+`Flex.Item`
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `grow` | `boolean` | `false` | The item takes the free space of the line. |
+| `shrink` | `boolean` | `true` | The item may become narrower than its content when the line is full. |
+| `basis` | `"6400" \| "8000" \| "9600" \| "12800" \| "auto" \| "fit" \| "full"`, or `{ base, sm, md, lg, xl }` of these | `"auto"` | The starting size on the main axis. `"auto"` — the content size. `"fit"` — shrink to the content. `"full"` — 100% of the line. |
+| `align` | `"start" \| "center" \| "end" \| "baseline" \| "stretch"` | — | Position of this item on the cross axis. Absent — the `Flex` `align`. |
+| `children` | `ReactNode` | — | The item content. |
+
+`render` and standard attributes are passthrough — they appear here only, never get their own section.
+
+## Direction
+
+The direction axis sets the main axis. Pass an object to change it from a screen
+width up. `base` is required.
+
+### direction="row"
+
+The default.
+
+<Flex direction="row">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+### direction="column"
+
+<Flex direction="column">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+### direction="row-reverse"
+
+<Flex direction="row-reverse">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+### direction="column-reverse"
+
+<Flex direction="column-reverse">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+### Responsive direction
+
+A column on small screens and a row from 768 pixels up. Resize the window to see
+the change.
+
+<Flex direction={{ base: 'column', md: 'row' }}>
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+</Flex>
+
+## Gap
+
+The gap axis sets the space between children from the `measure/space` steps.
+
+### gap="none"
+
+<Flex gap="none">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+### gap="400"
+
+The default.
+
+<Flex gap="400">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+### gap="800"
+
+<Flex gap="800">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+### Responsive gap
+
+<Flex gap={{ base: '200', md: '800' }}>
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+## Wrap
+
+The wrap flag controls whether children move to the next line when the line is full.
+
+### wrap
+
+The default. The third item moves to a new line when the row is full.
+
+<Flex wrap>
+  <Flex.Item basis="9600" shrink={false}><Card><Text>One</Text></Card></Flex.Item>
+  <Flex.Item basis="9600" shrink={false}><Card><Text>Two</Text></Card></Flex.Item>
+  <Flex.Item basis="9600" shrink={false}><Card><Text>Three</Text></Card></Flex.Item>
+  <Flex.Item basis="9600" shrink={false}><Card><Text>Four</Text></Card></Flex.Item>
+</Flex>
+
+### wrap={false}
+
+All items stay on one line.
+
+<Flex wrap={false}>
+  <Flex.Item basis="9600"><Card><Text>One</Text></Card></Flex.Item>
+  <Flex.Item basis="9600"><Card><Text>Two</Text></Card></Flex.Item>
+  <Flex.Item basis="9600"><Card><Text>Three</Text></Card></Flex.Item>
+  <Flex.Item basis="9600"><Card><Text>Four</Text></Card></Flex.Item>
+</Flex>
+
+## Align
+
+The align axis sets the position of the children on the cross axis.
+
+### align="start"
+
+<Flex align="start">
+  <Card><Text>Tall item<br />with two lines</Text></Card>
+  <Card><Text>Short</Text></Card>
+</Flex>
+
+### align="center"
+
+<Flex align="center">
+  <Card><Text>Tall item<br />with two lines</Text></Card>
+  <Card><Text>Short</Text></Card>
+</Flex>
+
+### align="end"
+
+<Flex align="end">
+  <Card><Text>Tall item<br />with two lines</Text></Card>
+  <Card><Text>Short</Text></Card>
+</Flex>
+
+### align="baseline"
+
+<Flex align="baseline">
+  <Text variant="headline">Heading</Text>
+  <Text>Body text</Text>
+</Flex>
+
+### align="stretch"
+
+The default.
+
+<Flex align="stretch">
+  <Card><Text>Tall item<br />with two lines</Text></Card>
+  <Card><Text>Short</Text></Card>
+</Flex>
+
+## Justify
+
+The justify axis sets the distribution of the children on the main axis.
+
+### justify="start"
+
+The default.
+
+<Flex justify="start">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+### justify="center"
+
+<Flex justify="center">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+### justify="end"
+
+<Flex justify="end">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+### justify="between"
+
+<Flex justify="between">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+### justify="around"
+
+<Flex justify="around">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+### justify="evenly"
+
+<Flex justify="evenly">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Flex>
+
+## Flex.Item grow
+
+With `grow`, the item takes the free space of the line.
+
+<Flex wrap={false}>
+  <Flex.Item grow><Card><Text>Grows</Text></Card></Flex.Item>
+  <Card><Text>Fixed</Text></Card>
+</Flex>
+
+## Flex.Item shrink
+
+By default an item may become narrower than its content when the line is full.
+`shrink={false}` keeps its width.
+
+<Flex wrap={false}>
+  <Flex.Item basis="12800" shrink={false}><Card><Text>Keeps its width</Text></Card></Flex.Item>
+  <Flex.Item basis="12800"><Card><Text>May shrink</Text></Card></Flex.Item>
+</Flex>
+
+## Flex.Item basis
+
+The basis sets the starting size on the main axis. Width steps are `"6400"`,
+`"8000"`, `"9600"`, and `"12800"`.
+
+### basis="8000"
+
+<Flex wrap={false}>
+  <Flex.Item basis="8000"><Card><Text>8000</Text></Card></Flex.Item>
+  <Flex.Item grow><Card><Text>Fills the rest</Text></Card></Flex.Item>
+</Flex>
+
+### basis="auto"
+
+The default. The content size.
+
+<Flex wrap={false}>
+  <Flex.Item basis="auto"><Card><Text>Auto</Text></Card></Flex.Item>
+  <Flex.Item grow><Card><Text>Fills the rest</Text></Card></Flex.Item>
+</Flex>
+
+### basis="fit"
+
+<Flex wrap={false}>
+  <Flex.Item basis="fit"><Card><Text>Fit</Text></Card></Flex.Item>
+  <Flex.Item grow><Card><Text>Fills the rest</Text></Card></Flex.Item>
+</Flex>
+
+### basis="full"
+
+<Flex>
+  <Flex.Item basis="full"><Card><Text>Full line</Text></Card></Flex.Item>
+  <Flex.Item basis="full"><Card><Text>Next line</Text></Card></Flex.Item>
+</Flex>
+
+### Responsive basis
+
+<Flex>
+  <Flex.Item basis={{ base: 'full', md: '9600' }}><Card><Text>Full, then 9600 from 768 pixels</Text></Card></Flex.Item>
+  <Flex.Item grow><Card><Text>Fills the rest</Text></Card></Flex.Item>
+</Flex>
+
+## Flex.Item align
+
+The item `align` overrides the `Flex` `align` for one child.
+
+<Flex align="start">
+  <Card><Text>Tall item<br />with two lines</Text></Card>
+  <Flex.Item align="end"><Card><Text>End</Text></Card></Flex.Item>
+  <Flex.Item align="center"><Card><Text>Center</Text></Card></Flex.Item>
+</Flex>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Gap | `hds/sem/measure/space/{050,100,200,300,400,600,800,1000,1200,1600,2400}` |
+| Item basis | `hds/sem/measure/width/{6400,8000,9600,12800}` |
+
+Flex reads no color, radius, border, or elevation tokens.
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive — `useRender` components with the same
+  `render` semantics as Base UI parts.
+- Extension decisions: `Flex` sets `data-direction`, `data-gap` (the `base`
+  value), `data-wrap`, `data-align`, and `data-justify`. Responsive values go to
+  private custom properties. `Flex.Item` basis uses the `measure/width` steps
+  only; a small basis such as an icon width has no step.
+  `inline-flex` is not offered.
+- Known constraints: use Stack or Inline first when they fit.
+- Accessibility: Flex adds no semantics. Use `render` to give the list or
+  landmark element the content needs.

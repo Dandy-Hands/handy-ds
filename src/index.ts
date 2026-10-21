@@ -40,3 +40,13 @@ export { Avatar, type AvatarRootProps, type AvatarImageProps, type AvatarFallbac
 export { Separator, type SeparatorProps, type SeparatorTone } from './components/Separator.tsx';
 // Composite
 export { Table, type TableProps } from './components/Table.tsx';
+// Layout
+export { Tiles, type TilesProps } from './components/Tiles.tsx';
+export { Grid, type GridProps, type GridItemProps, type GridCount, type GridAlign } from './components/Grid.tsx';
+export { Inline, type InlineProps, type InlineAlign, type InlineJustify } from './components/Inline.tsx';
+export { Flex, type FlexProps, type FlexItemProps, type FlexDirection, type FlexAlign, type FlexJustify, type FlexBasis } from './components/Flex.tsx';
+export { Stack, type StackProps, type StackAlign } from './components/Stack.tsx';
+export type { Responsive, Space, Breakpoint } from './components/responsive.ts';
+// Page building
+export { Section, Header, Footer, type SectionProps, type HeaderProps, type FooterProps, type SectionSurface, type SectionGradient, type SectionMedia, type SectionScrim, type SectionDirection, type SectionContentWidth, type SectionAlign, type SectionHeight, type SectionMediaFit } from './components/Section.tsx';
+export { Aside, type AsideProps, type AsideSurface } from './components/Aside.tsx';

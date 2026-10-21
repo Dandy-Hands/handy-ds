@@ -1,0 +1,77 @@
+---
+title: Header
+order: 32
+---
+
+import { Header, Text } from 'handy-ds';
+
+# Header
+
+The band at the top of a page. It takes every prop of Section, and renders a
+`header` element. The default `paddingBlock` is `"400"`.
+
+<Header surface="sunken">
+  <Text variant="headline">Acme</Text>
+</Header>
+
+## Usage
+
+Use Header once per page for the site title, the logo, and the main
+navigation. Put a `nav` element or NavigationMenu inside. Do not use it for the
+heading of a card or a section (use Card or Section).
+
+## Base UI API
+
+No Base UI primitive. A `useRender` component.
+
+| Element | Notes |
+| ------- | ----- |
+| `render` | Exposed. |
+| Native `header` props (`id`, `aria-*`, `className`, ...) | Exposed. `style` is not part of the type. |
+
+## Extension API
+
+Header takes every prop of [Section](section) (`surface`, `gradient`, `media`, `scrim`, `background`, `paddingBlock`, `paddingInline`, `contentWidth`, `height`, `minHeight`, `align`), and one more.
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `sticky` | `boolean` | `false` | The header stays at the top of the screen while the page scrolls. It has a shadow to separate it from the content beneath. |
+| `paddingBlock` | `"none"`, a space step, or `{ base, sm, md, lg, xl }` of these | `"400"` | Space above and below the content. Section default is `"1600"`. |
+| `children` | `ReactNode` | — | The content. |
+
+## Sticky
+
+The sticky axis pins the header to the top of the screen. The color stays the
+`surface` value. Scroll the box to see it.
+
+### sticky={false}
+
+The default. The header scrolls away with the page.
+
+<div style={{ height: 160, overflow: 'auto' }}>
+  <Header><Text>Not sticky</Text></Header>
+  <div style={{ height: 400 }}><Text>Scroll</Text></div>
+</div>
+
+### sticky
+
+<div style={{ height: 160, overflow: 'auto' }}>
+  <Header sticky><Text>Sticky</Text></Header>
+  <div style={{ height: 400 }}><Text>Scroll</Text></div>
+</div>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Background | `hds/sem/color/surface/{sunken,base}/bg` |
+| Sticky shadow | `hds/sem/elevation/raised` |
+
+The other parts are the same as Section.
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive. A thin wrapper of the Section implementation with a `header` element.
+- Extension decisions: `sticky` and the `"400"` default for `paddingBlock`.
+- Known constraints: an Aside under a sticky Header has no automatic offset yet.
+- Accessibility: a `header` that is a direct child of the page body is the banner landmark. Use it once per page.

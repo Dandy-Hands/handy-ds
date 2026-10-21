@@ -1,0 +1,66 @@
+---
+title: Footer
+order: 33
+---
+
+import { Footer, Text } from 'handy-ds';
+
+# Footer
+
+The band at the bottom of a page. It takes every prop of Section, and renders a
+`footer` element. The default `paddingBlock` is `"800"`.
+
+<Footer surface="sunken">
+  <Text variant="caption">© 2026 Acme</Text>
+</Footer>
+
+## Usage
+
+Use Footer once per page for legal text, secondary links, and contact details.
+Do not use it for the end of a card or a section.
+
+## Base UI API
+
+No Base UI primitive. A `useRender` component.
+
+| Element | Notes |
+| ------- | ----- |
+| `render` | Exposed. |
+| Native `footer` props (`id`, `aria-*`, `className`, ...) | Exposed. `style` is not part of the type. |
+
+## Extension API
+
+Footer takes every prop of [Section](section) (`surface`, `gradient`, `media`, `scrim`, `background`, `paddingBlock`, `paddingInline`, `contentWidth`, `height`, `minHeight`, `align`). It adds no prop.
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `paddingBlock` | `"none"`, a space step, or `{ base, sm, md, lg, xl }` of these | `"800"` | Space above and below the content. Section default is `"1600"`. |
+| `children` | `ReactNode` | — | The content. |
+
+## Surface
+
+The surface axis sets the background color, as in Section.
+
+### surface="sunken"
+
+<Footer surface="sunken"><Text variant="caption">Sunken</Text></Footer>
+
+### surface="primary"
+
+<Footer surface="primary"><Text variant="caption">Primary</Text></Footer>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Background | `hds/sem/color/surface/{sunken,base}/bg` |
+| Content text | `hds/sem/color/content/default/fg` |
+
+The other parts are the same as Section.
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive. A thin wrapper of the Section implementation with a `footer` element.
+- Extension decisions: only the `"800"` default for `paddingBlock`.
+- Known constraints: none beyond Section.
+- Accessibility: a `footer` that is a direct child of the page body is the contentinfo landmark. Use it once per page.

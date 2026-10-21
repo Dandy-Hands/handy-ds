@@ -1,0 +1,170 @@
+---
+title: Aside
+order: 34
+---
+
+import { Aside, Stack, Text } from 'handy-ds';
+
+# Aside
+
+A column of supporting content beside the main content of a page: a side nav,
+an outline, sources, or related links. It has a width, an optional background,
+and optional sticky behavior. Renders an `aside` element.
+
+<div style={{ display: 'flex', alignItems: 'flex-start' }}>
+  <div style={{ flex: 1, padding: '1rem' }}><Text>Main content.</Text></div>
+  <Aside surface="sunken" aria-label="On this page">
+    <nav aria-label="Table of contents">
+      <Stack gap="200" render={<ul style={{ listStyle: 'none', margin: 0, padding: 0 }} />}>
+        <li>Overview</li>
+        <li>Details</li>
+        <li>Sources</li>
+      </Stack>
+    </nav>
+  </Aside>
+</div>
+
+## Usage
+
+Use Aside for a side nav, an outline, a list of sources, or related links.
+Put a `<nav>` element inside an Aside that holds navigation. Do not use it to
+place itself beside the main content (use Grid). Do not use it for a drawer that
+opens and closes. A page with more than one aside needs an `aria-label` on each.
+
+## Base UI API
+
+No Base UI primitive — a single-part `useRender` component.
+
+| Element | Notes |
+| ------- | ----- |
+| `render` | Exposed — swap the element without changing the layout. |
+| Native `aside` props (`id`, `aria-*`, `className`, ...) | Exposed — full passthrough. `style` is not part of the type. `aria-label` names the landmark. There is no `label` prop. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `width` | `"6400" \| "8000" \| "9600" \| "12800" \| "full"`, or `{ base, sm, md, lg, xl }` of these | `"8000"` | Width of the column. A larger value is a wider column. `"full"` — the width of the parent. |
+| `sticky` | `boolean` | `false` | The column stays in view while the page scrolls. It scrolls inside itself when it is taller than the screen. |
+| `surface` | `"sunken" \| "base" \| "raised" \| "primary" \| "secondary"` | — | Background color. Absent — no background. `primary`, `secondary` — the brand color; text and controls inside switch to their on-brand colors. |
+| `paddingBlock` | `"none"`, a space step, or `{ base, sm, md, lg, xl }` of these | `"400"` | Space above and below the content. |
+| `paddingInline` | `"none"`, a space step, or `{ base, sm, md, lg, xl }` of these | `"400"` | Space at the left and right edges. |
+| `children` | `ReactNode` | — | The content. |
+
+## Width
+
+The width axis sets the width of the column. The column does not shrink in a
+flex row.
+
+### width="6400"
+
+<Aside width="6400" surface="sunken"><Text>6400</Text></Aside>
+
+### width="8000"
+
+The default.
+
+<Aside width="8000" surface="sunken"><Text>8000</Text></Aside>
+
+### width="9600"
+
+<Aside width="9600" surface="sunken"><Text>9600</Text></Aside>
+
+### width="12800"
+
+<Aside width="12800" surface="sunken"><Text>12800</Text></Aside>
+
+### width="full"
+
+<Aside width="full" surface="sunken"><Text>Full width of the parent.</Text></Aside>
+
+### Responsive width
+
+Pass an object to change the width from a screen width up. `base` is required.
+Keys apply from 640 (`sm`), 768 (`md`), 1024 (`lg`), and 1280 (`xl`) pixels.
+Resize the window to see the width change at 768 pixels.
+
+<Aside width={{ base: '6400', md: '12800' }} surface="sunken"><Text>Wider from 768 pixels.</Text></Aside>
+
+## Surface
+
+The surface axis sets the background color. Without it the column is
+transparent.
+
+### surface absent
+
+<Aside><Text>No background.</Text></Aside>
+
+### surface="sunken"
+
+<Aside surface="sunken"><Text>Below the page.</Text></Aside>
+
+### surface="base"
+
+<Aside surface="base"><Text>The page.</Text></Aside>
+
+### surface="raised"
+
+<Aside surface="raised"><Text>Above the page, like a panel.</Text></Aside>
+
+### surface="primary"
+
+Sets the brand context. Text and controls inside use their on-primary colors.
+
+<Aside surface="primary"><Text>On primary.</Text></Aside>
+
+### surface="secondary"
+
+<Aside surface="secondary"><Text>On secondary.</Text></Aside>
+
+## Sticky
+
+With `sticky` the column stays at the top of the screen while the page scrolls.
+When it is taller than the screen, it scrolls inside itself.
+
+<div style={{ display: 'flex', alignItems: 'flex-start' }}>
+  <div style={{ flex: 1 }}>
+    <Text>Scroll the page. The column on the right stays in view.</Text>
+    <div style={{ height: '60rem' }} />
+  </div>
+  <Aside sticky surface="sunken" aria-label="Sticky example"><Text>Sticky column.</Text></Aside>
+</div>
+
+## Padding
+
+`paddingBlock` and `paddingInline` set the space inside the column. Both take
+`"none"` or a space step, and both accept the responsive object form.
+
+### padding="none"
+
+<Aside surface="sunken" paddingBlock="none" paddingInline="none"><Text>No padding.</Text></Aside>
+
+### padding="800"
+
+<Aside surface="sunken" paddingBlock="800" paddingInline="800"><Text>Space step 800.</Text></Aside>
+
+### Responsive padding
+
+<Aside surface="sunken" paddingInline={{ base: '200', md: '800' }}><Text>More space from 768 pixels.</Text></Aside>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Width | `hds/sem/measure/width/{6400,8000,9600,12800}` |
+| Background | `hds/sem/color/surface/{sunken,base,raised}/bg` |
+| Padding | `hds/sem/measure/space/{050,...,2400}` |
+| Text | `hds/sem/color/content/default/fg` |
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive — a `useRender` component with the
+  same `render` semantics as Base UI parts.
+- Extension decisions: `surface="primary"` and `"secondary"` set
+  `data-context="on-primary"` or `"on-secondary"`. The responsive values go to
+  private custom properties (`--_width-base` to `--_width-xl`, and the same for
+  padding). Axes show as `data-width`, `data-surface`, and `data-sticky`.
+- Known constraints: a sticky Aside sticks at `top: 0`, so it slides under a
+  sticky Header. The `overflow-y: auto` rule applies only with `sticky`.
+- Accessibility: the element is a landmark. Name each one with `aria-label`
+  when a page has more than one.

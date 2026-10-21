@@ -1,0 +1,262 @@
+---
+title: Section
+order: 31
+---
+
+import { Section, Stack, Text, Button } from 'handy-ds';
+
+export const image = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='400'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23d9a441'/%3E%3Cstop offset='1' stop-color='%23325d88'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='800' height='400' fill='url(%23g)'/%3E%3C/svg%3E";
+export const video = 'data:video/mp4;base64,';
+
+# Section
+
+A full-width band of a page. It has a background (a surface color, a gradient,
+an image, a video, or a custom layer), space around it, and a centered column
+for its content. Renders a `section` by default. Header and Footer are the same
+band for the top and the bottom of a page.
+
+<Section surface="primary" paddingBlock="800" aria-label="Hero">
+  <Stack gap="400" align="start">
+    <Text variant="headline" render={<h2 />}>Build faster</Text>
+    <Text>Pages made of bands.</Text>
+    <Button variant="primary">Start</Button>
+  </Stack>
+</Section>
+
+## Usage
+
+Use Section for each macro part of a page: a hero, a feature row, a call to
+action. Put a layout component (Stack, Grid) inside for the content. Do not use
+it to group content in a box (use Card). Do not nest a Section in a Section:
+the inner column already has a width. Add `aria-label` to make the section a
+named landmark.
+
+## Base UI API
+
+No Base UI primitive. A `useRender` component with the same `render` prop as
+Base UI parts.
+
+| Element | Notes |
+| ------- | ----- |
+| `render` | Exposed. |
+| Native `section` props (`id`, `aria-*`, `className`, ...) | Exposed. `style` is not part of the type. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `surface` | `"sunken" \| "base" \| "primary" \| "secondary"` | `"base"` | Background color. `"sunken"` — below the page. `"base"` — the page. `"primary"`, `"secondary"` — the brand color; text and controls inside switch to their on-brand colors. |
+| `gradient` | `{ to, direction }` | — | The background runs from `surface` to the `to` level. `to`: `"sunken" \| "base"`. `direction`: `"to-bottom" \| "to-top" \| "to-start" \| "to-end"`. |
+| `media` | `{ type: "image", src, fit, position }` or `{ type: "video", src, poster, fit, position }` | — | A background image or video. `fit`: `"cover"` fills the band and crops, `"contain"` shows the whole picture. `position`: a keyword such as `"center"` or `"top"`. A video needs `poster`. It is muted and loops. It stays paused for users who prefer reduced motion and on a data-saver connection. |
+| `scrim` | `{ tone, strength, direction? }` | — | A layer over `media` that keeps text readable. `tone`: `"dark"` — a dark layer, and the text inside turns light. `"light"` — a light layer, and the text turns dark. `strength`: `"subtle"` — decorative, no contrast guarantee. `"medium"` — large text only. `"strong"` — body text. `direction`: as `gradient`; absent — an even layer. |
+| `background` | `ReactNode` | — | A custom layer behind the content, such as a canvas scene. It ignores pointer input and is hidden from screen readers. |
+| `paddingBlock` | `"none"`, a space step, or `{ base, sm, md, lg, xl }` of these | `"1600"` | Space above and below the content. |
+| `paddingInline` | `"none"`, a space step, or `{ base, sm, md, lg, xl }` of these | `"400"` | Space at the left and right edges. |
+| `contentWidth` | `"default" \| "narrow" \| "full"` | `"default"` | Maximum width of the content column. `"default"` — the page content width. `"narrow"` — a narrower width for reading. `"full"` — no maximum. |
+| `height` | `"auto"`, `"screen"`, or a CSS length such as `"60svh"` | `"auto"` | Height of the band. `"screen"` — the full screen height. Content can be clipped; prefer `minHeight`. |
+| `minHeight` | same as `height` | `"auto"` | Smallest height of the band. |
+| `align` | `"start" \| "center" \| "end"` | `"start"` | Vertical position of the content when the band is taller than the content. |
+| `children` | `ReactNode` | — | The content. |
+
+`render` and standard attributes are passthrough — they appear here only, never get their own section.
+In the object form of a responsive value, `base` is required.
+
+## Surface
+
+The surface axis sets the background color. `"primary"` and `"secondary"` also
+set the brand color context on the band, so the content re-resolves to its
+on-brand colors.
+
+### surface="sunken"
+
+<Section surface="sunken" paddingBlock="400"><Text>Sunken</Text></Section>
+
+### surface="base"
+
+The default.
+
+<Section surface="base" paddingBlock="400"><Text>Base</Text></Section>
+
+### surface="primary"
+
+<Section surface="primary" paddingBlock="400">
+  <Stack align="start"><Text>Primary</Text><Button variant="primary">Action</Button></Stack>
+</Section>
+
+### surface="secondary"
+
+<Section surface="secondary" paddingBlock="400"><Text>Secondary</Text></Section>
+
+## Gradient
+
+The gradient axis runs the background from the `surface` color to the `to`
+level of the same color. The `direction` sets where it ends.
+
+### gradient to="sunken"
+
+<Section surface="base" gradient={{ to: 'sunken', direction: 'to-bottom' }} paddingBlock="800">
+  <Text>Base to sunken, to the bottom</Text>
+</Section>
+
+### gradient to="base"
+
+<Section surface="sunken" gradient={{ to: 'base', direction: 'to-end' }} paddingBlock="800">
+  <Text>Sunken to base, to the end</Text>
+</Section>
+
+### On a brand surface
+
+<Section surface="primary" gradient={{ to: 'sunken', direction: 'to-top' }} paddingBlock="800">
+  <Text>Both stops use the brand colors</Text>
+</Section>
+
+## Media
+
+The media axis puts an image or a video behind the content. It is decorative:
+it has no alt text. This page uses a generated picture as a stand-in.
+
+### Image, fit="cover"
+
+<Section media={{ type: 'image', src: image, fit: 'cover', position: 'center' }} scrim={{ tone: 'dark', strength: 'medium' }} paddingBlock="800">
+  <Text>Text over a cropped image</Text>
+</Section>
+
+### Image, fit="contain"
+
+<Section media={{ type: 'image', src: image, fit: 'contain', position: 'top' }} scrim={{ tone: 'dark', strength: 'medium' }} paddingBlock="800">
+  <Text>Text over a whole image</Text>
+</Section>
+
+### Video
+
+A video is muted, loops, and has no controls. `poster` is required and shows
+until the video plays. The video stays paused under the reduced-motion setting
+and on a data-saver connection. This example has no real video file, so only
+the poster shows.
+
+<Section media={{ type: 'video', src: video, poster: image }} scrim={{ tone: 'dark', strength: 'medium' }} paddingBlock="800">
+  <Text>Text over a video</Text>
+</Section>
+
+## Scrim
+
+The scrim axis adds a layer over the media. `tone` also sets the color mode of
+the band: `"dark"` makes the text light and `"light"` makes it dark. A mode
+resets a brand context above the band.
+
+### tone="dark"
+
+<Section media={{ type: 'image', src: image }} scrim={{ tone: 'dark', strength: 'strong' }} paddingBlock="800">
+  <Text>Dark, strong</Text>
+</Section>
+
+### tone="light"
+
+<Section media={{ type: 'image', src: image }} scrim={{ tone: 'light', strength: 'strong' }} paddingBlock="800">
+  <Text>Light, strong</Text>
+</Section>
+
+### strength="subtle"
+
+<Section media={{ type: 'image', src: image }} scrim={{ tone: 'dark', strength: 'subtle' }} paddingBlock="800">
+  <Text>Subtle: no contrast guarantee</Text>
+</Section>
+
+### strength="medium"
+
+<Section media={{ type: 'image', src: image }} scrim={{ tone: 'dark', strength: 'medium' }} paddingBlock="800">
+  <Text>Medium: large text only</Text>
+</Section>
+
+### direction
+
+<Section media={{ type: 'image', src: image }} scrim={{ tone: 'dark', strength: 'strong', direction: 'to-top' }} align="end" minHeight="200px">
+  <Text>Dark at the bottom, clear at the top</Text>
+</Section>
+
+## Background
+
+The background prop takes any node as a custom layer. It sits above the media
+and below the scrim.
+
+<Section paddingBlock="800" background={<div style={{ width: '100%', height: '100%', background: 'repeating-linear-gradient(45deg, transparent 0 12px, rgba(128,128,128,0.2) 12px 24px)' }} />}>
+  <Text>Text over a custom layer</Text>
+</Section>
+
+## Padding
+
+`paddingBlock` and `paddingInline` take a space step or `"none"`, or an object
+that changes the value from a screen width up. Resize the window to see the
+second example change at 768 pixels.
+
+### paddingBlock="200"
+
+<Section surface="sunken" paddingBlock="200"><Text>Small</Text></Section>
+
+### paddingBlock="1600"
+
+The default.
+
+<Section surface="sunken"><Text>Large</Text></Section>
+
+### Responsive
+
+<Section surface="sunken" paddingBlock={{ base: '200', md: '1200' }} paddingInline={{ base: '200', md: '800' }}>
+  <Text>Space grows from 768 pixels</Text>
+</Section>
+
+## Content width
+
+The content column is centered. Its maximum width comes from the page width
+settings.
+
+### contentWidth="default"
+
+<Section surface="sunken" paddingBlock="400"><Text>Default width</Text></Section>
+
+### contentWidth="narrow"
+
+<Section surface="sunken" paddingBlock="400" contentWidth="narrow"><Text>Narrow width</Text></Section>
+
+### contentWidth="full"
+
+<Section surface="sunken" paddingBlock="400" contentWidth="full"><Text>No maximum width</Text></Section>
+
+## Height and align
+
+`height` and `minHeight` take `"auto"`, `"screen"`, or a CSS length. A CSS
+length is not a token. `align` places the content in a tall band.
+
+### minHeight="240px", align="start"
+
+<Section surface="sunken" minHeight="240px" align="start" paddingBlock="400"><Text>Start</Text></Section>
+
+### align="center"
+
+<Section surface="sunken" minHeight="240px" align="center" paddingBlock="400"><Text>Center</Text></Section>
+
+### align="end"
+
+<Section surface="sunken" minHeight="240px" align="end" paddingBlock="400"><Text>End</Text></Section>
+
+### height="screen"
+
+`"screen"` is the full screen height (`100svh`). It is not shown here because it
+fills the screen.
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Band background, gradient stops | `hds/sem/color/surface/{sunken,base}/bg` |
+| Content text | `hds/sem/color/content/default/fg` |
+| Scrim | `hds/sem/color/overlay/media/{dark,light}/{subtle,medium,strong}` |
+| Padding | `hds/sem/measure/space/{050,...,2400}` |
+| Content column width | `hds/sem/measure/width/content`, `hds/sem/measure/width/content-narrow` |
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive. A `useRender` component. Header and Footer share the implementation and render their own element.
+- Extension decisions: `surface` `primary` or `secondary` sets `data-context="on-primary"` or `"on-secondary"` on the band. `scrim.tone` sets `data-mode`. `background` is an approved exception to the slot rule in the API conventions. Layers order from back to front: surface or gradient, media, background, scrim, content.
+- Known constraints: a mode element re-declares every color token, so a scrim resets a brand context above the band. Text over an image is checked only against a worst case. `to-start` and `to-end` are left and right, not flipped for right-to-left text. A CSS `height` can clip content.
+- Accessibility: the media and background layers are `aria-hidden`. A `section` is a landmark only with an accessible name, so add `aria-label`. A video is muted, has no controls, and stays paused under reduced motion and on a data-saver connection.

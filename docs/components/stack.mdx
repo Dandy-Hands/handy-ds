@@ -1,0 +1,146 @@
+---
+title: Stack
+order: 26
+---
+
+import { Stack, Text, Card } from 'handy-ds';
+
+# Stack
+
+Places its children in one column with a space between them. It has no color,
+border, or padding. Renders a `div` by default.
+
+<Stack gap="600">
+  <Text variant="headline" render={<h2 />}>Account</Text>
+  <Text>Manage your profile and billing.</Text>
+</Stack>
+
+## Usage
+
+Use Stack for the main flow of a page, a form, or a card body: items one below
+the other. Use `render` when the element matters, for example
+`render={<ul />}` or `render={<nav />}`. Do not use it for a row (use Inline)
+or for a grid (use Tiles or Grid). Do not use it for padding or a background
+(use Section or Card).
+
+## Base UI API
+
+No Base UI primitive — a single-part `useRender` component that passes all
+standard attributes through.
+
+| Element | Notes |
+| ------- | ----- |
+| `render` | Exposed — swap the element (`<ul />`, `<nav />`, ...) without changing the layout. |
+| Native `div` props (`id`, `aria-*`, `className`, ...) | Exposed — full passthrough. `style` is not part of the type. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `gap` | `"none" \| "050" \| "100" \| "200" \| "300" \| "400" \| "600" \| "800" \| "1000" \| "1200" \| "1600" \| "2400"`, or `{ base, sm, md, lg, xl }` of these | `"400"` | Space between children. `"none"` — no space. The other values are space steps; a larger number is a larger space. The object form changes the value from a screen width up. |
+| `align` | `"start" \| "center" \| "end" \| "stretch"` | `"stretch"` | Horizontal position of the children. `"start"`, `"center"`, `"end"` — children keep their own width at that edge. `"stretch"` — children fill the width. |
+| `children` | `ReactNode` | — | The items. |
+
+`render` and standard attributes are passthrough — they appear here only, never get their own section.
+
+## Gap
+
+The gap axis sets the space between children from the `measure/space` steps.
+`"none"` removes it.
+
+### gap="none"
+
+<Stack gap="none">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Stack>
+
+### gap="200"
+
+<Stack gap="200">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Stack>
+
+### gap="400"
+
+The default.
+
+<Stack gap="400">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Stack>
+
+### gap="800"
+
+<Stack gap="800">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Stack>
+
+### Responsive gap
+
+Pass an object to change the gap from a screen width up. `base` is required.
+Keys apply from 640 (`sm`), 768 (`md`), 1024 (`lg`), and 1280 (`xl`) pixels.
+Resize the window to see the gap change at 768 pixels.
+
+<Stack gap={{ base: '200', md: '800' }} render={<ul />}>
+  <li>One</li>
+  <li>Two</li>
+  <li>Three</li>
+</Stack>
+
+## Align
+
+The align axis sets the horizontal position of the children.
+
+### align="start"
+
+<Stack align="start">
+  <Card><Text>Short</Text></Card>
+  <Card><Text>A longer item</Text></Card>
+</Stack>
+
+### align="center"
+
+<Stack align="center">
+  <Card><Text>Short</Text></Card>
+  <Card><Text>A longer item</Text></Card>
+</Stack>
+
+### align="end"
+
+<Stack align="end">
+  <Card><Text>Short</Text></Card>
+  <Card><Text>A longer item</Text></Card>
+</Stack>
+
+### align="stretch"
+
+The default. Children fill the width.
+
+<Stack align="stretch">
+  <Card><Text>Short</Text></Card>
+  <Card><Text>A longer item</Text></Card>
+</Stack>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Gap | `hds/sem/measure/space/{050,100,200,300,400,600,800,1000,1200,1600,2400}` |
+
+Stack reads no color, radius, border, or elevation tokens.
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive — a single-part `useRender` component
+  with the same `render` semantics as Base UI parts.
+- Extension decisions: `gap` (responsive, default `"400"`) and `align`
+  (default `"stretch"`) are the only wrapper props. They set `data-gap` (the
+  `base` value) and `data-align`. The responsive values go to private custom
+  properties (`--_gap-base` to `--_gap-xl`).
+- Known constraints: Stack has no `direction` prop. For a row use Inline. For a
+  direction that changes with the screen use Flex.
+- Accessibility: Stack adds no semantics. Use `render` to give the list or
+  landmark element the content needs.

@@ -56,6 +56,12 @@ Each `.tsx` imports the CSS it needs in this order: `base.css`, then category CS
 - Imports use `.ts`/`.tsx` extensions. Only erasable TS syntax (no enums, no namespaces).
 - Export from `src/index.ts` under its category heading.
 
+## Responsive props
+
+`src/components/responsive.ts` turns a responsive prop (section 5.3 of `api-conventions.md`) into private custom properties. `responsive(name, value, toCss?)` returns `--_<name>-base`, `-sm`, `-md`, `-lg`, `-xl` (all five always set). Spread it into `style`. `toCss` maps a value: `spaceValue` for measure steps (`"none"` is `0`), the default `String` for counts and keywords. `Responsive<T>` is the prop type.
+
+The CSS file reads them mobile-first: `prop: var(--_name-base)`, then one `@media (min-width: Npx)` rule per breakpoint. Media queries cannot read custom properties, so the file repeats 640, 768, 1024, and 1280 with a comment. `Stack.css` is the model. Also set `data-<prop>` to the `base` value so the DOM shows the current value.
+
 ## Props
 
 Prop rules — what is and is not a member, member categories, names, value types, and value names — live in [`api-conventions.md`](api-conventions.md).

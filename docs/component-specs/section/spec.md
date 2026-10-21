@@ -2,9 +2,9 @@
 
 Status:
 - spec: reviewed
-- code: pending
-- figma: pending
-- docs: pending
+- code: built
+- figma: built
+- docs: built
 
 - Date: 2026-10-20
 - Interview: brainstorm and interview, see `.claude/decisions.md` ("Layout and page-building components").

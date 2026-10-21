@@ -1,0 +1,153 @@
+---
+title: Tiles
+order: 29
+---
+
+import { Tiles, Text, Card } from 'handy-ds';
+
+# Tiles
+
+Places equal-size children in as many columns as fit. Each child is at least
+`minTileWidth` wide. The browser picks the column count from the free space, so
+Tiles needs no breakpoint. It has no color, border, or padding. Renders a `div`
+by default.
+
+<Tiles>
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+  <Card><Text>Four</Text></Card>
+</Tiles>
+
+## Usage
+
+Use Tiles for a list of cards, a gallery, or a set of items that all have the
+same weight. Do not use it when one item must be larger or placed in a chosen
+column (use Grid). Do not use it for a dashboard (use Grid).
+
+Tiles in one row have the same height: each tile has the height of the tallest
+tile in its row. Rows can differ in height. A tile fills its cell only when it
+is a direct child of Tiles. A child inside a wrapper does not fill the cell.
+To keep tiles at their natural height, use Grid with `align="start"`.
+
+## Base UI API
+
+No Base UI primitive — a single-part `useRender` component that passes all
+standard attributes through.
+
+| Element | Notes |
+| ------- | ----- |
+| `render` | Exposed — swap the element (`<ul />`, ...) without changing the layout. |
+| Native `div` props (`id`, `aria-*`, `className`, ...) | Exposed — full passthrough. `style` is not part of the type. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `gap` | `"none" \| "050" \| "100" \| "200" \| "300" \| "400" \| "600" \| "800" \| "1000" \| "1200" \| "1600" \| "2400"`, or `{ base, sm, md, lg, xl }` of these | `"400"` | Space between tiles. Same values as Stack `gap`. |
+| `minTileWidth` | `"6400" \| "8000" \| "9600" \| "12800"` | `"8000"` | The smallest width of one tile. A larger value gives wider tiles and fewer columns. A tile that does not fit in one column fills the row. |
+| `children` | `ReactNode` | — | The tiles. |
+
+`render` and standard attributes are passthrough — they appear here only, never get their own section.
+
+## Min tile width
+
+The minTileWidth axis sets the smallest width of one tile.
+
+### minTileWidth="6400"
+
+<Tiles minTileWidth="6400">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+  <Card><Text>Four</Text></Card>
+</Tiles>
+
+### minTileWidth="8000"
+
+The default.
+
+<Tiles minTileWidth="8000">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+  <Card><Text>Four</Text></Card>
+</Tiles>
+
+### minTileWidth="9600"
+
+<Tiles minTileWidth="9600">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+  <Card><Text>Four</Text></Card>
+</Tiles>
+
+### minTileWidth="12800"
+
+<Tiles minTileWidth="12800">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+  <Card><Text>Four</Text></Card>
+</Tiles>
+
+## Gap
+
+The gap axis sets the space between tiles from the `measure/space` steps.
+
+### gap="none"
+
+<Tiles gap="none">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+</Tiles>
+
+### gap="200"
+
+<Tiles gap="200">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+</Tiles>
+
+### gap="800"
+
+<Tiles gap="800">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+</Tiles>
+
+### Responsive gap
+
+Pass an object to change the gap from a screen width up. `base` is required.
+Keys apply from 640 (`sm`), 768 (`md`), 1024 (`lg`), and 1280 (`xl`) pixels.
+
+<Tiles gap={{ base: '200', md: '800' }}>
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+</Tiles>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Gap | `hds/sem/measure/space/{050,100,200,300,400,600,800,1000,1200,1600,2400}` |
+| Minimum tile width | `hds/sem/measure/width/{6400,8000,9600,12800}` |
+
+Tiles reads no color, radius, border, or elevation tokens.
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive — a single-part `useRender` component.
+- Extension decisions: `gap` (responsive, default `"400"`) and `minTileWidth`
+  (default `"8000"`) are the only wrapper props. They set `data-gap` (the
+  `base` value) and `data-min-tile-width`. Tiles has no `align` prop and no
+  `Tiles.Item`.
+- Known constraints: Tiles makes equal columns only. For a chosen column
+  count or an item that spans columns, use Grid.
+- Accessibility: Tiles adds no semantics. Use `render={<ul />}` with `<li>`
+  children when the tiles are a list.

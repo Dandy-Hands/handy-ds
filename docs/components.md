@@ -612,3 +612,173 @@ Renders a plain `<table>`. Write `<thead>`, `<tbody>`, `<th>` and `<td>` yoursel
   <tbody><tr><td>Jane</td><td>Pro</td></tr></tbody>
 </Table>
 ```
+
+## Layout
+
+### Stack
+
+Places children in one column with a space between them. No color, border, or padding.
+
+- **Use when:** the main flow of a page, a form, or a card body.
+- **Don't use when:** you need a row (use Inline) or a grid (use Tiles or Grid), or padding or a background (use Section or Card).
+
+| Prop | Values | Default |
+|---|---|---|
+| `gap` | `"none"`, space steps `"050"` to `"2400"`, or `{ base, sm, md, lg, xl }` of these | `"400"` |
+| `align` | `"start"`, `"center"`, `"end"`, `"stretch"` | `"stretch"` |
+
+```tsx
+<Stack gap={{ base: "200", md: "400" }} render={<ul />}><li>One</li><li>Two</li></Stack>
+```
+
+### Inline
+
+Places children in one row. When the row is full, the children wrap to the next line. No color, border, or padding.
+
+- **Use when:** a row of buttons, tags, links, or an icon with a label.
+- **Don't use when:** you need a column (use Stack) or equal-size cards (use Tiles), or a fixed item beside an item that fills the rest (use Flex).
+
+| Prop | Values | Default |
+|---|---|---|
+| `gap` | `"none"`, space steps `"050"` to `"2400"`, or `{ base, sm, md, lg, xl }` of these | `"200"` |
+| `align` | `"start"`, `"center"`, `"end"`, `"baseline"`, `"stretch"` | `"center"` |
+| `justify` | `"start"`, `"center"`, `"end"`, `"between"` | `"start"` |
+
+```tsx
+<Inline gap="200" justify="between"><Text>Team</Text><Button variant="primary">Invite</Button></Inline>
+```
+
+### Flex
+
+Places children in a row or a column with the full set of flexbox controls. Items wrap by default. `Flex.Item` sets grow, shrink, basis, and align for one child.
+
+- **Use when:** a fixed item beside an item that fills the rest, or a direction that changes with the screen width.
+- **Don't use when:** Stack or Inline does the job.
+
+| Prop | Values | Default |
+|---|---|---|
+| `direction` | `"row"`, `"column"`, `"row-reverse"`, `"column-reverse"`, or `{ base, sm, md, lg, xl }` of these | `"row"` |
+| `gap` | `"none"`, space steps `"050"` to `"2400"`, or `{ base, sm, md, lg, xl }` of these | `"400"` |
+| `wrap` | `true`, `false` | `true` |
+| `align` | `"start"`, `"center"`, `"end"`, `"baseline"`, `"stretch"` | `"stretch"` |
+| `justify` | `"start"`, `"center"`, `"end"`, `"between"`, `"around"`, `"evenly"` | `"start"` |
+
+`Flex.Item`:
+
+| Prop | Values | Default |
+|---|---|---|
+| `grow` | `true`, `false` | `false` |
+| `shrink` | `true`, `false` | `true` |
+| `basis` | width steps `"6400"` to `"12800"`, `"auto"`, `"fit"`, `"full"`, or `{ base, sm, md, lg, xl }` of these | `"auto"` |
+| `align` | `"start"`, `"center"`, `"end"`, `"baseline"`, `"stretch"` | absent |
+
+```tsx
+<Flex wrap={false}><Flex.Item basis="8000"><img src="/team.jpg" alt="Team" /></Flex.Item><Flex.Item grow><Text>Fills the rest.</Text></Flex.Item></Flex>
+```
+
+### Tiles
+
+Places equal-size children in as many columns as fit. Each child is at least `minTileWidth` wide. Tiles in one row have the same height.
+
+- **Use when:** a list of cards, a gallery, or items of the same weight.
+- **Don't use when:** one item must be larger or placed in a chosen column, or for a dashboard (use Grid).
+
+| Prop | Values | Default |
+|---|---|---|
+| `gap` | `"none"`, space steps `"050"` to `"2400"`, or `{ base, sm, md, lg, xl }` of these | `"400"` |
+| `minTileWidth` | `"6400"`, `"8000"`, `"9600"`, `"12800"` | `"8000"` |
+
+```tsx
+<Tiles minTileWidth="9600"><Card>One</Card><Card>Two</Card></Tiles>
+```
+
+### Grid
+
+Places children in columns. Without `cols`, it makes as many columns as fit. With `cols`, it makes that many equal columns. Parts: `Grid`, `Grid.Item`.
+
+- **Use when:** a dashboard, a page layout with an Aside, or a chosen column count or item span.
+- **Don't use when:** all items are equal and any column count works (use Tiles).
+
+| Prop | Values | Default |
+|---|---|---|
+| `Grid` `cols` | `1` to `12`, or a responsive object | absent (auto-fit) |
+| `Grid` `minColWidth` | `"6400"`, `"8000"`, `"9600"`, `"12800"` (only when `cols` is absent) | `"8000"` |
+| `Grid` `gap` | `"none"`, space steps, or a responsive object | `"400"` |
+| `Grid` `align`, `justify` | `"start"`, `"center"`, `"end"`, `"stretch"` | `"stretch"` |
+| `Grid.Item` `colSpan`, `rowSpan` | `1` to `12`, or a responsive object. `colSpan` above `cols` is reduced to `cols` | `1` |
+| `Grid.Item` `colStart`, `rowStart` | `1` to `12`, or a responsive object | auto |
+| `Grid.Item` `align`, `justify` | `"start"`, `"center"`, `"end"`, `"stretch"`, or a responsive object | the Grid value |
+
+```tsx
+<Grid cols={{ base: 1, lg: 4 }}><Grid.Item colSpan={{ base: 1, lg: 3 }}><Card>Main</Card></Grid.Item><Grid.Item><Card>Side</Card></Grid.Item></Grid>
+```
+
+## Page building
+
+### Section
+
+A full-width band of a page with a surface, gradient, image, video, or custom background and a centered content column. Renders a `section`.
+
+- **Use when:** each macro part of a page: a hero, a feature row, a call to action.
+- **Don't use when:** you group content in a box (use Card), or you would nest it in another Section.
+
+| Prop | Values | Default |
+|---|---|---|
+| `surface` | `"sunken"`, `"base"`, `"primary"`, `"secondary"` (the last two set the brand context) | `"base"` |
+| `gradient` | `{ to: "sunken" \| "base", direction: "to-bottom" \| "to-top" \| "to-start" \| "to-end" }` | none |
+| `media` | `{ type: "image", src, fit?, position? }` or `{ type: "video", src, poster, fit?, position? }` | none |
+| `scrim` | `{ tone: "dark" \| "light", strength: "subtle" \| "medium" \| "strong", direction? }`; `tone` sets the mode | none |
+| `background` | `ReactNode` custom layer | none |
+| `paddingBlock` | `"none"`, space steps, or `{ base, sm, md, lg, xl }` of these | `"1600"` |
+| `paddingInline` | same | `"400"` |
+| `contentWidth` | `"default"`, `"narrow"`, `"full"` | `"default"` |
+| `height`, `minHeight` | `"auto"`, `"screen"`, or a CSS length string | `"auto"` |
+| `align` | `"start"`, `"center"`, `"end"` | `"start"` |
+
+```tsx
+<Section surface="primary" minHeight="screen" align="center"><Stack><Text variant="display" render={<h1 />}>Build faster</Text></Stack></Section>
+```
+
+### Header
+
+The band at the top of a page. Renders a `header`. Takes every Section prop; the default `paddingBlock` is `"400"`.
+
+- **Use when:** once per page for the site title, logo, and main navigation.
+- **Don't use when:** you need the heading of a card or a section.
+
+| Prop | Values | Default |
+|---|---|---|
+| `sticky` | `true`, `false`; a sticky header stays at the top with a shadow | `false` |
+
+```tsx
+<Header sticky><Text variant="headline">Acme</Text></Header>
+```
+
+### Footer
+
+The band at the bottom of a page. Renders a `footer`. Takes every Section prop; the default `paddingBlock` is `"800"`. It adds no prop.
+
+- **Use when:** once per page for legal text, secondary links, and contact details.
+- **Don't use when:** you need the end of a card or a section.
+
+```tsx
+<Footer surface="sunken"><Text variant="caption">© 2026 Acme</Text></Footer>
+```
+
+### Aside
+
+A column of supporting content beside the main content: a side nav, an outline, sources, or related links.
+
+- **Use when:** a side nav, an outline, a list of sources, or related links.
+- **Don't use when:** you need to place it beside the main content (use Grid), or a drawer that opens and closes.
+
+| Prop | Values | Default |
+|---|---|---|
+| `width` | `"6400"`, `"8000"`, `"9600"`, `"12800"`, `"full"`, or `{ base, sm, md, lg, xl }` of these | `"8000"` |
+| `sticky` | `true`, `false` | `false` |
+| `surface` | `"sunken"`, `"base"`, `"raised"`, `"primary"`, `"secondary"` | absent (transparent) |
+| `paddingBlock`, `paddingInline` | `"none"`, space steps, or `{ base, sm, md, lg, xl }` of these | `"400"` |
+
+```tsx
+<Aside sticky aria-label="On this page"><nav aria-label="Table of contents">...</nav></Aside>
+```

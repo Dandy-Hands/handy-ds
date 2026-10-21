@@ -1,0 +1,258 @@
+---
+title: Grid
+order: 30
+---
+
+import { Grid, Text, Card } from 'handy-ds';
+
+# Grid
+
+Places children in columns. Without `cols`, it makes as many columns as fit
+(like Tiles). With `cols`, it makes that many equal columns, and `Grid.Item`
+sets how many columns or rows an item covers. It has no color, border, or
+padding. Renders a `div` by default.
+
+<Grid cols={{ base: 1, md: 4 }}>
+  <Grid.Item colSpan={{ base: 1, md: 2 }}><Card><Text>Wide</Text></Card></Grid.Item>
+  <Grid.Item><Card><Text>One</Text></Card></Grid.Item>
+  <Grid.Item><Card><Text>Two</Text></Card></Grid.Item>
+</Grid>
+
+## Usage
+
+Use Grid for a dashboard, a page layout with an Aside, or any layout with a
+chosen column count or item span. Do not use it when all items are equal and any
+column count works (use Tiles).
+
+Without `cols`, `colSpan` has no limit from the Grid. A `colSpan` larger than
+the number of columns that fit makes the browser add extra columns and the
+content can overflow. Set `cols` when you use `colSpan`.
+
+## Base UI API
+
+No Base UI primitive — both parts are `useRender` components that pass all
+standard attributes through.
+
+| Element | Notes |
+| ------- | ----- |
+| `render` | Exposed on both parts — swap the element. |
+| Native `div` props (`id`, `aria-*`, `className`, ...) | Exposed — full passthrough. `style` is not part of the type. |
+
+## Extension API
+
+Every responsive prop takes a value, or an object `{ base, sm, md, lg, xl }`
+that changes the value from a screen width up. `base` is required in the object.
+
+### Grid
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `cols` | `1` to `12`, or a responsive object | — | Number of equal columns. Absent — as many columns as fit, each at least `minColWidth` wide. |
+| `minColWidth` | `"6400" \| "8000" \| "9600" \| "12800"` | `"8000"` | The smallest width of one column. Used only when `cols` is absent. A larger value gives wider and fewer columns. |
+| `gap` | `"none"`, a space step `"050"` to `"2400"`, or a responsive object | `"400"` | Space between rows and columns. |
+| `align` | `"start" \| "center" \| "end" \| "stretch"` | `"stretch"` | Vertical position of each item in its cell. |
+| `justify` | `"start" \| "center" \| "end" \| "stretch"` | `"stretch"` | Horizontal position of each item in its cell. |
+| `children` | `ReactNode` | — | The items. |
+
+### Grid.Item
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `colSpan` | `1` to `12`, or a responsive object | `1` | Columns the item covers. A value larger than `cols` covers all columns. |
+| `rowSpan` | `1` to `12`, or a responsive object | `1` | Rows the item covers. |
+| `colStart` | `1` to `12`, or a responsive object | — | Column line where the item starts. `1` is the first column. |
+| `rowStart` | `1` to `12`, or a responsive object | — | Row line where the item starts. |
+| `align` | `"start" \| "center" \| "end" \| "stretch"`, or a responsive object | — | Vertical position in the cell. Absent — the Grid `align`. |
+| `justify` | `"start" \| "center" \| "end" \| "stretch"`, or a responsive object | — | Horizontal position in the cell. Absent — the Grid `justify`. |
+| `children` | `ReactNode` | — | The item content. |
+
+`render` and standard attributes are passthrough — they appear here only, never get their own section.
+
+## Cols
+
+The cols axis sets the number of equal columns. Without it, the columns
+auto-fit.
+
+### cols absent
+
+<Grid minColWidth="6400">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+  <Card><Text>Four</Text></Card>
+</Grid>
+
+### cols={3}
+
+<Grid cols={3}>
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+  <Card><Text>Four</Text></Card>
+</Grid>
+
+### Responsive cols
+
+Resize the window: one column, then two from 768 pixels, then four from 1024.
+
+<Grid cols={{ base: 1, md: 2, lg: 4 }}>
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+  <Card><Text>Four</Text></Card>
+</Grid>
+
+## Min col width
+
+Used only when `cols` is absent.
+
+### minColWidth="6400"
+
+<Grid minColWidth="6400">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+</Grid>
+
+### minColWidth="12800"
+
+<Grid minColWidth="12800">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+  <Card><Text>Three</Text></Card>
+</Grid>
+
+## Gap
+
+The gap axis sets the space between rows and columns.
+
+### gap="none"
+
+<Grid cols={2} gap="none">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Grid>
+
+### gap="200"
+
+<Grid cols={2} gap="200">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Grid>
+
+### gap="800"
+
+<Grid cols={2} gap="800">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Grid>
+
+### Responsive gap
+
+<Grid cols={2} gap={{ base: '200', md: '800' }}>
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Grid>
+
+## Align and justify
+
+These set the position of every item in its cell. Use `start`, `center`, `end`,
+or `stretch` (the default).
+
+### align="center"
+
+<Grid cols={2} align="center">
+  <Card><Text>Tall item{' '}<br />with two lines</Text></Card>
+  <Card><Text>Short</Text></Card>
+</Grid>
+
+### justify="center"
+
+<Grid cols={2} justify="center">
+  <Card><Text>One</Text></Card>
+  <Card><Text>Two</Text></Card>
+</Grid>
+
+## Item span
+
+`colSpan` and `rowSpan` set how many columns or rows an item covers.
+
+### colSpan
+
+<Grid cols={4}>
+  <Grid.Item colSpan={2}><Card><Text>Spans 2</Text></Card></Grid.Item>
+  <Grid.Item><Card><Text>One</Text></Card></Grid.Item>
+  <Grid.Item><Card><Text>Two</Text></Card></Grid.Item>
+</Grid>
+
+### colSpan larger than cols
+
+The span is reduced to `cols`. Here `colSpan={6}` covers the 3 columns.
+
+<Grid cols={3}>
+  <Grid.Item colSpan={6}><Card><Text>Covers all 3</Text></Card></Grid.Item>
+  <Grid.Item><Card><Text>One</Text></Card></Grid.Item>
+</Grid>
+
+### rowSpan
+
+<Grid cols={2}>
+  <Grid.Item rowSpan={2}><Card><Text>Spans 2 rows</Text></Card></Grid.Item>
+  <Grid.Item><Card><Text>One</Text></Card></Grid.Item>
+  <Grid.Item><Card><Text>Two</Text></Card></Grid.Item>
+</Grid>
+
+### Responsive colSpan
+
+<Grid cols={{ base: 1, lg: 4 }}>
+  <Grid.Item colSpan={{ base: 1, lg: 3 }}><Card><Text>Main</Text></Card></Grid.Item>
+  <Grid.Item><Card><Text>Side</Text></Card></Grid.Item>
+</Grid>
+
+## Item position
+
+`colStart` and `rowStart` set the line where an item starts.
+
+### colStart
+
+<Grid cols={4}>
+  <Grid.Item colStart={3}><Card><Text>Starts at 3</Text></Card></Grid.Item>
+</Grid>
+
+### rowStart
+
+<Grid cols={2}>
+  <Grid.Item rowStart={2}><Card><Text>Row 2</Text></Card></Grid.Item>
+  <Grid.Item rowStart={1}><Card><Text>Row 1</Text></Card></Grid.Item>
+</Grid>
+
+## Item align and justify
+
+`align` and `justify` on `Grid.Item` override the Grid value for one item.
+
+<Grid cols={2}>
+  <Grid.Item align="end" justify="end"><Card><Text>End</Text></Card></Grid.Item>
+  <Grid.Item><Card><Text>Tall item{' '}<br />with two lines</Text></Card></Grid.Item>
+</Grid>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Gap | `hds/sem/measure/space/{050,100,200,300,400,600,800,1000,1200,1600,2400}` |
+| Minimum column width | `hds/sem/measure/width/{6400,8000,9600,12800}` |
+
+Grid and Grid.Item read no color, radius, border, or elevation tokens.
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive — two `useRender` components.
+- Extension decisions: all layout props are responsive. Counts are numbers
+  from 1 to 12, not token steps. Grid writes its `cols` as private custom
+  properties. Grid.Item reads them, so `colSpan` is reduced to `cols` at every
+  breakpoint. There is no `area` or `areas` prop.
+- Known constraints: with `cols` absent, `colSpan` has no clamp. A span
+  larger than the columns that fit can overflow. Set `cols` when you use
+  `colSpan`.
+- Accessibility: Grid adds no semantics. Keep the DOM order the same as the
+  reading order. `colStart` and `rowStart` change only the visual order.

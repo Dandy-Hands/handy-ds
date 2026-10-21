@@ -1,0 +1,20 @@
+@layer hds.components {
+  .hds-tiles {
+    display: grid;
+    gap: var(--_gap-base);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--_min)), 1fr));
+  }
+  /* Breakpoints repeat src/tokens/primitives.ts `breakpoints`: custom properties do not work in @media. */
+  @media (min-width: 640px) { /* sm */
+    .hds-tiles { gap: var(--_gap-sm); }
+  }
+  @media (min-width: 768px) { /* md */
+    .hds-tiles { gap: var(--_gap-md); }
+  }
+  @media (min-width: 1024px) { /* lg */
+    .hds-tiles { gap: var(--_gap-lg); }
+  }
+  @media (min-width: 1280px) { /* xl */
+    .hds-tiles { gap: var(--_gap-xl); }
+  }
+}

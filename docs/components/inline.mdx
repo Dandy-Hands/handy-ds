@@ -1,0 +1,179 @@
+---
+title: Inline
+order: 27
+---
+
+import { Inline, Text, Button, Card } from 'handy-ds';
+
+# Inline
+
+Places its children in one row. When the row is full, the children wrap to the
+next line. It has no color, border, or padding. Renders a `div` by default.
+
+<Inline gap="200" justify="between">
+  <Text variant="headline" render={<h2 />}>Team</Text>
+  <Button variant="primary">Invite</Button>
+</Inline>
+
+## Usage
+
+Use Inline for a row of buttons, tags, or links, or for an icon with a label.
+Do not use it for a column (use Stack) or for equal-size cards (use Tiles). Do
+not use it to put a fixed item beside long text that must fill the rest (use
+Flex): long text in an Inline wraps below the first item.
+
+## Base UI API
+
+No Base UI primitive — a single-part `useRender` component that passes all
+standard attributes through.
+
+| Element | Notes |
+| ------- | ----- |
+| `render` | Exposed — swap the element (`<ul />`, `<nav />`, ...) without changing the layout. |
+| Native `div` props (`id`, `aria-*`, `className`, ...) | Exposed — full passthrough. `style` is not part of the type. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `gap` | `"none" \| "050" \| "100" \| "200" \| "300" \| "400" \| "600" \| "800" \| "1000" \| "1200" \| "1600" \| "2400"`, or `{ base, sm, md, lg, xl }` of these | `"200"` | Space between children, in the row and between lines. The object form changes the value from a screen width up. |
+| `align` | `"start" \| "center" \| "end" \| "baseline" \| "stretch"` | `"center"` | Vertical position of the children in a line. `"baseline"` — text baselines line up. `"stretch"` — children fill the line height. |
+| `justify` | `"start" \| "center" \| "end" \| "between"` | `"start"` | Horizontal distribution in a line. `"between"` — first child at the start, last child at the end. |
+| `children` | `ReactNode` | — | The items. |
+
+`render` and standard attributes are passthrough — they appear here only, never get their own section.
+
+## Gap
+
+The gap axis sets the space between children, and between lines when the row wraps.
+
+### gap="none"
+
+<Inline gap="none">
+  <Button>One</Button>
+  <Button>Two</Button>
+</Inline>
+
+### gap="200"
+
+The default.
+
+<Inline gap="200">
+  <Button>One</Button>
+  <Button>Two</Button>
+</Inline>
+
+### gap="800"
+
+<Inline gap="800">
+  <Button>One</Button>
+  <Button>Two</Button>
+</Inline>
+
+### Responsive gap
+
+Pass an object to change the gap from a screen width up. `base` is required.
+Keys apply from 640 (`sm`), 768 (`md`), 1024 (`lg`), and 1280 (`xl`) pixels.
+
+<Inline gap={{ base: '100', md: '800' }}>
+  <Button>One</Button>
+  <Button>Two</Button>
+  <Button>Three</Button>
+</Inline>
+
+## Align
+
+The align axis sets the vertical position of the children in a line.
+
+### align="start"
+
+<Inline align="start">
+  <Card><Text>Tall item<br />with two lines</Text></Card>
+  <Button>Short</Button>
+</Inline>
+
+### align="center"
+
+The default.
+
+<Inline align="center">
+  <Card><Text>Tall item<br />with two lines</Text></Card>
+  <Button>Short</Button>
+</Inline>
+
+### align="end"
+
+<Inline align="end">
+  <Card><Text>Tall item<br />with two lines</Text></Card>
+  <Button>Short</Button>
+</Inline>
+
+### align="baseline"
+
+<Inline align="baseline">
+  <Text variant="headline">Heading</Text>
+  <Text>Body text</Text>
+</Inline>
+
+### align="stretch"
+
+<Inline align="stretch">
+  <Card><Text>Tall item<br />with two lines</Text></Card>
+  <Button>Short</Button>
+</Inline>
+
+## Justify
+
+The justify axis sets the horizontal distribution of the children in a line.
+
+### justify="start"
+
+The default.
+
+<Inline justify="start">
+  <Button>One</Button>
+  <Button>Two</Button>
+</Inline>
+
+### justify="center"
+
+<Inline justify="center">
+  <Button>One</Button>
+  <Button>Two</Button>
+</Inline>
+
+### justify="end"
+
+<Inline justify="end">
+  <Button>One</Button>
+  <Button>Two</Button>
+</Inline>
+
+### justify="between"
+
+<Inline justify="between">
+  <Button>One</Button>
+  <Button>Two</Button>
+</Inline>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Gap | `hds/sem/measure/space/{050,100,200,300,400,600,800,1000,1200,1600,2400}` |
+
+Inline reads no color, radius, border, or elevation tokens.
+
+## Owner notes
+
+- Base UI mapping: no Base UI primitive — a single-part `useRender` component
+  with the same `render` semantics as Base UI parts.
+- Extension decisions: `gap` (responsive, default `"200"`), `align` (default
+  `"center"`), and `justify` are the only wrapper props. They set `data-gap`
+  (the `base` value), `data-align`, and `data-justify`. Wrap is always on and
+  has no prop. The default `align` is a judgment call: an icon beside a label
+  is the most common case.
+- Known constraints: for a column use Stack. For a fixed item beside an item
+  that fills the rest use Flex.
+- Accessibility: Inline adds no semantics. Use `render` to give the list or
+  landmark element the content needs.

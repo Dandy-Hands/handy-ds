@@ -123,6 +123,15 @@ Never edit component CSS or override `--hds-*` properties in app CSS to theme a 
 | Any text with a type role | `Text` (pick the heading level with `render={<h3 />}`) |
 | An icon | `Icon` wrapping an SVG that uses `currentColor`, or a Material Symbols glyph name |
 | A dividing line | `Separator` |
+| Items in one column | `Stack` |
+| Items in a row that wraps (buttons, tags, links) | `Inline` |
+| Equal-size cards or tiles in as many columns as fit | `Tiles` |
+| A row or column with a fixed item beside a filling item, or a direction that changes with the screen | `Flex` (`Flex.Item`) |
+| A dashboard or a page layout with a chosen column count or item span | `Grid` (`Grid.Item`) |
+| A full-width part of a page (hero, feature row) with a background and a centered column | `Section` (`Header` and `Footer` for the top and bottom) |
+| A side nav, outline, or related links beside the main content | `Aside` |
+
+**Layout rule:** use the smallest layout component that fits: `Stack`, `Inline`, or `Tiles` first. Use `Flex` or `Grid` only when none of them fits. Write your own CSS only for a layout that none of them covers, and use token variables in it.
 
 Props, use-when and don't-use-when for every component: `docs/components.md` (`node_modules/handy-ds/docs/components.md` in a client app).
 
@@ -131,14 +140,14 @@ Compound components (`Select`, `Menu`, `Dialog`, ...) have the same parts and pr
 ## 5. Modes and contexts (colored sections)
 
 - A dark band on a light page (or the reverse): `data-mode="dark"` / `data-mode="light"` on any element. A mode resets brand contexts inside it.
-- A section on a brand-colored background: `<section data-section="hero">` (the client's `sections` driver decides) or `data-context="on-primary"` / `"on-secondary"`.
+- A section on a brand-colored background: `<Section surface="primary">` (or `"secondary"`), which sets the context itself. Or `<section data-section="hero">` (the client's `sections` driver decides) or `data-context="on-primary"` / `"on-secondary"` on any element. A `Section` with a dark or light `scrim` sets the mode.
 - Everything inside restyles itself: text, buttons, inputs, cards and focus rings. Don't pass color props. Cards in a brand section become darker brand panels.
 - Inside a colored section, `data-context="default"` on an element restores root colors for its subtree (a light card in a hero). Put forms in such a card: field error text is only contrast-checked in the default context.
 - Only `default`, `on-primary` and `on-secondary` exist. Don't invent new `data-context` values.
 
 ## 6. Writing app code against the library
 
-- Style app layout (grids, page spacing, widths) in the app's own CSS. Leave component internals alone.
+- Place content with the layout components (section 4). Write the app's own CSS only for a layout they do not cover. Leave component internals alone.
 - When app CSS needs a design value, read a semantic token: `color: var(--hds-sem-color-content-muted-fg)`, `gap: var(--hds-sem-measure-space-400)`. Never a primitive, never a hex code.
 - Token names: `hds/sem/{type}/[category]/[axis]/[state]/{property}`. Types: `color`, `measure` (`space/{step}`, `size/{step}`), `radius/{role}`, `border/{role}`, `elevation/{raised|floating|modal}`, `typography/{role}/{sm|md|lg}/{property}`.
 - For color, choose the **category first**: clickable is Action, data entry is Field, container is Surface (level `sunken`, `base`, `raised`, `floating`, `modal`), text and icons are Content, lines and charts are Graphic, status is Feedback. Then the axis and the state. Full list: `SEM_TOKENS` in `handy-ds/tokens`.

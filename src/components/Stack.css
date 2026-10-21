@@ -1,0 +1,24 @@
+@layer hds.components {
+  .hds-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--_gap-base);
+  }
+  /* Breakpoints repeat src/tokens/primitives.ts `breakpoints`: custom properties do not work in @media. */
+  @media (min-width: 640px) { /* sm */
+    .hds-stack { gap: var(--_gap-sm); }
+  }
+  @media (min-width: 768px) { /* md */
+    .hds-stack { gap: var(--_gap-md); }
+  }
+  @media (min-width: 1024px) { /* lg */
+    .hds-stack { gap: var(--_gap-lg); }
+  }
+  @media (min-width: 1280px) { /* xl */
+    .hds-stack { gap: var(--_gap-xl); }
+  }
+  .hds-stack[data-align='start'] { align-items: flex-start; }
+  .hds-stack[data-align='center'] { align-items: center; }
+  .hds-stack[data-align='end'] { align-items: flex-end; }
+  .hds-stack[data-align='stretch'] { align-items: stretch; }
+}

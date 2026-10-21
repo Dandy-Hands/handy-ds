@@ -1,0 +1,77 @@
+@layer hds.components {
+  .hds-grid {
+    display: grid;
+    align-items: stretch;
+    justify-items: stretch;
+    gap: var(--_gap-base);
+  }
+  /* No cols: auto-fit. Reset the cols so a Grid.Item in a nested Grid does not read an outer Grid. */
+  .hds-grid:not([data-cols]) {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--_min)), 1fr));
+    --_cols-base: 12; --_cols-sm: 12; --_cols-md: 12; --_cols-lg: 12; --_cols-xl: 12;
+  }
+  /* Breakpoints repeat src/tokens/primitives.ts `breakpoints`: custom properties do not work in @media. */
+  .hds-grid[data-cols] { grid-template-columns: repeat(var(--_cols-base), minmax(0, 1fr)); }
+  @media (min-width: 640px) { /* sm */
+    .hds-grid { gap: var(--_gap-sm); }
+    .hds-grid[data-cols] { grid-template-columns: repeat(var(--_cols-sm), minmax(0, 1fr)); }
+  }
+  @media (min-width: 768px) { /* md */
+    .hds-grid { gap: var(--_gap-md); }
+    .hds-grid[data-cols] { grid-template-columns: repeat(var(--_cols-md), minmax(0, 1fr)); }
+  }
+  @media (min-width: 1024px) { /* lg */
+    .hds-grid { gap: var(--_gap-lg); }
+    .hds-grid[data-cols] { grid-template-columns: repeat(var(--_cols-lg), minmax(0, 1fr)); }
+  }
+  @media (min-width: 1280px) { /* xl */
+    .hds-grid { gap: var(--_gap-xl); }
+    .hds-grid[data-cols] { grid-template-columns: repeat(var(--_cols-xl), minmax(0, 1fr)); }
+  }
+  .hds-grid[data-align='start'] { align-items: start; }
+  .hds-grid[data-align='center'] { align-items: center; }
+  .hds-grid[data-align='end'] { align-items: end; }
+  .hds-grid[data-justify='start'] { justify-items: start; }
+  .hds-grid[data-justify='center'] { justify-items: center; }
+  .hds-grid[data-justify='end'] { justify-items: end; }
+
+  /* colSpan is clamped to the Grid cols (inherited custom properties). */
+  .hds-grid-item {
+    grid-column: var(--_col-start-base) / span min(var(--_col-span-base), var(--_cols-base, 12));
+    grid-row: var(--_row-start-base) / span var(--_row-span-base);
+    align-self: var(--_self-align-base);
+    justify-self: var(--_self-justify-base);
+  }
+  @media (min-width: 640px) { /* sm */
+    .hds-grid-item {
+      grid-column: var(--_col-start-sm) / span min(var(--_col-span-sm), var(--_cols-sm, 12));
+      grid-row: var(--_row-start-sm) / span var(--_row-span-sm);
+      align-self: var(--_self-align-sm);
+      justify-self: var(--_self-justify-sm);
+    }
+  }
+  @media (min-width: 768px) { /* md */
+    .hds-grid-item {
+      grid-column: var(--_col-start-md) / span min(var(--_col-span-md), var(--_cols-md, 12));
+      grid-row: var(--_row-start-md) / span var(--_row-span-md);
+      align-self: var(--_self-align-md);
+      justify-self: var(--_self-justify-md);
+    }
+  }
+  @media (min-width: 1024px) { /* lg */
+    .hds-grid-item {
+      grid-column: var(--_col-start-lg) / span min(var(--_col-span-lg), var(--_cols-lg, 12));
+      grid-row: var(--_row-start-lg) / span var(--_row-span-lg);
+      align-self: var(--_self-align-lg);
+      justify-self: var(--_self-justify-lg);
+    }
+  }
+  @media (min-width: 1280px) { /* xl */
+    .hds-grid-item {
+      grid-column: var(--_col-start-xl) / span min(var(--_col-span-xl), var(--_cols-xl, 12));
+      grid-row: var(--_row-start-xl) / span var(--_row-span-xl);
+      align-self: var(--_self-align-xl);
+      justify-self: var(--_self-justify-xl);
+    }
+  }
+}

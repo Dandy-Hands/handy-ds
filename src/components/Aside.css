@@ -1,0 +1,48 @@
+@layer hds.components {
+  .hds-aside {
+    flex: none;
+    inline-size: var(--_width-base);
+    padding-block: var(--_padding-block-base);
+    padding-inline: var(--_padding-inline-base);
+    color: var(--hds-sem-color-content-default-fg);
+  }
+  /* Breakpoints repeat src/tokens/primitives.ts `breakpoints`: custom properties do not work in @media. */
+  @media (min-width: 640px) { /* sm */
+    .hds-aside {
+      inline-size: var(--_width-sm);
+      padding-block: var(--_padding-block-sm);
+      padding-inline: var(--_padding-inline-sm);
+    }
+  }
+  @media (min-width: 768px) { /* md */
+    .hds-aside {
+      inline-size: var(--_width-md);
+      padding-block: var(--_padding-block-md);
+      padding-inline: var(--_padding-inline-md);
+    }
+  }
+  @media (min-width: 1024px) { /* lg */
+    .hds-aside {
+      inline-size: var(--_width-lg);
+      padding-block: var(--_padding-block-lg);
+      padding-inline: var(--_padding-inline-lg);
+    }
+  }
+  @media (min-width: 1280px) { /* xl */
+    .hds-aside {
+      inline-size: var(--_width-xl);
+      padding-block: var(--_padding-block-xl);
+      padding-inline: var(--_padding-inline-xl);
+    }
+  }
+  /* primary and secondary take their background from the data-context rule in base.css. */
+  .hds-aside[data-surface='sunken'] { background: var(--hds-sem-color-surface-sunken-bg); }
+  .hds-aside[data-surface='base'] { background: var(--hds-sem-color-surface-base-bg); }
+  .hds-aside[data-surface='raised'] { background: var(--hds-sem-color-surface-raised-bg); }
+  .hds-aside[data-sticky] {
+    position: sticky;
+    top: 0;
+    max-block-size: 100svh;
+    overflow-y: auto;
+  }
+}

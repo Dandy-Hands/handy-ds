@@ -2,9 +2,9 @@
 
 Status:
 - spec: reviewed
-- code: pending
-- figma: pending
-- docs: pending
+- code: built
+- figma: built
+- docs: built
 
 - Date: 2026-10-20
 - Shares its implementation with `Section`: see `docs/component-specs/section/spec.md` for the shared props, token mapping, contrast, and CSS.
