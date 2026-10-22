@@ -342,6 +342,29 @@ The value is a `number`, or `null` for an empty field. Other props: `value`, `de
 <NumberInput aria-label="Seats" steppers defaultValue={2} min={1} />
 ```
 
+### OtpInput
+
+A row of single-character boxes for a one-time code.
+
+- **Use when:** a short code from an SMS, an email, or an authenticator app, or a short PIN (with `mask`). Wrap it in `Field` so the first box gets its name from the label.
+- **Don't use when:** the value is long or has no fixed length (use `TextInput`), or it is a password (use `PasswordInput`).
+
+| Prop | Values | Default |
+|---|---|---|
+| `groups` | `number[]`: boxes per group, with a dash between groups; the sum is the code length | `[6]` |
+| `size` | `"800"`, `"1000"`, `"1200"`; each box is a square | `"1000"` |
+| `validationType` | `"numeric"`, `"alpha"`, `"alphanumeric"`, `"none"` | `"numeric"` |
+| `mask` | `true`, `false`; shows dots | `false` |
+
+The value is a `string`, `''` when empty. Other props: `value`, `defaultValue`, `onValueChange`, `onValueComplete`, `onValueInvalid`, `autoComplete`, `name`, `required`, `disabled`, `readOnly`.
+
+```tsx
+<Field.Root>
+  <Field.Label>Verification code</Field.Label>
+  <OtpInput groups={[3, 3]} onValueComplete={verify} />
+</Field.Root>
+```
+
 ### Checkbox, Checkbox.Group
 
 Yes/no, or several from a few options.

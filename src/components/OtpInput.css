@@ -1,0 +1,26 @@
+/* OtpInput: a row of square Field boxes (control.css), with a dash between groups. */
+@layer hds.theme, hds.base, hds.components;
+
+@layer hds.components {
+  .hds-otp-input {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--hds-sem-measure-space-200);
+  }
+
+  .hds-otp-input__slot {
+    box-sizing: border-box;
+    inline-size: var(--_height);
+    block-size: var(--_height);
+    padding: 0;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hds-otp-input__separator {
+    inline-size: var(--hds-sem-measure-space-300);
+    block-size: var(--hds-sem-border-divider);
+    margin-inline: var(--hds-sem-measure-space-100);
+    background: var(--hds-sem-color-graphic-divider-strong);
+  }
+}

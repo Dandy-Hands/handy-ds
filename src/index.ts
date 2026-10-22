@@ -12,6 +12,7 @@ export { PhoneInput, type PhoneInputProps, type PhoneInputSize, type PhoneInputC
 export { UrlInput, type UrlInputProps, type UrlInputSize } from './components/UrlInput.tsx';
 export { TextArea, type TextAreaProps, type TextAreaSize } from './components/TextArea.tsx';
 export { NumberInput, type NumberInputProps, type NumberInputSize } from './components/NumberInput.tsx';
+export { OtpInput, type OtpInputProps, type OtpInputSize } from './components/OtpInput.tsx';
 export { Checkbox } from './components/Checkbox.tsx';
 export type { CheckboxProps, CheckboxGroupProps, CheckboxSize, CheckboxGroupOrientation } from './components/Checkbox.tsx';
 export { Radio } from './components/Radio.tsx';

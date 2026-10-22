@@ -22,6 +22,7 @@ Every public component: name, purpose, when to use it, and its API page.
 | UrlInput | A single-line field for a web address, with a link icon | The user enters one web address | [url-input.md](url-input.md) |
 | TextArea | A multi-line text field, with drag resize or auto grow | A message, a note, or a description that can run to several lines | [text-area.md](text-area.md) |
 | NumberInput | A single-line field for an exact number, with optional − and + steppers | A price, an amount, or a quantity; use Slider for an approximate value | [number-field.md](number-field.md) |
+| OtpInput | A row of single-character boxes for a one-time code | The user enters a short SMS, email, or authenticator code, or a PIN; use TextInput for longer values | [otp-field.md](otp-field.md) |
 | Checkbox | A yes/no or multi-select choice (`Checkbox.Group` holds several) | Submitted with a form, or selecting many of a few options | [checkbox.md](checkbox.md) |
 | Radio | Pick one of 2–5 visible options (`Radio.Group` holds them) | The user must see all options and choose exactly one | [radio.md](radio.md) |
 | Slider | Picks a number or a range by dragging a thumb along a track | An approximate value inside a known range; use NumberInput for an exact number | [slider.md](slider.md) |

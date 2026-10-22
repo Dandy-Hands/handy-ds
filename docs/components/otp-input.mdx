@@ -1,0 +1,148 @@
+---
+title: OtpInput
+category: Form controls
+order: 11.5
+---
+
+import { OtpInput, Field } from 'handy-ds';
+
+export const col = { display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' };
+
+# OtpInput
+
+A row of single-character boxes for a one-time code. Each character has its own box. Focus
+moves to the next box as the user types. A paste or an SMS autofill fills the boxes. The
+value is one string.
+
+<div style={col}>
+  <Field.Root>
+    <Field.Label>Verification code</Field.Label>
+    <OtpInput groups={[3, 3]} />
+  </Field.Root>
+</div>
+
+## Usage
+
+Use OtpInput for a short code that the user gets by SMS, email, or an authenticator app. Use
+it with `mask` for a short PIN. Wrap it in a `Field` when it has a visible label. The first
+box takes its name from the label. Use `onValueComplete` to check the code when the last box
+is filled. Do not use it for a long value or a value with no fixed length. Use TextInput
+instead. Do not use it for a password. Use PasswordInput.
+
+## Base UI API
+
+Wraps Base UI's `OTPField`. The component renders `Root`, one `Input` per box, and a
+`Separator` between groups. The parts are not exposed.
+
+| Element | Notes |
+| ------- | ----- |
+| `length` | Replaced by `groups`. The sum of `groups` is the length. |
+| `value`, `defaultValue`, `onValueChange` | Exposed. `value` is a string. `''` is an empty field. |
+| `onValueComplete`, `onValueInvalid` | Exposed. |
+| `validationType`, `mask`, `autoComplete` | Exposed. `autoComplete` defaults to `one-time-code`. |
+| `name`, `form`, `id`, `required`, `disabled`, `readOnly` | Exposed. `id` names the first box. |
+| Native attributes (`aria-*`), `ref`, `className` | Exposed on the row. |
+| `normalizeValue`, `inputMode`, `autoSubmit`, `render`, `style` | Removed. `validationType` sets the keyboard. Submit the form in `onValueComplete`. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `groups` | `number[]` | `[6]` | The number of boxes in each group. `[3, 3]` is two groups of three, with a dash between them. The sum is the code length. |
+| `size` | `'800' \| '1000' \| '1200'` | `'1000'` | Height of each box. Each box is a square. `800`: compact. `1000`: standard. `1200`: large, for touch layouts. |
+| `validationType` | `'numeric' \| 'alpha' \| 'alphanumeric' \| 'none'` | `'numeric'` | Which characters a box accepts. `numeric`: digits, with a number keyboard. `alpha`: letters. `alphanumeric`: letters and digits. `none`: any character. |
+| `mask` | `boolean` | `false` | Shows each entered character as a dot. |
+| `value` / `defaultValue` | `string` | — | The controlled / initial code. |
+| `onValueChange` | `(value: string, eventDetails) => void` | — | Called when the code changes. |
+| `onValueComplete` | `(value: string, eventDetails) => void` | — | Called when all boxes are filled. |
+| `onValueInvalid` | `(value: string, eventDetails) => void` | — | Called when typed or pasted text has rejected characters. |
+| `autoComplete` | `string` | `'one-time-code'` | Lets the device fill the code from an SMS or email. |
+| `disabled` | `boolean` | `false` | Makes the boxes visible but inert. |
+| `readOnly` | `boolean` | `false` | Shows the code but blocks changes. |
+| `required` | `boolean` | `false` | The field must have a full code before the form submits. |
+| `name` | `string` | — | Identifies the field on form submission. |
+| `className` | `string` | — | Class for the outer row. |
+
+Event handlers and form props appear here only. They have no section below.
+
+## Size
+
+The size axis. Each step is a `measure/size` token. It sets the width and the height of each
+box.
+
+<div style={col}>
+  <Field.Root><Field.Label>Size 800</Field.Label><OtpInput size="800" groups={[4]} defaultValue="80" /></Field.Root>
+  <Field.Root><Field.Label>Size 1000</Field.Label><OtpInput size="1000" groups={[4]} defaultValue="10" /></Field.Root>
+  <Field.Root><Field.Label>Size 1200</Field.Label><OtpInput size="1200" groups={[4]} defaultValue="12" /></Field.Root>
+</div>
+
+## Groups
+
+`groups` sets the number of boxes in each group. A dash sits between the groups. The dash
+is only visual: the value has no separator.
+
+<div style={col}>
+  <Field.Root><Field.Label>Six boxes</Field.Label><OtpInput /></Field.Root>
+  <Field.Root><Field.Label>Three and three</Field.Label><OtpInput groups={[3, 3]} /></Field.Root>
+  <Field.Root><Field.Label>Four groups of two</Field.Label><OtpInput groups={[2, 2, 2, 2]} validationType="alphanumeric" /></Field.Root>
+</div>
+
+## Validation type
+
+`validationType` sets which characters a box accepts and which keyboard a phone shows.
+Rejected characters are dropped.
+
+<div style={col}>
+  <Field.Root><Field.Label>Numeric</Field.Label><OtpInput groups={[4]} validationType="numeric" /></Field.Root>
+  <Field.Root><Field.Label>Alpha</Field.Label><OtpInput groups={[4]} validationType="alpha" /></Field.Root>
+  <Field.Root><Field.Label>Alphanumeric</Field.Label><OtpInput groups={[4]} validationType="alphanumeric" /></Field.Root>
+  <Field.Root><Field.Label>None</Field.Label><OtpInput groups={[4]} validationType="none" /></Field.Root>
+</div>
+
+## Mask
+
+With `mask`, each character shows as a dot after entry. The value stays the real text.
+
+<div style={col}>
+  <Field.Root><Field.Label>PIN</Field.Label><OtpInput groups={[4]} mask defaultValue="12" /></Field.Root>
+</div>
+
+## Invalid
+
+The boxes show the invalid state when the `Field` is invalid.
+
+<div style={col}>
+  <Field.Root invalid>
+    <Field.Label>Code</Field.Label>
+    <OtpInput defaultValue="123456" />
+    <Field.Error match>The code is not correct.</Field.Error>
+  </Field.Root>
+</div>
+
+## Disabled and read-only
+
+<div style={col}>
+  <Field.Root><Field.Label>Disabled</Field.Label><OtpInput disabled defaultValue="12" /></Field.Root>
+  <Field.Root><Field.Label>Read-only</Field.Label><OtpInput readOnly defaultValue="123456" /></Field.Root>
+</div>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Box | The TextInput frame tokens, `hds/sem/color/field/*`; width and height `hds/sem/measure/size/{size}` |
+| Gap between boxes | `hds/sem/measure/space/200` |
+| Dash between groups | `hds/sem/color/graphic/divider/strong`, `hds/sem/border/divider`, width `hds/sem/measure/space/300` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+
+## Owner notes
+
+- Base UI mapping: wraps `@base-ui/react/otp-field` 1.8.0. The component renders the parts,
+  so a caller sees one component. `groups` replaces `length`.
+- Extension decisions: one box per character. `groups` defaults to `[6]`. `autoSubmit`,
+  `normalizeValue`, and `inputMode` are removed.
+- Known constraints: a paste fills the boxes from the focused box. A full code pasted into
+  a later box is cut off at the end. The box labels are English only.
+- Accessibility: the row is a group. Only the active box is a tab stop, and the arrow keys
+  move between boxes. The first box takes its name from the `Field` label. The other boxes
+  have the names `Character 2 of 6` and so on.

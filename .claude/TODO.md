@@ -54,6 +54,7 @@ Running list of planned work. Add an item when the user asks for new work. Check
   - [x] `UrlInput` (include now; `http` and `https` only; adds `https://` on blur). Spec, code, Figma, docs, and e2e built 2026-10-19. The user reviewed the decisions.
   - [x] `TextArea` (was `Textarea`; the `Input` base with `render={<textarea />}`; `rows`, `autoGrow`, `maxRows`; no slots in v1). Spec, code, Figma, docs, and e2e built 2026-10-20.
 - [x] NumberInput (renamed from `NumberField`; done 2026-10-21: spec, code, Figma page `NumberInput`, docs, and e2e). Single component with `size`, `steppers` (off by default), `start`, `end`, `format`, `allowOutOfRange`. The user has not read the written spec yet. The old `number-field` e2e page failure is fixed.
+- [x] OtpInput (done 2026-10-21: spec, code, Figma page `OtpInput`, docs, and e2e; folder `otp-field/`). Single component, `groups` (replaces `length`, default `[6]`), `size`, `validationType`, `mask`. The user has not read the written spec yet.
 - [ ] Create a date and time component set (future, not part of the input work): `Calendar`, `DatePicker` (with `range`), later `TimeField`. Values are ISO strings (`"2026-10-15"`), range is `{ start, end }`. Needs a spec interview and maybe new semantic tokens (today, in-range, range start and end, outside month). Base UI has no calendar.
 - [ ] Create a Carousel component.
 - [x] Create layout components (done 2026-10-20: specs, code, docs pages; follow-ups below). Layout components are non-visual and place other components. Two sets:
@@ -83,6 +84,7 @@ Running list of planned work. Add an item when the user asks for new work. Check
   - [ ] Add a screenshot or visual check of the responsive behavior (`Grid` `cols` per breakpoint, `Tiles` auto-fit) in a real browser; the page tests only prove the pages render.
 - [ ] Add a charting library. Needs the data-visualization palette (Tokens and theming).
 
+- [x] Make the root `dev` script pass its flags to Vite (`cd docs-site && npm run dev --`), so the Playwright `webServer` command `--port 5173 --strictPort` takes effect (done 2026-10-21).
 - [x] Install Playwright and add it to the component process (`e2e/`, `npm run test:e2e`, code and docs skills, component conventions).
 - [ ] Fix the three doc pages that fail `e2e/pages.spec.ts`: `avatar` (404 for a resource), `combobox` (a function as a React child, and `Combobox.Label` used with `Combobox.Input`), `number-field` (an input with both `value` and `defaultValue`).
 
