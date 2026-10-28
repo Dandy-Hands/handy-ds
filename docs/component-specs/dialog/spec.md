@@ -1,7 +1,7 @@
 Status:
 - spec: reviewed
 - code: pending
-- figma: pending
+- figma: built
 - docs: pending
 
 # Internal Spec: Dialog
