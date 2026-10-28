@@ -1,0 +1,16 @@
+/* Tooltip label. Dark floating surface: the popup carries data-mode="dark". */
+@layer hds.theme, hds.base, hds.components;
+
+@layer hds.components {
+  .hds-tooltip {
+    max-width: min(var(--hds-sem-measure-width-6400), var(--available-width));
+    padding: var(--hds-sem-measure-space-100) var(--hds-sem-measure-space-200);
+    border-radius: var(--hds-sem-radius-control);
+    color: var(--hds-sem-color-content-default-fg);
+    font-family: var(--hds-sem-typography-body-family);
+    font-size: var(--hds-sem-typography-body-size-sm);
+    font-weight: var(--hds-sem-typography-body-weight);
+    line-height: var(--hds-sem-typography-body-leading);
+    letter-spacing: var(--hds-sem-typography-body-tracking);
+  }
+}

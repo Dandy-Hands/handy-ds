@@ -1,19 +1,44 @@
+/* Popover, plus the panel and width rules PreviewCard shares (`.hds-panel`). */
+@layer hds.theme, hds.base, hds.components;
+
 @layer hds.components {
-  .hds-popover {
-    max-width: min(24rem, var(--available-width));
+  .hds-panel {
+    --_max-width: var(--hds-sem-measure-width-9600);
+
+    max-width: min(var(--_max-width), var(--available-width));
     padding: var(--hds-sem-measure-space-600);
   }
 
+  .hds-panel[data-max-width='6400'] { --_max-width: var(--hds-sem-measure-width-6400); }
+  .hds-panel[data-max-width='8000'] { --_max-width: var(--hds-sem-measure-width-8000); }
+  .hds-panel[data-max-width='12800'] { --_max-width: var(--hds-sem-measure-width-12800); }
+
+  /* max-width beats width, so `maxWidth` wins over a larger `width`. */
+  .hds-panel[data-width='6400'] { width: var(--hds-sem-measure-width-6400); }
+  .hds-panel[data-width='8000'] { width: var(--hds-sem-measure-width-8000); }
+  .hds-panel[data-width='9600'] { width: var(--hds-sem-measure-width-9600); }
+  .hds-panel[data-width='12800'] { width: var(--hds-sem-measure-width-12800); }
+
+  .hds-popover__header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--hds-sem-measure-space-400);
+  }
+
   .hds-popover__title {
+    flex: 1;
+    min-width: 0;
     margin: 0;
-    color: var(--hds-sem-color-content-default-fg);
+    color: var(--hds-sem-color-content-strong-fg);
     font-family: var(--hds-sem-typography-label-family);
     font-size: var(--hds-sem-typography-label-size-md);
     font-weight: var(--hds-sem-typography-label-weight);
     line-height: var(--hds-sem-typography-label-leading);
+    letter-spacing: var(--hds-sem-typography-label-tracking);
   }
 
-  .hds-popover__description {
-    margin: var(--hds-sem-measure-space-200) 0 0;
+  .hds-popover__body {
+    margin-top: var(--hds-sem-measure-space-200);
+    color: var(--hds-sem-color-content-default-fg);
   }
 }

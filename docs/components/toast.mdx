@@ -4,7 +4,7 @@ category: Feedback
 order: 21
 ---
 
-import { Button, Toast, Toaster } from 'handy-ds';
+import { Button, ToastProvider, useToast } from 'handy-ds';
 
 # Toast
 
@@ -14,20 +14,12 @@ bottom-right viewport, colored by its `type`.
 
 A toast fired from code (see Type below for a live firing demo):
 
-<Toast.Provider>
-  <Toaster />
-</Toast.Provider>
-
 ## Usage
 
 Use Toast to confirm something that happened, with nothing for the user to do.
 Do not use it when the user must read or act on the message — use Alert or
 Dialog. Wrap the app in `Toast.Provider` once, render `<Toaster />` once, then
 call `Toast.useToastManager().add(...)` from anywhere.
-
-<Toast.Provider>
-  <Toaster />
-</Toast.Provider>
 
 `Toast.add({ title: 'Saved', type: 'success' })` — triggered from anywhere via the manager hook.
 
@@ -71,22 +63,21 @@ The toast's `type` is its sentiment. `Toaster` maps it to the Feedback colors;
 `info` is the default.
 
 export function ToastDemo() {
-  const toast = Toast.useToastManager();
+  const toast = useToast();
   return (
     <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-      {['info', 'success', 'warning', 'danger'].map((type) => (
-        <Button key={type} variant="secondary" onClick={() => toast.add({ type, title: `${type} toast`, description: 'Something happened.' })}>
-          {type}
+      {['info', 'success', 'warning', 'danger'].map((tone) => (
+        <Button key={tone} variant="secondary" onClick={() => toast({ tone, title: `A ${tone} toast.` })}>
+          {tone}
         </Button>
       ))}
     </div>
   );
 }
 
-<Toast.Provider>
+<ToastProvider>
   <ToastDemo />
-  <Toaster />
-</Toast.Provider>
+</ToastProvider>
 
 ## Anatomy
 

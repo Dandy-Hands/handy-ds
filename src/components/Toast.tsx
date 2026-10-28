@@ -1,43 +1,81 @@
+// Base UI: @base-ui/react 1.8.0 (toast). Spec: docs/component-specs/toast/spec.md
 import { Toast as BaseToast } from '@base-ui/react/toast';
-import { part } from './part.ts';
+import { useCallback, type ReactNode } from 'react';
+import { Button } from './Button.tsx';
+import { Icon } from './Icon.tsx';
 import { XIcon } from './icons.tsx';
 import './base.css';
 import './action.css';
+import './surface.css';
 import './Button.css';
-import './Feedback.css';
+import './Toast.css';
 
-/**
- * Feedback category. A toast's `type` is its sentiment: 'info' (default) | 'success' |
- * 'warning' | 'danger'. Usage: wrap the app in <Toast.Provider>, render <Toaster /> once,
- * then `Toast.useToastManager().add({ title, description, type })`.
- */
-export const Toast = {
-  ...BaseToast,
-  Viewport: part(BaseToast.Viewport, 'hds-toast-viewport'),
-  Root: part(BaseToast.Root, 'hds-feedback hds-toast'),
-  Content: part(BaseToast.Content, 'hds-toast__content'),
-  Title: part(BaseToast.Title, 'hds-feedback__heading'),
-  Description: part(BaseToast.Description, 'hds-toast__description'),
-  Action: part(BaseToast.Action, 'hds-button hds-action'),
-  Close: part(BaseToast.Close, 'hds-feedback__close', { children: <XIcon />, 'aria-label': 'Close' }),
-};
+export type ToastTone = 'info' | 'success' | 'warning' | 'danger';
 
-/** Renders every toast from the nearest Toast.Provider. */
-export function Toaster() {
+export interface ToastOptions {
+  title: ReactNode;
+  tone?: ToastTone;
+  action?: { label: ReactNode; onClick: () => void };
+}
+
+const GLYPH: Record<ToastTone, string> = { info: 'info', success: 'check_circle', warning: 'warning', danger: 'error' };
+
+export interface ToastProviderProps {
+  children?: ReactNode;
+}
+
+/** Place once around the app. Also renders the toast area. */
+export function ToastProvider({ children }: ToastProviderProps) {
+  return (
+    <BaseToast.Provider limit={3}>
+      {children}
+      <ToastArea />
+    </BaseToast.Provider>
+  );
+}
+
+function ToastArea() {
   const { toasts } = BaseToast.useToastManager();
   return (
     <BaseToast.Portal>
-      <Toast.Viewport>
-        {toasts.map((toast) => (
-          <Toast.Root key={toast.id} toast={toast} data-sentiment={toast.type ?? 'info'}>
-            <Toast.Content>
-              <Toast.Title />
-              <Toast.Description />
-            </Toast.Content>
-            <Toast.Close />
-          </Toast.Root>
-        ))}
-      </Toast.Viewport>
+      <BaseToast.Viewport className="hds-toast-viewport">
+        {toasts.map((t) => {
+          const tone = (t.type ?? 'info') as ToastTone;
+          return (
+            <BaseToast.Root key={t.id} toast={t} className="hds-surface hds-toast" data-elevation="2" data-mode="dark" data-tone={tone}>
+              <BaseToast.Content className="hds-toast__content">
+                <Icon tone={tone} size="500">{GLYPH[tone]}</Icon>
+                <BaseToast.Title className="hds-toast__title" />
+                {t.actionProps && <BaseToast.Action render={<Button variant="secondary" size="800" />} />}
+                <BaseToast.Close render={<Button variant="tertiary" size="800" aria-label="Close" data-close="" />}>
+                  <XIcon />
+                </BaseToast.Close>
+              </BaseToast.Content>
+            </BaseToast.Root>
+          );
+        })}
+      </BaseToast.Viewport>
     </BaseToast.Portal>
   );
+}
+
+/** Returns `toast(options)`. Needs a `ToastProvider` above. */
+export function useToast(): (options: ToastOptions) => void {
+  const { add, close } = BaseToast.useToastManager();
+  return useCallback(({ title, tone = 'info', action }: ToastOptions) => {
+    let id = '';
+    id = add({
+      title,
+      type: tone,
+      priority: tone === 'danger' ? 'high' : 'low',
+      timeout: action ? 10000 : 5000,
+      actionProps: action && {
+        children: action.label,
+        onClick: () => {
+          action.onClick();
+          close(id);
+        },
+      },
+    });
+  }, [add, close]);
 }

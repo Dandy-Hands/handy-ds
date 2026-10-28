@@ -28,11 +28,14 @@ export { Tabs } from './components/Tabs.tsx';
 export { Menu, ContextMenu, Menubar } from './components/Menu.tsx';
 export { NavigationMenu } from './components/NavigationMenu.tsx';
 // Overlays
-export { Dialog, AlertDialog } from './components/Dialog.tsx';
-export { Popover } from './components/Popover.tsx';
+export { Dialog, AlertDialog, type DialogProps, type DialogWidth, type AlertDialogProps, type AlertDialogVariant } from './components/Dialog.tsx';
+export { Drawer, type DrawerProps, type DrawerSide, type DrawerWidth } from './components/Drawer.tsx';
+export { Popover, type PopoverProps, type OverlaySide, type OverlayAlign, type PanelWidth, type PanelMaxWidth } from './components/Popover.tsx';
+export { Tooltip, type TooltipProps } from './components/Tooltip.tsx';
+export { PreviewCard, type PreviewCardProps } from './components/PreviewCard.tsx';
 // Feedback
 export { Alert, type AlertProps, type Sentiment } from './components/Alert.tsx';
-export { Toast, Toaster } from './components/Toast.tsx';
+export { ToastProvider, useToast, type ToastProviderProps, type ToastOptions, type ToastTone } from './components/Toast.tsx';
 export { Meter, type MeterRootProps, type MeterTone, type MeterSize } from './components/Meter.tsx';
 export { Progress, type ProgressRootProps, type ProgressSize } from './components/Progress.tsx';
 // Content

@@ -1,4 +1,4 @@
-/* Feedback category: Alert and Toast. `data-sentiment` = info | success | warning | danger. */
+/* Feedback category: Alert. `data-sentiment` = info | success | warning | danger. */
 @layer hds.theme, hds.base, hds.components;
 
 @layer hds.components {
@@ -70,40 +70,5 @@
     background: transparent;
     color: inherit;
     cursor: pointer;
-  }
-
-  .hds-toast-viewport {
-    position: fixed;
-    z-index: 60;
-    inset-block-end: 1rem;
-    inset-inline-end: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: var(--hds-sem-measure-space-300);
-    width: min(22rem, calc(100vw - 2rem));
-  }
-
-  .hds-toast {
-    box-shadow: var(--hds-sem-elevation-floating);
-    transition: opacity 200ms, transform 200ms;
-  }
-
-  .hds-toast[data-starting-style],
-  .hds-toast[data-ending-style] {
-    opacity: 0;
-    transform: translateY(0.5rem);
-  }
-
-  .hds-toast[data-limited] {
-    display: none;
-  }
-
-  .hds-toast__content {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .hds-toast__description {
-    margin: 0;
   }
 }

@@ -1,0 +1,13 @@
+/* PreviewCard link. The panel rules are `.hds-panel` in Popover.css. */
+@layer hds.theme, hds.base, hds.components;
+
+@layer hds.components {
+  .hds-link {
+    color: var(--hds-sem-color-content-link-fg);
+    text-decoration: underline;
+  }
+
+  .hds-link:hover {
+    color: var(--hds-sem-color-content-link-hover-fg);
+  }
+}

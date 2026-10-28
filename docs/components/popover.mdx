@@ -4,7 +4,7 @@ category: Overlays
 order: 18
 ---
 
-import { Popover } from 'handy-ds';
+import { Button, Popover } from 'handy-ds';
 
 # Popover
 
@@ -12,17 +12,7 @@ Extra information or small controls anchored to a trigger. The popup is a
 surface at elevation 2, positioned next to its trigger; the page behind stays
 usable.
 
-<Popover.Root>
-  <Popover.Trigger>Notifications</Popover.Trigger>
-  <Popover.Portal>
-    <Popover.Positioner sideOffset={8}>
-      <Popover.Popup>
-        <Popover.Title>Notifications</Popover.Title>
-        <Popover.Description>You are all caught up.</Popover.Description>
-      </Popover.Popup>
-    </Popover.Positioner>
-  </Popover.Portal>
-</Popover.Root>
+<Popover title="Notifications" content="You are all caught up."><Button variant="secondary">Notifications</Button></Popover>
 
 ## Usage
 
@@ -68,31 +58,14 @@ Wraps Base UI's `Popover`; every part passes through unchanged, styled via
 The trigger opens the popover; the popup anchors to it. Escape, outside
 press, or a `Close` part dismisses.
 
-<Popover.Root>
-  <Popover.Trigger>Notifications</Popover.Trigger>
-  <Popover.Portal>
-    <Popover.Positioner sideOffset={8}>
-      <Popover.Popup>
-        <Popover.Title>Notifications</Popover.Title>
-        <Popover.Description>You are all caught up.</Popover.Description>
-      </Popover.Popup>
-    </Popover.Positioner>
-  </Popover.Portal>
-</Popover.Root>
+<Popover title="Notifications" content="You are all caught up."><Button variant="secondary">Notifications</Button></Popover>
 
 ## Non-modal
 
 A popover never blocks the page by default: click outside, and it dismisses
 while the page keeps working. This is the difference from Dialog.
 
-<Popover.Root>
-  <Popover.Trigger data-priority="tertiary">What's this?</Popover.Trigger>
-  <Popover.Portal>
-    <Popover.Positioner sideOffset={4}>
-      <Popover.Popup>Billing happens on the 1st of each month.</Popover.Popup>
-    </Popover.Positioner>
-  </Popover.Portal>
-</Popover.Root>
+<Popover title="Notifications" content="You are all caught up."><Button variant="secondary">Notifications</Button></Popover>
 
 ## Anatomy
 

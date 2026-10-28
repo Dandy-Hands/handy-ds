@@ -94,6 +94,13 @@
     letter-spacing: var(--hds-sem-typography-caption-tracking);
   }
 
+  /* The X button of an overlay: a square tertiary Button (`data-close`). */
+  .hds-button[data-close] {
+    flex: none;
+    inline-size: var(--_height);
+    padding-inline: 0;
+  }
+
   /* Overlay category: modal scrims. */
   .hds-backdrop {
     position: fixed;

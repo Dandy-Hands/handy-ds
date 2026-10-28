@@ -4,7 +4,32 @@ category: Overlays
 order: 17
 ---
 
-import { AlertDialog, Dialog } from 'handy-ds';
+import { useState } from 'react';
+import { AlertDialog, Button, Dialog } from 'handy-ds';
+
+export function DialogDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open dialog</Button>
+      <Dialog open={open} onOpenChange={setOpen} title="Edit profile"
+        actions={<Button onClick={() => setOpen(false)}>Done</Button>}>
+        Changes apply to every workspace.
+      </Dialog>
+    </>
+  );
+}
+
+export function AlertDialogDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="danger" onClick={() => setOpen(true)}>Delete project</Button>
+      <AlertDialog open={open} onOpenChange={setOpen} title="Delete project?"
+        description="This removes it for everyone." confirm="Delete" variant="danger" onConfirm={() => setOpen(false)} />
+    </>
+  );
+}
 
 # Dialog
 
@@ -13,17 +38,7 @@ backdrop covers the page; focus stays inside until the dialog closes.
 `AlertDialog` is the confirm/cancel variant and cannot be dismissed by clicking
 outside.
 
-<Dialog.Root>
-  <Dialog.Trigger data-priority="primary">Open dialog</Dialog.Trigger>
-  <Dialog.Portal>
-    <Dialog.Backdrop />
-    <Dialog.Popup>
-      <Dialog.Title>Edit profile</Dialog.Title>
-      <Dialog.Description>Changes apply to every workspace.</Dialog.Description>
-      <Dialog.Close>Done</Dialog.Close>
-    </Dialog.Popup>
-  </Dialog.Portal>
-</Dialog.Root>
+<DialogDemo />
 
 ## Usage
 
@@ -75,35 +90,14 @@ unchanged, styled via `part()`. Both keep Base UI's modal defaults
 The trigger opens the dialog; the backdrop dims the page with the Overlay
 token; Escape and the close button dismiss.
 
-<Dialog.Root>
-  <Dialog.Trigger data-priority="primary">Open dialog</Dialog.Trigger>
-  <Dialog.Portal>
-    <Dialog.Backdrop />
-    <Dialog.Popup>
-      <Dialog.Title>Edit profile</Dialog.Title>
-      <Dialog.Description>Changes apply to every workspace.</Dialog.Description>
-      <Dialog.Close>Done</Dialog.Close>
-    </Dialog.Popup>
-  </Dialog.Portal>
-</Dialog.Root>
+<DialogDemo />
 
 ## Alert dialog
 
 `AlertDialog` blocks outside-click dismissal, so a destructive confirm always
 gets an explicit choice. Its trigger and close carry the same button look.
 
-<AlertDialog.Root>
-  <AlertDialog.Trigger data-priority="primary">Delete project</AlertDialog.Trigger>
-  <AlertDialog.Portal>
-    <AlertDialog.Backdrop />
-    <AlertDialog.Popup>
-      <AlertDialog.Title>Delete project?</AlertDialog.Title>
-      <AlertDialog.Description>This removes it for everyone.</AlertDialog.Description>
-      <AlertDialog.Close>Cancel</AlertDialog.Close>
-      <AlertDialog.Close data-priority="primary">Delete</AlertDialog.Close>
-    </AlertDialog.Popup>
-  </AlertDialog.Portal>
-</AlertDialog.Root>
+<AlertDialogDemo />
 
 ## Anatomy
 

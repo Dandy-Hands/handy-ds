@@ -1,10 +1,11 @@
 // Showcase: every component on one page, ported from the old demo/main.tsx.
 // Themed by the live theme CSS injected in Layout.tsx, so the flyout re-themes it.
 import {
-  Accordion, Alert, Autocomplete, Button, Card, Checkbox, Combobox, Dialog, Field, Fieldset, Form, Icon, TextInput,
-  LinkButton, Menu, Menubar, Meter, NavigationMenu, NumberInput, Popover, Progress, Radio, Select,
-  Separator, Switch, Table, Tabs, Text, Toast, Toaster, ToggleGroup, Toggle, Toolbar,
+  Accordion, Alert, AlertDialog, Autocomplete, Button, Card, Checkbox, Combobox, Dialog, Drawer, Field, Fieldset, Form, Icon, TextInput,
+  LinkButton, Menu, Menubar, Meter, NavigationMenu, NumberInput, Popover, PreviewCard, Progress, Radio, Select,
+  Separator, Switch, Table, Tabs, Text, ToastProvider, ToggleGroup, Toggle, Toolbar, Tooltip, useToast,
 } from 'handy-ds';
+import { useState } from 'react';
 
 const Star = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
@@ -15,13 +16,36 @@ const Star = () => (
 const fruits = ['Apple', 'Banana', 'Cherry', 'Grape', 'Mango', 'Orange', 'Pear'];
 
 function ToastButton() {
-  const manager = Toast.useToastManager();
+  const toast = useToast();
   return (
     <div className="row">
-      {(['info', 'success', 'warning', 'danger'] as const).map((type) => (
-        <Button key={type} variant="secondary" onClick={() => manager.add({ type, title: `${type} toast`, description: 'Something happened.' })}>{type}</Button>
+      {(['info', 'success', 'warning', 'danger'] as const).map((tone) => (
+        <Button key={tone} variant="secondary" onClick={() => toast({ tone, title: `A ${tone} toast.` })}>{tone}</Button>
       ))}
     </div>
+  );
+}
+
+function OverlayDemos() {
+  const [dialog, setDialog] = useState(false);
+  const [alert, setAlert] = useState(false);
+  const [drawer, setDrawer] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setDialog(true)}>Open dialog</Button>
+      <Dialog open={dialog} onOpenChange={setDialog} title="Edit project"
+        actions={<><Button variant="secondary" onClick={() => setDialog(false)}>Cancel</Button><Button onClick={() => setDialog(false)}>Save</Button></>}>
+        <Text>Change the project name and owner.</Text>
+      </Dialog>
+      <Button variant="danger" onClick={() => setAlert(true)}>Delete project</Button>
+      <AlertDialog open={alert} onOpenChange={setAlert} title="Delete project?" description="This removes it for everyone."
+        confirm="Delete" variant="danger" onConfirm={() => setAlert(false)} />
+      <Button variant="secondary" onClick={() => setDrawer(true)}>Open drawer</Button>
+      <Drawer open={drawer} onOpenChange={setDrawer} title="Filters"><Text>Filter options.</Text></Drawer>
+      <Popover title="Notifications" content="You are all caught up."><Button variant="secondary">Popover</Button></Popover>
+      <Tooltip content="Add to favorites"><Button variant="tertiary" aria-label="Add to favorites"><Icon><Star /></Icon></Button></Tooltip>
+      <PreviewCard content={<Text>Ada Lovelace, engineer.</Text>}><a href="#ada">Ada</a></PreviewCard>
+    </>
   );
 }
 
@@ -220,28 +244,7 @@ export function ShowcaseBody() {
         <Card>
           <Text variant="headline" render={<h2 />}>Overlays</Text>
           <div className="row">
-            <Dialog.Root>
-              <Dialog.Trigger data-priority="primary">Open dialog</Dialog.Trigger>
-              <Dialog.Portal>
-                <Dialog.Backdrop />
-                <Dialog.Popup>
-                  <Dialog.Title>Delete project?</Dialog.Title>
-                  <Dialog.Description>This removes it for everyone.</Dialog.Description>
-                  <div className="row"><Dialog.Close>Cancel</Dialog.Close><Dialog.Close data-priority="primary">Delete</Dialog.Close></div>
-                </Dialog.Popup>
-              </Dialog.Portal>
-            </Dialog.Root>
-            <Popover.Root>
-              <Popover.Trigger>Popover</Popover.Trigger>
-              <Popover.Portal>
-                <Popover.Positioner sideOffset={8}>
-                  <Popover.Popup>
-                    <Popover.Title>Notifications</Popover.Title>
-                    <Popover.Description>You are all caught up.</Popover.Description>
-                  </Popover.Popup>
-                </Popover.Positioner>
-              </Popover.Portal>
-            </Popover.Root>
+            <OverlayDemos />
           </div>
           <Accordion.Root>
             {['Shipping', 'Returns'].map((q) => (
@@ -298,11 +301,10 @@ export function ShowcaseBody() {
 
 export function Showcase() {
   return (
-    <Toast.Provider>
+    <ToastProvider>
       <div className="showcase">
         <ShowcaseBody />
-        <Toaster />
       </div>
-    </Toast.Provider>
+    </ToastProvider>
   );
 }
