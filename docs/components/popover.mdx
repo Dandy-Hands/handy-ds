@@ -4,91 +4,154 @@ category: Overlays
 order: 18
 ---
 
-import { Button, Popover } from 'handy-ds';
+import { useState } from 'react';
+import { Button, Checkbox, Field, Inline, Popover, Stack } from 'handy-ds';
+
+export function FilterDemo() {
+  const [open, setOpen] = useState(false);
+  return (
+    <Popover
+      open={open}
+      onOpenChange={setOpen}
+      title="Filter results"
+      align="start"
+      width="8000"
+      content={
+        <Stack gap="400">
+          <Field.Root><Field.Label><Checkbox name="stock" />In stock</Field.Label></Field.Root>
+          <Button onClick={() => setOpen(false)}>Apply</Button>
+        </Stack>
+      }
+    >
+      <Button variant="secondary">Filters</Button>
+    </Popover>
+  );
+}
 
 # Popover
 
-Extra information or small controls anchored to a trigger. The popup is a
-surface at elevation 2, positioned next to its trigger; the page behind stays
-usable.
+Popover is a small panel next to a control. A click on the control opens it. The page
+behind stays usable. Popover is one component: it wraps its control, `title` is the
+heading, and `content` is the panel body. A click outside, `Escape`, or the X button
+closes it.
 
-<Popover title="Notifications" content="You are all caught up."><Button variant="secondary">Notifications</Button></Popover>
+<Popover title="Annual percentage rate" content="The yearly cost of the loan, with interest and fees.">
+  <Button variant="tertiary">What is APR?</Button>
+</Popover>
 
 ## Usage
 
-Use Popover for secondary content: definitions, small forms, help text. Do not
-use it for a list of commands — use Menu. Do not use it when the user must read
-or act before continuing — use Dialog.
+Use Popover for short, secondary content: a definition, help text, or a small form such as a
+filter. Wrap exactly one control, such as a Button. No state code is necessary.
+
+Do not use Popover for a list of commands. Use Menu. Do not use it for a task the user must
+finish before going on. Use Dialog. Do not use it for a label that shows on hover. Use
+Tooltip.
 
 ## Base UI API
 
-Wraps Base UI's `Popover`; every part passes through unchanged, styled via
-`part()`. `modal` keeps Base UI's non-modal default.
+Popover wraps `@base-ui/react/popover`. The parts are internal. None is exported.
 
 | Element | Notes |
 | ------- | ----- |
-| `Root` props (`open`, `defaultOpen`, `onOpenChange`, `modal`, `delay`, `closeDelay`, ...) | Exposed — full passthrough. |
-| `Trigger`, `Close` | Styled as Action buttons; Close pins `data-priority: 'tertiary'`. |
-| `Portal`, `Positioner`, `Backdrop` | Portal passthrough; backdrop gets the Overlay scrim. |
-| `Popup` | Surface elevation 2, popup transitions. |
-| `Title`, `Description` | Label type / body color. |
-| `openOnHover` / `delay` / `closeDelay` (Trigger) | Exposed — passthrough, not documented (edge-case hover behavior). |
-| `data-open`, `data-starting-style`, `data-ending-style` | Consumed by CSS for popup/backdrop transitions. |
-| Callback-form `className`/`style` | Available via passthrough, not documented. |
+| `Root` `open`, `onOpenChange` | Exposed, optional. Use them only to close the panel from code. |
+| `Root` `defaultOpen`, `modal`, `onOpenChangeComplete`, `actionsRef`, `handle`, trigger IDs | Omitted. `modal` is fixed `false`. |
+| `Trigger` | Renders the child through `render`. No class and no look. Hover open and delays are omitted. |
+| `Portal`, `Positioner` | Rendered inside. `side` and `align` are exposed. The side gap is fixed at `measure/space/200`. |
+| Other `Positioner` members, `Arrow`, `Backdrop`, `Viewport`, `Description` | Omitted. |
+| `Popup` `initialFocus`, `finalFocus` | Omitted. Base UI default focus. |
+| `Title` | Rendered from `title`. |
+| `Close` | The X button only. |
+| `render`, `className`, `style` | Omitted. |
 
 ## Extension API
 
-### Popover.Root
-
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `modal` | `boolean \| 'trap-focus'` | `false` | Non-modal by default: the page behind stays usable. Set `true` to block outside interaction. |
-| `children` | `ReactNode` | — | Part content: positioner, popup, title, description. |
+| `children` | `ReactElement` | required | The control that opens the panel. One element. |
+| `title` | `ReactNode` | required | The heading of the panel, next to the X. Screen readers read it as the panel name. |
+| `content` | `ReactNode` | required | The panel body. |
+| `side` | `'top' \| 'bottom' \| 'inline-start' \| 'inline-end'` | `'bottom'` | The side of the control the panel opens on. The panel flips when it does not fit. |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` | How the panel lines up along the control. |
+| `width` | `'auto' \| '6400' \| '8000' \| '9600' \| '12800'` | `'auto'` | Width of the panel. `auto`: the content sets it, up to `maxWidth`. |
+| `maxWidth` | `'6400' \| '8000' \| '9600' \| '12800'` | `'9600'` | Largest width of the panel. It wins over a larger `width`. |
+| `open` | `boolean` | — | Optional. Use with `onOpenChange` only to close the panel from code. |
+| `onOpenChange` | `(open: boolean) => void` | — | Optional. Called when the panel opens or closes. |
 
-### Popover.Positioner
+This example closes the panel from code after Apply.
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `side` / `align` / `sideOffset` | — | — | Placement relative to the trigger and the gap from it. |
+<FilterDemo />
 
-`open`/`defaultOpen`, `onOpenChange`, `data-priority` (Trigger), `render`, and standard attributes are passthrough — they appear here only, never get their own section.
+## Side
 
-## Open state
+`side` sets the side of the control that the panel opens on. `inline-start` and `inline-end`
+follow the text direction. The panel flips when it does not fit.
 
-The trigger opens the popover; the popup anchors to it. Escape, outside
-press, or a `Close` part dismisses.
+<Inline gap="200">
+  <Popover side="top" title="Top" content="The panel opens above."><Button variant="secondary">top</Button></Popover>
+  <Popover side="bottom" title="Bottom" content="The panel opens below."><Button variant="secondary">bottom</Button></Popover>
+  <Popover side="inline-start" title="Inline start" content="The panel opens at the start side."><Button variant="secondary">inline-start</Button></Popover>
+  <Popover side="inline-end" title="Inline end" content="The panel opens at the end side."><Button variant="secondary">inline-end</Button></Popover>
+</Inline>
 
-<Popover title="Notifications" content="You are all caught up."><Button variant="secondary">Notifications</Button></Popover>
+## Align
 
-## Non-modal
+`align` sets how the panel lines up along the control. `start` aligns the start edges.
+`center` centers the panel. `end` aligns the end edges.
 
-A popover never blocks the page by default: click outside, and it dismisses
-while the page keeps working. This is the difference from Dialog.
+<Inline gap="200">
+  <Popover align="start" width="8000" title="Start" content="The start edges line up."><Button variant="secondary">start</Button></Popover>
+  <Popover align="center" width="8000" title="Center" content="The panel is centered."><Button variant="secondary">center</Button></Popover>
+  <Popover align="end" width="8000" title="End" content="The end edges line up."><Button variant="secondary">end</Button></Popover>
+</Inline>
 
-<Popover title="Notifications" content="You are all caught up."><Button variant="secondary">Notifications</Button></Popover>
+## Width
+
+`width` sets the width of the panel. `auto` lets the content set it, up to `maxWidth`. The
+steps read `measure/width/{step}`. The panel shrinks to the space on the screen.
+
+<Inline gap="200">
+  <Popover width="auto" title="Auto" content="Short text."><Button variant="secondary">auto</Button></Popover>
+  <Popover width="6400" title="6400" content="A narrow panel."><Button variant="secondary">6400</Button></Popover>
+  <Popover width="8000" title="8000" content="A medium panel."><Button variant="secondary">8000</Button></Popover>
+  <Popover width="9600" title="9600" content="A wide panel."><Button variant="secondary">9600</Button></Popover>
+  <Popover width="12800" maxWidth="12800" title="12800" content="An extra wide panel. Set maxWidth too, because the default maxWidth is 9600."><Button variant="secondary">12800</Button></Popover>
+</Inline>
+
+## Max width
+
+`maxWidth` sets the largest width of the panel. It wins over a larger `width`. Each example
+has long content and `width="auto"`.
+
+<Inline gap="200">
+  <Popover maxWidth="6400" title="6400" content="Long content wraps at the maximum width of the panel. It does not go wider."><Button variant="secondary">6400</Button></Popover>
+  <Popover maxWidth="8000" title="8000" content="Long content wraps at the maximum width of the panel. It does not go wider."><Button variant="secondary">8000</Button></Popover>
+  <Popover maxWidth="9600" title="9600" content="Long content wraps at the maximum width of the panel. It does not go wider than this step."><Button variant="secondary">9600</Button></Popover>
+  <Popover maxWidth="12800" title="12800" content="Long content wraps at the maximum width of the panel. It does not go wider than this step, which is the largest step of the scale."><Button variant="secondary">12800</Button></Popover>
+</Inline>
 
 ## Anatomy
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Popup ground | `hds/sem/color/surface/floating/*`, `hds/sem/elevation/floating`, `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` |
-| Backdrop (when rendered) | `hds/sem/color/overlay/scrim` |
-| Trigger | `hds/sem/color/action/secondary/*`, `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
-| Close | `hds/sem/color/action/tertiary/*` |
-| Title | `hds/sem/color/content/default/fg`, `hds/sem/typography/label/*` |
-| Description | `hds/sem/color/content/default/fg` |
+| Panel ground | `hds/sem/color/surface/floating/bg`, `hds/sem/color/surface/floating/border`, `hds/sem/elevation/floating`, `hds/sem/radius/container`, `hds/sem/border/container` |
+| Panel padding | `hds/sem/measure/space/600` |
+| Width, max width | `hds/sem/measure/width/{6400,8000,9600,12800}` |
+| Side gap | `hds/sem/measure/space/200` |
+| Title | `hds/sem/color/content/strong/fg`, `hds/sem/typography/label/*`, `hds/sem/typography/label/size/md` |
+| Header row gap, gap to body | `hds/sem/measure/space/400`, `hds/sem/measure/space/200` |
+| Body text | `hds/sem/color/content/default/fg` |
+| X button | `hds/sem/color/action/tertiary/*`, `hds/sem/measure/size/800`, `hds/sem/radius/control` |
 | Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
 
 ## Owner notes
 
-- Base UI mapping: wraps `@base-ui/react/popover`; the namespace is mirrored
-  and every prop passes through. `Trigger`, `Backdrop`, `Positioner`, `Popup`,
-  `Title`, `Description`, and `Close` are the styled parts.
-- Extension decisions: no extension props. Elevation fixed at 2; popup
-  max-width structural (`min(24rem, var(--available-width))`). `Close` pins
-  tertiary; the trigger keeps the secondary button look, changeable with
-  `data-priority` (same decisions-vs-code flag as Dialog).
-- Known constraints: hover-open (`openOnHover`, `delay`, `closeDelay`) works
-  through passthrough but is undocumented; document it if a surface needs it.
-- Accessibility: the popup is labeled by `Title` and announced on open. Escape
-  closes; focus returns to the trigger.
+- Base UI mapping: `Root`, `Trigger`, `Portal`, `Positioner`, `Popup`, `Title`, and `Close`
+  from `@base-ui/react/popover`, all inside `<Popover>`.
+- Extension decisions: one component with `title` and `content` props (overlay exception in
+  `docs/api-conventions.md` section 1). The child is the trigger. `modal` is fixed `false`.
+  The X is a tertiary Button, size `800`.
+- Known constraints: the panel renders at the end of the page. It uses the page colors and
+  mode. A `data-context`, `data-mode`, or `data-section` on an ancestor does not reach it.
+- Accessibility: the title names the panel. `Escape` closes it. Focus goes back to the
+  control on close.

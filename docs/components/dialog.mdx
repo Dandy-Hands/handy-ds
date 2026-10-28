@@ -5,122 +5,138 @@ order: 17
 ---
 
 import { useState } from 'react';
-import { AlertDialog, Button, Dialog } from 'handy-ds';
+import { Button, Dialog, Field, Inline, Text, TextInput } from 'handy-ds';
 
-export function DialogDemo() {
+export function DialogDemo({ label, withActions = true, body, ...props }) {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Open dialog</Button>
-      <Dialog open={open} onOpenChange={setOpen} title="Edit profile"
-        actions={<Button onClick={() => setOpen(false)}>Done</Button>}>
-        Changes apply to every workspace.
+      <Button variant="secondary" onClick={() => setOpen(true)}>{label}</Button>
+      <Dialog
+        open={open}
+        onOpenChange={setOpen}
+        title="Edit profile"
+        actions={withActions ? (
+          <>
+            <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button onClick={() => setOpen(false)}>Save</Button>
+          </>
+        ) : undefined}
+        {...props}
+      >
+        {body ?? (
+          <Field.Root>
+            <Field.Label>Name</Field.Label>
+            <TextInput />
+          </Field.Root>
+        )}
       </Dialog>
-    </>
-  );
-}
-
-export function AlertDialogDemo() {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <Button variant="danger" onClick={() => setOpen(true)}>Delete project</Button>
-      <AlertDialog open={open} onOpenChange={setOpen} title="Delete project?"
-        description="This removes it for everyone." confirm="Delete" variant="danger" onConfirm={() => setOpen(false)} />
     </>
   );
 }
 
 # Dialog
 
-A task that blocks the page. The popup is a surface at elevation 3; a dimmed
-backdrop covers the page; focus stays inside until the dialog closes.
-`AlertDialog` is the confirm/cancel variant and cannot be dismissed by clicking
-outside.
+Dialog is a box over the page for a short task. The user finishes or dismisses the task
+before going back to the page. Dialog is one component with props and children. It has a
+header row with the title and an X button, a body that scrolls, and an optional button row.
+Code opens and closes it through `open` and `onOpenChange`. A normal Button opens it.
 
-<DialogDemo />
+<DialogDemo label="Edit profile" />
 
 ## Usage
 
-Use Dialog when the user must finish or dismiss before carrying on: edit
-forms, blocking choices. Use AlertDialog to confirm destructive actions —
-deletion, permission changes. Do not use Dialog for extra detail next to a
-trigger — use Popover.
+Use Dialog for a short task that blocks the page: edit a record, fill a small form, or read a
+required notice. Keep the open state in code: `const [open, setOpen] = useState(false)`, a
+Button with `onClick={() => setOpen(true)}`, and `<Dialog open={open} onOpenChange={setOpen}>`.
+
+Do not use Dialog to confirm a destructive action. Use AlertDialog. Do not use it for longer
+content where the page context helps. Use Drawer. Do not use it for a small panel that leaves
+the page usable. Use Popover. Do not put a long flow of several steps in a Dialog. Use a page.
 
 ## Base UI API
 
-Wraps Base UI's `Dialog` and `AlertDialog`; every part passes through
-unchanged, styled via `part()`. Both keep Base UI's modal defaults
-(`modal: true`).
+Dialog wraps `@base-ui/react/dialog`. The parts are internal. None is exported.
 
 | Element | Notes |
 | ------- | ----- |
-| `Root` props (`open`, `defaultOpen`, `onOpenChange`, `modal`, ...) | Exposed — full passthrough. |
-| `Trigger`, `Close` | Styled as Action buttons (secondary look; `data-priority` overrides). |
-| `Portal`, `Backdrop` | Portal passthrough; backdrop gets the Overlay scrim. |
-| `Popup` | Surface elevation 3, popup transitions, centered modal layout. |
-| `Title`, `Description` | Heading type / body color. |
-| `initialFocus` / `finalFocus` (Popup) | Exposed — passthrough. |
-| `data-open`, `data-starting-style`, `data-ending-style` | Consumed by CSS for popup/backdrop transitions. |
-| Callback-form `className`/`style` | Available via passthrough, not documented. |
-
-`AlertDialog` mirrors every decision; the difference is the dismissal rules (no outside-click dismiss).
+| `Root` `open`, `onOpenChange` | Exposed and required. The only way to open and close the dialog. |
+| `Root` `disablePointerDismissal` | Exposed, Base UI name. |
+| `Root` `defaultOpen`, `modal`, `onOpenChangeComplete`, `actionsRef`, `handle`, trigger IDs | Omitted. `modal` is fixed `true`. |
+| `Trigger` | Omitted. A normal Button with `onClick` opens the dialog. |
+| `Portal`, `Backdrop`, `Viewport`, `Popup` | Rendered inside. The scrim is always rendered. |
+| `Popup` `initialFocus`, `finalFocus` | Omitted. Base UI default focus. |
+| `Title` | Rendered from `title`. |
+| `Description` | Omitted. |
+| `Close` | The X button only. |
+| `render`, `className`, `style` | Omitted. |
+| `data-open`, `data-starting-style`, `data-ending-style`, `data-nested` | Read by CSS for the transition and for a dialog on top of another dialog. |
 
 ## Extension API
 
-### Dialog.Root
-
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `open` / `defaultOpen` | `boolean` | — | The controlled / initial open state. |
-| `onOpenChange` | `(open, eventDetails) => void` | — | Fires when the dialog opens or closes. |
-| `modal` | `boolean \| 'trap-focus'` | `true` | `true` traps focus, locks page scroll, and dismisses on outside press (AlertDialog never dismisses on outside press). `'trap-focus'` traps focus without locking scroll. |
-| `children` | `ReactNode` | — | Part content: backdrop, popup, title, description, close. |
+| `open` | `boolean` | required | Whether the dialog is open. Keep it in state. |
+| `onOpenChange` | `(open: boolean) => void` | required | Called when the user closes the dialog with the X button, `Escape`, or a click outside. |
+| `title` | `ReactNode` | required | The heading in the header row. Screen readers read it as the dialog name. |
+| `width` | `'8000' \| '9600' \| '12800' \| 'full'` | `'9600'` | Width of the box. `full` fills the screen minus a small gap. |
+| `actions` | `ReactNode` | — | The button row at the bottom. Put the main action last. Absent: no row. |
+| `disablePointerDismissal` | `boolean` | `false` | With `true`, a click outside does not close the dialog. |
+| `children` | `ReactNode` | — | The body. It scrolls when the dialog is taller than the screen. |
 
-### Dialog.Trigger, Dialog.Close
+## Width
 
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `data-priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the trigger and close buttons. |
+`width` sets the width of the box. `8000`, `9600`, and `12800` read `measure/width/{step}`.
+`full` fills the screen minus the side gap, in width and in height. Every width shrinks to fit
+a small screen.
 
-`initialFocus`/`finalFocus` (Popup), `render`, and standard attributes are passthrough — they appear here only, never get their own section.
+<Inline gap="200">
+  <DialogDemo label="8000" width="8000" />
+  <DialogDemo label="9600" width="9600" />
+  <DialogDemo label="12800" width="12800" />
+  <DialogDemo label="full" width="full" />
+</Inline>
 
-## Open state
+## Actions
 
-The trigger opens the dialog; the backdrop dims the page with the Overlay
-token; Escape and the close button dismiss.
+`actions` is the button row at the bottom, aligned to the end. The row stays visible while the
+body scrolls. Without `actions`, the dialog has no button row. The X button is always there.
 
-<DialogDemo />
-
-## Alert dialog
-
-`AlertDialog` blocks outside-click dismissal, so a destructive confirm always
-gets an explicit choice. Its trigger and close carry the same button look.
-
-<AlertDialogDemo />
+<Inline gap="200">
+  <DialogDemo label="With actions" />
+  <DialogDemo label="Without actions" withActions={false} body={<Text>Your changes are saved.</Text>} />
+  <DialogDemo
+    label="Long body"
+    body={<Text>{'This body is longer than the screen. Only the body scrolls. The header row and the button row stay visible. '.repeat(40)}</Text>}
+  />
+</Inline>
 
 ## Anatomy
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Popup ground | `hds/sem/color/surface/modal/*`, `hds/sem/elevation/modal`, `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` |
-| Backdrop | `hds/sem/color/overlay/scrim` |
-| Trigger / Close | `hds/sem/color/action/secondary/*`, `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
-| Title | `hds/sem/color/content/strong/fg`, `hds/sem/typography/headline/*` |
-| Description | `hds/sem/color/content/default/fg` |
+| Scrim | `hds/sem/color/overlay/scrim` |
+| Box ground | `hds/sem/color/surface/modal/bg`, `hds/sem/color/surface/modal/border`, `hds/sem/elevation/modal`, `hds/sem/radius/container`, `hds/sem/border/container` |
+| Box padding | `hds/sem/measure/space/600` |
+| Side gap to the screen edge | `hds/sem/measure/space/400` |
+| Width | `hds/sem/measure/width/{8000,9600,12800}` |
+| Title | `hds/sem/color/content/strong/fg`, `hds/sem/typography/headline/{family,weight,leading,tracking}`, `hds/sem/typography/headline/size/sm` |
+| Header row gap | `hds/sem/measure/space/400` |
+| Body text | `hds/sem/color/content/default/fg` |
+| Gap header to body, body to button row | `hds/sem/measure/space/600` |
+| Button row gap | `hds/sem/measure/space/200` |
+| X button | `hds/sem/color/action/tertiary/*`, `hds/sem/measure/size/800`, `hds/sem/radius/control` |
 | Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
 
 ## Owner notes
 
-- Base UI mapping: wraps `@base-ui/react/dialog` and `alert-dialog` in one
-  family; both namespaces are mirrored, and every prop passes through. The
-  popup, backdrop, and text parts are styled; Portal is a passthrough.
-- Extension decisions: no extension props. Elevation is fixed at 3 and the
-  popup width is structural (`min(32rem, calc(100vw - 2rem))`). Trigger and
-  Close carry the secondary Button look, changeable with `data-priority`.
-- Known constraints: the decisions log ("Triggers carry no styling") and the
-  shipped trigger styling disagree — this spec follows the code; reconcile one
-  side at review. The popup is centered and scrolls internally at small
-  viewport heights.
-- Accessibility: focus is trapped and restored by the underlying behavior;
-  `Title` labels the dialog. Give AlertDialog an explicit cancel and confirm.
+- Base UI mapping: `Root`, `Portal`, `Backdrop`, `Viewport`, `Popup`, `Title`, and `Close`
+  from `@base-ui/react/dialog`, all inside `<Dialog>`.
+- Extension decisions: one component with `title` and `actions` props (overlay exception in
+  `docs/api-conventions.md` section 1). No trigger: `open` and `onOpenChange` are the one way
+  to open and close it. The X is a tertiary Button, size `800`, and is always shown.
+- Known constraints: the dialog renders at the end of the page. It uses the page colors and
+  mode. A `data-context`, `data-mode`, or `data-section` on an ancestor does not reach it. On a
+  phone the box shrinks to the screen width; there is no automatic full screen.
+- Accessibility: focus moves into the dialog on open and stays inside. Focus goes back to the
+  element that had it before on close. The title names the dialog. `Escape` closes it.

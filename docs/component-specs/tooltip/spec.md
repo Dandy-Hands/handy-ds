@@ -2,7 +2,7 @@ Status:
 - spec: reviewed
 - code: built
 - figma: built
-- docs: pending
+- docs: built
 
 # Internal Spec: Tooltip
 
