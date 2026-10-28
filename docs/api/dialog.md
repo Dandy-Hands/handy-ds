@@ -2,62 +2,54 @@
 
 ## Usage
 
-Dialog is a task that blocks the page: the user must finish or dismiss before carrying on, and the page behind is dimmed. AlertDialog is the confirm/cancel variant for destructive actions and cannot be dismissed by clicking outside. Don't use Dialog for extra detail next to a trigger — use Popover.
+Dialog shows a box over the page for a short task the user must finish or dismiss before going back to the page, such as editing a record or filling a small form. It blocks the page behind it. Don't use it to confirm a destructive action; use AlertDialog. Don't use it for longer content where the page context helps; use Drawer. Don't use it for a small panel that leaves the page usable; use Popover.
 
 ## Props
 
-### Dialog.Root
-
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `open` / `defaultOpen` | `boolean` | — | The controlled / initial open state. |
-| `onOpenChange` | `(open, eventDetails) => void` | — | Fires when the dialog opens or closes. |
-| `modal` | `boolean \| 'trap-focus'` | `true` | `true` traps focus, locks page scroll, and dismisses on outside press (AlertDialog never dismisses on outside press). `'trap-focus'` traps focus without locking scroll. |
+| `open` | `boolean` | — | Required. Whether the dialog is open. Keep it in state. |
+| `onOpenChange` | `(open: boolean) => void` | — | Required. Called when the user closes the dialog with the X button, `Escape`, or a click outside. Pass the state setter. |
+| `title` | `ReactNode` | — | Required. The heading at the top of the dialog. Screen readers read it as the dialog name. |
+| `width` | `'8000' \| '9600' \| '12800' \| 'full'` | `'9600'` | `8000`: narrow, for a short message. `9600`: standard. `12800`: wide, for a form. `full`: fills the screen with a small gap. Every width shrinks to fit a small screen. |
+| `actions` | `ReactNode` | — | The buttons at the bottom, such as Cancel and Save. Put the main action last. The row stays visible while the body scrolls. |
+| `disablePointerDismissal` | `boolean` | `false` | With `true`, a click outside does not close the dialog. Use it for a form with unsaved changes. |
+| `children` | `ReactNode` | — | The body: text and fields. It scrolls when it is taller than the screen. |
 
-### Dialog.Trigger, Dialog.Close
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `data-priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the trigger and close buttons. |
-
-### Dialog.Popup
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `initialFocus` / `finalFocus` | `React.Ref` | — | Element to focus when the dialog opens / after it closes. |
-
-`children` holds part content (backdrop, popup, title, description, close) on every part, and `render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element on any part. All standard attributes (`id`, `aria-*`, ...) are also accepted.
+The dialog always has an X button in the top corner. Open it with a normal Button that sets the state. Dialog accepts no other props.
 
 ## Examples
 
 ```tsx
-<Dialog.Root>
-  <Dialog.Trigger>Edit</Dialog.Trigger>
-  <Dialog.Portal>
-    <Dialog.Backdrop />
-    <Dialog.Popup>
-      <Dialog.Title>Edit profile</Dialog.Title>
-      <Dialog.Close>Done</Dialog.Close>
-    </Dialog.Popup>
-  </Dialog.Portal>
-</Dialog.Root>
+const [open, setOpen] = useState(false);
+
+<Button onClick={() => setOpen(true)}>Edit profile</Button>
+<Dialog
+  open={open}
+  onOpenChange={setOpen}
+  title="Edit profile"
+  width="12800"
+  actions={
+    <>
+      <Button variant="secondary" onClick={() => setOpen(false)}>Cancel</Button>
+      <Button onClick={save}>Save</Button>
+    </>
+  }
+>
+  <Field.Root>
+    <Field.Label>Name</Field.Label>
+    <TextInput />
+  </Field.Root>
+</Dialog>
 ```
 
 ```tsx
-<AlertDialog.Root>
-  <AlertDialog.Trigger data-priority="primary">Delete</AlertDialog.Trigger>
-  <AlertDialog.Portal>
-    <AlertDialog.Backdrop />
-    <AlertDialog.Popup>
-      <AlertDialog.Title>Delete project?</AlertDialog.Title>
-      <AlertDialog.Description>This removes it for everyone.</AlertDialog.Description>
-      <AlertDialog.Cancel>Cancel</AlertDialog.Cancel>
-      <AlertDialog.Close data-priority="primary">Delete</AlertDialog.Close>
-    </AlertDialog.Popup>
-  </AlertDialog.Portal>
-</AlertDialog.Root>
+<Dialog open={expired} onOpenChange={setExpired} title="Session expired"
+  actions={<Button onClick={signIn}>Sign in again</Button>}>
+  <Text>Sign in again to keep working.</Text>
+</Dialog>
 ```
 
 ## Contexts
 
-The popup is a Surface: set `data-context="on-primary"` (on a colored ground), `data-context="default"` (back to normal colors), or `data-section="hero"` on any ancestor and its tokens re-resolve automatically.
+The dialog shows on top of the page, outside the content around the button that opened it. It uses the page colors and mode. A `data-context`, `data-mode`, or `data-section` on an ancestor does not change it.

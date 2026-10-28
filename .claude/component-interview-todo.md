@@ -53,13 +53,13 @@ planned, no Base UI primitive.
 
 ## Tier 4 — Overlays & floating
 
-- [ ] popover `[re]`
-- [ ] tooltip `[new]`
-- [ ] preview-card `[new]`
-- [ ] dialog `[re]`
-- [ ] alert-dialog `[new]`
-- [ ] drawer `[new]`
-- [ ] toast `[re]`
+- [x] popover `[re]` (2026-10-26; spec and API doc written)
+- [x] tooltip `[new]` (2026-10-26; spec and API doc written)
+- [x] preview-card `[new]` (2026-10-27; spec and API doc written)
+- [x] dialog `[re]` (2026-10-28; one component, `open` / `onOpenChange` only)
+- [x] alert-dialog `[new]` (2026-10-28; props only, draws its own two buttons)
+- [x] drawer `[new]` (2026-10-28; Dialog shape plus `side` and `width`)
+- [x] toast `[re]` (2026-10-28; `ToastProvider` + `useToast()`)
 
 ## Tier 5 — Collections & navigation
 

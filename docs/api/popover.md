@@ -2,59 +2,52 @@
 
 ## Usage
 
-Popover is extra information or small controls anchored to a trigger, with the page behind left usable. Don't use it for a list of commands — use Menu — or when the task blocks the page — use Dialog.
+Popover shows a small panel next to a control when the user clicks it, such as a definition, help text, or a small filter form. The page behind stays usable. Don't use it for a list of commands; use Menu. Don't use it for a task the user must finish before going on; use Dialog. Don't use it for a label on hover; use Tooltip.
 
 ## Props
 
-### Popover.Root
-
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `open` / `defaultOpen` | `boolean` | — | The controlled / initial open state. |
-| `onOpenChange` | `(open, eventDetails) => void` | — | Fires when the popover opens or closes. |
-| `modal` | `boolean \| 'trap-focus'` | `false` | Non-modal by default: the page behind stays usable. Set `true` to block outside interaction. |
+| `children` | `ReactElement` | — | Required. The control that opens the popover, such as a Button. One element. |
+| `title` | `ReactNode` | — | Required. The heading of the panel. Screen readers read it as the panel name. |
+| `content` | `ReactNode` | — | Required. The panel body. |
+| `side` | `'top' \| 'bottom' \| 'inline-start' \| 'inline-end'` | `'bottom'` | The side of the control the panel opens on. `inline-start` and `inline-end` follow the text direction. The panel flips when it does not fit. |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` | How the panel lines up along the control. `start`: with the start edge. `center`: centered. `end`: with the end edge. |
+| `width` | `'auto' \| '6400' \| '8000' \| '9600' \| '12800'` | `'auto'` | Width of the panel. `auto`: the content sets it, up to `maxWidth`. `6400`: narrow. `8000`: medium. `9600`: wide. `12800`: extra wide. |
+| `maxWidth` | `'6400' \| '8000' \| '9600' \| '12800'` | `'9600'` | Largest width of the panel. Same steps as `width`. |
+| `open` | `boolean` | — | Optional. Use with `onOpenChange` only to close the panel from code, such as after Apply. |
+| `onOpenChange` | `(open: boolean) => void` | — | Optional. Called when the panel opens or closes. |
 
-### Popover.Trigger
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `data-priority` | `'primary' \| 'secondary' \| 'tertiary'` | `'secondary'` | Visual weight of the trigger button. |
-
-### Popover.Positioner
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `side` / `align` / `sideOffset` | — | — | Placement relative to the trigger and the gap from it. |
-
-`children` holds part content (positioner, popup, title, description) on every part, and `render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element on any part. All standard attributes (`id`, `aria-*`, ...) are also accepted.
+The panel has an X button. A click outside or `Escape` also closes it. Popover accepts no other props.
 
 ## Examples
 
 ```tsx
-<Popover.Root>
-  <Popover.Trigger>Notifications</Popover.Trigger>
-  <Popover.Portal>
-    <Popover.Positioner sideOffset={8}>
-      <Popover.Popup>
-        <Popover.Title>Notifications</Popover.Title>
-        <Popover.Description>You are all caught up.</Popover.Description>
-      </Popover.Popup>
-    </Popover.Positioner>
-  </Popover.Portal>
-</Popover.Root>
+<Popover title="Annual percentage rate" content="The yearly cost of the loan, with interest and fees.">
+  <Button variant="tertiary">What is APR?</Button>
+</Popover>
 ```
 
 ```tsx
-<Popover.Root>
-  <Popover.Trigger data-priority="tertiary">What's this?</Popover.Trigger>
-  <Popover.Portal>
-    <Popover.Positioner sideOffset={4}>
-      <Popover.Popup>Billing happens on the 1st.</Popover.Popup>
-    </Popover.Positioner>
-  </Popover.Portal>
-</Popover.Root>
+const [open, setOpen] = useState(false);
+
+<Popover
+  open={open}
+  onOpenChange={setOpen}
+  title="Filter results"
+  align="start"
+  width="8000"
+  content={
+    <Stack gap="400">
+      <Field.Label><Checkbox name="stock" />In stock</Field.Label>
+      <Button onClick={() => { applyFilters(); setOpen(false); }}>Apply</Button>
+    </Stack>
+  }
+>
+  <Button variant="secondary">Filters</Button>
+</Popover>
 ```
 
 ## Contexts
 
-The popup is a Surface: set `data-context="on-primary"` (on a colored ground), `data-context="default"` (back to normal colors), or `data-section="hero"` on any ancestor and its tokens re-resolve automatically.
+The panel shows at the end of the page, outside the content around the control. It uses the page colors and mode. A `data-context`, `data-mode`, or `data-section` on an ancestor does not change it.
