@@ -39,7 +39,7 @@ const [open, setOpen] = useState(false);
   width="8000"
   content={
     <Stack gap="400">
-      <Field.Label><Checkbox name="stock" />In stock</Field.Label>
+      <Field.Root><Field.Label><Checkbox name="stock" />In stock</Field.Label></Field.Root>
       <Button onClick={() => { applyFilters(); setOpen(false); }}>Apply</Button>
     </Stack>
   }

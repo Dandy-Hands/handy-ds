@@ -37,8 +37,8 @@ const [open, setOpen] = useState(false);
   }
 >
   <Stack gap="400">
-    <Field.Label><Checkbox name="stock" />In stock</Field.Label>
-    <Field.Label><Checkbox name="sale" />On sale</Field.Label>
+    <Field.Root><Field.Label><Checkbox name="stock" />In stock</Field.Label></Field.Root>
+    <Field.Root><Field.Label><Checkbox name="sale" />On sale</Field.Label></Field.Root>
   </Stack>
 </Drawer>
 ```
