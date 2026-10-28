@@ -1,0 +1,151 @@
+---
+title: Drawer
+category: Overlays
+order: 17.2
+---
+
+import { useState } from 'react';
+import { Button, Checkbox, Drawer, Field, Inline, Stack } from 'handy-ds';
+
+export function DrawerDemo({ label, withActions = true, ...props }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="secondary" onClick={() => setOpen(true)}>{label}</Button>
+      <Drawer
+        open={open}
+        onOpenChange={setOpen}
+        title="Filters"
+        actions={withActions ? (
+          <>
+            <Button variant="secondary" onClick={() => setOpen(false)}>Clear</Button>
+            <Button onClick={() => setOpen(false)}>Show results</Button>
+          </>
+        ) : undefined}
+        {...props}
+      >
+        <Stack gap="400">
+          <Field.Root><Field.Label><Checkbox name="stock" />In stock</Field.Label></Field.Root>
+          <Field.Root><Field.Label><Checkbox name="sale" />On sale</Field.Label></Field.Root>
+        </Stack>
+      </Drawer>
+    </>
+  );
+}
+
+# Drawer
+
+Drawer is a panel that slides in from an edge of the screen and blocks the page. It is one
+component with props and children. It has the same header row, scrolling body, and button row
+as Dialog. The user closes it with the X button, `Escape`, a click outside, or a swipe toward
+its edge.
+
+<DrawerDemo label="Filters" />
+
+## Usage
+
+Use Drawer for longer content where the page context helps: item details, a filter panel, a
+cart, or the site menu on phones. Use `side="bottom"` for a short panel on a phone, such as
+share options. Keep the open state in code, as for Dialog.
+
+Do not use Drawer for a short task that needs full attention. Use Dialog. Do not use it for
+content that stays beside the page all the time. Use Aside. Do not use it for a small panel
+next to a button that leaves the page usable. Use Popover.
+
+## Base UI API
+
+Drawer wraps `@base-ui/react/drawer`. The parts are internal. None is exported.
+
+| Element | Notes |
+| ------- | ----- |
+| `Root` `open`, `onOpenChange` | Exposed and required. The only way to open and close the drawer. |
+| `Root` `disablePointerDismissal` | Exposed, Base UI name. |
+| `Root` `defaultOpen`, `modal`, `onOpenChangeComplete`, `actionsRef`, `handle`, trigger IDs; `Trigger` | Omitted. `modal` is fixed `true`. |
+| `Root` `swipeDirection` | Set from `side` and the text direction. Not exposed. |
+| `Root` snap point members | Omitted. |
+| `SwipeArea`, `Indent`, `IndentBackground`, `Provider` | Omitted. |
+| `Portal`, `Backdrop`, `Viewport`, `Popup`, `Content` | Rendered inside. |
+| `Popup` `initialFocus`, `finalFocus` | Omitted. Base UI default focus. |
+| `Title` | Rendered from `title`. |
+| `Description` | Omitted. |
+| `Close` | The X button only. |
+| `render`, `className`, `style` | Omitted. |
+| `data-open`, `data-starting-style`, `data-ending-style`, `data-swiping`, `data-swipe-direction` | Read by CSS for the slide and the swipe. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `open` | `boolean` | required | Whether the drawer is open. Keep it in state. |
+| `onOpenChange` | `(open: boolean) => void` | required | Called when the user closes the drawer with the X button, `Escape`, a click outside, or a swipe. |
+| `title` | `ReactNode` | required | The heading in the header row. Screen readers read it as the drawer name. |
+| `side` | `'inline-end' \| 'inline-start' \| 'bottom'` | `'inline-end'` | The edge the drawer slides in from. |
+| `width` | `'8000' \| '9600' \| '12800'` | `'9600'` | Width of a side drawer. A bottom drawer ignores it. |
+| `actions` | `ReactNode` | — | The button row at the bottom. Put the main action last. Absent: no row. |
+| `disablePointerDismissal` | `boolean` | `false` | With `true`, a click outside does not close the drawer. |
+| `children` | `ReactNode` | — | The body. It scrolls when it is taller than the drawer. |
+
+## Side
+
+`side` sets the edge the drawer slides in from. `inline-end` is the end side of the text (the
+right in English). `inline-start` is the start side (the left in English). A side drawer is as
+tall as the screen. `bottom` is a sheet with a grab bar. It is as tall as its content, up to
+90% of the screen.
+
+<Inline gap="200">
+  <DrawerDemo label="inline-end" side="inline-end" />
+  <DrawerDemo label="inline-start" side="inline-start" />
+  <DrawerDemo label="bottom" side="bottom" />
+</Inline>
+
+## Width
+
+`width` sets the width of a side drawer. It reads `measure/width/{step}` and shrinks to the
+screen width. `8000` is narrow, such as a menu. `9600` is standard. `12800` is wide, such as
+item details.
+
+<Inline gap="200">
+  <DrawerDemo label="8000" width="8000" />
+  <DrawerDemo label="9600" width="9600" />
+  <DrawerDemo label="12800" width="12800" />
+</Inline>
+
+## Actions
+
+`actions` is the button row at the bottom of the panel. The row stays visible while the body
+scrolls. Without `actions`, the drawer has no button row. The X button is always there.
+
+<Inline gap="200">
+  <DrawerDemo label="With actions" />
+  <DrawerDemo label="Without actions" withActions={false} />
+</Inline>
+
+## Anatomy
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Scrim | `hds/sem/color/overlay/scrim` |
+| Panel ground | `hds/sem/color/surface/modal/bg`, `hds/sem/color/surface/modal/border`, `hds/sem/elevation/modal`, `hds/sem/border/container` |
+| Panel corners (free side only) | `hds/sem/radius/container` |
+| Panel padding | `hds/sem/measure/space/600` |
+| Width | `hds/sem/measure/width/{8000,9600,12800}` |
+| Title | `hds/sem/color/content/strong/fg`, `hds/sem/typography/headline/*`, `hds/sem/typography/headline/size/sm` |
+| Header row gap | `hds/sem/measure/space/400` |
+| Gap header to body, body to button row | `hds/sem/measure/space/600` |
+| Button row gap | `hds/sem/measure/space/200` |
+| Grab bar | `hds/sem/color/graphic/divider/strong`, `hds/sem/measure/size/200`, `hds/sem/radius/round` |
+| X button | `hds/sem/color/action/tertiary/*`, `hds/sem/measure/size/800`, `hds/sem/radius/control` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
+
+## Owner notes
+
+- Base UI mapping: `Root`, `Portal`, `Backdrop`, `Viewport`, `Popup`, `Content`, `Title`, and
+  `Close` from `@base-ui/react/drawer`, all inside `<Drawer>`.
+- Extension decisions: one component, as Dialog. `side` sets the swipe direction: `bottom`
+  swipes down; `inline-end` swipes right in a left-to-right page and left in a right-to-left
+  page. It shares the header row, body, button row, and title CSS with Dialog.
+- Known constraints: snap points are not available. The drawer renders at the end of the page
+  and uses the page colors and mode. The slide has no transition under
+  `prefers-reduced-motion`.
+- Accessibility: focus moves into the drawer on open and stays inside. Focus goes back on
+  close. The title names the drawer. The grab bar is decorative (`aria-hidden`).

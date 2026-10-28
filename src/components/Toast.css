@@ -1,0 +1,65 @@
+/*
+ * Toast: dark floating surface (data-mode="dark"), tone only colors the icon (Icon tone reads
+ * feedback/{tone}/icon). Newest toast at the bottom. Timings are structural literals.
+ */
+@layer hds.theme, hds.base, hds.components;
+
+@layer hds.components {
+  .hds-toast-viewport {
+    position: fixed;
+    z-index: 60;
+    inset-block-end: var(--hds-sem-measure-space-400);
+    inset-inline-end: var(--hds-sem-measure-space-400);
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--hds-sem-measure-space-400);
+    width: min(var(--hds-sem-measure-width-9600), calc(100vw - 2 * var(--hds-sem-measure-space-400)));
+    outline: 0;
+  }
+
+  .hds-toast {
+    border-radius: var(--hds-sem-radius-container);
+    color: var(--hds-sem-color-content-default-fg);
+    font-family: var(--hds-sem-typography-body-family);
+    font-size: var(--hds-sem-typography-body-size-md);
+    font-weight: var(--hds-sem-typography-body-weight);
+    line-height: var(--hds-sem-typography-body-leading);
+    letter-spacing: var(--hds-sem-typography-body-tracking);
+    transform: translate(var(--toast-swipe-movement-x, 0px), var(--toast-swipe-movement-y, 0px));
+    transition: opacity 200ms, transform 200ms;
+  }
+
+  .hds-toast[data-starting-style],
+  .hds-toast[data-ending-style] {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  .hds-toast[data-ending-style][data-swipe-direction='right'] { transform: translateX(calc(var(--toast-swipe-movement-x) + 150%)); }
+  .hds-toast[data-ending-style][data-swipe-direction='left'] { transform: translateX(calc(var(--toast-swipe-movement-x) - 150%)); }
+  .hds-toast[data-ending-style][data-swipe-direction='down'] { transform: translateY(calc(var(--toast-swipe-movement-y) + 150%)); }
+
+  .hds-toast[data-limited] {
+    display: none;
+  }
+
+  .hds-toast__content {
+    display: flex;
+    align-items: center;
+    gap: var(--hds-sem-measure-space-300);
+    padding: var(--hds-sem-measure-space-400);
+  }
+
+  .hds-toast__title {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    font: inherit;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hds-toast {
+      transition: none;
+    }
+  }
+}

@@ -2,42 +2,43 @@
 
 ## Usage
 
-Toast is a short-lived message after an action: a stacked notification in a fixed bottom-right viewport. Use it to confirm something that happened, with nothing for the user to do. Don't use it when the user must read or act on the message — use Alert or Dialog. Wrap the app in `Toast.Provider` and render `<Toaster />` once.
+Toast shows a short message in the corner of the screen that closes by itself, such as "Saved". Use it to confirm that an action finished, with an optional Undo button. Don't use it for a message that must stay readable; use Alert. Don't use it to ask a question; use AlertDialog.
 
 ## Props
 
-### `add()` options
+### ToastProvider
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `type` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | The toast's color and tone. `info` — neutral notice. `success` — confirmed. `warning` — act soon. `danger` — problem. |
-| `title` | `ReactNode` | — | Short heading of the toast. |
-| `description` | `ReactNode` | — | Detail below the title. |
-| `timeout` | `number` | `5000` | Milliseconds before auto-dismiss; `0` keeps the toast until dismissed. Also settable on the Provider. |
-| `actionProps` | button props | — | Props for the toast's action button. |
+| `children` | `ReactNode` | — | The app. Place one ToastProvider around the whole app. It also shows the toasts. |
 
-### Toaster (Provider)
+### useToast
 
-| Prop | Type | Default | Description |
+`const toast = useToast()` returns a function. Call `toast(options)` to show a toast.
+
+| Option | Type | Default | Description |
 | --- | --- | --- | --- |
-| `limit` | `number` | `3` | Maximum toasts shown at once; extras hide until space frees. |
-| `timeout` | `number` | `5000` | Default milliseconds before auto-dismiss for toasts that don't set their own. |
+| `title` | `ReactNode` | — | Required. The message, one short sentence. For a failure, say what to do next. |
+| `tone` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | The icon and its color. `info`: neutral news. `success`: an action finished. `warning`: something needs attention soon. `danger`: an action failed; screen readers read it at once. |
+| `action` | `{ label: ReactNode; onClick: () => void }` | — | One button in the toast, such as Undo. A click runs `onClick` and closes the toast. |
 
-`children` holds part content on every part, and `render` (`ReactElement \| (props, state) => ReactElement`) replaces the rendered element on any part. All standard attributes (`id`, `aria-*`, ...) are also accepted.
+A toast is always dark, on light and dark pages. It closes after a few seconds, or a little later when it has an action. It pauses while the pointer rests on it. It always has an X button. At most three toasts show at a time.
 
 ## Examples
 
 ```tsx
-// once, at the app root
-<Toast.Provider><App /><Toaster /></Toast.Provider>
+<ToastProvider>
+  <App />
+</ToastProvider>
 ```
 
 ```tsx
-// anywhere
-const toast = Toast.useToastManager();
-toast.add({ title: 'Saved', type: 'success', description: 'Your changes are live.' });
+const toast = useToast();
+
+async function remove() {
+  await deleteMessage(id);
+  toast({ title: 'Message deleted', tone: 'success', action: { label: 'Undo', onClick: restore } });
+}
+
+toast({ title: 'Could not save. Check your connection and try again.', tone: 'danger' });
 ```
-
-## Contexts
-
-No own context handling. Feedback colors are contrast-checked in the default context; the viewport floats above the page and is not placed inside colored sections.

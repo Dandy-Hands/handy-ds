@@ -1,0 +1,97 @@
+---
+title: Tooltip
+category: Overlays
+order: 18.1
+---
+
+import { Button, Icon, Inline, Tooltip } from 'handy-ds';
+
+# Tooltip
+
+Tooltip shows a short text label for a control. The label shows when the pointer rests on the
+control or when the control gets keyboard focus. Tooltip is one component: it wraps its
+control, and `content` is the label. The label is always dark, on light and dark pages.
+
+<Tooltip content="Save draft">
+  <Button variant="tertiary" aria-label="Save draft"><Icon>save</Icon></Button>
+</Tooltip>
+
+## Usage
+
+Use Tooltip to name an icon-only control or to add a short hint. Give an icon-only control
+its own `aria-label`, because touch users do not see the tooltip.
+
+Do not put links or buttons in a tooltip. Use Popover. Do not use Tooltip for information
+the user must read. Put that information on the page.
+
+## Base UI API
+
+Tooltip wraps `@base-ui/react/tooltip`. The parts are internal. None is exported.
+
+| Element | Notes |
+| ------- | ----- |
+| `Provider` | Omitted. The delays are the Base UI defaults (600 ms open, 0 ms close). |
+| `Root` members (`open`, `onOpenChange`, `disabled`, `trackCursorAxis`, ...) | Omitted. To have no tooltip, do not wrap the control. |
+| `Root` `disableHoverablePopup` | Omitted. The label stays hoverable (WCAG 1.4.13). |
+| `Trigger` | Renders the child through `render`. Delays and `closeOnClick` are omitted. |
+| `Portal`, `Positioner`, `Popup` | Rendered inside. `side` and `align` are exposed. The side gap is fixed at `measure/space/200`. |
+| Other `Positioner` members, `Arrow`, `Viewport` | Omitted. |
+| `render`, `className`, `style` | Omitted. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `children` | `ReactElement` | required | The control the label describes. One element. |
+| `content` | `ReactNode` | required | The label text. One short phrase. |
+| `side` | `'top' \| 'bottom' \| 'inline-start' \| 'inline-end'` | `'top'` | The side of the control the label opens on. It flips when it does not fit. |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` | How the label lines up along the control. |
+
+## Side
+
+`side` sets the side of the control that the label opens on. `inline-start` and `inline-end`
+follow the text direction.
+
+<Inline gap="200">
+  <Tooltip side="top" content="Opens above"><Button variant="secondary">top</Button></Tooltip>
+  <Tooltip side="bottom" content="Opens below"><Button variant="secondary">bottom</Button></Tooltip>
+  <Tooltip side="inline-start" content="Opens at the start"><Button variant="secondary">inline-start</Button></Tooltip>
+  <Tooltip side="inline-end" content="Opens at the end"><Button variant="secondary">inline-end</Button></Tooltip>
+</Inline>
+
+## Align
+
+`align` sets how the label lines up along the control. `start` aligns the start edges.
+`center` centers the label. `end` aligns the end edges.
+
+<Inline gap="200">
+  <Tooltip align="start" content="Start edges line up"><Button variant="secondary">start, a wide control</Button></Tooltip>
+  <Tooltip align="center" content="Centered"><Button variant="secondary">center, a wide control</Button></Tooltip>
+  <Tooltip align="end" content="End edges line up"><Button variant="secondary">end, a wide control</Button></Tooltip>
+</Inline>
+
+## Anatomy
+
+All tokens resolve under `data-mode="dark"`.
+
+| Part | Semantic token |
+| ---- | -------------- |
+| Label ground | `hds/sem/color/surface/floating/bg`, `hds/sem/color/surface/floating/border`, `hds/sem/border/container`, `hds/sem/elevation/floating`, `hds/sem/radius/control` |
+| Padding | block `hds/sem/measure/space/100`, inline `hds/sem/measure/space/200` |
+| Max width | `hds/sem/measure/width/6400` |
+| Side gap | `hds/sem/measure/space/200` |
+| Text | `hds/sem/color/content/default/fg`, `hds/sem/typography/body/*`, `hds/sem/typography/body/size/sm` |
+
+## Owner notes
+
+- Base UI mapping: `Root`, `Trigger`, `Portal`, `Positioner`, and `Popup` from
+  `@base-ui/react/tooltip`, all inside `<Tooltip>`.
+- Extension decisions: one component with a `content` prop. The label sets
+  `data-mode="dark"` in both page modes. The max width is fixed at `measure/width/6400`; there
+  is no width prop.
+- Known constraints: there is no provider, so a second tooltip does not open at once after
+  the first. The label renders at the end of the page, so an ancestor context does not reach
+  it. On a dark page the dark label is a little darker than the page; the border and shadow
+  separate them.
+- Accessibility: the label opens on keyboard focus and on hover, and stays open while the
+  pointer is on it. `Escape` closes it. Touch users do not see it.

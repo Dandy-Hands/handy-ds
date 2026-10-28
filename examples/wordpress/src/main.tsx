@@ -10,7 +10,7 @@ const formatDate = (iso: string) => new Date(iso).toLocaleDateString(undefined, 
 
 function Loading({ label }: { label: string }) {
   return (
-    <Progress.Root value={null} aria-label={label} className="loading">
+    <Progress.Root value={null} aria-label={label}>
       <Progress.Track><Progress.Indicator /></Progress.Track>
     </Progress.Root>
   );
@@ -30,28 +30,29 @@ function PostDialog({ slug, onClose }: { slug: string | null; onClose: () => voi
   }, [slug]);
 
   return (
-    <Dialog.Root open={slug !== null} onOpenChange={(open) => !open && onClose()}>
-      <Dialog.Portal>
-        <Dialog.Backdrop />
-        <Dialog.Popup className="post">
-          {error && <Alert sentiment="danger" heading="Couldn't load this post">{error}</Alert>}
-          {!post && !error && <Loading label="Loading post" />}
-          {post && (
-            <>
-              <Text variant="caption">{formatDate(post.date)}</Text>
-              <Dialog.Title>{text(post.title)}</Dialog.Title>
-              {/* Post HTML from the client's own CMS (WordPress filters it with kses for
-                  authors without unfiltered_html). Sanitize with DOMPurify if authors aren't trusted. */}
-              <div className="post__content" dangerouslySetInnerHTML={{ __html: post.content }} />
-            </>
-          )}
-          <div className="post__actions">
-            {post && <a className="hds-button hds-action" data-priority="tertiary" href={post.link}>View on WordPress</a>}
-            <Dialog.Close>Close</Dialog.Close>
-          </div>
-        </Dialog.Popup>
-      </Dialog.Portal>
-    </Dialog.Root>
+    <Dialog
+      open={slug !== null}
+      onOpenChange={(open) => !open && onClose()}
+      title={post ? text(post.title) : 'Post'}
+      width="12800"
+      actions={
+        <>
+          {post && <a className="hds-button hds-action" data-variant="tertiary" href={post.link}>View on WordPress</a>}
+          <Button variant="secondary" onClick={onClose}>Close</Button>
+        </>
+      }
+    >
+      {error && <Alert sentiment="danger" heading="Couldn't load this post">{error}</Alert>}
+      {!post && !error && <Loading label="Loading post" />}
+      {post && (
+        <>
+          <Text variant="caption">{formatDate(post.date)}</Text>
+          {/* Post HTML from the client's own CMS (WordPress filters it with kses for
+              authors without unfiltered_html). Sanitize with DOMPurify if authors aren't trusted. */}
+          <div className="post__content" dangerouslySetInnerHTML={{ __html: post.content }} />
+        </>
+      )}
+    </Dialog>
   );
 }
 

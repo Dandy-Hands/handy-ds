@@ -20,3 +20,10 @@ export function part<C extends ComponentType<any>>(Part: C, className: string, d
   Styled.displayName = className;
   return Styled as unknown as C;
 }
+
+/**
+ * Base UI `sideOffset` for floating overlays: the `measure/space/200` token in px, read at run
+ * time so a theme change moves the gap too. Computed custom properties have `var()` resolved.
+ */
+export const sideGap = () =>
+  parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--hds-sem-measure-space-200')) || 0;

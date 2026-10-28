@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import {
   Alert, Button, Card, Checkbox, Field, Fieldset, Form, TextInput, Meter, Radio, Separator, Switch, Table, Text,
-  Toast, Toaster,
+  ToastProvider,
 } from 'handy-ds';
 import { ShowcaseBody } from '../Showcase.tsx';
 
@@ -27,16 +27,15 @@ export function usePreviewTab() {
 
 export function Preview({ tab }: { tab: Tab }) {
   return (
-    <Toast.Provider>
+    <ToastProvider>
       <div className="showcase tt-preview-body">
         {tab === 'Components' && <ShowcaseBody />}
         {tab === 'Marketing' && <Marketing />}
         {tab === 'Form' && <FormPage />}
         {tab === 'Dashboard' && <Dashboard />}
         {tab === 'Contexts' && <Contexts />}
-        <Toaster />
       </div>
-    </Toast.Provider>
+    </ToastProvider>
   );
 }
 

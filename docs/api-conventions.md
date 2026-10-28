@@ -32,6 +32,14 @@ A slot prop is named for its position with logical names, `start` and `end`, nev
 
 **Exception (2026-10-20):** the band components `Section`, `Header`, and `Footer` also have `background`. It is a slot for a custom layer behind the content, such as a canvas, WebGL, or Lottie scene. The name states a position (behind), it takes `ReactNode`, and it is not the style prop `background` that holds a color. The component renders the layer with `aria-hidden` and `pointer-events: none`.
 
+**Exception (2026-10-28): overlays are one component.** An overlay (Dialog, Alert Dialog, Drawer, Popover, Tooltip, Preview Card) is a single component, such as `<Dialog>`, not a set of parts. It builds its Base UI parts inside, so the agent writes only the component, its props, and its children.
+
+- `title` (and `description` where the spec keeps it): `ReactNode`. The overlay places them and wires them for screen readers. This breaks the "no shortcut props" rule above on purpose: one component with props is a smaller surface than a set of parts.
+- `actions` (Dialog, Alert Dialog, Drawer): `ReactNode`, the row of buttons at the bottom. A slot prop by position (the bottom row), allowed for these overlays besides `start` and `end`. The overlay keeps the row visible while the body scrolls.
+- **One method per task.** An API gives exactly one way to do each task. A modal overlay (Dialog, Alert Dialog, Drawer) opens only through `open` and `onOpenChange`; the button that opens it is a normal Button with `onClick`. There is no `trigger` prop (decided 2026-10-28: the most common React pattern, and it also covers overlays that open from code).
+
+**Why:** the user, 2026-10-28: "We need to make to so that the agent has a minimal surface area to understand ... all the agent inserts is `<Dialog>` with children and props." An overlay may still have a small part for layout inside its content, such as `Dialog.Actions`, when the spec records it.
+
 ## 2. Member categories
 
 | Category | What it does | Examples |

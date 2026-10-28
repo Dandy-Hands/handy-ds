@@ -1,113 +1,160 @@
 ---
 title: Toast
-category: Feedback
+category: Overlays
 order: 21
 ---
 
-import { Button, Toast, Toaster } from 'handy-ds';
+import { useState } from 'react';
+import { Button, Inline, Text, ToastProvider, useToast } from 'handy-ds';
 
-# Toast
+export function SaveDemo() {
+  const toast = useToast();
+  return <Button onClick={() => toast({ title: 'Draft saved', tone: 'success' })}>Save draft</Button>;
+}
 
-A short-lived message after an action: a stacked notification in a fixed
-bottom-right viewport, colored by its `type`.
-
-
-A toast fired from code (see Type below for a live firing demo):
-
-<Toast.Provider>
-  <Toaster />
-</Toast.Provider>
-
-## Usage
-
-Use Toast to confirm something that happened, with nothing for the user to do.
-Do not use it when the user must read or act on the message — use Alert or
-Dialog. Wrap the app in `Toast.Provider` once, render `<Toaster />` once, then
-call `Toast.useToastManager().add(...)` from anywhere.
-
-<Toast.Provider>
-  <Toaster />
-</Toast.Provider>
-
-`Toast.add({ title: 'Saved', type: 'success' })` — triggered from anywhere via the manager hook.
-
-## Base UI API
-
-Wraps Base UI's `Toast`; every part passes through unchanged, styled via
-`part()`. Provider defaults (`limit`, `timeout`) are Base UI's, untouched.
-
-| Element | Notes |
-| ------- | ----- |
-| `Provider` props (`limit` = 3, `timeout` = 5000, `toastManager`) | Exposed — full passthrough. |
-| `Toast.useToastManager()` | Exposed — the manager hook (`add`, toasts, ...). |
-| `Viewport`, `Root`, `Content`, `Title`, `Description`, `Action`, `Close` | Styled with `part()` — Feedback colors, close button with built-in X. |
-| `Toaster` | handy-ds component: maps manager toasts to `Toast.Root` with `data-sentiment`. |
-| `data-sentiment`, `data-starting-style`, `data-ending-style`, `data-limited` | Consumed by CSS. |
-| Callback-form `className`/`style` | Available via passthrough, not documented. |
-
-## Extension API
-
-### `Toast.useToastManager().add()` options
-
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `type` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | The toast's color and tone. `info` — neutral notice. `success` — confirmed. `warning` — act soon. `danger` — problem. |
-| `title` | `ReactNode` | — | Short heading of the toast. |
-| `description` | `ReactNode` | — | Detail below the title. |
-| `timeout` | `number` | `5000` | Milliseconds before auto-dismiss; `0` keeps the toast until dismissed. Also settable on the Provider. |
-| `actionProps` | button props | — | Props for the toast's action button. |
-
-### Toast.Provider
-
-| Prop | Type | Default | Description |
-| ---- | ---- | ------- | ----------- |
-| `limit` | `number` | `3` | Maximum toasts shown at once; extras hide until space frees. |
-
-`render` and standard attributes are passthrough on every part — they appear here only, never get their own section.
-
-## Type
-
-The toast's `type` is its sentiment. `Toaster` maps it to the Feedback colors;
-`info` is the default.
-
-export function ToastDemo() {
-  const toast = Toast.useToastManager();
+export function ToneDemo() {
+  const toast = useToast();
+  const titles = {
+    info: 'A new version is ready.',
+    success: 'Message sent.',
+    warning: 'Your session ends in 2 minutes.',
+    danger: 'Could not save. Check your connection and try again.',
+  };
   return (
-    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-      {['info', 'success', 'warning', 'danger'].map((type) => (
-        <Button key={type} variant="secondary" onClick={() => toast.add({ type, title: `${type} toast`, description: 'Something happened.' })}>
-          {type}
-        </Button>
+    <Inline gap="200">
+      {['info', 'success', 'warning', 'danger'].map((tone) => (
+        <Button key={tone} variant="secondary" onClick={() => toast({ tone, title: titles[tone] })}>{tone}</Button>
       ))}
-    </div>
+    </Inline>
   );
 }
 
-<Toast.Provider>
-  <ToastDemo />
-  <Toaster />
-</Toast.Provider>
+export function ActionDemo() {
+  const toast = useToast();
+  const [status, setStatus] = useState('The message is in the inbox.');
+  return (
+    <Inline gap="400">
+      <Button
+        variant="secondary"
+        onClick={() => {
+          setStatus('The message is deleted.');
+          toast({
+            title: 'Message deleted',
+            tone: 'success',
+            action: { label: 'Undo', onClick: () => setStatus('The message is restored.') },
+          });
+        }}
+      >
+        Delete message
+      </Button>
+      <Text data-testid="toast-action-status">{status}</Text>
+    </Inline>
+  );
+}
+
+# Toast
+
+Toast is a short message in the bottom end corner of the screen that closes by itself, such as
+"Saved". The API has two members. `<ToastProvider>` goes once around the app and also draws the
+toast area. `useToast()` returns one function, `toast(options)`. Each toast is always dark, with
+an icon in its tone color, an X button, and at most one action button.
+
+<ToastProvider>
+  <SaveDemo />
+</ToastProvider>
+
+## Usage
+
+Use Toast to confirm that an action finished: saved, sent, or deleted. Add an `action` for a
+quick reversal, such as Undo. Use `tone="danger"` for a failure the user must notice, and write
+what to do next in the title.
+
+Do not use Toast for a message that must stay readable. Use Alert. Do not use Toast to ask a
+question. Use AlertDialog.
+
+## Base UI API
+
+Toast wraps `@base-ui/react/toast`. The parts are internal. None is exported.
+
+| Element | Notes |
+| ------- | ----- |
+| `Provider` `children` | Exposed on `ToastProvider`. |
+| `Provider` `timeout`, `limit`, `toastManager`; `createToastManager` | Omitted. `limit` is fixed at 3. |
+| `Portal`, `Viewport`, `Root`, `Content`, `Title`, `Action`, `Close` | Rendered inside `ToastProvider`. |
+| `Description`, `Positioner`, `Arrow` | Omitted. The title holds the whole sentence. |
+| `useToastManager` `add` | Wrapped as `toast(options)`. Returns nothing. |
+| `useToastManager` `toasts`, `close`, `update`, `promise` | Omitted. |
+| `add` `type` | Exposed as `tone`. |
+| `add` `priority` | Set from `tone`: `danger` is `high`, the other tones are `low`. |
+| `add` `timeout` | Fixed: 5000 ms, or 10000 ms with an `action`. |
+| `add` `actionProps` | Built from `action`. |
+| Pause on hover and focus, swipe to close | Base UI default, kept. |
+
+## Extension API
+
+### ToastProvider
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `children` | `ReactNode` | — | The app. Place one provider at the root. |
+
+### useToast
+
+`const toast = useToast()` returns a function. Call `toast(options)` to show a toast.
+
+| Option | Type | Default | Description |
+| ------ | ---- | ------- | ----------- |
+| `title` | `ReactNode` | required | The message. One short sentence. |
+| `tone` | `'info' \| 'success' \| 'warning' \| 'danger'` | `'info'` | The icon and its color. The ground stays neutral. |
+| `action` | `{ label: ReactNode; onClick: () => void }` | — | One button after the title. A click runs `onClick` and closes the toast. |
+
+## Tone
+
+`tone` sets the icon and its color only. The toast ground stays dark and neutral. `info` shows
+`info`. `success` shows `check_circle`. `warning` shows `warning`. `danger` shows `error`, and
+screen readers read a `danger` toast at once.
+
+<ToastProvider>
+  <ToneDemo />
+</ToastProvider>
+
+## Action
+
+`action` adds one secondary button after the title, such as Undo. A click runs `onClick` and
+closes the toast. A toast with an action stays open longer (10 seconds). Without `action`, the
+toast has only the X button.
+
+<ToastProvider>
+  <ActionDemo />
+</ToastProvider>
 
 ## Anatomy
 
+The toast sets `data-mode="dark"`, so all tokens resolve in dark mode. Only the icon reads a
+Feedback token.
+
 | Part | Semantic token |
 | ---- | -------------- |
-| Toast block per sentiment | `hds/sem/color/feedback/{info,success,warning,danger}/{bg,fg,border}` |
-| Depth | `hds/sem/color/surface/floating/*`, `hds/sem/elevation/floating` |
-| Padding, radius, gap, border width | `hds/sem/measure/space/*`, `hds/sem/radius/container`, `hds/sem/border/container` |
-| Action | `hds/sem/color/action/secondary/*`, `hds/sem/measure/space/*`, `hds/sem/radius/control`, `hds/sem/border/control` |
+| Toast ground | `hds/sem/color/surface/floating/bg`, `hds/sem/color/surface/floating/border`, `hds/sem/border/container`, `hds/sem/radius/container`, `hds/sem/elevation/floating` |
+| Title | `hds/sem/color/content/default/fg`, `hds/sem/typography/body/*`, `hds/sem/typography/body/size/md` |
+| Icon | `hds/sem/color/feedback/{tone}/icon`, `hds/sem/measure/size/500` |
+| Padding | `hds/sem/measure/space/400` |
+| Gap inside the row | `hds/sem/measure/space/300` |
+| Gap between toasts, gap to the screen edge | `hds/sem/measure/space/400` |
+| Max width | `hds/sem/measure/width/9600` |
+| Action button | `hds/sem/color/action/secondary/*` |
+| X button | `hds/sem/color/action/tertiary/*` |
+| Focus ring | `hds/sem/color/focus/ring`, `hds/sem/border/focus` |
 
 ## Owner notes
 
-- Base UI mapping: wraps `@base-ui/react/toast`; the namespace is mirrored, so
-  `Provider`, `Portal`, and the manager hook all pass through. `Toaster` is a
-  handy-ds component that renders the viewport from the manager.
-- Extension decisions: no extension props. The `type` sent to `add()` carries
-  the sentiment (default `info`). `Close` ships an X glyph with
-  `aria-label="Close"`. The viewport is a simple stacked list — no swipe or
-  stack animation.
-- Known constraints: the toast adds a Surface elevation-2 shadow on top of its
-  Feedback colors — a deliberate cross-category borrow for depth. Timeout and
-  limit keep Base UI's defaults.
-- Accessibility: toasts announce through the underlying live-region behavior
-  (`priority: 'low' | 'high'` on the toast object). The close button is labeled.
+- Base UI mapping: `Provider`, `Portal`, `Viewport`, `Root`, `Content`, `Title`, `Action`,
+  `Close`, and `useToastManager` from `@base-ui/react/toast`. The `Toast` namespace and
+  `<Toaster />` are removed.
+- Extension decisions: two members, `ToastProvider` and `useToast`. `tone` maps to the Base UI
+  `type`. The action closes the toast after its `onClick` runs; Base UI does not do this.
+- Known constraints: at most three toasts show at a time. There is no toast from outside React,
+  no update, and no promise toast. The toast no longer uses the Feedback ground; Alert keeps it.
+- Accessibility: toasts are announced through a live region. A `danger` toast has high
+  priority. A toast pauses while the pointer or focus is on it. The X button has
+  `aria-label="Close"`.

@@ -29,11 +29,15 @@ Every public component: name, purpose, when to use it, and its API page.
 | Select | A compact single-choice dropdown | One choice from many options in little space | [select.md](select.md) |
 | Combobox | An input that filters options or accepts free text | Long option lists, or a value the user may type | [combobox.md](combobox.md) |
 | Card | A surface box for related content | Grouping content at a chosen elevation; not for spacing alone | [card.md](card.md) |
-| Dialog | A task that blocks the page in a modal | The user must finish or dismiss; AlertDialog confirms destructive actions | [dialog.md](dialog.md) |
-| Popover | A non-blocking panel anchored to a trigger | Secondary content that keeps the page usable | [popover.md](popover.md) |
+| Dialog | A box over the page for a short task that blocks the page | The user must finish or dismiss a task; AlertDialog confirms destructive actions; Drawer for longer content from an edge; Popover keeps the page usable | [dialog.md](dialog.md) |
+| AlertDialog | Asks the user to confirm one action and waits for an answer | A destructive or irreversible action; Dialog for a task with fields | [alert-dialog.md](alert-dialog.md) |
+| Drawer | A panel that slides in from a screen edge and blocks the page | Item details, filters, a cart, or the phone site menu; Dialog for a short task; Aside for content that stays | [drawer.md](drawer.md) |
+| Popover | A non-blocking panel of short content anchored to a trigger | Secondary content or a small form that keeps the page usable; not commands (Menu), blocking tasks (Dialog), or hover content (Tooltip) | [popover.md](popover.md) |
+| Tooltip | A short text label that shows on hover or focus of a control | Naming an icon-only control or a short hint; not interactive or required content (Popover) | [tooltip.md](tooltip.md) |
+| PreviewCard | A preview of a link's destination that shows on hover or focus of the link | A summary of a linked page, profile, or item; not needed content or non-link controls (Tooltip, Popover) | [preview-card.md](preview-card.md) |
 | Accordion | Show/hide sections with a trigger each | FAQs or scannable long content; one panel at a time | [accordion.md](accordion.md) |
 | Alert | A static, sentiment-colored page message | The message must stay readable on the page; Toast is transient | [alert.md](alert.md) |
-| Toast | A short-lived confirmation in a stacked viewport | Confirming something that needs no user action | [toast.md](toast.md) |
+| Toast | A short message in the screen corner that closes by itself (`ToastProvider`, `useToast`) | Confirming a finished action, with an optional Undo; Alert for a message that stays | [toast.md](toast.md) |
 | Meter | A static measurement inside a known range | Use when the number means something on its own; use Progress for a running task | [meter.md](meter.md) |
 | Progress | How much of a running task is complete | Use while a task runs; `value={null}` when the duration is unknown; use Meter for a measurement | [progress.md](progress.md) |
 | Icon | Shows an SVG or glyph name in a text or status color and size | Any standalone icon; not for content images | [icon.md](icon.md) |

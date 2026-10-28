@@ -1,7 +1,7 @@
 import { StrictMode, useEffect, useState, useSyncExternalStore } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
-  Alert, Button, Card, Checkbox, Field, Form, Icon, Progress, Text, Toast, Toaster, ToggleGroup, Toggle,
+  Alert, Button, Card, Checkbox, Field, Form, Icon, Progress, Text, ToastProvider, ToggleGroup, useToast, Toggle,
 } from 'handy-ds';
 import 'handy-ds/styles.css';
 import './theme.css';
@@ -42,7 +42,7 @@ function App() {
   const [title, setTitle] = useState('');
   const [filter, setFilter] = useState('all');
   const online = useSyncExternalStore(subscribeOnline, () => navigator.onLine);
-  const toast = Toast.useToastManager();
+  const toast = useToast();
 
   useEffect(() => localStorage.setItem('tasks', JSON.stringify(tasks)), [tasks]);
 
@@ -51,7 +51,7 @@ function App() {
     if (!title.trim()) return;
     setTasks([...tasks, { id: crypto.randomUUID(), title: title.trim(), done: false }]);
     setTitle('');
-    toast.add({ title: 'Task added', type: 'success' });
+    toast({ title: 'Task added', tone: 'success' });
   };
   const update = (id: string, patch: Partial<Task>) => setTasks(tasks.map((t) => (t.id === id ? { ...t, ...patch } : t)));
   const done = tasks.filter((t) => t.done).length;
@@ -108,16 +108,15 @@ function App() {
         </ul>
         {shown.length === 0 && <Text variant="caption">Nothing here yet.</Text>}
       </Card>
-      <Toaster />
     </div>
   );
 }
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <Toast.Provider>
+    <ToastProvider>
       <App />
-    </Toast.Provider>
+    </ToastProvider>
   </StrictMode>,
 );
 

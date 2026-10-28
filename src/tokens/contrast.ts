@@ -75,6 +75,9 @@ export function checkContrast(prims: Primitives, colors: ColorMap): ContrastFail
       };
 
       for (const [fg, bg, min] of PAIRS) check(fg, bg, min);
+      // Toast: the tone icon on the floating surface. A toast renders in a portal at the end of
+      // the page, so it never sits in a brand context: default context only.
+      if (context === 'default') for (const s of SENTIMENT) check(`feedback/${s}/icon`, 'surface/floating/bg', 3);
     }
 
     // Media scrim (Section `scrim`). The image is client content, so test the worst case: a dark

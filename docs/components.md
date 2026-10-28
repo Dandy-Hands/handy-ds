@@ -446,33 +446,36 @@ A box of related content.
 
 A `Card` is also how you restore normal colors inside a colored section: give it `data-context="default"`.
 
-### Dialog, AlertDialog
+### Dialog, AlertDialog, Drawer
 
-A task that blocks the page. `AlertDialog` confirms a destructive action and cannot be dismissed by clicking outside.
+Modal overlays. Each is one component with props: no parts, no trigger. Open it with a normal `Button` that sets state, and pass `open` and `onOpenChange`. `AlertDialog` confirms one destructive action. `Drawer` slides in from an edge.
 
 - **Use when:** the user must finish or dismiss before carrying on.
-- **Don't use when:** the content is extra detail next to a trigger. Use `Popover`.
+- **Don't use when:** the content is extra detail next to a control. Use `Popover`.
 
-No handy-ds props. The popup is Surface elevation 3; triggers and close buttons look like `secondary` Buttons.
+Full props: `docs/api/dialog.md`, `docs/api/alert-dialog.md`, `docs/api/drawer.md`.
 
 ```tsx
-<Dialog.Root>
-  <Dialog.Trigger>Edit</Dialog.Trigger>
-  <Dialog.Portal><Dialog.Backdrop /><Dialog.Popup>
-    <Dialog.Title>Edit profile</Dialog.Title>
-    <Dialog.Close>Done</Dialog.Close>
-  </Dialog.Popup></Dialog.Portal>
-</Dialog.Root>
+const [open, setOpen] = useState(false);
+<Button onClick={() => setOpen(true)}>Edit</Button>
+<Dialog open={open} onOpenChange={setOpen} title="Edit profile"
+  actions={<Button onClick={() => setOpen(false)}>Done</Button>}>
+  Body
+</Dialog>
 ```
 
-### Popover
+### Popover, Tooltip, PreviewCard
 
-Extra information or small controls anchored to a trigger.
+Floating overlays that wrap one control (`children`). `Popover` opens on click and has a `title`; `Tooltip` is a short dark label on hover or focus; `PreviewCard` previews a link on hover.
 
 - **Use when:** the content is secondary and the page behind stays usable.
 - **Don't use when:** it is a list of commands — use `Menu` — or the task blocks the page — use `Dialog`.
 
-No handy-ds props. Popup is Surface elevation 2.
+Full props: `docs/api/popover.md`, `docs/api/tooltip.md`, `docs/api/preview-card.md`.
+
+```tsx
+<Popover title="APR" content="The yearly cost of the loan."><Button variant="tertiary">What is APR?</Button></Popover>
+```
 
 ### Accordion
 
@@ -506,22 +509,22 @@ A message that stays on the page.
 
 Alert has no live-region role by default. Pass `role="alert"` (urgent) or `role="status"` (polite) when it appears in response to an action.
 
-### Toast, Toaster
+### ToastProvider, useToast
 
-A short-lived message after an action.
+A short-lived message after an action. Always dark.
 
-- **Use when:** confirming something that happened, with nothing for the user to do.
-- **Don't use when:** the user must read or act on it. Use `Alert` or `Dialog`.
+- **Use when:** confirming something that happened, with at most one quick action such as Undo.
+- **Don't use when:** the user must read or act on it. Use `Alert` or `AlertDialog`.
 
-No handy-ds props. A toast's `type` is its sentiment.
+Full options: `docs/api/toast.md`.
 
 ```tsx
-// once, at the app root
-<Toast.Provider><App /><Toaster /></Toast.Provider>
+// once, at the app root (it also shows the toasts)
+<ToastProvider><App /></ToastProvider>
 
 // anywhere
-const toast = Toast.useToastManager();
-toast.add({ title: 'Saved', type: 'success' });
+const toast = useToast();
+toast({ title: 'Saved', tone: 'success' });
 ```
 
 ### Meter

@@ -58,18 +58,7 @@
   gap: 1rem;
 }
 
-.post {
-  width: min(48rem, calc(100vw - 2rem));
-}
-
 .post__content img {
   max-width: 100%;
   height: auto;
-}
-
-.post__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
 }
