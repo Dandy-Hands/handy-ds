@@ -49,8 +49,8 @@ The group takes no `className` or `style`.
 
 ```tsx
 <Checkbox.Group defaultValue={['email']} orientation="horizontal">
-  <Field.Label><Checkbox value="email" />Email</Field.Label>
-  <Field.Label><Checkbox value="sms" />SMS</Field.Label>
+  <label><Checkbox value="email" />Email</label>
+  <label><Checkbox value="sms" />SMS</label>
 </Checkbox.Group>
 ```
 

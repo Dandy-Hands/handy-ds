@@ -10,7 +10,7 @@ const formatDate = (iso: string) => new Date(iso).toLocaleDateString(undefined, 
 
 function Loading({ label }: { label: string }) {
   return (
-    <Progress.Root value={null} aria-label={label} className="loading">
+    <Progress.Root value={null} aria-label={label}>
       <Progress.Track><Progress.Indicator /></Progress.Track>
     </Progress.Root>
   );
