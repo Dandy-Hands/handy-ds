@@ -6,7 +6,7 @@ How every handy-ds component is built. Button (`src/components/Button.tsx`) is t
 
 Components read **semantic tokens only**: `var(--hds-sem-*)`. Never `--hds-prim-*`, never a driver value, and never a hard-coded color. `npm test` fails if a component file references a primitive or a `--hds-sem-*` name the theme doesn't define. That check is what guarantees a driver change re-themes every component with zero component edits.
 
-Literal values are allowed only for structure (the `1.25em` checkbox box, `z-index`, transition timings). Anything a client might want to theme goes through a token.
+Literal values are allowed only for structure (the `1.25em` checkbox box, `z-index`). Anything a client might want to theme goes through a token. Transitions read the motion tokens (token spec 7.9): `motion/control/*` for small changes, `motion/container/*` for panels that move or change size. The theme zeroes every duration under `prefers-reduced-motion`, so a token-driven transition needs no reduced-motion rule. A looped animation (the Button spinner) keeps a literal duration and its own reduced-motion rule.
 
 ## Files
 

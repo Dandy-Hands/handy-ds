@@ -1,7 +1,7 @@
 // Driver config -> theme CSS. One call runs the whole pipeline: drivers -> primitives ->
 // picks -> semantic tokens -> CSS, and reports contrast failures for that config.
 import { type Context, type DriverInput, type Drivers, type Pick, type TextStyle, withDefaults } from './drivers.ts';
-import { resolvePrimitives, SHADOW_ALPHA, type Primitives } from './primitives.ts';
+import { DURATION, resolvePrimitives, SHADOW_ALPHA, type Primitives } from './primitives.ts';
 import { checkPick, contextPicks, defaultPicks, resolveColors, type ColorPicks } from './picks.ts';
 import { checkContrast, type ContrastFailure } from './contrast.ts';
 import { BORDER_ROLE, ELEVATION, MEDIA_STRENGTH, MEDIA_TONE, SHAPE_ROLE, SIZE, SPACE, TEXT_PROP, TEXT_ROLE, TEXT_SIZE, WIDTH, WIDTH_PAGE } from './names.ts';
@@ -13,6 +13,8 @@ export type ColorMap = Record<ColorMode, Record<'default' | Context, ColorPicks>
 
 /** Alpha of each media scrim strength. Strong passes 4.5:1 for text, medium 3:1 (large text), subtle is decorative. Checked in contrast.ts. */
 export const MEDIA_ALPHA: Record<(typeof MEDIA_STRENGTH)[number], number> = { subtle: 0.2, medium: 0.5, strong: 0.6 };
+// Motion picks per role (spec 7.9): [duration step, easing].
+const MOTION = { enter: ['500', 'decelerate'], control: ['150', 'standard'], container: ['300', 'decelerate'] } as const;
 const SECTION_NAME = /^[a-z0-9-]+$/;
 const REFS = /\{(hds\/prim\/[^}]+)\}/g;
 
@@ -48,6 +50,11 @@ function otherTokens(d: Drivers): Record<string, string> {
     });
     put(`elevation/${level}`, d.shadow.strength <= 0 ? 'none' : layers.join(', '));
   }
+  for (const [role, [duration, easing]] of Object.entries(MOTION)) {
+    put(`motion/${role}/duration`, `{hds/prim/motion/duration/${duration}}`);
+    put(`motion/${role}/easing`, `{hds/prim/motion/easing/${easing}}`);
+  }
+  put('motion/enter/stagger', '{hds/prim/motion/duration/100}');
   for (const role of TEXT_ROLE) {
     const { size: sizes = {}, ...picks } = d.typography.styles[role] ?? {};
     const { md: base, ...s } = { ...TEXT[role], ...picks };
@@ -104,6 +111,7 @@ export function buildTheme({ meta: _meta, ...input }: DriverInput = {}) {
   if (!(contentWidthNarrow > 0 && contentWidth >= contentWidthNarrow)) {
     throw new Error(`layout: expected 0 < contentWidthNarrow <= contentWidth, got ${contentWidthNarrow} and ${contentWidth}`);
   }
+  if (!(drivers.motion.duration >= 0)) throw new Error(`motion.duration: expected a number >= 0, got ${drivers.motion.duration}`);
   const primitives = resolvePrimitives(drivers);
   const colors = colorMap(drivers, primitives);
   const other = otherTokens(drivers);
@@ -156,6 +164,8 @@ function toCss(d: Drivers, prims: Primitives, colors: ColorMap, other: Record<st
 
   const out: string[] = [
     block([':root'], [...Object.entries(prims.shared), ...Object.entries(other), ...modeDecls('light')]),
+    // Reduced motion (spec 4.7): every duration is 0ms, so token-driven motion needs no rule of its own.
+    `  @media (prefers-reduced-motion: reduce) {\n${block([':root'], DURATION.map((s): [string, string] => [`hds/prim/motion/duration/${s}`, '0ms'])).replace(/^/gm, '  ')}\n  }`,
     d.mode === 'system' ? `  @media (prefers-color-scheme: dark) {\n${block([':root'], modeDecls('dark')).replace(/^/gm, '  ')}\n  }` : '',
     block(lightScopes, modeDecls('light')),
     block(darkScopes, modeDecls('dark')),

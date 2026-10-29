@@ -14,7 +14,7 @@
 
   .hds-nav__icon {
     display: flex;
-    transition: transform 150ms;
+    transition: transform var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing);
   }
 
   .hds-nav__icon[data-popup-open] {
@@ -29,7 +29,7 @@
     width: var(--positioner-width);
     height: var(--positioner-height);
     max-width: var(--available-width);
-    transition: top 200ms, left 200ms;
+    transition: top var(--hds-sem-motion-container-duration) var(--hds-sem-motion-container-easing), left var(--hds-sem-motion-container-duration) var(--hds-sem-motion-container-easing);
   }
 
   .hds-nav__positioner[data-instant] {
@@ -40,7 +40,7 @@
     position: relative;
     width: var(--popup-width);
     height: var(--popup-height);
-    transition: opacity 150ms, transform 150ms, width 200ms, height 200ms;
+    transition: opacity var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing), transform var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing), width var(--hds-sem-motion-container-duration) var(--hds-sem-motion-container-easing), height var(--hds-sem-motion-container-duration) var(--hds-sem-motion-container-easing);
   }
 
   .hds-nav__viewport {
@@ -57,7 +57,7 @@
     width: max-content;
     max-width: min(400px, calc(100vw - 40px));
     padding: var(--hds-sem-measure-space-200);
-    transition: opacity 150ms;
+    transition: opacity var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing);
   }
 
   .hds-nav__content[data-starting-style],

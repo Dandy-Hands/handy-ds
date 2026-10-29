@@ -49,7 +49,7 @@
   .hds-meter__indicator {
     block-size: 100%;
     background: var(--_fill);
-    transition: width 300ms;
+    transition: width var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing);
   }
 
   .hds-progress[data-indeterminate] .hds-meter__indicator {
@@ -63,8 +63,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hds-meter__indicator { transition: none; }
-
     .hds-progress[data-indeterminate] .hds-meter__indicator {
       animation: none;
       inline-size: 100%;

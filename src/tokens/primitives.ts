@@ -23,6 +23,9 @@ const TYPE_STEPS = [1, 2, 3, 4, 5, 6, 7, 8, 9]; // step 3 = body size
 const WEIGHT = { regular: '400', medium: '500', semibold: '600', bold: '700' };
 const LEADING = { tight: '1.1', snug: '1.25', normal: '1.5', relaxed: '1.65' };
 const TRACKING = { tight: '-0.02em', normal: '0em', wide: '0.02em' };
+// Motion (spec 4.7): duration step = ms at motion.duration 1.
+export const DURATION = ['100', '150', '200', '300', '500', '800'];
+const EASING = { standard: 'cubic-bezier(0.2, 0, 0, 1)', decelerate: 'cubic-bezier(0.32, 0.72, 0, 1)' };
 
 /** Build-time only: breakpoints can't be custom properties (they don't work in @media). */
 export const breakpoints = { sm: 640, md: 768, lg: 1024, xl: 1280 } as const;
@@ -202,6 +205,8 @@ export function resolvePrimitives(d: Drivers): Primitives {
   for (const [k, v] of Object.entries(WEIGHT)) set(`typography/weight/${k}`, v);
   for (const [k, v] of Object.entries(LEADING)) set(`typography/leading/${k}`, v);
   for (const [k, v] of Object.entries(TRACKING)) set(`typography/tracking/${k}`, v);
+  for (const step of DURATION) set(`motion/duration/${step}`, `${round(Number(step) * d.motion.duration, 0)}ms`);
+  for (const [k, v] of Object.entries(EASING)) set(`motion/easing/${k}`, v);
 
   return { shared, light: colorSet(false), dark: colorSet(true), wheel: w };
 }

@@ -6,7 +6,7 @@ import { buildTheme } from '../../../src/tokens/theme.ts';
 import type { DriverInput } from '../../../src/tokens/drivers.ts';
 import pkg from '../../../package.json';
 import { configText, leaves, reduce, getIn, type History, type Path, type Theme } from './model.ts';
-import { BrandColors, Border, ColorApplication, Elevation, Measure, Radius, RoleMap, Typography, type StepProps } from './steps.tsx';
+import { BrandColors, Border, ColorApplication, Elevation, Measure, Motion, Radius, RoleMap, Typography, type StepProps } from './steps.tsx';
 import { Preview, PreviewTabs, usePreviewTab } from './Preview.tsx';
 import './theme-tool.css';
 
@@ -19,13 +19,14 @@ const STEPS = [
   { id: 'radius', title: 'Radius', C: Radius, intro: 'Pick the corner radius for each shape role.' },
   { id: 'border', title: 'Border', C: Border, intro: 'Pick the border width for each role.' },
   { id: 'elevation', title: 'Elevation', C: Elevation, intro: 'Set the shadow strength.' },
+  { id: 'motion', title: 'Motion', C: Motion, intro: 'Set the speed of every animation.' },
 ] as const;
 type View = (typeof STEPS)[number]['id'] | 'changes' | 'contrast' | 'load' | 'export';
 
 /** The step that owns a driver path, for links from the changes panel. */
 const STEP_OF: Record<string, View> = {
   color: 'brand', roles: 'roles', picks: 'color', contexts: 'color', states: 'color', overlay: 'color', mode: 'color',
-  sections: 'color', typography: 'type', density: 'measure', radius: 'radius', border: 'border', shadow: 'elevation',
+  sections: 'color', typography: 'type', density: 'measure', radius: 'radius', border: 'border', shadow: 'elevation', motion: 'motion',
 };
 
 const DRAFT_KEY = 'hds-theme-tool-draft';

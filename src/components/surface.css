@@ -44,7 +44,7 @@
   .hds-popup {
     outline: 0;
     transform-origin: var(--transform-origin);
-    transition: opacity 150ms, transform 150ms;
+    transition: opacity var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing), transform var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing);
   }
 
   .hds-popup[data-starting-style],
@@ -107,18 +107,11 @@
     inset: 0;
     z-index: 50;
     background: var(--hds-sem-color-overlay-scrim);
-    transition: opacity 150ms;
+    transition: opacity var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing);
   }
 
   .hds-backdrop[data-starting-style],
   .hds-backdrop[data-ending-style] {
     opacity: 0;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hds-popup,
-    .hds-backdrop {
-      transition: none;
-    }
   }
 }

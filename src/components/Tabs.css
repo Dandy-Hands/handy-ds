@@ -35,7 +35,7 @@
     width: var(--active-tab-width);
     height: var(--hds-sem-measure-space-050);
     background: var(--hds-sem-color-action-primary-selected-bg);
-    transition: left 200ms, width 200ms, top 200ms, height 200ms;
+    transition: left var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing), width var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing), top var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing), height var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing);
   }
 
   .hds-tabs__indicator[data-orientation='vertical'] {

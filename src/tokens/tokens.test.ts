@@ -25,9 +25,9 @@ test('primitive names are frozen: independent of driver values, all valid', () =
   for (const name of allPrims(base)) assert.equal(checkTokenName(name), null, name);
 });
 
-test('every semantic token is emitted once, and the set matches spec 7.8 (226)', () => {
-  assert.equal(SEM_TOKENS.length, 226);
-  assert.equal(new Set(SEM_TOKENS).size, 226);
+test('every semantic token is emitted once, and the set matches spec 7.8 (233)', () => {
+  assert.equal(SEM_TOKENS.length, 233);
+  assert.equal(new Set(SEM_TOKENS).size, 233);
   for (const name of SEM_TOKENS) assert.match(base.css, new RegExp(`${name.replaceAll('/', '-')}:`), name);
   const colorCount = SEM_TOKENS.filter((n) => n.startsWith('hds/sem/color/')).length;
   assert.equal(colorCount, 152);
@@ -183,4 +183,12 @@ test('media scrim tokens: six color tokens, not picks, emitted in every mode blo
   assert.match(base.css, /--hds-sem-color-overlay-media-dark-strong: color-mix\(in oklch, var\(--hds-prim-color-black\) 60%, transparent\);/);
   assert.match(base.css, /--hds-sem-color-overlay-media-light-subtle: color-mix\(in oklch, var\(--hds-prim-color-white\) 20%, transparent\);/);
   assert.throws(() => buildTheme({ picks: { 'overlay/media/dark/strong': 'primary/600' } }), /unknown color pick/);
+});
+
+test('motion: duration driver scales every duration, 0 = no motion, reduced motion zeroes them', () => {
+  assert.equal(base.primitives.shared['hds/prim/motion/duration/300'], '300ms');
+  assert.equal(buildTheme({ motion: { duration: 2 } }).primitives.shared['hds/prim/motion/duration/300'], '600ms');
+  assert.equal(buildTheme({ motion: { duration: 0 } }).primitives.shared['hds/prim/motion/duration/500'], '0ms');
+  assert.match(base.css, /prefers-reduced-motion: reduce\) \{\s+:root \{\s+--hds-prim-motion-duration-100: 0ms;/);
+  assert.throws(() => buildTheme({ motion: { duration: -1 } }), /motion.duration/);
 });

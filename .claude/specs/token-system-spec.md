@@ -47,7 +47,7 @@ hds/prim/{type}/{scale}/[{step}]
 hds/sem/{type}/[category]/[axis]/[state]/{property}
 ```
 
-- `type` is always the first segment after `sem`: `color`, `measure`, `radius`, `border`, `elevation`, `typography`.
+- `type` is always the first segment after `sem`: `color`, `measure`, `radius`, `border`, `elevation`, `typography`, `motion` (added 2026-10-28).
 - `category` is present for `color` only. The other types are shared across categories.
 - `axis` and `state` are present only where the value varies by them.
 - `property` is last. Exception: the typography font size step, `typography/{role}/size/{sm|md|lg}`, puts the step after the property, so the value of Text's `size` prop is the last segment (section 7.7).
@@ -102,6 +102,7 @@ The complete driver list. Section 4 defines how the palette drivers build primit
 | `radius.control`, `.container`, `.indicator`, `.round` | a radius step | `200`, `300`, `100`, `round` *tunable* |
 | `border.control`, `.container`, `.divider`, `.focus` | a border step | `025`, `025`, `025`, `050` *tunable* |
 | `shadow.strength` | number, 0 = flat | 1 |
+| `motion.duration` | number, multiplies every motion duration. 0 = no motion, 2 = twice as slow | 1 |
 
 ### 3.4 Config metadata
 
@@ -255,6 +256,17 @@ hds/prim/typography/tracking/{tight|normal|wide}               −0.02em, 0, 0.0
 The families come from the family drivers. Weight, leading, and tracking are fixed *tunable*.
 
 Breakpoints are build-time values, not tokens, because CSS custom properties do not work inside `@media`.
+
+### 4.7 Motion
+
+```
+hds/prim/motion/duration/{100|150|200|300|500|800}   step in ms × motion.duration
+hds/prim/motion/easing/{standard|decelerate}
+```
+
+- Duration steps *tunable*. The step name is the length in ms at `motion.duration` 1. Example: `300` = 300ms, or 600ms at `motion.duration` 2.
+- Easing values are fixed *tunable*: `standard` = `cubic-bezier(0.2, 0, 0, 1)`, `decelerate` = `cubic-bezier(0.32, 0.72, 0, 1)`.
+- Under `prefers-reduced-motion: reduce`, every duration primitive is `0ms`. The theme emits this rule. Components need no reduced-motion rule for token-driven motion.
 
 ---
 
@@ -538,6 +550,25 @@ Default picks *tunable*. The `sm` and `lg` sizes default to one scale step below
 
 Text color is not part of typography. It comes from the Content color roles.
 
+### 7.9 Motion
+
+```
+hds/sem/motion/{role}/{duration|easing}
+hds/sem/motion/enter/stagger
+```
+
+Added 2026-10-28 (Animate spec, `docs/component-specs/animate/`). Each token points at a fixed primitive *tunable*. There are no pick drivers. The only motion driver is `motion.duration` (3.3).
+
+| Role | Used for | duration | easing |
+|---|---|---|---|
+| `enter` | page content that enters (Animate) | `500` | `decelerate` |
+| `control` | small state changes: a chevron turn, a popup fade, an indicator move | `150` | `standard` |
+| `container` | panels that move or change size: a drawer slide, a menu viewport resize | `300` | `decelerate` |
+
+`enter/stagger` = `100`: the delay between staggered children.
+
+The roles `control` and `container` match the radius and border roles. A component transition reads the role of the part that moves. Exception: an indicator that loops (the Button spinner) keeps a literal duration, because a duration of 0 does not stop a loop. Its own reduced-motion rule stops it.
+
 ### 7.8 Token count
 
 | Type | Tokens |
@@ -548,7 +579,8 @@ Text color is not part of typography. It comes from the Content color roles.
 | border | 4 |
 | elevation | 3 |
 | typography | 35 |
-| **total** | **226** |
+| motion | 7 |
+| **total** | **233** |
 
 ---
 

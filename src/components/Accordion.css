@@ -34,7 +34,7 @@
     border-right: 2px solid currentColor;
     border-bottom: 2px solid currentColor;
     transform: translateY(-25%) rotate(45deg);
-    transition: transform 150ms;
+    transition: transform var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing);
   }
 
   .hds-accordion__trigger[data-panel-open]::after {

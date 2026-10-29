@@ -82,6 +82,8 @@ export interface Drivers {
   border: Record<(typeof BORDER_ROLE)[number], BorderStep>;
   /** 0 = flat (no shadows), 1 = default, >1 = heavier. */
   shadow: { strength: number };
+  /** Multiplies every motion duration. 0 = no motion, 1 = default, 2 = twice as slow. */
+  motion: { duration: number };
 }
 
 export const defaultDrivers: Drivers = {
@@ -115,6 +117,7 @@ export const defaultDrivers: Drivers = {
   radius: { control: '200', container: '300', indicator: '100', round: 'round' },
   border: { control: '025', container: '025', divider: '025', focus: '050' },
   shadow: { strength: 1 },
+  motion: { duration: 1 },
 };
 
 type DeepPartial<T> = { [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K] };

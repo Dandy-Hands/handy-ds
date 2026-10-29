@@ -26,7 +26,7 @@
     line-height: var(--hds-sem-typography-body-leading);
     letter-spacing: var(--hds-sem-typography-body-tracking);
     transform: translate(var(--toast-swipe-movement-x, 0px), var(--toast-swipe-movement-y, 0px));
-    transition: opacity 200ms, transform 200ms;
+    transition: opacity var(--hds-sem-motion-container-duration) var(--hds-sem-motion-container-easing), transform var(--hds-sem-motion-container-duration) var(--hds-sem-motion-container-easing);
   }
 
   .hds-toast[data-starting-style],
@@ -55,11 +55,5 @@
     min-width: 0;
     margin: 0;
     font: inherit;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hds-toast {
-      transition: none;
-    }
   }
 }

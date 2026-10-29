@@ -230,3 +230,4 @@ textarea.tt-code { white-space: pre; }
 /* Contexts preview */
 .tt-contexts { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
 .tt-context { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.5rem; background: var(--hds-sem-color-surface-base-bg); color: var(--hds-sem-color-content-default-fg); }
+@keyframes tt-motion { from { opacity: 0; transform: translateY(16px); } }

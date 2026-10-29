@@ -707,3 +707,21 @@ export function Elevation({ d, set, mode }: StepProps) {
     </>
   );
 }
+
+export function Motion({ d, set, mode }: StepProps) {
+  const [run, setRun] = useState(0);
+  return (
+    <>
+      <Slider label="Motion duration" value={d.motion.duration} def={defaultDrivers.motion.duration} min={0} max={2} step={0.25}
+        onChange={(x) => set(['motion', 'duration'], x)} hint="Multiplies every animation length. 0 turns motion off." />
+      <button type="button" className="tt-link" onClick={() => setRun((n) => n + 1)}>Replay</button>
+      <Live mode={mode} className="tt-row">
+        {['enter', 'control', 'container'].map((role) => (
+          <div key={`${role}-${run}`} className="tt-sample" style={{
+            animation: `tt-motion ${v(`hds/sem/motion/${role}/duration`)} ${v(`hds/sem/motion/${role}/easing`)} both`,
+          }}>{role}</div>
+        ))}
+      </Live>
+    </>
+  );
+}

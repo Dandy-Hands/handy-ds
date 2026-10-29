@@ -31,7 +31,7 @@ A pick stores a reference to a primitive name, such as `primary/600`, not a colo
 
 The tool shows the token types in this order (token rework interview E1). Each step uses only what earlier steps produce.
 
-A side list shows the 8 steps in order. A person can open any step at any time. Later steps update live (interview H1). The tool is not a fixed wizard.
+A side list shows the 9 steps in order. A person can open any step at any time. Later steps update live (interview H1). The tool is not a fixed wizard.
 
 1. Brand colors.
 2. Role map.
@@ -41,6 +41,7 @@ A side list shows the 8 steps in order. A person can open any step at any time. 
 6. Radius.
 7. Border.
 8. Elevation.
+9. Motion (added 2026-10-28).
 
 ### Step 1: Brand colors (color palette part)
 
@@ -154,6 +155,10 @@ Drivers: `border.control`, `border.container`, `border.divider`, `border.focus`.
 ### Step 8: Elevation
 
 Driver: `shadow.strength`. One slider. The preview shows the raised, floating, and modal levels.
+
+### Step 9: Motion
+
+Driver: `motion.duration`. One slider, 0 to 2, step 0.25. 0 turns motion off. The preview replays an entrance animation at the current speed.
 
 ## 4. Preview
 
