@@ -54,5 +54,6 @@ export { Flex, type FlexProps, type FlexItemProps, type FlexDirection, type Flex
 export { Stack, type StackProps, type StackAlign } from './components/Stack.tsx';
 export type { Responsive, Space, Breakpoint } from './components/responsive.ts';
 // Page building
+export { Animate, type AnimateProps, type AnimateEffect, type AnimateTrigger } from './components/Animate.tsx';
 export { Section, Header, Footer, type SectionProps, type HeaderProps, type FooterProps, type SectionSurface, type SectionGradient, type SectionMedia, type SectionScrim, type SectionDirection, type SectionContentWidth, type SectionAlign, type SectionHeight, type SectionMediaFit } from './components/Section.tsx';
 export { Aside, type AsideProps, type AsideSurface } from './components/Aside.tsx';

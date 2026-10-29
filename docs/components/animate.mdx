@@ -1,0 +1,183 @@
+---
+title: Animate
+category: Page building
+order: 35
+---
+
+import { useState } from 'react';
+import { Animate, Button, Card, Grid, Stack, Text } from 'handy-ds';
+
+export function Replay({ children }) {
+  const [run, setRun] = useState(0);
+  return (
+    <Stack gap="400" align="start">
+      <Button variant="secondary" onClick={() => setRun(run + 1)}>Replay</Button>
+      <div key={run} style={{ width: '100%' }}>{children}</div>
+    </Stack>
+  );
+}
+
+export function MountDemo() {
+  const [shown, setShown] = useState(false);
+  return (
+    <Stack gap="400" align="start">
+      <Button variant="secondary" onClick={() => setShown(!shown)}>{shown ? 'Hide reviews' : 'Load reviews'}</Button>
+      {shown && (
+        <Grid cols={{ base: 1, md: 3 }} gap="400" data-testid="animate-mount">
+          <Animate trigger="mount" stagger>
+            <Card><Text>“Fast and simple.”</Text></Card>
+            <Card><Text>“The team loves it.”</Text></Card>
+            <Card><Text>“We launched in a week.”</Text></Card>
+          </Animate>
+        </Grid>
+      )}
+    </Stack>
+  );
+}
+
+# Animate
+
+Plays a one-time entrance animation on each of its children: when a child
+scrolls into view, or when it is added to the page. It adds no box of its own,
+so the children stay items of the layout around it.
+
+<Replay>
+  <Grid cols={{ base: 1, md: 3 }} gap="400">
+    <Animate trigger="mount" effect="scale" stagger>
+      <Card><Text>Design</Text></Card>
+      <Card><Text>Build</Text></Card>
+      <Card><Text>Launch</Text></Card>
+    </Animate>
+  </Grid>
+</Replay>
+
+## Usage
+
+Use Animate around page sections, cards, or list items that enter the page.
+Use `trigger="mount"` for content that appears after the page loads, such as a
+lazy-loaded section or a result list. Do not use it for hover, press, or open
+and close effects: each component does those itself. Put Animate inside the
+layout component (Grid, Stack, Tiles), not around it.
+
+## Base UI API
+
+No Base UI primitive. Animate renders one `div` with `display: contents`.
+
+| Element | Notes |
+| ------- | ----- |
+| `render` | Omitted — the element has no box, so a different element adds nothing. |
+| Native `div` props (`className`, `id`, `aria-*`) | Omitted — there is no box to style or label. |
+
+## Extension API
+
+| Prop | Type | Default | Description |
+| ---- | ---- | ------- | ----------- |
+| `effect` | `"fade" \| "fade-up" \| "scale"` | `"fade-up"` | How each child enters. `"fade"` — fades in. `"fade-up"` — fades in and moves up a short distance. `"scale"` — fades in and grows slightly to its full size. |
+| `trigger` | `"view" \| "mount"` | `"view"` | When each child animates. `"view"` — when the child first scrolls into view; a child already in view when the page loads shows at once. `"mount"` — when the child is added to the page. |
+| `stagger` | `boolean` | `false` | Children that start at the same time start one after another. |
+| `children` | `ReactNode` | — | The content. Each direct child element animates by itself. |
+
+## Effect
+
+The effect sets the start state of each child. Each example replays with its
+button.
+
+### effect="fade"
+
+<Replay>
+  <Animate trigger="mount" effect="fade"><Card><Text>Fades in.</Text></Card></Animate>
+</Replay>
+
+### effect="fade-up"
+
+<Replay>
+  <Animate trigger="mount" effect="fade-up"><Card><Text>Fades in and moves up.</Text></Card></Animate>
+</Replay>
+
+### effect="scale"
+
+<Replay>
+  <Animate trigger="mount" effect="scale"><Card><Text>Fades in and grows to full size.</Text></Card></Animate>
+</Replay>
+
+## Trigger
+
+### trigger="mount"
+
+The children animate when they are added to the page. Press the button to add
+them.
+
+<MountDemo />
+
+### trigger="view"
+
+The children animate when they first scroll into view. Scroll down to see them.
+The cards in view when the page loads show at once, with no animation.
+
+<div style={{ height: '1200px' }} aria-hidden="true" />
+
+<Grid cols={{ base: 1, md: 3 }} gap="400" data-testid="animate-view">
+  <Animate effect="fade-up" stagger>
+    <Card><Text>One</Text></Card>
+    <Card><Text>Two</Text></Card>
+    <Card><Text>Three</Text></Card>
+    <Card><Text>Four</Text></Card>
+    <Card><Text>Five</Text></Card>
+    <Card><Text>Six</Text></Card>
+  </Animate>
+</Grid>
+
+## Stagger
+
+`stagger` starts the children one after another, `motion/enter/stagger`
+apart. Without it, children that start together animate at the same time.
+
+### stagger={false}
+
+<Replay>
+  <Grid cols={3} gap="400">
+    <Animate trigger="mount" effect="scale">
+      <Card><Text>A</Text></Card>
+      <Card><Text>B</Text></Card>
+      <Card><Text>C</Text></Card>
+    </Animate>
+  </Grid>
+</Replay>
+
+### stagger={true}
+
+<Replay>
+  <Grid cols={3} gap="400">
+    <Animate trigger="mount" effect="scale" stagger>
+      <Card><Text>A</Text></Card>
+      <Card><Text>B</Text></Card>
+      <Card><Text>C</Text></Card>
+    </Animate>
+  </Grid>
+</Replay>
+
+## Anatomy
+
+| Part | Tokens |
+| ---- | ---- |
+| Each child, animation length | `motion/enter/duration` |
+| Each child, animation curve | `motion/enter/easing` |
+| Delay between staggered children | `motion/enter/stagger` |
+| `fade-up` start offset | `measure/space/400` |
+
+## Owner notes
+
+- Base UI mapping: none. CSS keyframes do the motion, and an
+  `IntersectionObserver` starts the `view` trigger. No animation library.
+- Extension decisions: timing comes from the motion tokens only, so there is no
+  `duration` or `delay` prop. The `motion.duration` driver changes every
+  animation: 0 turns motion off.
+- Known constraints: only element children animate, not text nodes. The fill
+  mode is `backwards`, so after the animation a child's own transform and
+  opacity apply again. The stagger delay stops growing after 8 children.
+- Server rendering: without the script, every child is visible. The script
+  hides only children that are out of view at mount.
+- Accessibility: the theme sets every motion duration to `0ms` under
+  `prefers-reduced-motion: reduce`, so the content appears at once. Content
+  waiting to animate is hidden with opacity only, so it stays in the
+  accessibility tree.

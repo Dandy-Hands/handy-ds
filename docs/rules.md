@@ -60,6 +60,7 @@ Drivers are the only way to theme a client. There is no mapping level. Change on
 | `radius.control/container/indicator/round` | Radius step per shape role: `none`, `050`, `100`, `200`, `300`, `400`, `600`, `round`. Pill buttons: `radius: { control: 'round' }`. |
 | `border.control/container/divider/focus` | Border step per role: `none`, `025`, `050`, `100`. |
 | `shadow.strength` | 0 flat, 1 default, 2 heavy. |
+| `motion.duration` | Multiplies every animation length. 0 no motion, 1 default, 2 twice as slow. Users who ask for reduced motion always get none. |
 | `overlay.opacity` | Modal scrim opacity. |
 | `mode` | Page default: `light`, `dark` or `system`. |
 | `sections` | Mode or context for a named page section: `{ hero: 'on-primary', footer: 'dark' }`. See section 5. |
@@ -130,6 +131,9 @@ Never edit component CSS or override `--hds-*` properties in app CSS to theme a 
 | A dashboard or a page layout with a chosen column count or item span | `Grid` (`Grid.Item`) |
 | A full-width part of a page (hero, feature row) with a background and a centered column | `Section` (`Header` and `Footer` for the top and bottom) |
 | A side nav, outline, or related links beside the main content | `Aside` |
+| Sections, cards, or list items that animate in as they scroll into view, or a lazy-loaded section that animates in when it loads | `Animate` (inside the layout component; `trigger="mount"` for content that loads later) |
+
+**Motion rule:** animate only what enters the page, with `Animate`. Use one `effect` per page: `fade-up` for sections, `scale` with `stagger` for a set of cards or tiles, `fade` for text-only blocks. Do not animate the first view of a page (the hero): `trigger="view"` already shows it at once. Do not write your own keyframes or transitions; hover, press, and open effects come with each component.
 
 **Layout rule:** use the smallest layout component that fits: `Stack`, `Inline`, or `Tiles` first. Use `Flex` or `Grid` only when none of them fits. Write your own CSS only for a layout that none of them covers, and use token variables in it.
 

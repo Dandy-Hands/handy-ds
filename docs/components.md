@@ -790,6 +790,23 @@ A full-width band of a page with a surface, gradient, image, video, or custom ba
 <Section surface="primary" minHeight="screen" align="center"><Stack><Text variant="display" render={<h1 />}>Build faster</Text></Stack></Section>
 ```
 
+### Animate
+
+A one-time entrance animation on each child element: when the child scrolls into view, or when it is added to the page. Adds no box (`display: contents`), so put it inside a layout component and its children stay items of that layout.
+
+- **Use when:** page sections, cards, or list items enter the page; `trigger="mount"` for content that loads after the page (a lazy-loaded section).
+- **Don't use when:** you want a hover, press, or open and close effect (components do those), or around a text node.
+
+| Prop | Values | Default |
+|---|---|---|
+| `effect` | `"fade"`, `"fade-up"`, `"scale"` | `"fade-up"` |
+| `trigger` | `"view"` (a child already in view at load shows at once), `"mount"` | `"view"` |
+| `stagger` | boolean: children that start together start one after another | `false` |
+
+```tsx
+<Grid cols={{ base: 1, md: 3 }}><Animate effect="scale" stagger>{cards}</Animate></Grid>
+```
+
 ### Header
 
 The band at the top of a page. Renders a `header`. Takes every Section prop; the default `paddingBlock` is `"400"`.

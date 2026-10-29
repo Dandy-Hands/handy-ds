@@ -87,6 +87,11 @@ Running list of planned work. Add an item when the user asks for new work. Check
   - [ ] Add the `Show`/`Hide` decision, the sticky `Aside` under a sticky `Header`, and the 100vh layout question to the page template work (specs list them as open).
   - [ ] Add a screenshot or visual check of the responsive behavior (`Grid` `cols` per breakpoint, `Tiles` auto-fit) in a real browser; the page tests only prove the pages render.
 - [ ] Add a charting library. Needs the data-visualization palette (Tokens and theming).
+- [x] Entrance animations (done 2026-10-28: spec, motion tokens, code, docs page, e2e; Figma skipped). No animation library: CSS keyframes and `IntersectionObserver`. Motion (the library) is the upgrade path for gesture, spring, or layout animations. Spec: `docs/component-specs/animate/spec.md`.
+  - [x] `Animate` (`effect`: `fade`, `fade-up`, `scale`; `trigger`: `view`, `mount`; `stagger`). `display: contents`, so it goes inside a layout component.
+  - [x] `motion` token type (token spec 4.7 and 7.9): roles `enter`, `control`, `container`, plus `enter/stagger`; driver `motion.duration` (0 = no motion); every duration is `0ms` under `prefers-reduced-motion`. Theme builder step 9. No Figma variables (decided 2026-10-28). Component transitions now read `motion/control/*` or `motion/container/*`; the Navigation Menu resize changed from 200ms to 300ms and the Toast from 200ms to 300ms.
+  - [x] `docs/rules.md`: the motion rule and the `motion.duration` driver.
+  - [ ] Open: a `trigger="idle"` (after the page loads), and a scroll-linked component (parallax, progress). Build only when a page needs one.
 
 - [x] Make the root `dev` script pass its flags to Vite (`cd docs-site && npm run dev --`), so the Playwright `webServer` command `--port 5173 --strictPort` takes effect (done 2026-10-21).
 - [x] Install Playwright and add it to the component process (`e2e/`, `npm run test:e2e`, code and docs skills, component conventions).

@@ -1,0 +1,48 @@
+@layer hds.theme, hds.base, hds.components;
+
+@layer hds.components {
+  .hds-animate {
+    display: contents;
+  }
+
+  .hds-animate[data-effect='fade'] { --_name: hds-animate-fade; }
+  .hds-animate[data-effect='fade-up'] { --_name: hds-animate-fade-up; }
+  .hds-animate[data-effect='scale'] { --_name: hds-animate-scale; }
+
+  .hds-animate[data-trigger='view'] > [data-pending] {
+    opacity: 0;
+  }
+
+  /* `backwards` fill only: after the animation ends, the child's own transform and opacity apply again. */
+  .hds-animate[data-trigger='view'] > [data-visible],
+  .hds-animate[data-trigger='mount'] > * {
+    animation: var(--_name) var(--hds-sem-motion-enter-duration) var(--hds-sem-motion-enter-easing) backwards;
+    animation-delay: calc(var(--_i, 0) * var(--hds-sem-motion-enter-stagger));
+  }
+
+  /* `mount` stagger is CSS only. `view` writes `--_i` per batch inline. */
+  .hds-animate[data-trigger='mount'][data-stagger] > :nth-child(2) { --_i: 1; }
+  .hds-animate[data-trigger='mount'][data-stagger] > :nth-child(3) { --_i: 2; }
+  .hds-animate[data-trigger='mount'][data-stagger] > :nth-child(4) { --_i: 3; }
+  .hds-animate[data-trigger='mount'][data-stagger] > :nth-child(5) { --_i: 4; }
+  .hds-animate[data-trigger='mount'][data-stagger] > :nth-child(6) { --_i: 5; }
+  .hds-animate[data-trigger='mount'][data-stagger] > :nth-child(7) { --_i: 6; }
+  .hds-animate[data-trigger='mount'][data-stagger] > :nth-child(8) { --_i: 7; }
+  .hds-animate[data-trigger='mount'][data-stagger] > :nth-child(n + 9) { --_i: 8; }
+
+  @keyframes hds-animate-fade {
+    from { opacity: 0; }
+  }
+
+  @keyframes hds-animate-fade-up {
+    from { opacity: 0; transform: translateY(var(--hds-sem-measure-space-400)); }
+  }
+
+  @keyframes hds-animate-scale {
+    from { opacity: 0; transform: scale(0.96); }
+  }
+
+  @media print {
+    .hds-animate[data-trigger='view'] > [data-pending] { opacity: 1; }
+  }
+}
