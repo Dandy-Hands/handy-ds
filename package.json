@@ -38,7 +38,8 @@
     "build": "npm test && vite build && tsc -p tsconfig.build.json && node scripts/strip-css-imports.js",
     "docs:build": "cd docs-site && npm run build",
     "docs:preview": "cd docs-site && npm run preview",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "prepare": "vite build && tsc -p tsconfig.build.json && node scripts/strip-css-imports.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0"
