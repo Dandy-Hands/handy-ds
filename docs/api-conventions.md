@@ -76,6 +76,7 @@ A member belongs to exactly one category. If a member seems to fit two, split it
 - **No raw numbers and no CSS lengths** in a handy-ds member, with these exceptions:
   - **Counts** are numbers: `cols`, `colSpan`, `rowSpan`, `colStart`, `rowStart` (Grid and Grid.Item), and Text `maxLines`. A count is a number of things, not a size.
   - **Band height** is a CSS length string: `height` and `minHeight` on `Section`, `Header`, and `Footer` take `"auto"`, `"screen"`, or a string such as `"60svh"` or `"480px"`. A page-design height has no token scale, and the `measure/size` steps are too small.
+  - **Carousel timing** is a number of milliseconds: `interval` and `duration` (decided 2026-10-29, Carousel spec). A marketing slideshow can be subtle or strong, and no token scale holds slideshow timings. The component writes `duration` as a multiple of `motion/container/duration`, so the `motion.duration` driver and reduced motion still apply.
   - Every other size, space, or width is a measure step (section 5.2).
 - **Content** is `ReactNode`. **Events** are functions. **Booleans** are only for true two-state flags.
 - **Measure props and layout props accept responsive values** (section 5.3). A layout prop sets how a Flex or Grid places its items: `Flex` `direction`, `Grid` `cols`, and every `Grid.Item` and `Flex.Item` prop. Axis props do not; they take one value.
