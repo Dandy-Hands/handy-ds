@@ -40,6 +40,10 @@ Read the specs in full before creating any token, category, resolver, or compone
 - `examples/wordpress`, `examples/pwa` — standalone Vite apps installing the package via `file:../..`; run `npm run build` at the root first.
 - `src/tokens/` — drivers → primitives (hue wheel, light and dark palettes) → color picks (`picks.ts`) → CSS (`buildTheme()`, with modes, contexts, sections), contrast checker, and `checkTokenName()` (validate slash form, never emitted CSS names).
 
+## Figma
+
+Figma library: https://www.figma.com/design/ZC2dMDma0HioGL8CXxzq9W/Handy-DS (file key `ZC2dMDma0HioGL8CXxzq9W`). `hds-component-figma` builds each component here, bound to the file's `hds/sem` variables.
+
 ## Docs
 
 - `docs/component-conventions.md` — how every component is built; follow it for new components.

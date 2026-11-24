@@ -30,7 +30,7 @@ export function Dialog({ open, onOpenChange, title, width = '9600', actions, dis
       <BaseDialog.Portal>
         <BaseDialog.Backdrop className="hds-backdrop" />
         <BaseDialog.Viewport className="hds-modal-viewport">
-          <BaseDialog.Popup className="hds-surface hds-popup hds-modal hds-dialog" data-elevation="3" data-width={width}>
+          <BaseDialog.Popup className="hds-surface hds-popup hds-modal hds-dialog" data-elevation="modal" data-width={width}>
             <div className="hds-modal__header">
               <BaseDialog.Title className="hds-modal__title">{title}</BaseDialog.Title>
               <BaseDialog.Close render={<Button variant="tertiary" size="800" aria-label="Close" data-close="" />}>
@@ -71,7 +71,7 @@ export function AlertDialog({
         <BaseAlertDialog.Viewport className="hds-modal-viewport">
           <BaseAlertDialog.Popup
             className="hds-surface hds-popup hds-modal hds-alert-dialog"
-            data-elevation="3"
+            data-elevation="modal"
             data-variant={variant}
             initialFocus={cancelRef}
           >

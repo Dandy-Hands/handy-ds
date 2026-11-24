@@ -343,6 +343,7 @@ Any pick can have an optional dark value: `picks: { "{token}": { light, dark } }
 | `surface/sunken/bg` | `R/800` |
 | `surface/{raised,floating,modal}/bg` | `R/700` |
 | `surface/*/border` | `R/500` |
+| `surface/hover/border` | `neutral/50` |
 | `content/{strong,default,accent,link}/fg` | `neutral/50` |
 | `content/muted/fg`, `content/link/hover/fg` | `R/50` (`R/100` failed 4.5:1 on `R/600` for most generated hues) |
 | `action/primary` (default) | bg `neutral/50`, fg `R/700`, border `neutral/50` |
@@ -366,7 +367,7 @@ The `color` type has eight element categories:
 |---|---|---|---|
 | Action | buttons, triggers, toggles, tabs, menu items | priority: `primary`, `secondary`, `tertiary`, `danger` | `default`, `hover`, `active`, `disabled`, `selected` |
 | Field | text inputs, selects, checkboxes, radios | none | `default`, `hover`, `focus`, `error`, `disabled`, `checked` |
-| Surface | the page, wells, cards, popovers, dialogs | level: `sunken`, `base`, `raised`, `floating`, `modal` | none |
+| Surface | the page, wells, cards, popovers, dialogs | level: `sunken`, `base`, `raised`, `floating`, `modal` | `hover` (border only, no level axis; a card that is a link or a button, added 2026-11-23 in the Card spec) |
 | Content | text and icons: the foreground on a surface | role: `strong`, `default`, `muted`, `accent`, `link` | `hover` (link only) |
 | Graphic | dividers and data visualization | group: `divider`, `categorical`, `sequential`, `diverging` | none |
 | Feedback | alerts, toasts | sentiment: `danger`, `warning`, `success`, `info` | none |
@@ -386,6 +387,7 @@ hds/sem/color/
 ├─ action/{primary|secondary|tertiary|danger}/{default|hover|active|disabled|selected}/{bg|fg|border}  60
 ├─ field/{default|hover|focus|error|disabled|checked}/{bg|fg|border|placeholder}                    24
 ├─ surface/{sunken|base|raised|floating|modal}/{bg|border}                                          10
+├─ surface/hover/border                                                                              1
 ├─ content/{strong|default|muted|accent|link}/fg  +  content/link/hover/fg                            6
 ├─ graphic/divider/{default|strong}                                                                  2
 ├─ graphic/categorical/{1…8}                                                                         8
@@ -395,7 +397,7 @@ hds/sem/color/
 ├─ focus/ring                                                                                        1
 ├─ overlay/scrim                                                                                     1
 └─ overlay/media/{dark|light}/{subtle|medium|strong}                                                 6
-                                                                                          total  152
+                                                                                          total  153
 ```
 
 Every token in a matrix is emitted. Components read one token per cell and need no `var()` fallbacks.
@@ -436,6 +438,8 @@ All default picks are *tunable*.
 | `raised` | cards, panels | `neutral/50` | `neutral/200` |
 | `floating` | menus, popovers, dropdowns, tooltips | `neutral/50` | `neutral/200` |
 | `modal` | dialogs, drawers | `neutral/50` | `neutral/200` |
+
+`surface/hover/border` = `primary/600`: the border of a card that is a link or a button, on hover. One token for every level.
 
 In dark mode the inverted ladder makes `raised`, `floating`, and `modal` darker than `base`. Shadows and borders still separate them. A client that wants lighter cards in dark mode sets dark overrides.
 
@@ -573,14 +577,14 @@ The roles `control` and `container` match the radius and border roles. A compone
 
 | Type | Tokens |
 |---|---|
-| color | 152 |
+| color | 153 |
 | measure | 28 |
 | radius | 4 |
 | border | 4 |
 | elevation | 3 |
 | typography | 35 |
 | motion | 7 |
-| **total** | **233** |
+| **total** | **234** |
 
 ---
 

@@ -1,6 +1,27 @@
+@layer hds.theme, hds.base, hds.components;
+
 @layer hds.components {
   .hds-card {
     display: block;
-    padding: var(--hds-sem-measure-space-600);
+    padding: var(--_padding-base);
+  }
+
+  /* Breakpoints from `breakpoints` in src/tokens/primitives.ts (media queries cannot read custom properties). */
+  @media (min-width: 640px) { .hds-card { padding: var(--_padding-sm); } } /* sm */
+  @media (min-width: 768px) { .hds-card { padding: var(--_padding-md); } } /* md */
+  @media (min-width: 1024px) { .hds-card { padding: var(--_padding-lg); } } /* lg */
+  @media (min-width: 1280px) { .hds-card { padding: var(--_padding-xl); } } /* xl */
+
+  /* A card that is a link or a button: the whole card is clickable, and its border shows hover. */
+  .hds-card:is(a[href], button) {
+    font: inherit;
+    text-align: start;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color var(--hds-sem-motion-control-duration) var(--hds-sem-motion-control-easing);
+  }
+
+  .hds-card:is(a[href], button):hover {
+    --_border: var(--hds-sem-color-surface-hover-border);
   }
 }

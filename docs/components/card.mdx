@@ -4,21 +4,29 @@ category: Content
 order: 16
 ---
 
-import { Card, Text } from 'handy-ds';
+import { Card, Stack, Text } from 'handy-ds';
 
 # Card
 
-A box of related content on a surface ground: background, border, shadow,
-radius, and padding at a chosen elevation. Renders a `div` by default.
+A box of related content: background, border, shadow, rounded corners, and
+padding at a chosen elevation. A card whose element is a link or a button is
+clickable as a whole and shows a hover border. Renders a `div` by default.
 
-<Card elevation={1}><Text>A settings block</Text></Card>
+<Card>
+  <Stack gap="200">
+    <Text variant="headline" render={<h3 />}>Pro plan</Text>
+    <Text>Everything in Free, plus team seats.</Text>
+  </Stack>
+</Card>
 
 ## Usage
 
-Use Card to group content that belongs together on a page: a settings block, a
-product summary, a dashboard tile. Do not use it when the content only needs
-spacing — use the app's own layout CSS. Pick the lowest elevation that
-separates the card from its ground.
+Use Card to group content that belongs together: a settings block, a product
+summary, a project card, a dashboard tile. Pick the lowest elevation that
+separates the card from its ground; `base` is the flat, outlined card. Do not
+use it for spacing alone (use Stack or Grid) or for a full-width page band
+(use Section). Do not put a second link or a button inside a card that is a
+link.
 
 ## Base UI API
 
@@ -27,77 +35,151 @@ standard attributes through.
 
 | Element | Notes |
 | ------- | ----- |
-| `render` | Exposed — swap the element (`<article />`, a `RouterLink`, ...) without changing the look. |
-| Native `div` props (`id`, `aria-*`, `className`, `style`, ...) | Exposed — full passthrough. |
-| Callback-form `className`/`style` | Available via passthrough, not documented. |
+| `render` | Exposed — swap the element (`<article />`, `<li />`, `<a />`, a router link) without changing the look. A link or button element turns on the hover border. |
+| Native `div` props (`id`, `aria-*`, `className`, ...) | Exposed — full passthrough. `style` is not part of the type. |
+| Callback-form `className` | Available via passthrough, not documented. |
 
 ## Extension API
 
 | Prop | Type | Default | Description |
 | ---- | ---- | ------- | ----------- |
-| `elevation` | `0 \| 1 \| 2 \| 3` | `1` | Surface level. `0` — flat, on the page ground. `1` — default card. `2` — raised, e.g. over other content. `3` — topmost, modal surfaces. |
+| `elevation` | `"base" \| "raised" \| "floating" \| "modal"` | `"raised"` | Distance above the page. `"base"` — flat with a border, no shadow (the outlined card). `"raised"` — the normal card. `"floating"` — over other content. `"modal"` — the topmost level. |
+| `padding` | `"none" \| "200" \| "300" \| "400" \| "600" \| "800" \| "1000" \| "1200"`, or an object keyed by breakpoint | `"600"` | Space between the edge and the content. `"none"` lets a photo run to the edge. Keys: `base` (required), `sm`, `md`, `lg`, `xl`. |
 | `children` | `ReactNode` | — | Card content. |
 
 `render` and standard attributes are passthrough — they appear here only, never get their own section.
 
 ## Elevation
 
-The elevation axis picks the Surface color triple: background, border, and
-shadow rise together.
+The elevation axis picks the surface level: background, border, and shadow
+change together.
 
-### elevation={0}
+### elevation="base"
 
-Flat — the page ground's color, no lift.
+Flat on the page with a border and no shadow. This is the outlined card.
 
-<Card elevation={0}><Text>Elevation zero</Text></Card>
+<Card elevation="base"><Text>Base</Text></Card>
 
-### elevation={1}
+### elevation="raised"
 
 The default card.
 
-<Card elevation={1}><Text>Elevation one</Text></Card>
+<Card elevation="raised"><Text>Raised</Text></Card>
 
-### elevation={2}
+### elevation="floating"
 
-Raised over other content.
+A card over other content.
 
-<Card elevation={2}><Text>Elevation two</Text></Card>
+<Card elevation="floating"><Text>Floating</Text></Card>
 
-### elevation={3}
+### elevation="modal"
 
-Topmost — dialogs use this level.
+The topmost level. Dialogs use this level.
 
-<Card elevation={3}><Text>Elevation three</Text></Card>
+<Card elevation="modal"><Text>Modal</Text></Card>
+
+## Padding
+
+The padding prop sets the space between the card edge and its content. It
+takes a space step or `"none"`.
+
+### padding="none"
+
+For a photo that runs to the card edge. Put padding back around the text with
+a nested element.
+
+<Card padding="none"><Text>No padding</Text></Card>
+
+### padding="200"
+
+<Card padding="200"><Text>200</Text></Card>
+
+### padding="300"
+
+<Card padding="300"><Text>300</Text></Card>
+
+### padding="400"
+
+A small dashboard tile.
+
+<Card padding="400"><Text>400</Text></Card>
+
+### padding="600"
+
+The default.
+
+<Card padding="600"><Text>600</Text></Card>
+
+### padding="800"
+
+<Card padding="800"><Text>800</Text></Card>
+
+### padding="1000"
+
+<Card padding="1000"><Text>1000</Text></Card>
+
+### padding="1200"
+
+<Card padding="1200"><Text>1200</Text></Card>
+
+### Responsive padding
+
+Resize the window to see the padding change at 768 pixels.
+
+<Card padding={{ base: '300', md: '800' }}><Text>300, then 800 from 768 pixels</Text></Card>
+
+## Link card
+
+Give the card a link element with `render` to make the whole card clickable.
+Its border changes color on hover, and it shows the focus ring when it gets
+keyboard focus. A `<button>` element works the same way. Other elements have
+no hover.
+
+<Card elevation="base" render={<a href="#link-card" />}>
+  <Stack gap="200">
+    <Text variant="headline" render={<h3 />}>Kitchen remodel</Text>
+    <Text>New cabinets, counters, and lighting.</Text>
+  </Stack>
+</Card>
 
 ## Inside a colored section
 
-A Card re-resolves with its section. Put `data-context="default"` on the card
-to restore normal colors inside a hero or other colored ground.
+Inside a colored section a card is a darker brand panel. Put
+`data-context="default"` on the card for the normal light look, for example
+around a form.
 
 <section data-section="hero">
-  <Card data-context="default">
-    <Text>Normal colors, restored.</Text>
-  </Card>
+  <Stack gap="400">
+    <Card><Text>A brand panel.</Text></Card>
+    <Card data-context="default"><Text>Normal colors, restored.</Text></Card>
+  </Stack>
 </section>
 
 ## Anatomy
 
 | Part | Semantic token |
 | ---- | -------------- |
-| Ground (per elevation) | `hds/sem/color/surface/{base,raised,floating,modal}/{bg,border}` and `hds/sem/elevation/{raised,floating,modal}` |
-| Padding, radius, border width | `hds/sem/measure/space/600`, `hds/sem/radius/container`, `hds/sem/border/container` |
+| Ground (per elevation) | `hds/sem/color/surface/{base,raised,floating,modal}/bg` |
+| Border color (per elevation) | `hds/sem/color/surface/{base,raised,floating,modal}/border` |
+| Border color on hover (link or button card) | `hds/sem/color/surface/hover/border` |
+| Shadow | `hds/sem/elevation/{raised,floating,modal}`; `base` has none |
+| Border width, radius | `hds/sem/border/container`, `hds/sem/radius/container` |
+| Padding | `hds/sem/measure/space/{padding}` (`none` is 0) |
 | Content text color | `hds/sem/color/content/default/fg` |
+| Hover transition | `hds/sem/motion/control/{duration,easing}` |
 
 ## Owner notes
 
 - Base UI mapping: no Base UI primitive — a single-part `useRender` component
   with the same `render` semantics as Base UI parts.
-- Extension decisions: `elevation` (0–3, default 1) is the only wrapper prop;
-  it sets `data-elevation`. There is no padding or radius prop — those are
-  theme-owned.
-- Known constraints: the card is context-passive by design. An
-  always-reset-to-default behavior inside colored sections was considered and
-  rejected (needs-review entry in the decisions log); the explicit
-  `data-context="default"` attribute won.
-- Accessibility: the card is a plain landmark-less container — give it
-  `aria-label` or a heading inside when it stands alone.
+- Extension decisions (re-interview 2026-11-23): `elevation` takes the named
+  surface levels (default `raised`; `sunken` is not allowed). `padding` is a
+  responsive space step (default `600`). There is no `variant="outline"`:
+  `elevation="base"` is the outlined card. There is no `interactive` prop: a
+  link or button element turns on the hover border.
+- Known constraints: inside a colored section the card stays a brand panel.
+  An always-reset behavior was considered and rejected; `data-context="default"`
+  is the reset.
+- Accessibility: a link card uses its whole text as the link name, so keep its
+  content short and do not nest other links or buttons in it. A plain card is a
+  container with no role; give it a heading inside when it stands alone.

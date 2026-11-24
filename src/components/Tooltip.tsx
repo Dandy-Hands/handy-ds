@@ -21,7 +21,7 @@ export function Tooltip({ children, content, side = 'top', align = 'center' }: T
       <BaseTooltip.Trigger render={children} />
       <BaseTooltip.Portal>
         <BaseTooltip.Positioner className="hds-positioner" side={side} align={align} sideOffset={sideGap}>
-          <BaseTooltip.Popup className="hds-surface hds-popup hds-tooltip" data-elevation="2" data-mode="dark">
+          <BaseTooltip.Popup className="hds-surface hds-popup hds-tooltip" data-elevation="floating" data-mode="dark">
             {content}
           </BaseTooltip.Popup>
         </BaseTooltip.Positioner>

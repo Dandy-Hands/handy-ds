@@ -39,7 +39,7 @@ export function Popover({
         <BasePopover.Positioner className="hds-positioner" side={side} align={align} sideOffset={sideGap}>
           <BasePopover.Popup
             className="hds-surface hds-popup hds-panel hds-popover"
-            data-elevation="2"
+            data-elevation="floating"
             data-width={width}
             data-max-width={maxWidth}
           >

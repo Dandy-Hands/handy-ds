@@ -41,7 +41,7 @@ export function Drawer({
       <BaseDrawer.Portal>
         <BaseDrawer.Backdrop className="hds-backdrop" />
         <BaseDrawer.Viewport className="hds-drawer-viewport" data-side={side}>
-          <BaseDrawer.Popup className="hds-surface hds-modal hds-drawer" data-elevation="3" data-side={side} data-width={width}>
+          <BaseDrawer.Popup className="hds-surface hds-modal hds-drawer" data-elevation="modal" data-side={side} data-width={width}>
             {side === 'bottom' && <div className="hds-drawer__grab" aria-hidden="true" />}
             <div className="hds-modal__header">
               <BaseDrawer.Title className="hds-modal__title">{title}</BaseDrawer.Title>

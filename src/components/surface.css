@@ -1,6 +1,6 @@
 /*
- * Surface category: cards, panels, popups. `data-elevation` = 0..3 (default 1) maps to the surface
- * levels base, raised, floating, modal (token spec 7.3). Provisional until the component re-interviews.
+ * Surface category: cards, panels, popups. `data-elevation` = base | raised | floating | modal (default
+ * raised) picks the surface level (token spec 7.3). Card mapping: docs/component-specs/card/spec.md.
  * Popups (.hds-popup), their positioners, list popups and backdrops live here too.
  */
 @layer hds.theme, hds.base, hds.components;
@@ -18,19 +18,19 @@
     box-shadow: var(--_shadow);
   }
 
-  .hds-surface[data-elevation='0'] {
+  .hds-surface[data-elevation='base'] {
     --_bg: var(--hds-sem-color-surface-base-bg);
     --_border: var(--hds-sem-color-surface-base-border);
     --_shadow: none;
   }
 
-  .hds-surface[data-elevation='2'] {
+  .hds-surface[data-elevation='floating'] {
     --_bg: var(--hds-sem-color-surface-floating-bg);
     --_border: var(--hds-sem-color-surface-floating-border);
     --_shadow: var(--hds-sem-elevation-floating);
   }
 
-  .hds-surface[data-elevation='3'] {
+  .hds-surface[data-elevation='modal'] {
     --_bg: var(--hds-sem-color-surface-modal-bg);
     --_border: var(--hds-sem-color-surface-modal-border);
     --_shadow: var(--hds-sem-elevation-modal);

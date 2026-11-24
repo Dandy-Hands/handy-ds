@@ -11,7 +11,7 @@ import './Separator.css';
 import './Menu.css';
 
 const tertiary = { 'data-priority': 'tertiary' };
-const popup = { 'data-elevation': '2' };
+const popup = { 'data-elevation': 'floating' };
 
 /**
  * Items: Action tertiary. Popup: Surface (token spec section 9).

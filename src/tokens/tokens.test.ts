@@ -25,12 +25,12 @@ test('primitive names are frozen: independent of driver values, all valid', () =
   for (const name of allPrims(base)) assert.equal(checkTokenName(name), null, name);
 });
 
-test('every semantic token is emitted once, and the set matches spec 7.8 (233)', () => {
-  assert.equal(SEM_TOKENS.length, 233);
-  assert.equal(new Set(SEM_TOKENS).size, 233);
+test('every semantic token is emitted once, and the set matches spec 7.8 (234)', () => {
+  assert.equal(SEM_TOKENS.length, 234);
+  assert.equal(new Set(SEM_TOKENS).size, 234);
   for (const name of SEM_TOKENS) assert.match(base.css, new RegExp(`${name.replaceAll('/', '-')}:`), name);
   const colorCount = SEM_TOKENS.filter((n) => n.startsWith('hds/sem/color/')).length;
-  assert.equal(colorCount, 152);
+  assert.equal(colorCount, 153);
 });
 
 test('hue wheel: 11 slots, anchors exact, default secondary = primary + 163.6°', () => {

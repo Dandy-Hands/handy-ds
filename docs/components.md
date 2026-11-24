@@ -441,7 +441,7 @@ A box of related content.
 | `elevation` | `0`, `1`, `2`, `3` | `1` |
 
 ```tsx
-<Card elevation={2}><Text variant="headline">Plan</Text><Text>…</Text></Card>
+<Card elevation="floating"><Text variant="headline">Plan</Text><Text>…</Text></Card>
 ```
 
 A `Card` is also how you restore normal colors inside a colored section: give it `data-context="default"`.

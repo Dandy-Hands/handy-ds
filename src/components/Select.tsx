@@ -17,7 +17,7 @@ export const Select = {
   Trigger: part(BaseSelect.Trigger, 'hds-control hds-select__trigger', { 'data-size': '1000' }),
   Icon: part(BaseSelect.Icon, 'hds-select__icon', { children: <ChevronDownIcon /> }),
   Positioner: part(BaseSelect.Positioner, 'hds-positioner'),
-  Popup: part(BaseSelect.Popup, 'hds-surface hds-popup hds-list', { 'data-elevation': '2' }),
+  Popup: part(BaseSelect.Popup, 'hds-surface hds-popup hds-list', { 'data-elevation': 'floating' }),
   List: part(BaseSelect.List, 'hds-list__items'),
   Item: part(BaseSelect.Item, 'hds-action hds-item', tertiary),
   ItemIndicator: part(BaseSelect.ItemIndicator, 'hds-item__indicator', { children: <CheckIcon /> }),

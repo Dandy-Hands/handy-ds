@@ -63,7 +63,7 @@ test('every component renders with its hds classes', () => {
     ['ContextMenu', h(H.ContextMenu.Root, null, h(H.ContextMenu.Trigger, null, 'area')), [/area/]],
     ['NavigationMenu', h(H.NavigationMenu.Root, null, h(H.NavigationMenu.List, null, h(H.NavigationMenu.Item, null, h(H.NavigationMenu.Link, { href: '/', active: true }, 'Home')))),
       [/hds-nav"/, /hds-nav__list/, /hds-nav__link/, /data-active/]],
-    ['Card', h(H.Card, { elevation: 2 }, 'c'), [/<div[^>]*hds-surface hds-card/, /data-elevation="2"/]],
+    ['Card', h(H.Card, { elevation: 'floating', padding: { base: '300', md: '600' } }, 'c'), [/<div[^>]*hds-surface hds-card/, /data-elevation="floating"/, /data-padding="300"/, /--_padding-md:var\(--hds-sem-measure-space-600\)/]],
     ['Card render', h(H.Card, { render: h('article') }, 'c'), [/<article[^>]*hds-card/]],
     ['Dialog', h(H.Dialog, { open: false, onOpenChange: () => {}, title: 'T' }, 'Body'), [/^$/]],
     ['Popover', h(H.Popover, { title: 'T', content: 'C' }, h(H.Button, null, 'Open')), [/<button[^>]*hds-button hds-action[^>]*>Open/]],

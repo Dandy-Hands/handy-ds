@@ -42,7 +42,7 @@ function ToastArea() {
         {toasts.map((t) => {
           const tone = (t.type ?? 'info') as ToastTone;
           return (
-            <BaseToast.Root key={t.id} toast={t} className="hds-surface hds-toast" data-elevation="2" data-mode="dark" data-tone={tone}>
+            <BaseToast.Root key={t.id} toast={t} className="hds-surface hds-toast" data-elevation="floating" data-mode="dark" data-tone={tone}>
               <BaseToast.Content className="hds-toast__content">
                 <Icon tone={tone} size="500">{GLYPH[tone]}</Icon>
                 <BaseToast.Title className="hds-toast__title" />

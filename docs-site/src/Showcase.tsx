@@ -66,7 +66,7 @@ export function ShowcaseBody() {
           <Switch defaultChecked />
           <Checkbox defaultChecked />
         </div>
-        <Card elevation={1} data-context="default" className="nested">
+        <Card data-context="default" className="nested">
           <Text variant="label">Nested data-context="default" resets to :root tokens</Text>
           <div className="row"><Button>Primary</Button><Button variant="tertiary">Tertiary</Button></div>
         </Card>

@@ -60,7 +60,7 @@ Layout rules:
 - Width: `min(measure/width/{step}, 100vw - 2 × side gap)`. Max height: `100dvh - 2 × side gap`. The box is centered on the screen. On a phone the box shrinks to the screen width; there is no automatic full screen.
 - Escape and a click on the scrim (unless `disablePointerDismissal`) call `onOpenChange(false)`.
 - A dialog opened from inside another dialog shows on top; Base UI handles the stack.
-- Colors: the dialog renders at the end of the page, so it uses the page colors and mode. A brand color or mode set on an ancestor does not reach it (Claude call; portal context open item).
+- Colors: the dialog renders at the end of the page, so it uses the page colors and mode. A brand color or mode set on an ancestor does not reach it (Claude call, confirmed by the user 2026-11-23: an overlay does not take the context of its opener).
 
 ## Token mapping
 

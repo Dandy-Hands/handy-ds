@@ -30,7 +30,8 @@ Every public component: name, purpose, when to use it, and its API page.
 | Slider | Picks a number or a range by dragging a thumb along a track | An approximate value inside a known range; use NumberInput for an exact number | No | [slider.md](slider.md) |
 | Select | A compact single-choice dropdown | One choice from many options in little space | No | [select.md](select.md) |
 | Combobox | An input that filters options or accepts free text | Long option lists, or a value the user may type | No | [combobox.md](combobox.md) |
-| Card | A surface box for related content | Grouping content at a chosen elevation; not for spacing alone | Yes | [card.md](card.md) |
+| Card | A surface box for related content; a link card is clickable as a whole | Grouping content at a chosen elevation; not for spacing alone (Stack, Grid) or a page band (Section) | Yes | [card.md](card.md) |
+| Carousel | Shows a set of peer items one view at a time, with arrows, dots, swipe, and optional autoplay | Browsing case studies, products, testimonials, or hero messages; not for content every user must read | Yes | [carousel.md](carousel.md) |
 | Dialog | A box over the page for a short task that blocks the page | The user must finish or dismiss a task; AlertDialog confirms destructive actions; Drawer for longer content from an edge; Popover keeps the page usable | Yes | [dialog.md](dialog.md) |
 | AlertDialog | Asks the user to confirm one action and waits for an answer | A destructive or irreversible action; Dialog for a task with fields | No | [alert-dialog.md](alert-dialog.md) |
 | Drawer | A panel that slides in from a screen edge and blocks the page | Item details, filters, a cart, or the phone site menu; Dialog for a short task; Aside for content that stays | Yes | [drawer.md](drawer.md) |

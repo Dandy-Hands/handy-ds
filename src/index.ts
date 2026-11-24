@@ -43,7 +43,7 @@ export { Text, type TextProps, type TextSize, type TextTone, type TextVariant } 
 export { Icon, type IconProps, type IconTone, type IconSize } from './components/Icon.tsx';
 export { Avatar, type AvatarRootProps, type AvatarImageProps, type AvatarFallbackProps, type AvatarSize } from './components/Avatar.tsx';
 export { Separator, type SeparatorProps, type SeparatorTone } from './components/Separator.tsx';
-export { Card, type CardProps, type Elevation } from './components/Card.tsx';
+export { Card, type CardPadding, type CardProps, type Elevation } from './components/Card.tsx';
 export { Accordion } from './components/Accordion.tsx';
 export { Table, type TableProps } from './components/Table.tsx';
 // Layout

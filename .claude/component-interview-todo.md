@@ -65,7 +65,7 @@ planned, no Base UI primitive.
 
 - [ ] collapsible `[new]`
 - [ ] accordion `[re]`
-- [ ] card `[lib]`
+- [x] card `[lib]` (2026-11-23; named `elevation`, `padding`, hover border for link cards, new token `color/surface/hover/border`)
 - [ ] tabs `[re]`
 - [ ] scroll-area `[new]`
 - [ ] table `[lib]`
@@ -84,7 +84,7 @@ planned, no Base UI primitive.
 - [ ] radio-group `[new]`
 - [ ] calendar `[plan]` (future; a date grid; needs new semantic tokens: today, in-range, range start and end, outside month; Base UI has no calendar)
 - [ ] date-picker `[plan]` (future; input plus popover plus calendar, with `range`; after calendar and popover)
-- [ ] carousel `[plan]`
+- [x] carousel `[lib]` (2026-10-29; spec and API doc written; one `effect` prop)
 
 ## Not in scope
 

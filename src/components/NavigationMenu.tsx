@@ -22,7 +22,7 @@ export const NavigationMenu = {
   Content: part(BaseNavigationMenu.Content, 'hds-nav__content'),
   Link: part(BaseNavigationMenu.Link, 'hds-button hds-action hds-nav__link', tertiary),
   Positioner: part(BaseNavigationMenu.Positioner, 'hds-positioner hds-nav__positioner'),
-  Popup: part(BaseNavigationMenu.Popup, 'hds-surface hds-popup hds-nav__popup', { 'data-elevation': '2' }),
+  Popup: part(BaseNavigationMenu.Popup, 'hds-surface hds-popup hds-nav__popup', { 'data-elevation': 'floating' }),
   Viewport: part(BaseNavigationMenu.Viewport, 'hds-nav__viewport'),
   Backdrop: part(BaseNavigationMenu.Backdrop, 'hds-backdrop'),
 };

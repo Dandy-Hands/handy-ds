@@ -55,6 +55,7 @@ export function defaultPicks(w: Wheel): ColorPicks {
   });
   const surface = { sunken: 'neutral/200', base: 'neutral/100', raised: 'neutral/50', floating: 'neutral/50', modal: 'neutral/50' };
   for (const lv of LEVEL) Object.assign(p, { [`surface/${lv}/bg`]: surface[lv], [`surface/${lv}/border`]: 'neutral/200' });
+  p['surface/hover/border'] = 'primary/600';
   const content = { strong: 'neutral/950', default: 'neutral/900', muted: 'neutral/700', accent: 'primary/700', link: 'primary/700' };
   for (const r of CONTENT_ROLE) p[`content/${r}/fg`] = content[r];
   const feedback = { bg: 50, border: 200, fg: 900, icon: 600 };
@@ -88,6 +89,7 @@ export function contextPicks(context: Context): ColorPicks {
     'focus/ring': 'neutral/50',
   };
   for (const lv of LEVEL) p[`surface/${lv}/border`] = `${R}/500`;
+  p['surface/hover/border'] = 'neutral/50';
   for (const r of ['strong', 'default', 'accent', 'link']) p[`content/${r}/fg`] = 'neutral/50';
   const action: Record<string, [string, string, string]> = {
     primary: ['neutral/50', `${R}/700`, 'neutral/50'],

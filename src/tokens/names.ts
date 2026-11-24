@@ -42,11 +42,12 @@ const range = (n: number) => Array.from({ length: n }, (_, i) => String(i + 1));
 const cross = (prefix: string, ...lists: readonly (readonly string[])[]): string[] =>
   lists.reduce<string[]>((acc, list) => acc.flatMap((a) => list.map((s) => `${a}/${s}`)), [prefix]);
 
-/** Every color token, without the `hds/sem/color/` prefix (spec 7.2, 152 names). */
+/** Every color token, without the `hds/sem/color/` prefix (spec 7.2, 153 names). */
 export const COLOR_TOKENS: string[] = [
   ...cross('action', PRIORITY, ACTION_STATE, ACTION_PROP),
   ...cross('field', FIELD_STATE, FIELD_PROP),
   ...cross('surface', LEVEL, ['bg', 'border']),
+  'surface/hover/border',
   ...cross('content', CONTENT_ROLE, ['fg']),
   'content/link/hover/fg',
   ...cross('graphic/divider', ['default', 'strong']),

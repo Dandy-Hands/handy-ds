@@ -1,6 +1,6 @@
 /*
  * Modal box shared by Dialog, AlertDialog and Drawer (`.hds-modal*`): the header row, the
- * scrolling body and the button row. The ground is `.hds-surface[data-elevation='3']`.
+ * scrolling body and the button row. The ground is `.hds-surface[data-elevation='modal']`.
  */
 @layer hds.theme, hds.base, hds.components;
 
