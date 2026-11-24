@@ -438,7 +438,8 @@ A box of related content.
 
 | Prop | Values | Default |
 |---|---|---|
-| `elevation` | `0`, `1`, `2`, `3` | `1` |
+| `elevation` | `base`, `raised`, `floating`, `modal` | `raised` |
+| `padding` | `none`, `200`, `300`, `400`, `600`, `800`, `1000`, `1200`, or an object keyed by breakpoint | `600` |
 
 ```tsx
 <Card elevation="floating"><Text variant="headline">Plan</Text><Text>…</Text></Card>
